@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+.root {
+	-fx-background-color: #deede6;
+}
+
+.btn-fred-main {
+	-fx-font: 12px "Sans-Serif";
+	-fx-padding: 10;
+	-fx-background-color: #419873;
+	-fx-border-radius: 1px;
+	-fx-font-weight: bold;
+	-fx-background-insets: 0 0 0 0;
+}
+
+.btn-fred-main:hover {
+	-fx-text-fill: #fff;
+}
+
+.fred-tab-pane {
+	-fx-background-color: #fff;
+}
+
+#fred-btn-sincronizar:selected {
+	-fx-background-color: #317256;
+}
