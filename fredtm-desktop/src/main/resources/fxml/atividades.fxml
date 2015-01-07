@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.AtividadesController">
+   <children>
+      <TableView fx:id="tbAtividades" layoutY="39.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="361.0" prefWidth="828.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
+        <columns>
+          <TableColumn fx:id="colTitulo" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Titulo" />
+          <TableColumn fx:id="colDescricao" maxWidth="800.0" minWidth="-Infinity" prefWidth="285.0" text="Descrição" />
+          <TableColumn fx:id="colTipo" maxWidth="120.0" minWidth="-Infinity" prefWidth="120.0" resizable="false" text="Tipo" />
+          <TableColumn fx:id="colQuantitativa" minWidth="-Infinity" prefWidth="185.0" resizable="false" text="Quantitativa" />
+        </columns>
+      </TableView>
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="736.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      	<children>
+    	   <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="736.0" text="Atividades" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+      	</children>
+      </HBox>
+    </children>
+</AnchorPane>

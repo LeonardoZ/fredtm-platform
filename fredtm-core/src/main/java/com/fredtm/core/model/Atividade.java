@@ -3,7 +3,7 @@ package com.fredtm.core.model;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Atividade extends Entidade{
+public class Atividade extends Entidade {
 
 	private static final long serialVersionUID = 1L;
 	private String titulo;
@@ -14,18 +14,18 @@ public class Atividade extends Entidade{
 	private Operacao operacao;
 
 	public Atividade() {
-
+		ehQuantitativa = false;
 	}
 
 	public Atividade(String titulo, TipoAtividade tipoAtividade) {
-		super();
+		this();
 		this.titulo = titulo;
 		this.tipoAtividade = tipoAtividade;
 	}
 
 	public Atividade(String titulo, String descricao,
 			TipoAtividade tipoAtividade) {
-		super();
+		this();
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.tipoAtividade = tipoAtividade;
@@ -81,7 +81,7 @@ public class Atividade extends Entidade{
 	}
 
 	public String getNomeItem() {
-		return nomeItem;
+		return ehQuantitativa ? nomeItem : "Não quantitativa";
 	}
 
 	public void setNomeItem(String nomeItem) {

@@ -16,7 +16,7 @@ public class Operacao extends Entidade {
 	private List<Coleta> coletas;
 
 	public Operacao(String nome, String empresa, String caracteristicasTecnicas) {
-		super();
+		this();
 		this.nome = nome;
 		this.empresa = empresa;
 		this.caracteristicasTecnicas = caracteristicasTecnicas;

@@ -1,4 +1,4 @@
-package com.fredtm.desk;
+package com.fredtm.desktop;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

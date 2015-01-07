@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,9 +8,9 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desk.controller.MainController">
-   <children>
-      <VBox layoutX="14.0" layoutY="53.0" prefHeight="91.0" prefWidth="150.0" spacing="5.0">
+<BorderPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.MainController">
+      	<left>
+      		 <VBox layoutX="14.0" layoutY="53.0" prefHeight="91.0" prefWidth="150.0" spacing="5.0">
          <children>
             <ToggleButton id="fred-btn-sincronizar" fx:id="btnSincronizar" contentDisplay="CENTER" layoutX="44.0" layoutY="96.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSincronizarClicked" prefHeight="33.0" prefWidth="110.0" styleClass="btn-fred-main" text="Sincronizar" textAlignment="RIGHT" />
             <Button id="fred-btn-projetos" fx:id="btnProjetos" disable="true" layoutX="41.0" layoutY="125.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="26.0" prefWidth="101.0" styleClass="btn-fred-main" text="Projetos" />
@@ -19,8 +20,16 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </VBox>
-      <TabPane fx:id="tabPane" layoutX="173.0" layoutY="53.0" maxWidth="1.7976931348623157E308" prefHeight="501.0" prefWidth="715.0" tabClosingPolicy="UNAVAILABLE">
+      	</left>
+      	<center>
+      		 <TabPane fx:id="tabPane" layoutX="173.0" layoutY="53.0" maxWidth="1.7976931348623157E308" prefHeight="501.0" prefWidth="715.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Nenhum projeto sincronizado">
               <content>
@@ -34,5 +43,8 @@
             </Tab>
          </tabs>
       </TabPane>
-   </children>
-</AnchorPane>
+      	</center>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+      </BorderPane>
