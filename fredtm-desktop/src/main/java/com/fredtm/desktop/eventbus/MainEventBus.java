@@ -1,9 +1,7 @@
 package com.fredtm.desktop.eventbus;
 
-import java.util.List;
-
-import com.fredtm.core.model.Atividade;
 import com.fredtm.core.model.Coleta;
+import com.fredtm.core.model.Operacao;
 import com.fredtm.desktop.controller.MainController;
 
 public class MainEventBus {
@@ -20,17 +18,23 @@ public class MainEventBus {
 		this.main = main;
 	}
 
-	public void eventoAbrirAtividades(List<Atividade> atividades) {
-		main.abrirAtividades(atividades);
+	public void eventoAbrirAtividades(Operacao operacao) {
+		main.abrirAtividades(operacao);
 	}
 
-	public void eventoAbrirColetas(List<Coleta> coletas) {
-		main.abrirColetas(coletas);
+	public void eventoAbrirColetas(Operacao operacao) {
+		main.abrirColetas(operacao);
 	}
 
-	public void eventoExportarAtividades(List<Atividade> atividades) {
-		// TODO Auto-generated method stub
-		return null;
+	public void eventoExportarAtividades(Operacao operacao) {
+		main.habilitarExportarAtividades(operacao);
+	}
+
+	public void eventoTemposColetados(Operacao operacao) {
+	}
+
+	public void eventoAbrirTemposColetados(Coleta coleta) {
+		main.abrirTemposColetados(coleta);
 	}
 
 }

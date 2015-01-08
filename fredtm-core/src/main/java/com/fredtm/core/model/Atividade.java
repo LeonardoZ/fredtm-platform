@@ -109,10 +109,7 @@ public class Atividade extends Entidade {
 
 	@Override
 	public String toString() {
-		return "Atividade{" + "titulo='" + titulo + '\'' + ", descricao='"
-				+ descricao + '\'' + ", tipoAtividade=" + tipoAtividade
-				+ ", ehQuantitativa=" + ehQuantitativa + ", nomeItem='"
-				+ nomeItem + '\'' + ", operacao=" + operacao + '}';
+		return titulo;
 
 	}
 

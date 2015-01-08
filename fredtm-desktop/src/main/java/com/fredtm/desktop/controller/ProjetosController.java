@@ -19,7 +19,6 @@ import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class ProjetosController implements Initializable {
 
-
 	@FXML
 	private ListView<Operacao> listViewProjetos;
 
@@ -30,10 +29,10 @@ public class ProjetosController implements Initializable {
 		MenuItem menuColeta = new MenuItem("Ver coletas");
 		MenuItem menuAtividade = new MenuItem("Ver atividades");
 		menuAtividade.setOnAction(ev -> 
-			MainEventBus.INSTANCE.eventoAbrirAtividades(operacao.getAtividadesPreDefinidas())
+			MainEventBus.INSTANCE.eventoAbrirAtividades(operacao)
 		);
 		menuColeta.setOnAction(ev -> 
-			MainEventBus.INSTANCE.eventoAbrirColetas(operacao.getColetas())
+			MainEventBus.INSTANCE.eventoAbrirColetas(operacao)
 		);
 		
 		ContextMenu contextMenu = new ContextMenu(menuColeta, menuAtividade);
@@ -58,7 +57,7 @@ public class ProjetosController implements Initializable {
 				"Primeira operação " + i);
 		for (int j = 0; j < 20; j++) {
 			TipoAtividade t = i % 2 == 0 ? TipoAtividade.PRODUTIVA
-					: j % 2 == 0 ? TipoAtividade.IMPRODUTIVA
+					: j % 2 == 1 ? TipoAtividade.IMPRODUTIVA
 							: TipoAtividade.PRODUTIVA;
 			Atividade atividade = new Atividade("Atv " + j,
 					"Essa é a atv " + j, t);
@@ -69,13 +68,15 @@ public class ProjetosController implements Initializable {
 				.getAtividadesPreDefinidas();
 		for (int g = 0; g < 10; g++) {
 			Coleta coleta = new Coleta();
+			coleta.setOperacao(operacao);
 			coleta.setAtividades(atividadesPreDefinidas);
 			atividadesPreDefinidas.forEach(a -> {
 				for (int z = 0; z < 5; z++) {
-					coleta.addNovoTempo(a, new Date().getTime(),
-							new Date().getTime() + 1500, (long) z);
+					coleta.addNovoTempo(a, new Date().getTime() + 1500,
+							new Date().getTime() + 3000, (long) z * 1000);
 				}
 			});
+			operacao.addColeta(coleta);
 		}
 
 		return operacao;

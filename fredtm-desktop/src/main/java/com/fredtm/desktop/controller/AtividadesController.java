@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import com.fredtm.core.model.Atividade;
+import com.fredtm.core.model.Operacao;
 import com.fredtm.core.model.TipoAtividade;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
@@ -23,23 +24,20 @@ public class AtividadesController implements Initializable {
 
 	@FXML
 	private TableView<Atividade> tbAtividades;
-
 	@FXML
 	private TableColumn<Atividade, String> colTitulo;
-
 	@FXML
 	private TableColumn<Atividade, String> colDescricao;
-
 	@FXML
 	private TableColumn<Atividade, TipoAtividade> colTipo;
-
 	@FXML
 	private TableColumn<Atividade, String> colQuantitativa;
-
 	private List<Atividade> atividades;
+	private Operacao operacao;
 
-	public void setAtividades(List<Atividade> atividades) {
-		this.atividades = atividades;
+	public void setOperacao(Operacao operacao) {
+		this.operacao = operacao;
+		this.atividades = operacao.getAtividadesPreDefinidas();
 		tbAtividades.setItems(FXCollections.observableArrayList(atividades));
 	}
 
@@ -53,6 +51,7 @@ public class AtividadesController implements Initializable {
 						"descricao"));
 		colTipo.setCellValueFactory(new PropertyValueFactory<Atividade, TipoAtividade>(
 				"tipoAtividade"));
+		
 		colTipo.setCellFactory(collumn -> new TableCell<Atividade, TipoAtividade>() {
 			@Override
 			protected void updateItem(TipoAtividade tipo, boolean empty) {
@@ -62,17 +61,18 @@ public class AtividadesController implements Initializable {
 				}
 			}
 		});
-		
-	}
-	
-	public AtividadesController() {
 		colQuantitativa.setCellValueFactory(value -> new SimpleStringProperty(
 				value.getValue() != null ? value.getValue().getNomeItem()
 						: "Não quantitativa"));
 		ContextMenu menu = new ContextMenu();
+		
 		MenuItem menuExportar = new MenuItem("Exportar");
-		menuExportar.setOnAction(e -> MainEventBus.INSTANCE.eventoExportarAtividades(atividades));
+		menuExportar.setOnAction(e -> MainEventBus.INSTANCE
+				.eventoExportarAtividades(operacao));
 		menu.getItems().addAll(menuExportar);
+		
 		tbAtividades.setContextMenu(menu);
+
 	}
+
 }

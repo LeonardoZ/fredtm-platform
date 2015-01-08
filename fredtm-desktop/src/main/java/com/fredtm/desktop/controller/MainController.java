@@ -2,7 +2,6 @@ package com.fredtm.desktop.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -17,8 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import com.fredtm.core.model.Atividade;
 import com.fredtm.core.model.Coleta;
+import com.fredtm.core.model.Operacao;
 
 public class MainController implements Initializable {
 
@@ -59,7 +58,7 @@ public class MainController implements Initializable {
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 	}
 
-	public void abrirAtividades(List<Atividade> atividades) {
+	public void abrirAtividades(Operacao operacao) {
 		AnchorPane p = null;
 		try {
 
@@ -70,12 +69,13 @@ public class MainController implements Initializable {
 
 			AtividadesController controller = fxmlLoader
 					.<AtividadesController> getController();
-			controller.setAtividades(atividades);
+			System.out.println(controller == null);
+			controller.setOperacao(operacao);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		criarTabs(p, "Atividades");
+		criarTabs(p, "Atividades - "+operacao.getNome());
 		btnProjetos.setDisable(false);
 	}
 
@@ -87,11 +87,25 @@ public class MainController implements Initializable {
 		tabPane.getTabs().add(tab);
 	}
 
-	public void abrirColetas(List<Coleta> coletas) {
+	public void abrirColetas(Operacao operacao) {
+		AnchorPane p = null;
+		try {
 
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+					"/fxml/coletas.fxml"));
+
+			p = (AnchorPane) fxmlLoader.load();
+
+			ColetasController controller = fxmlLoader
+					.<ColetasController> getController();
+			controller.setOperacao(operacao);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		criarTabs(p, "Coletas - "+operacao.getNome());
 	}
 
-	public void habilitarExportarAtividades(List<Atividade> atividades) {
+	public void habilitarExportarAtividades(Operacao operacao) {
 		AnchorPane p = null;
 		try {
 
@@ -102,11 +116,31 @@ public class MainController implements Initializable {
 
 			AtividadesController controller = fxmlLoader
 					.<AtividadesController> getController();
-			controller.setAtividades(atividades);
+			controller.setOperacao(operacao);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		criarTabs(p, "Exportar atividades");
+		criarTabs(p, "Exportar atividades - "+operacao.getNome());
+	}
+
+	public void abrirTemposColetados(Coleta coleta) {
+		AnchorPane p = null;
+		try {
+
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+					"/fxml/tempos_coletados.fxml"));
+
+			p = (AnchorPane) fxmlLoader.load();
+
+			TemposColetadosController controller = fxmlLoader
+					.<TemposColetadosController> getController();
+			controller.setTempos(coleta.getTemposEmOrdemCronologica());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		criarTabs(p, "Tempos coletados - "+coleta.toString());
+		
+		
 	}
 
 }
