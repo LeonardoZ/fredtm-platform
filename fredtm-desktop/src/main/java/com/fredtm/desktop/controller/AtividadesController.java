@@ -20,7 +20,7 @@ import com.fredtm.core.model.Operacao;
 import com.fredtm.core.model.TipoAtividade;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
-public class AtividadesController implements Initializable {
+public class AtividadesController extends BaseController implements Initializable {
 
 	@FXML
 	private TableView<Atividade> tbAtividades;

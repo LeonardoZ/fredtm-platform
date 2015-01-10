@@ -17,6 +17,10 @@
 	-fx-text-fill: #fff;
 }
 
+.root.popup {
+    -fx-background-color: transparent;
+}
+
 .btn-fred-simple {
 	-fx-font: 10px "Sans-Serif";
 	-fx-padding: 5;

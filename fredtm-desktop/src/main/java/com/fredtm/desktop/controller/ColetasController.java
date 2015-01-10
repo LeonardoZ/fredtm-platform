@@ -1,6 +1,7 @@
 package com.fredtm.desktop.controller;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,7 +16,7 @@ import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
-public class ColetasController implements Initializable {
+public class ColetasController extends BaseController implements Initializable {
 
 	@FXML
 	private ListView<Coleta> listViewColetas;
@@ -35,18 +36,35 @@ public class ColetasController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		MenuItem menuColetados = new MenuItem("Ver tempos coletados");
-		MenuItem menuExportarColetados = new MenuItem("Exportar coleta");
-		MenuItem menuExportarTodasColetas = new MenuItem("Exportar todasColeta");
+		
+		MenuItem menuGraficoPizza = new MenuItem("Gráfico de Pizza");
+		MenuItem menuGraficoLinhas = new MenuItem("Gráfico de linhas");
+
+		MenuItem menuExportarColeta = new MenuItem("Exportar coleta");
+		MenuItem menuExportarTodasColetas = new MenuItem("Exportar todas coletas");
 		
 		menuColetados.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoAbrirTemposColetados(coleta));
 		// TODO - Exportar todas coletas
-		menuExportarColetados.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoAbrirTemposColetados(coleta));
+		menuExportarColeta.setOnAction(ev -> MainEventBus.INSTANCE
+				.eventoExportarColetas(Arrays.asList(coleta)));
 		menuExportarTodasColetas.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoAbrirTemposColetados(coleta));
+				.eventoExportarColetas(operacao.getColetas()));
+		
+		
+		/**
+		 * 
+		 */
+			menuGraficoPizza.setOnAction(evt -> MainEventBus.INSTANCE.eventoCriarGraficoPizza(coleta));
+		
+		/**
+		 * 
+		 */
+		
+		
 
-		ContextMenu contextMenu = new ContextMenu(menuColetados);
+		ContextMenu contextMenu = new ContextMenu(menuColetados,menuExportarColeta,menuExportarTodasColetas);
+		contextMenu.centerOnScreen();
 		contextMenu.setStyle("-fx-background-color: #fff");
 		contextMenu.setAutoFix(true);
 		listViewColetas.setContextMenu(contextMenu);

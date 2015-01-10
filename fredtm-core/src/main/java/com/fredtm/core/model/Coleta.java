@@ -9,9 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Coleta extends Entidade {
-	
+
 	private static final long serialVersionUID = 4085712607350133267L;
 	private Comparator<TempoAtividade> comparator = (lhs, rhs) -> rhs
 			.getDataInicio().compareTo(lhs.getDataInicio());
@@ -25,7 +27,7 @@ public class Coleta extends Entidade {
 		}
 		return rhs.getTipoAtividade().compareTo(lhs.getTipoAtividade());
 	};
-	
+
 	private Operacao operacao;
 	private HashMap<Long, List<TempoAtividade>> temposColetados;
 	private List<Atividade> atividades;
@@ -90,6 +92,56 @@ public class Coleta extends Entidade {
 		return temposColetados.get(param.getId());
 	}
 
+	public Operacao gerarOperacao(int i) {
+		Operacao operacao = new Operacao("Teste " + i, "Teste empresa " + i,
+				"Primeira operação " + i);
+		for (int j = 0; j < 20; j++) {
+			TipoAtividade t = i % 2 == 0 ? TipoAtividade.PRODUTIVA
+					: j % 2 == 1 && j != 5 ? TipoAtividade.IMPRODUTIVA
+							: TipoAtividade.PRODUTIVA;
+			Atividade atividade = new Atividade("Atv " + j,
+					"Essa é a atv " + j, t);
+			atividade.setId(i+j*new Date().getTime());
+			atividade.setOperacao(operacao);
+			operacao.addAtividade(atividade);
+		}
+		List<Atividade> atividadesPreDefinidas = operacao
+				.getAtividadesPreDefinidas();
+		for (int g = 0; g < 10; g++) {
+			Coleta coleta = new Coleta();
+			coleta.setOperacao(operacao);
+			coleta.setAtividades(atividadesPreDefinidas);
+			atividadesPreDefinidas.forEach(a -> {
+				for (int z = 0; z < 5; z++) {
+					coleta.addNovoTempo(a, new Date().getTime() + 1500,
+							new Date().getTime() + 3000, (long) z * 1000);
+				}
+			});
+			operacao.addColeta(coleta);
+		}
+
+		return operacao;
+
+	}
+
+	public List<Long> listaDeSomaDosTempos() {
+				return temposColetados
+					.values().stream()
+					.peek(z -> z.forEach(z1-> System.err.println(z1)))
+					.map(m -> 
+						m.stream().map((TempoAtividade ml) -> ml.getTempoCronometradoEmSegundos())
+					 )
+					 .map(s -> s.collect(Collectors.toList()))
+					 .mapToLong(g -> g.stream().reduce(Long::sum).get())
+					 .boxed()
+					 .collect(Collectors.toList());
+
+	}
+ 
+	public static void main(String[] args) {
+		new Coleta().gerarOperacao(1).getColetas().get(0).listaDeSomaDosTempos();
+	}
+
 	public List<TempoAtividade> getTempos() {
 		Collection<List<TempoAtividade>> values = temposColetados.values();
 		List<TempoAtividade> todos = new ArrayList<TempoAtividade>();
@@ -103,7 +155,6 @@ public class Coleta extends Entidade {
 
 	public void remove(TempoAtividade tempo) {
 		Collection<List<TempoAtividade>> values = temposColetados.values();
-		values.stream().iterator().
 		for (List<TempoAtividade> lt : values) {
 			if (lt.contains(tempo)) {
 				lt.remove(tempo);

@@ -15,7 +15,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import com.fredtm.core.model.Atividade;
 import com.fredtm.core.model.TempoAtividade;
 
-public class TemposColetadosController implements Initializable {
+public class TemposColetadosController extends BaseController implements
+		Initializable {
 
 	@FXML
 	private TableView<TempoAtividade> tbAtividades;
@@ -56,19 +57,23 @@ public class TemposColetadosController implements Initializable {
 				.getValue().getTempoDecorridoFormatado(true)));
 		colQuantificado.setCellValueFactory(dado -> new SimpleStringProperty(
 				dado.getValue().getQuantidadeColetadaFormatada()));
-
 		// Cell change
 		colAtividade
 				.setCellFactory(collumn -> new TableCell<TempoAtividade, Atividade>() {
 					@Override
 					protected void updateItem(Atividade atividade, boolean empty) {
 						if (atividade != null && !empty) {
-							setStyle("-fx-background-color: "
-									+ atividade.getTipoAtividade()
-											.getHexColor());
+							setText(atividade.getTitulo());
+							getStyle().concat(
+									"-fx-background-color: { "
+											+ atividade.getTipoAtividade()
+													.getHexColor() + "}");
 						}
 					}
 				});
+		colAtividade
+				.setCellValueFactory(new PropertyValueFactory<TempoAtividade, Atividade>(
+						"atividade"));
 
 	}
 

@@ -1,5 +1,7 @@
 package com.fredtm.desktop.eventbus;
 
+import java.util.List;
+
 import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
 import com.fredtm.desktop.controller.MainController;
@@ -30,11 +32,16 @@ public class MainEventBus {
 		main.habilitarExportarAtividades(operacao);
 	}
 
-	public void eventoTemposColetados(Operacao operacao) {
+	public void eventoExportarColetas(List<Coleta> coletas) {
+		main.exportarColetas(coletas);
 	}
 
 	public void eventoAbrirTemposColetados(Coleta coleta) {
 		main.abrirTemposColetados(coleta);
+	}
+
+	public void eventoCriarGraficoPizza(Coleta coleta) {
+		main.criarGraficoPizza(coleta);
 	}
 
 }

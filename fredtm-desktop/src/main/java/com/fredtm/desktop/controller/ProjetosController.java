@@ -17,7 +17,7 @@ import com.fredtm.core.model.Operacao;
 import com.fredtm.core.model.TipoAtividade;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
-public class ProjetosController implements Initializable {
+public class ProjetosController extends BaseController implements Initializable {
 
 	@FXML
 	private ListView<Operacao> listViewProjetos;
