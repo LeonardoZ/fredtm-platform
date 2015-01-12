@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Coleta extends Entidade {
 
@@ -92,54 +91,29 @@ public class Coleta extends Entidade {
 		return temposColetados.get(param.getId());
 	}
 
-	public Operacao gerarOperacao(int i) {
-		Operacao operacao = new Operacao("Teste " + i, "Teste empresa " + i,
-				"Primeira operação " + i);
-		for (int j = 0; j < 20; j++) {
-			TipoAtividade t = i % 2 == 0 ? TipoAtividade.PRODUTIVA
-					: j % 2 == 1 && j != 5 ? TipoAtividade.IMPRODUTIVA
-							: TipoAtividade.PRODUTIVA;
-			Atividade atividade = new Atividade("Atv " + j,
-					"Essa é a atv " + j, t);
-			atividade.setId(i+j*new Date().getTime());
-			atividade.setOperacao(operacao);
-			operacao.addAtividade(atividade);
+	public HashMap<String, Long> somaDosTempos() {
+
+		List<Long> calculados = temposColetados
+		// Stream<List<TempoAtividade>>
+				.values().stream()
+				// Stream<Stream<Long>>
+				.map(m -> m.stream().map(
+						(TempoAtividade ml) -> ml
+								.getTempoCronometradoEmSegundos()))
+				// Stream<List<Long>>
+				.map(s -> s.collect(Collectors.toList()))
+				// LongStream
+				.mapToLong(g -> g.stream().reduce(Long::sum).get())
+				// Stream<Long>
+				.boxed()
+				// List<Long>
+				.collect(Collectors.toList());
+
+		HashMap<String, Long> hashMap = new HashMap<String, Long>();
+		for (int i = 0; i < atividades.size(); i++) {
+			hashMap.put(atividades.get(i).getTitulo(), calculados.get(i));
 		}
-		List<Atividade> atividadesPreDefinidas = operacao
-				.getAtividadesPreDefinidas();
-		for (int g = 0; g < 10; g++) {
-			Coleta coleta = new Coleta();
-			coleta.setOperacao(operacao);
-			coleta.setAtividades(atividadesPreDefinidas);
-			atividadesPreDefinidas.forEach(a -> {
-				for (int z = 0; z < 5; z++) {
-					coleta.addNovoTempo(a, new Date().getTime() + 1500,
-							new Date().getTime() + 3000, (long) z * 1000);
-				}
-			});
-			operacao.addColeta(coleta);
-		}
-
-		return operacao;
-
-	}
-
-	public List<Long> listaDeSomaDosTempos() {
-				return temposColetados
-					.values().stream()
-					.peek(z -> z.forEach(z1-> System.err.println(z1)))
-					.map(m -> 
-						m.stream().map((TempoAtividade ml) -> ml.getTempoCronometradoEmSegundos())
-					 )
-					 .map(s -> s.collect(Collectors.toList()))
-					 .mapToLong(g -> g.stream().reduce(Long::sum).get())
-					 .boxed()
-					 .collect(Collectors.toList());
-
-	}
- 
-	public static void main(String[] args) {
-		new Coleta().gerarOperacao(1).getColetas().get(0).listaDeSomaDosTempos();
+		return hashMap;
 	}
 
 	public List<TempoAtividade> getTempos() {
@@ -228,4 +202,31 @@ public class Coleta extends Entidade {
 		return temposColetados.toString();
 	}
 
+	public long getSegundosTotaisCronometrados() {
+		return temposColetados.values().stream().flatMap(fl -> fl.stream())
+				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos()).sum();
+	}
+
+	public long getSegundosTotaisCronometradosPor(TipoAtividade tipo) {
+		return temposColetados
+				.values()
+				.stream()
+				.flatMap(fl -> fl.stream())
+				.filter(tp -> tp.getAtividade().getTipoAtividade().equals(tipo))
+				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos()).sum();
+	}
+	
+
+	public double getPercentualTotaisCronometradosPor(TipoAtividade tipo) {
+		long totalSegsTipo = temposColetados
+				.values()
+				.stream()
+				.flatMap(fl -> fl.stream())
+				.filter(tp -> tp.getAtividade().getTipoAtividade().equals(tipo))
+				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos()).sum();
+		long totalSegs = getSegundosTotaisCronometrados();
+		double totalD = totalSegs;
+		double totalTipo = totalSegsTipo;
+		return (totalTipo / totalD) * 100;
+	}
 }

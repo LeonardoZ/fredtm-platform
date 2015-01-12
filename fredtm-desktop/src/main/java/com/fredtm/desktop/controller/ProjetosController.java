@@ -57,10 +57,13 @@ public class ProjetosController extends BaseController implements Initializable 
 				"Primeira operação " + i);
 		for (int j = 0; j < 20; j++) {
 			TipoAtividade t = i % 2 == 0 ? TipoAtividade.PRODUTIVA
-					: j % 2 == 1 ? TipoAtividade.IMPRODUTIVA
-							: TipoAtividade.PRODUTIVA;
+					: TipoAtividade.IMPRODUTIVA;
+			
+			if(j % 3 == 0) t = TipoAtividade.AUXILIAR;
+			
 			Atividade atividade = new Atividade("Atv " + j,
 					"Essa é a atv " + j, t);
+			atividade.setId(new Date().getTime()+atividade.hashCode());
 			atividade.setOperacao(operacao);
 			operacao.addAtividade(atividade);
 		}

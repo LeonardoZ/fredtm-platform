@@ -43,8 +43,12 @@
             </Tab>
          </tabs>
       </TabPane>
-      	</center>
+      </center>
+      <bottom>
+      	<Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="736.0" text="Nas listas, pressione o botao DIREITO de seu mouse para acessar as opçoes disponiveis" HBox.hgrow="ALWAYS">
+        </Label>
+      </bottom>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
-      </BorderPane>
+</BorderPane>

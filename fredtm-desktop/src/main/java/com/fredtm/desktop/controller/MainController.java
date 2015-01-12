@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
+import com.fredtm.desktop.controller.utils.TiposGrafico;
 
 public class MainController extends BaseController implements Initializable {
 
@@ -87,10 +88,43 @@ public class MainController extends BaseController implements Initializable {
 		criarView("/fxml/exportar_coleta.fxml", "Exportar coletas", consumidor);
 	}
 
-	public void criarGraficoPizza(Coleta coleta) {
-		Consumer<GraficoPizzaController> consumidor = c -> c.setColeta(coleta);
-		criarView("/fxml/grafico_pizza.fxml", "Gráfico pizza", consumidor);
-		
+	public void abrirTiposDeGraficos(Coleta coleta, List<Coleta> coletas) {
+		Consumer<TiposGraficosController> consumidor = c -> {
+			c.setColeta(coleta);
+			c.setColetas(coletas);
+		};
+		criarView("/fxml/tipos_graficos.fxml",
+				"Análises da coleta " + coleta.toString(), consumidor);
+	}
+
+	public void abrirAnaliseGrafica(TiposGrafico tipo, Coleta coleta,
+			List<Coleta> coletas) {
+		switch (tipo) {
+		case DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA:
+			Consumer<DistribuicaoTempoAtividadeController> pizzaConsumer = c -> c
+					.setColeta(coleta);
+			criarView("/fxml/grafico_pizza.fxml",
+					"Distribuição tempo/atividade: " + coleta.toString(),
+					pizzaConsumer);
+			break;
+		case CLASSIFICACAO_POR_BARRAS:
+			Consumer<TempoObtidoPorClassificacaoController> barConsumer = c -> c
+					.setColeta(coleta);
+			criarView("/fxml/grafico_linha_classificacao.fxml",
+					"Tempo por classificação: " + coleta.toString(),
+					barConsumer);
+			break;
+			
+		case CLASSIFICACAO_CICLOS_POR_BARRAS:
+			Consumer<TempoObtidoPorClassificacaoController> barCicloConsumer = c -> c
+					.setColetas(coletas);
+			criarView("/fxml/grafico_linha_classificacao.fxml",
+					"Tempo por classificação/ciclo: " + coleta.toString(),
+					barCicloConsumer);
+			break;
+		default:
+			break;
+		}
 	}
 
 	private <T extends BaseController> void criarView(String fxml, String titulo) {

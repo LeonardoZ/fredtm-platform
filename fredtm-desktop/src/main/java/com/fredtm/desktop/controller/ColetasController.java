@@ -24,9 +24,9 @@ public class ColetasController extends BaseController implements Initializable {
 	private Coleta coleta;
 
 	private List<Coleta> coletas;
-	
+
 	private Operacao operacao;
-	
+
 	public void setOperacao(Operacao operacao) {
 		this.operacao = operacao;
 		this.coletas = operacao.getColetas();
@@ -36,13 +36,13 @@ public class ColetasController extends BaseController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		MenuItem menuColetados = new MenuItem("Ver tempos coletados");
-		
-		MenuItem menuGraficoPizza = new MenuItem("Gráfico de Pizza");
-		MenuItem menuGraficoLinhas = new MenuItem("Gráfico de linhas");
+
+		MenuItem menuTiposDeGraficos = new MenuItem("Análises de coleta");
 
 		MenuItem menuExportarColeta = new MenuItem("Exportar coleta");
-		MenuItem menuExportarTodasColetas = new MenuItem("Exportar todas coletas");
-		
+		MenuItem menuExportarTodasColetas = new MenuItem(
+				"Exportar todas coletas");
+
 		menuColetados.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoAbrirTemposColetados(coleta));
 		// TODO - Exportar todas coletas
@@ -50,20 +50,13 @@ public class ColetasController extends BaseController implements Initializable {
 				.eventoExportarColetas(Arrays.asList(coleta)));
 		menuExportarTodasColetas.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoExportarColetas(operacao.getColetas()));
-		
-		
-		/**
-		 * 
-		 */
-			menuGraficoPizza.setOnAction(evt -> MainEventBus.INSTANCE.eventoCriarGraficoPizza(coleta));
-		
-		/**
-		 * 
-		 */
-		
-		
 
-		ContextMenu contextMenu = new ContextMenu(menuColetados,menuExportarColeta,menuExportarTodasColetas);
+		menuTiposDeGraficos.setOnAction(evt -> MainEventBus.INSTANCE
+				.eventoTiposDeGraficos(coleta, coletas));
+
+		ContextMenu contextMenu = new ContextMenu(menuColetados,
+				menuExportarColeta, menuExportarTodasColetas,
+				menuTiposDeGraficos);
 		contextMenu.centerOnScreen();
 		contextMenu.setStyle("-fx-background-color: #fff");
 		contextMenu.setAutoFix(true);
