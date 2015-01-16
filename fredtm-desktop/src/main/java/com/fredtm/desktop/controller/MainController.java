@@ -1,5 +1,6 @@
 package com.fredtm.desktop.controller;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+
+import javax.swing.JOptionPane;
 
 import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
+import com.fredtm.desktop.BuscarDispositivo;
+import com.fredtm.desktop.controller.grafico.DistribuicaoTempoAtividadeController;
+import com.fredtm.desktop.controller.grafico.TempoObtidoPorClassificacaoController;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
 import com.fredtm.desktop.controller.utils.TiposGrafico;
 
@@ -28,7 +35,7 @@ public class MainController extends BaseController implements Initializable {
 	private Button btnProjetos;
 
 	@FXML
-	private Button btnExportar;
+	private Button btnInstrucoes;
 
 	@FXML
 	private Button btnSair;
@@ -41,6 +48,8 @@ public class MainController extends BaseController implements Initializable {
 
 	private MainControllerTabCreator tabCreator;
 
+	private Optional<List<Operacao>> operacoes;
+
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
@@ -49,9 +58,50 @@ public class MainController extends BaseController implements Initializable {
 
 	@FXML
 	private void onSincronizarClicked(ActionEvent event) {
+		if (!btnSincronizar.isSelected()) {
+			tabPane.getTabs().clear();
+			btnProjetos.setDisable(true);
+		} else {
+			acaoSincronizarAtivo();
+		}
+	}
+
+	private void acaoSincronizarAtivo() {
 		tabPane.getTabs().clear();
-		criarView("/fxml/projetos.fxml", "Projetos");
-		btnProjetos.setDisable(false);
+		File selectedDirectory;
+		DirectoryChooser dc = new DirectoryChooser();
+		dc.setTitle("Escolha o local de seus arquivos no aparelho Android conectado.");
+		selectedDirectory = dc.showDialog(getWindow());
+		if (selectedDirectory != null && selectedDirectory.isDirectory()) {
+			BuscarDispositivo buscarDispositivo = new BuscarDispositivo(
+					selectedDirectory);
+			operacoes = buscarDispositivo.getOperacoes();
+			if (operacoes.isPresent()) {
+				Consumer<ProjetosController> consumer = c -> c
+						.setOperacoes(operacoes.get());
+				criarView("/fxml/projetos.fxml", "Projetos", consumer);
+				btnProjetos.setDisable(false);
+			} else {
+				JOptionPane.showMessageDialog(null, "Falha ao sincronizar.");
+			}
+		}
+	}
+
+	@FXML
+	void onProjetosClicked(ActionEvent event) {
+		Consumer<ProjetosController> consumer = c -> c.setOperacoes(operacoes
+				.get());
+		criarView("/fxml/projetos.fxml", "Projetos", consumer);
+	}
+
+	@FXML
+	void onInstrucoesClicked(ActionEvent event) {
+		criarView("/fxml/instrucoes.fxml", "Instruções");
+	}
+	
+	@FXML
+	void onSairClicked(ActionEvent event){
+		System.exit(0);
 	}
 
 	public void abrirAtividades(Operacao operacao) {
@@ -107,6 +157,7 @@ public class MainController extends BaseController implements Initializable {
 					"Distribuição tempo/atividade: " + coleta.toString(),
 					pizzaConsumer);
 			break;
+
 		case CLASSIFICACAO_POR_BARRAS:
 			Consumer<TempoObtidoPorClassificacaoController> barConsumer = c -> c
 					.setColeta(coleta);
@@ -114,7 +165,7 @@ public class MainController extends BaseController implements Initializable {
 					"Tempo por classificação: " + coleta.toString(),
 					barConsumer);
 			break;
-			
+
 		case CLASSIFICACAO_CICLOS_POR_BARRAS:
 			Consumer<TempoObtidoPorClassificacaoController> barCicloConsumer = c -> c
 					.setColetas(coletas);
@@ -122,6 +173,7 @@ public class MainController extends BaseController implements Initializable {
 					"Tempo por classificação/ciclo: " + coleta.toString(),
 					barCicloConsumer);
 			break;
+
 		default:
 			break;
 		}

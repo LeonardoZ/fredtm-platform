@@ -13,8 +13,10 @@
 	<artifactId>fredtm-desktop</artifactId>
 	<name>fredtm-desktop</name>
 
-	<packaging>jar</packaging>
+	<packaging>maven-plugin</packaging>
 	<version>1.0-SNAPSHOT</version>
+
+
 
 	<organization>
 		<!-- Used as the 'Vendor' for JNLP generation -->
@@ -28,31 +30,47 @@
 	<build>
 
 		<finalName>fredtm-desktop</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
 		<plugins>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-plugin-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+				</configuration>
+				<executions>
+					<execution>
+						<id>mojo-descriptor</id>
+						<goals>
+							<goal>descriptor</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>8.1.2</version>
 				<configuration>
-
-					<mainClass>com.fredtm.desk.MainApp</mainClass>
-
-					<!-- only required if signing the jar file -->
-					<keyStoreAlias>example-user</keyStoreAlias>
-					<keyStorePassword>example-password</keyStorePassword>
-					<allPermissions>true</allPermissions>
-
+					<mainClass>com.fredtm.desktop.MainApp</mainClass>
 				</configuration>
 			</plugin>
-
 		</plugins>
+
 	</build>
 
 
 	<dependencies>
-
 
 		<!-- Fred Core -->
 		<dependency>

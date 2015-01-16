@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
 import com.fredtm.core.model.Coleta;
+import com.fredtm.exportar.ErroDeExportacaoExcetion;
 import com.fredtm.exportar.Exportacao;
 import com.fredtm.exportar.ExportarColetaFactory;
 import com.fredtm.exportar.Exportavel;
@@ -44,19 +47,27 @@ public class ExportarColetasController extends BaseController implements
 		if (selectedDirectory != null && selectedDirectory.isDirectory()) {
 			tfDiretorio.setText(selectedDirectory.getAbsolutePath());
 		}
-
 	}
 
 	@FXML
 	private void onExportarClicked() {
-		if (selectedDirectory == null)
+		if (selectedDirectory == null) {
 			return;
+		}
 		Exportavel<Coleta> exportador = ExportarColetaFactory
 				.getExportador(choiceTiposExportacao.getValue());
-		if (coletas.size() == 1) {
-			exportador.exportar(coletas.get(0), selectedDirectory.getAbsolutePath());
-		} else {
-			exportador.exportar(coletas, selectedDirectory.getAbsolutePath());
+		try {
+			if (coletas.size() == 1) {
+				exportador.exportar(coletas.get(0),
+						selectedDirectory.getAbsolutePath());
+			} else {
+				exportador.exportar(coletas,
+						selectedDirectory.getAbsolutePath());
+			}
+			JOptionPane.showMessageDialog(null, "Exportação completa!");
+		} catch (ErroDeExportacaoExcetion e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 

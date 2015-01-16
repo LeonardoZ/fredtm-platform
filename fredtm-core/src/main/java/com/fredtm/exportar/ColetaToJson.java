@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.fredtm.core.model.Coleta;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class ColetaToJson implements Exportavel<Coleta> {
 
-	private Gson gson = new Gson();
+	private Gson gson = new GsonBuilder().create();
 
 	@Override
 	public void exportar(Coleta coleta, String caminho) {

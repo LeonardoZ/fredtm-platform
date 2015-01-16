@@ -31,6 +31,11 @@ public class ColetasController extends BaseController implements Initializable {
 		this.operacao = operacao;
 		this.coletas = operacao.getColetas();
 		listViewColetas.setItems(FXCollections.observableArrayList(coletas));
+		
+		coletas.forEach(c -> {
+			System.out.println(c.toString());
+		});
+		
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.fredtm.core.model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -91,7 +90,7 @@ public class Coleta extends Entidade {
 		return temposColetados.get(param.getId());
 	}
 
-	public HashMap<String, Long> somaDosTempos() {
+	public HashMap<String, Long> getSomaDosTempos() {
 
 		List<Long> calculados = temposColetados
 		// Stream<List<TempoAtividade>>
@@ -103,7 +102,7 @@ public class Coleta extends Entidade {
 				// Stream<List<Long>>
 				.map(s -> s.collect(Collectors.toList()))
 				// LongStream
-				.mapToLong(g -> g.stream().reduce(Long::sum).get())
+				.mapToLong(g -> g.stream().reduce(Long::sum).orElse(0l))
 				// Stream<Long>
 				.boxed()
 				// List<Long>
@@ -117,25 +116,29 @@ public class Coleta extends Entidade {
 	}
 
 	public List<TempoAtividade> getTempos() {
-		Collection<List<TempoAtividade>> values = temposColetados.values();
-		List<TempoAtividade> todos = new ArrayList<TempoAtividade>();
-		for (List<TempoAtividade> lt : values) {
-			for (TempoAtividade t : lt) {
-				todos.add(t);
-			}
-		}
-		return todos;
+		return temposColetados.values().stream().flatMap(tss -> tss.stream())
+				.collect(Collectors.toList());
+		// Collection<List<TempoAtividade>> values = temposColetados.values();
+		// List<TempoAtividade> todos = new ArrayList<TempoAtividade>();
+		// for (List<TempoAtividade> lt : values) {
+		// for (TempoAtividade t : lt) {
+		// todos.add(t);
+		// }
+		// }
+		// return todos;
 	}
 
 	public void remove(TempoAtividade tempo) {
-		Collection<List<TempoAtividade>> values = temposColetados.values();
-		for (List<TempoAtividade> lt : values) {
-			if (lt.contains(tempo)) {
-				lt.remove(tempo);
-				return;
-			}
-		}
-	};
+		temposColetados.values().stream().filter(lta -> lta.contains(tempo))
+				.iterator().remove();
+		// Collection<List<TempoAtividade>> values = temposColetados.values();
+		// for (List<TempoAtividade> lt : values) {
+		// if (lt.contains(tempo)) {
+		// lt.remove(tempo);
+		// return;
+		// }
+		// }
+	}
 
 	public List<TempoAtividade> getTemposEmOrdemCronologica() {
 		List<TempoAtividade> tempos = getTempos();
@@ -153,7 +156,7 @@ public class Coleta extends Entidade {
 		return new SimpleDateFormat("hh:mm:ss").format(date);
 	}
 
-	private Date getPrimeiroTempo() {
+	private Date getPrimeiroTempo() throws NoSuchElementException {
 		List<TempoAtividade> tempos = getTemposEmOrdemCronologica();
 		if (tempos.size() == 0) {
 			throw new NoSuchElementException();
@@ -165,11 +168,6 @@ public class Coleta extends Entidade {
 		this.atividades.add(atv);
 		this.temposColetados.put(atv.getId(), tempos);
 		organizarTempos(tempos);
-	}
-
-	@Override
-	public String toString() {
-		return operacao.getNome() + " - " + getPrimeiraDataFormatada();
 	}
 
 	public List<Atividade> listarAtividades() {
@@ -203,19 +201,22 @@ public class Coleta extends Entidade {
 	}
 
 	public long getSegundosTotaisCronometrados() {
-		return temposColetados.values().stream().flatMap(fl -> fl.stream())
-				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos()).sum();
+		return temposColetados.values()
+				.stream()
+				.flatMap(fl -> fl.stream())
+				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos())
+				.sum();
 	}
 
 	public long getSegundosTotaisCronometradosPor(TipoAtividade tipo) {
-		return temposColetados
+		long sum = temposColetados
 				.values()
 				.stream()
 				.flatMap(fl -> fl.stream())
 				.filter(tp -> tp.getAtividade().getTipoAtividade().equals(tipo))
 				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos()).sum();
+		return sum;
 	}
-	
 
 	public double getPercentualTotaisCronometradosPor(TipoAtividade tipo) {
 		long totalSegsTipo = temposColetados
@@ -225,8 +226,23 @@ public class Coleta extends Entidade {
 				.filter(tp -> tp.getAtividade().getTipoAtividade().equals(tipo))
 				.mapToLong(ta -> ta.getTempoCronometradoEmSegundos()).sum();
 		long totalSegs = getSegundosTotaisCronometrados();
-		double totalD = totalSegs;
-		double totalTipo = totalSegsTipo;
+		double totalD = Double.valueOf(totalSegs);
+		double totalTipo = Double.valueOf(totalSegsTipo);
+		if(totalD == 0 || totalTipo == 0) return 0;
 		return (totalTipo / totalD) * 100;
+	}
+
+	@Override
+	public String toString() {
+		String primeiraDataFormatada = "";
+		try {
+			primeiraDataFormatada = getPrimeiraDataFormatada();
+		} catch (NoSuchElementException nsee) {
+			nsee.printStackTrace();
+			primeiraDataFormatada = "<sem data>";
+		}
+		return operacao.getNome()
+				+ " - "
+				+ primeiraDataFormatada;
 	}
 }

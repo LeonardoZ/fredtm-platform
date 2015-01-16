@@ -8,8 +8,8 @@ public class ExportarColetaFactory {
 		switch (exportacao) {
 		case CSV:
 			return new ColetaToCSV();
-		case JSON:
-			return new ColetaToJson();
+//		case JSON:
+//			return new ColetaToJson();
 		default:
 			break;
 		}

@@ -54,7 +54,7 @@ public class TemposColetadosController extends BaseController implements
 		colFinal.setCellValueFactory(dado -> new SimpleStringProperty(dado
 				.getValue().getDataFimFormatada()));
 		colColetado.setCellValueFactory(dado -> new SimpleStringProperty(dado
-				.getValue().getTempoDecorridoFormatado(true)));
+				.getValue().getTempoDecorridoFormatadoSimples()));
 		colQuantificado.setCellValueFactory(dado -> new SimpleStringProperty(
 				dado.getValue().getQuantidadeColetadaFormatada()));
 		// Cell change

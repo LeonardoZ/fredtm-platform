@@ -20,7 +20,7 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 
 	private static final String SUFIX = ".csv";
 	private String diretorioDestino;
-	
+
 	public ColetaToCSV() {
 
 	}
@@ -33,8 +33,9 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 	public void setDiretorioDestino(String diretorioDestino) {
 		this.diretorioDestino = diretorioDestino;
 	}
-	
-	public void exportar(Coleta coleta,String caminho) {
+
+	public void exportar(Coleta coleta, String caminho)
+			throws ErroDeExportacaoExcetion {
 		diretorioDestino = caminho;
 		List<TempoAtividade> tempos = coleta.getTemposEmOrdemCronologica();
 		if (tempos.isEmpty())
@@ -59,12 +60,12 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 			w.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-
+			throw new ErroDeExportacaoExcetion();
 		}
 	}
 
-	public void exportar(List<Coleta> coletas,String caminho) {
+	public void exportar(List<Coleta> coletas, String caminho)
+			throws ErroDeExportacaoExcetion {
 		diretorioDestino = caminho;
 		int i = 1;
 		for (Coleta c : coletas) {
@@ -89,6 +90,7 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 					w.close();
 				} catch (IOException e) {
 					e.printStackTrace();
+					throw new ErroDeExportacaoExcetion();
 				}
 			}
 		}
@@ -129,7 +131,7 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 	}
 
 	private String fileNameGen(String conteudo) {
-	
+
 		String path = diretorioDestino + "/fred_tm";
 		File folder = new File(path);
 		if (!folder.exists()) {

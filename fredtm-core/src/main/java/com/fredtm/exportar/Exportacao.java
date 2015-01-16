@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public enum Exportacao {
 
-	JSON, XML, CSV;
+	CSV;
 
 	public static Collection<Exportacao> toList() {
 		return Arrays.asList(values());

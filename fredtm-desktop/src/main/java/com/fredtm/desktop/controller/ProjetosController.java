@@ -1,7 +1,6 @@
 package com.fredtm.desktop.controller;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,10 +10,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 
-import com.fredtm.core.model.Atividade;
-import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
-import com.fredtm.core.model.TipoAtividade;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class ProjetosController extends BaseController implements Initializable {
@@ -23,7 +19,12 @@ public class ProjetosController extends BaseController implements Initializable 
 	private ListView<Operacao> listViewProjetos;
 
 	private Operacao operacao;
-
+	
+	
+	public void setOperacoes(List<Operacao> operacoes) {
+		listViewProjetos.getItems().addAll(operacoes);
+	}
+	
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		MenuItem menuColeta = new MenuItem("Ver coletas");
@@ -43,47 +44,8 @@ public class ProjetosController extends BaseController implements Initializable 
 		listViewProjetos.setOnMouseClicked(event -> {
 			operacao = this.listViewProjetos.getSelectionModel()
 					.getSelectedItem();
-
 		});
-		for (int i = 0; i < 20; i++) {
-			Operacao operacao = gerarOperacao(i);
-			listViewProjetos.getItems().add(operacao);
-		}
-
 	}
 
-	private Operacao gerarOperacao(int i) {
-		Operacao operacao = new Operacao("Teste " + i, "Teste empresa " + i,
-				"Primeira operação " + i);
-		for (int j = 0; j < 20; j++) {
-			TipoAtividade t = i % 2 == 0 ? TipoAtividade.PRODUTIVA
-					: TipoAtividade.IMPRODUTIVA;
-			
-			if(j % 3 == 0) t = TipoAtividade.AUXILIAR;
-			
-			Atividade atividade = new Atividade("Atv " + j,
-					"Essa é a atv " + j, t);
-			atividade.setId(new Date().getTime()+atividade.hashCode());
-			atividade.setOperacao(operacao);
-			operacao.addAtividade(atividade);
-		}
-		List<Atividade> atividadesPreDefinidas = operacao
-				.getAtividadesPreDefinidas();
-		for (int g = 0; g < 10; g++) {
-			Coleta coleta = new Coleta();
-			coleta.setOperacao(operacao);
-			coleta.setAtividades(atividadesPreDefinidas);
-			atividadesPreDefinidas.forEach(a -> {
-				for (int z = 0; z < 5; z++) {
-					coleta.addNovoTempo(a, new Date().getTime() + 1500,
-							new Date().getTime() + 3000, (long) z * 1000);
-				}
-			});
-			operacao.addColeta(coleta);
-		}
-
-		return operacao;
-
-	}
 
 }

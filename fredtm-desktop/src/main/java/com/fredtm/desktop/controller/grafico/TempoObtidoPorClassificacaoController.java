@@ -1,4 +1,4 @@
-package com.fredtm.desktop.controller;
+package com.fredtm.desktop.controller.grafico;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,6 +14,7 @@ import javafx.scene.chart.XYChart.Series;
 
 import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.TipoAtividade;
+import com.fredtm.desktop.controller.BaseController;
 
 public class TempoObtidoPorClassificacaoController extends BaseController {
 
@@ -36,7 +37,6 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 
 	@SuppressWarnings("unchecked")
 	private void configurarGraficoDeColetas() {
-		
 		AtomicInteger ai = new AtomicInteger(0);
 		List<Series<String, Number>> seriesList = FXCollections.observableArrayList();
 		

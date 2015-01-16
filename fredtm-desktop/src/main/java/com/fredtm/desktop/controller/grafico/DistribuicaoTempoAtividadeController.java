@@ -1,4 +1,4 @@
-package com.fredtm.desktop.controller;
+package com.fredtm.desktop.controller.grafico;
 
 import java.util.HashMap;
 
@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 
 import com.fredtm.core.model.Coleta;
+import com.fredtm.desktop.controller.BaseController;
 
 public class DistribuicaoTempoAtividadeController extends BaseController {
 
@@ -23,7 +24,7 @@ public class DistribuicaoTempoAtividadeController extends BaseController {
 	private void configuraGraficoPizza() {
 		ObservableList<PieChart.Data> list = FXCollections
 				.observableArrayList();
-		HashMap<String, Long> somaDosTempos = coleta.somaDosTempos();
+		HashMap<String, Long> somaDosTempos = coleta.getSomaDosTempos();
 		somaDosTempos.forEach(
 				(k, v) -> list.add(new PieChart.Data(k, Double.valueOf(v)))
 		);
