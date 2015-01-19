@@ -1,6 +1,8 @@
 package com.fredtm.desktop.controller;
 
-import java.io.File;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -14,19 +16,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 
-import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
-import com.fredtm.desktop.BuscarDispositivo;
+import com.fredtm.desktop.OperacoesJsonUtils;
 import com.fredtm.desktop.controller.grafico.DistribuicaoTempoAtividadeController;
 import com.fredtm.desktop.controller.grafico.TempoObtidoPorClassificacaoController;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
 import com.fredtm.desktop.controller.utils.TiposGrafico;
+import com.fredtm.desktop.sync.ClientConnected;
+import com.fredtm.desktop.sync.SwingQRCodeGenerator;
+import com.fredtm.desktop.sync.SyncServer;
 
-public class MainController extends BaseController implements Initializable {
+public class MainController extends BaseController implements Initializable,
+		ClientConnected {
 
 	@FXML
 	private ToggleButton btnSincronizar;
@@ -50,10 +58,15 @@ public class MainController extends BaseController implements Initializable {
 
 	private Optional<List<Operacao>> operacoes;
 
+	private Thread thread;
+
+	private JDialog jDialog;
+
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		tabCreator = new MainControllerTabCreator(tabPane);
+		tabPane.getTabs().clear();
 	}
 
 	@FXML
@@ -67,25 +80,68 @@ public class MainController extends BaseController implements Initializable {
 	}
 
 	private void acaoSincronizarAtivo() {
-		tabPane.getTabs().clear();
-		File selectedDirectory;
-		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local de seus arquivos no aparelho Android conectado.");
-		selectedDirectory = dc.showDialog(getWindow());
-		if (selectedDirectory != null && selectedDirectory.isDirectory()) {
-			BuscarDispositivo buscarDispositivo = new BuscarDispositivo(
-					selectedDirectory);
-			operacoes = buscarDispositivo.getOperacoes();
-			if (operacoes.isPresent()) {
-				Consumer<ProjetosController> consumer = c -> c
-						.setOperacoes(operacoes.get());
-				criarView("/fxml/projetos.fxml", "Projetos", consumer);
-				btnProjetos.setDisable(false);
-			} else {
-				JOptionPane.showMessageDialog(null, "Falha ao sincronizar.");
-			}
+		Optional<BufferedImage> gerarQRCode = new SwingQRCodeGenerator()
+				.gerarQRCode();
+		criarJDialog(gerarQRCode.orElseThrow(IllegalStateException::new));
+		criarServidorDeTransferencia();
+	}
+
+	private void criarServidorDeTransferencia() {
+		if (thread == null) {
+			thread = new Thread(() -> new SyncServer(this));
+			thread.start();
 		}
 	}
+
+	private void criarJDialog(BufferedImage image) {
+		JLabel canvasLabel = new JLabel(new ImageIcon(image));
+		JLabel textTopLabel = new JLabel(
+				"Leia esse QRCode com a opção \"Sincronizar com PC\" "
+						+ "no aplicativo Fred TM para sincronizar.");
+		textTopLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 3, 10));
+		if (jDialog == null) {
+			jDialog = new JDialog();
+			jDialog.setTitle("Sincronizar com aplicativo Fred TM");
+			jDialog.setSize(670, 200);
+			jDialog.setLayout(new BorderLayout(10, 10));
+			jDialog.getContentPane().setBackground(new Color(226, 237, 222));
+			jDialog.getContentPane().setForeground(new Color(226, 237, 222));
+			jDialog.add(canvasLabel, BorderLayout.CENTER);
+			jDialog.add(textTopLabel, BorderLayout.NORTH);
+			jDialog.setVisible(true);
+		} else {
+			jDialog.toFront();
+		}
+	}
+
+	@Override
+	public void onConnection(String jsonContent) {
+		OperacoesJsonUtils utils = new OperacoesJsonUtils();
+		operacoes = utils.converterJsonParaJava(jsonContent);
+		if (operacoes.isPresent()) {
+			Consumer<ProjetosController> consumer = c -> c
+					.setOperacoes(operacoes.get());
+			criarView("/fxml/projetos.fxml", "Projetos", consumer);
+			btnProjetos.setDisable(false);
+		}
+		jDialog.setVisible(false);
+		jDialog = null;
+	}
+
+	/**
+	 * private void acaoSincronizarAtivo() { tabPane.getTabs().clear(); File
+	 * selectedDirectory; DirectoryChooser dc = new DirectoryChooser();
+	 * dc.setTitle
+	 * ("Escolha o local de seus arquivos no aparelho Android conectado.");
+	 * selectedDirectory = dc.showDialog(getWindow()); if (selectedDirectory !=
+	 * null && selectedDirectory.isDirectory()) { BuscarDispositivo
+	 * buscarDispositivo = new BuscarDispositivo( selectedDirectory); operacoes
+	 * = buscarDispositivo.getOperacoes(); if (operacoes.isPresent()) {
+	 * Consumer<ProjetosController> consumer = c -> c
+	 * .setOperacoes(operacoes.get()); criarView("/fxml/projetos.fxml",
+	 * "Projetos", consumer); btnProjetos.setDisable(false); } else {
+	 * JOptionPane.showMessageDialog(null, "Falha ao sincronizar."); } } }
+	 */
 
 	@FXML
 	void onProjetosClicked(ActionEvent event) {
@@ -98,9 +154,9 @@ public class MainController extends BaseController implements Initializable {
 	void onInstrucoesClicked(ActionEvent event) {
 		criarView("/fxml/instrucoes.fxml", "Instruções");
 	}
-	
+
 	@FXML
-	void onSairClicked(ActionEvent event){
+	void onSairClicked(ActionEvent event) {
 		System.exit(0);
 	}
 
