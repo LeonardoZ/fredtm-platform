@@ -80,10 +80,10 @@ public class MainController extends BaseController implements Initializable,
 	}
 
 	private void acaoSincronizarAtivo() {
+		criarServidorDeTransferencia();
 		Optional<BufferedImage> gerarQRCode = new SwingQRCodeGenerator()
 				.gerarQRCode();
 		criarJDialog(gerarQRCode.orElseThrow(IllegalStateException::new));
-		criarServidorDeTransferencia();
 	}
 
 	private void criarServidorDeTransferencia() {
@@ -151,8 +151,8 @@ public class MainController extends BaseController implements Initializable,
 	}
 
 	@FXML
-	void onInstrucoesClicked(ActionEvent event) {
-		criarView("/fxml/instrucoes.fxml", "Instruções");
+	void onConfigurarClicked(ActionEvent event) {
+		criarView("/fxml/configurar.fxml", "Configurar");
 	}
 
 	@FXML

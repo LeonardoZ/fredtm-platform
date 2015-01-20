@@ -24,17 +24,18 @@ public class SyncServer {
 
 	public SyncServer(ClientConnected connected) {
 		this.connected = connected;
+		String porta = new SocketConfig().getPort().getValue();
 		if (connected != null) {
-			startServer();
+			startServer(Integer.valueOf(porta));
 		}
 	}
 
-	private void startServer() {
+	private void startServer(int porta) {
 		try {
-			server = new ServerSocket(7777);
+			server = new ServerSocket(porta);
 			Socket client = server.accept();
 			if (client != null) {
-				onAcceptedClient(client);
+				onAcceptClient(client);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -47,35 +48,34 @@ public class SyncServer {
 		}
 	}
 
-	private void onAcceptedClient(Socket client) throws IOException {
-		InputStreamReader inputStreamReader = new InputStreamReader(
-				client.getInputStream());
-		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-		String line = "";
-		StringBuilder builder = new StringBuilder();
-		if ((line = bufferedReader.readLine()) != null) {
-			System.err.println(line);
-			builder.append(line);
+	private void onAcceptClient(Socket client) {
+		BufferedReader bufferedReader = null;
+		OutputStream outputStream = null;
+		PrintWriter pw = null;
+		try {
+			bufferedReader = new BufferedReader(new InputStreamReader(
+					client.getInputStream()));
+			String line = "";
+			StringBuilder builder = new StringBuilder();
+			if ((line = bufferedReader.readLine()) != null) {
+				builder.append(line);
+			}
+			outputStream = client.getOutputStream();
+			pw = new PrintWriter(new OutputStreamWriter(outputStream), true);
+			pw.println("OK");
+			Platform.runLater(() -> connected.onConnection(builder.toString()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				bufferedReader.close();
+				pw.close();
+				outputStream.close();
+				server.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		System.out.println("1");
-		OutputStream outputStream = client.getOutputStream();
-
-		System.out.println("2");
-		PrintWriter pw = new PrintWriter(new OutputStreamWriter(outputStream),
-				true);
-
-		System.out.println("3");
-		pw.println("OK");
-		bufferedReader.close();
-		System.out.println("4");
-		pw.close();
-
-		System.out.println("5");
-		inputStreamReader.close();
-		outputStream.close();
-		server.close();
-		Platform.runLater(() -> connected.onConnection(builder.toString()));
-
 	}
 
 	/**
@@ -87,16 +87,18 @@ public class SyncServer {
 			for (Enumeration<NetworkInterface> en = NetworkInterface
 					.getNetworkInterfaces(); en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
+				
 				for (Enumeration<InetAddress> enumIpAddr = intf
 						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress()
-							&& inetAddress instanceof Inet4Address) {
+							&& (inetAddress instanceof Inet4Address)) {
 						String ipAddress = inetAddress.getHostAddress()
 								.toString();
 						return Optional.of(ipAddress);
 					}
 				}
+				
 			}
 		} catch (SocketException ex) {
 			ex.printStackTrace();

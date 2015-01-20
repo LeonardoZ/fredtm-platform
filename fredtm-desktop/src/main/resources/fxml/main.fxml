@@ -14,7 +14,7 @@
          <children>
             <ToggleButton id="fred-btn-sincronizar" fx:id="btnSincronizar" contentDisplay="CENTER" layoutX="44.0" layoutY="96.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSincronizarClicked" prefHeight="33.0" prefWidth="110.0" styleClass="btn-fred-main" text="Sincronizar" textAlignment="RIGHT" />
             <Button id="fred-btn-projetos" fx:id="btnProjetos" disable="true" layoutX="41.0" layoutY="125.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onProjetosClicked" prefHeight="26.0" prefWidth="101.0" styleClass="btn-fred-main" text="Projetos" />
-            <Button id="fred-btn-exportar" fx:id="btnInstrucoes" layoutX="40.0" layoutY="161.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onInstrucoesClicked" prefHeight="26.0" prefWidth="99.0" styleClass="btn-fred-main" text="Instruçoes" />
+            <Button id="fred-btn-exportar" fx:id="btnConfigurar" layoutX="40.0" layoutY="161.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onConfigurarClicked" prefHeight="26.0" prefWidth="99.0" styleClass="btn-fred-main" text="Configurar" />
             <Button id="fred-btn-sair" fx:id="btnSair" layoutX="42.0" layoutY="199.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSairClicked" pickOnBounds="false" prefHeight="26.0" prefWidth="100.0" styleClass="btn-fred-main" text="Sair" />
          </children>
          <opaqueInsets>
