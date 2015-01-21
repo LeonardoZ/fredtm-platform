@@ -12,6 +12,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class SyncServer {
 			Socket client = server.accept();
 			if (client != null) {
 				onAcceptClient(client);
+				Thread.currentThread().interrupt();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -54,14 +56,15 @@ public class SyncServer {
 		PrintWriter pw = null;
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
-					client.getInputStream()));
+					client.getInputStream(),Charset.forName("UTF-8")));
 			String line = "";
 			StringBuilder builder = new StringBuilder();
 			if ((line = bufferedReader.readLine()) != null) {
 				builder.append(line);
 			}
 			outputStream = client.getOutputStream();
-			pw = new PrintWriter(new OutputStreamWriter(outputStream), true);
+			pw = new PrintWriter(new OutputStreamWriter(outputStream,
+					Charset.forName("UTF-8")), true);
 			pw.println("OK");
 			Platform.runLater(() -> connected.onConnection(builder.toString()));
 		} catch (IOException e) {

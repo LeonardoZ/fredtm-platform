@@ -59,19 +59,6 @@ public class TemposColetadosController extends BaseController implements
 				dado.getValue().getQuantidadeColetadaFormatada()));
 		// Cell change
 		colAtividade
-				.setCellFactory(collumn -> new TableCell<TempoAtividade, Atividade>() {
-					@Override
-					protected void updateItem(Atividade atividade, boolean empty) {
-						if (atividade != null && !empty) {
-							setText(atividade.getTitulo());
-							getStyle().concat(
-									"-fx-background-color: { "
-											+ atividade.getTipoAtividade()
-													.getHexColor() + "}");
-						}
-					}
-				});
-		colAtividade
 				.setCellValueFactory(new PropertyValueFactory<TempoAtividade, Atividade>(
 						"atividade"));
 
