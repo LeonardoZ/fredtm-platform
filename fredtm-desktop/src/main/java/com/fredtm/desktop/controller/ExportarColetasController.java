@@ -44,7 +44,7 @@ public class ExportarColetasController extends BaseController implements
 		DirectoryChooser dc = new DirectoryChooser();
 		dc.setTitle("Escolha o local para salvar sua exportação");
 		selectedDirectory = dc.showDialog(getWindow());
-		if (selectedDirectory != null && selectedDirectory.isDirectory()) {
+		if (selectedDirectory != null && selectedDirectory.isDirectory() && selectedDirectory.canWrite()) {
 			tfDiretorio.setText(selectedDirectory.getAbsolutePath());
 		}
 	}

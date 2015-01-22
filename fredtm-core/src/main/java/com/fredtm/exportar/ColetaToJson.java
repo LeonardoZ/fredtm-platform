@@ -13,13 +13,15 @@ public class ColetaToJson implements Exportavel<Coleta> {
 	@Override
 	public void exportar(Coleta coleta, String caminho) {
 		String json = gson.toJson(coleta);
-		System.err.println(json);
+		salvarEmArquivo(caminho, json);
 	}
 
 	@Override
 	public void exportar(List<Coleta> coletas, String caminho) {
 		String json = gson.toJson(coletas);
-		System.err.println(json);
+		salvarEmArquivo(caminho, json);
 	}
+
+	
 
 }

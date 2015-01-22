@@ -1,4 +1,4 @@
-package com.fredtm.desktop;
+package com.fredtm.core.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

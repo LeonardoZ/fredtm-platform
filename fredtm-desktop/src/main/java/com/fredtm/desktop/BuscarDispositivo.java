@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fredtm.core.model.Operacao;
+import com.fredtm.core.util.OperacoesJsonUtils;
 
 public class BuscarDispositivo {
 

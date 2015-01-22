@@ -3,7 +3,9 @@ package com.fredtm.desktop.controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,7 +28,7 @@ import javax.swing.JLabel;
 
 import com.fredtm.core.model.Coleta;
 import com.fredtm.core.model.Operacao;
-import com.fredtm.desktop.OperacoesJsonUtils;
+import com.fredtm.core.util.OperacoesJsonUtils;
 import com.fredtm.desktop.controller.grafico.DistribuicaoTempoAtividadeController;
 import com.fredtm.desktop.controller.grafico.TempoObtidoPorClassificacaoController;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
@@ -40,9 +44,6 @@ public class MainController extends BaseController implements Initializable,
 	private ToggleButton btnSincronizar;
 
 	@FXML
-	private Button btnProjetos;
-
-	@FXML
 	private Button btnInstrucoes;
 
 	@FXML
@@ -55,8 +56,6 @@ public class MainController extends BaseController implements Initializable,
 	private VBox boxNenhumSync;
 
 	private MainControllerTabCreator tabCreator;
-
-	private Optional<List<Operacao>> operacoes;
 
 	private Thread thread;
 
@@ -73,7 +72,6 @@ public class MainController extends BaseController implements Initializable,
 	private void onSincronizarClicked(ActionEvent event) {
 		if (!btnSincronizar.isSelected()) {
 			tabPane.getTabs().clear();
-			btnProjetos.setDisable(true);
 		} else {
 			acaoSincronizarAtivo();
 		}
@@ -117,15 +115,16 @@ public class MainController extends BaseController implements Initializable,
 	@Override
 	public void onConnection(String jsonContent) {
 		OperacoesJsonUtils utils = new OperacoesJsonUtils();
-		operacoes = utils.converterJsonParaJava(jsonContent);
-		if (operacoes.isPresent()) {
-			Consumer<ProjetosController> consumer = c -> c
-					.setOperacoes(operacoes.get());
-			criarView("/fxml/projetos.fxml", "Projetos", consumer);
-			btnProjetos.setDisable(false);
-		}
+		Optional<List<Operacao>> operacoes = utils
+				.converterJsonParaJava(jsonContent);
+		criarJanelaProjetos(operacoes.orElseGet(ArrayList::new));
 		jDialog.setVisible(false);
 		jDialog = null;
+	}
+
+	private void criarJanelaProjetos(List<Operacao> list) {
+		Consumer<ProjetosController> consumer = c -> c.setOperacoes(list);
+		criarView("/fxml/projetos.fxml", "Projetos", consumer);
 	}
 
 	/**
@@ -144,15 +143,24 @@ public class MainController extends BaseController implements Initializable,
 	 */
 
 	@FXML
-	void onProjetosClicked(ActionEvent event) {
-		Consumer<ProjetosController> consumer = c -> c.setOperacoes(operacoes
-				.get());
-		criarView("/fxml/projetos.fxml", "Projetos", consumer);
+	void onConfigurarClicked(ActionEvent event) {
+		criarView("/fxml/configurar.fxml", "Configurar");
 	}
 
 	@FXML
-	void onConfigurarClicked(ActionEvent event) {
-		criarView("/fxml/configurar.fxml", "Configurar");
+	void onImportarJsonClicked(ActionEvent event) {
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Escolha o arquivo \"operacoes.json\" gerado por seu aplicativo ou exportado por você.");
+		fc.setSelectedExtensionFilter(new ExtensionFilter("Arquivos .json gerados por esse software ou pelo Fred TM (mobile)","*.<json>"));
+		File selectedItem = fc.showOpenDialog(getWindow());
+
+		if (selectedItem != null) {
+			OperacoesJsonUtils oju = new OperacoesJsonUtils();
+			Optional<List<Operacao>> operacoes = oju
+					.converterJsonParaJava(selectedItem);
+			criarJanelaProjetos(operacoes.get());
+		}
+
 	}
 
 	@FXML
@@ -165,7 +173,6 @@ public class MainController extends BaseController implements Initializable,
 				.setOperacao(operacao);
 		criarView("/fxml/atividades.fxml",
 				"Atividades - " + operacao.getNome(), controllerAction);
-		btnProjetos.setDisable(false);
 	}
 
 	public void abrirColetas(Operacao operacao) {
