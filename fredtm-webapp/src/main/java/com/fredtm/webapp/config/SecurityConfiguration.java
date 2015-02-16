@@ -1,22 +1,21 @@
 package com.fredtm.webapp.config;
 
-import java.io.IOException;
+import javax.sql.DataSource;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private DataSource dataSource;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -33,10 +32,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("leo")
-			.password("asd")
-			.roles("USER");
-
+//		auth.inMemoryAuthentication()
+//			.withUser("leo")
+//			.password("asd")
+//			.roles("USER");
+		auth.jdbcAuthentication().dataSource(dataSource)
+		.usersByUsernameQuery("select user as username,pass as password,true as enabled from users where user = ?")
+		.passwordEncoder(new Md5PasswordEncoder())
+		.authoritiesByUsernameQuery("select users.id,'ROLE_USER' as authority from users where user = ?")
+		
+		;
 	}
 }
