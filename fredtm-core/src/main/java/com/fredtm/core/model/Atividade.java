@@ -1,11 +1,8 @@
 package com.fredtm.core.model;
 
-import javax.persistence.Entity;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-@Entity
 public class Atividade extends Entidade {
 
 	private static final long serialVersionUID = 1L;

@@ -14,7 +14,7 @@ public class Init implements WebApplicationInitializer {
 	public void onStartup(ServletContext container) {
 		 // Create the 'root' Spring application context
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(HibernateConfig.class);
+        rootContext.register(HibernateConfig.class,SecurityConfiguration.class);
  
         // Manage the lifecycle of the root application context
         container.addListener(new ContextLoaderListener(rootContext));

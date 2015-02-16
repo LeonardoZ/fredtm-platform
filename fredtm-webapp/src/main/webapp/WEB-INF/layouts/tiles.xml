@@ -4,8 +4,19 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-	<definition>
-	
+	<definition name="base" template="/WEB-INF/layouts/base.jsp"/>
+
+	<definition name="cadastro" extends="base">
+		<put-attribute name="content" value="/WEB-INF/views/cadastro.jsp"/>
 	</definition>
+
+	<definition name="main" extends="base">
+		<put-attribute name="content" value="/WEB-INF/views/main.jsp"/>
+	</definition>
+	
+	<definition name="login-page"  extends="base" >
+		<put-attribute name="content" value="/WEB-INF/views/login.jsp"></put-attribute>
+	</definition>
+
 
 </tiles-definitions>
