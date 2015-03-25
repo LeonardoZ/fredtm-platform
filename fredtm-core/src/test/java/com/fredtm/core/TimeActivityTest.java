@@ -200,6 +200,6 @@ public class TimeActivityTest {
 		
 		String formattedEllapsedTime = timeActivity
 				.getFullElapsedTime();
-		assertEquals(start + " - " + end + " : " + "10s", formattedEllapsedTime);
+		assertEquals(start + " - " + end + " : " + "10s - Tests: 12", formattedEllapsedTime);
 	}
 }
