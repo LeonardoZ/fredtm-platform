@@ -8,21 +8,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import com.fredtm.core.model.Coleta;
+import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.utils.TiposGrafico;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class TiposGraficosController extends BaseController implements
 		Initializable {
 
-	private Coleta coleta;
-	private List<Coleta> coletas;
+	private Collect coleta;
+	private List<Collect> coletas;
 
-	public void setColeta(Coleta coleta) {
+	public void setColeta(Collect coleta) {
 		this.coleta = coleta;
 	}
 
-	public void setColetas(List<Coleta> coletas) {
+	public void setColetas(List<Collect> coletas) {
 		this.coletas = coletas;
 	}
 

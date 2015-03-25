@@ -7,7 +7,7 @@ import static junit.framework.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fredtm.core.model.Operacao;
+import com.fredtm.core.model.Operation;
 import com.google.gson.Gson;
 import com.jayway.restassured.http.ContentType;
 
@@ -20,7 +20,7 @@ public class OperacaoResourceTest  {
 	
 	@Test
 	public void createTest(){
-		Operacao operacao = new Operacao("Teste REST", "Fred Company", "Teste de criação rest");
+		Operation operacao = new Operation("Teste REST", "Fred Company", "Teste de criação rest");
 		Gson gson = new Gson();
 		String json = gson.toJson(operacao);
 		System.out.println(json);

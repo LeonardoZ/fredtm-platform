@@ -1,10 +1,10 @@
 package com.fredtm.exportar;
 
-import com.fredtm.core.model.Coleta;
+import com.fredtm.core.model.Collect;
 
 public class ExportarColetaFactory {
 	
-	public static Exportavel<Coleta> getExportador(Exportacao exportacao) {
+	public static Exportavel<Collect> getExportador(Exportacao exportacao) {
 		switch (exportacao) {
 		case CSV:
 			return new ColetaToCSV();

@@ -26,8 +26,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import com.fredtm.core.model.Coleta;
-import com.fredtm.core.model.Operacao;
+import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.OperacoesJsonUtils;
 import com.fredtm.desktop.controller.grafico.DistribuicaoTempoAtividadeController;
 import com.fredtm.desktop.controller.grafico.TempoObtidoPorClassificacaoController;
@@ -115,14 +115,14 @@ public class MainController extends BaseController implements Initializable,
 	@Override
 	public void onConnection(String jsonContent) {
 		OperacoesJsonUtils utils = new OperacoesJsonUtils();
-		Optional<List<Operacao>> operacoes = utils
+		Optional<List<Operation>> operations = utils
 				.converterJsonParaJava(jsonContent);
-		criarJanelaProjetos(operacoes.orElseGet(ArrayList::new));
+		criarJanelaProjetos(operations.orElseGet(ArrayList::new));
 		jDialog.setVisible(false);
 		jDialog = null;
 	}
 
-	private void criarJanelaProjetos(List<Operacao> list) {
+	private void criarJanelaProjetos(List<Operation> list) {
 		Consumer<ProjetosController> consumer = c -> c.setOperacoes(list);
 		criarView("/fxml/projetos.fxml", "Projetos", consumer);
 	}
@@ -134,10 +134,10 @@ public class MainController extends BaseController implements Initializable,
 	 * ("Escolha o local de seus arquivos no aparelho Android conectado.");
 	 * selectedDirectory = dc.showDialog(getWindow()); if (selectedDirectory !=
 	 * null && selectedDirectory.isDirectory()) { BuscarDispositivo
-	 * buscarDispositivo = new BuscarDispositivo( selectedDirectory); operacoes
-	 * = buscarDispositivo.getOperacoes(); if (operacoes.isPresent()) {
+	 * buscarDispositivo = new BuscarDispositivo( selectedDirectory); operations
+	 * = buscarDispositivo.getOperacoes(); if (operations.isPresent()) {
 	 * Consumer<ProjetosController> consumer = c -> c
-	 * .setOperacoes(operacoes.get()); criarView("/fxml/projetos.fxml",
+	 * .setOperacoes(operations.get()); criarView("/fxml/projetos.fxml",
 	 * "Projetos", consumer); btnProjetos.setDisable(false); } else {
 	 * JOptionPane.showMessageDialog(null, "Falha ao sincronizar."); } } }
 	 */
@@ -150,15 +150,15 @@ public class MainController extends BaseController implements Initializable,
 	@FXML
 	void onImportarJsonClicked(ActionEvent event) {
 		FileChooser fc = new FileChooser();
-		fc.setTitle("Escolha o arquivo \"operacoes.json\" gerado por seu aplicativo ou exportado por você.");
+		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por você.");
 		fc.setSelectedExtensionFilter(new ExtensionFilter("Arquivos .json gerados por esse software ou pelo Fred TM (mobile)","*.<json>"));
 		File selectedItem = fc.showOpenDialog(getWindow());
 
 		if (selectedItem != null) {
 			OperacoesJsonUtils oju = new OperacoesJsonUtils();
-			Optional<List<Operacao>> operacoes = oju
+			Optional<List<Operation>> operations = oju
 					.converterJsonParaJava(selectedItem);
-			criarJanelaProjetos(operacoes.get());
+			criarJanelaProjetos(operations.get());
 		}
 
 	}
@@ -168,40 +168,40 @@ public class MainController extends BaseController implements Initializable,
 		System.exit(0);
 	}
 
-	public void abrirAtividades(Operacao operacao) {
+	public void abrirAtividades(Operation operation) {
 		Consumer<AtividadesController> controllerAction = c -> c
-				.setOperacao(operacao);
+				.setOperacao(operation);
 		criarView("/fxml/atividades.fxml",
-				"Atividades - " + operacao.getNome(), controllerAction);
+				"Atividades - " + operation.getName(), controllerAction);
 	}
 
-	public void abrirColetas(Operacao operacao) {
-		Consumer<ColetasController> consumidor = c -> c.setOperacao(operacao);
-		criarView("/fxml/coletas.fxml", "Coletas - " + operacao.getNome(),
+	public void abrirColetas(Operation operation) {
+		Consumer<ColetasController> consumidor = c -> c.setOperacao(operation);
+		criarView("/fxml/coletas.fxml", "Coletas - " + operation.getName(),
 				consumidor);
 	}
 
-	public void habilitarExportarAtividades(Operacao operacao) {
+	public void habilitarExportarAtividades(Operation operation) {
 		Consumer<AtividadesController> consumidor = c -> c
-				.setOperacao(operacao);
+				.setOperacao(operation);
 		criarView("/fxml/exportar_atividades.fxml", "Exportar atividades - "
-				+ operacao.getNome(), consumidor);
+				+ operation.getName(), consumidor);
 	}
 
-	public void abrirTemposColetados(Coleta coleta) {
+	public void abrirTemposColetados(Collect coleta) {
 		Consumer<TemposColetadosController> consumidor = c -> c
-				.setTempos(coleta.getTemposEmOrdemCronologica());
+				.setTempos(coleta.getTimeInChronologicalOrder());
 		criarView("/fxml/tempos_coletados.fxml",
 				"Tempos coletados - " + coleta.toString(), consumidor);
 	}
 
-	public void exportarColetas(List<Coleta> coletas) {
+	public void exportarColetas(List<Collect> coletas) {
 		Consumer<ExportarColetasController> consumidor = c -> c
 				.setColetas(coletas);
 		criarView("/fxml/exportar_coleta.fxml", "Exportar coletas", consumidor);
 	}
 
-	public void abrirTiposDeGraficos(Coleta coleta, List<Coleta> coletas) {
+	public void abrirTiposDeGraficos(Collect coleta, List<Collect> coletas) {
 		Consumer<TiposGraficosController> consumidor = c -> {
 			c.setColeta(coleta);
 			c.setColetas(coletas);
@@ -210,14 +210,14 @@ public class MainController extends BaseController implements Initializable,
 				"Análises da coleta " + coleta.toString(), consumidor);
 	}
 
-	public void abrirAnaliseGrafica(TiposGrafico tipo, Coleta coleta,
-			List<Coleta> coletas) {
+	public void abrirAnaliseGrafica(TiposGrafico tipo, Collect coleta,
+			List<Collect> coletas) {
 		switch (tipo) {
 		case DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA:
 			Consumer<DistribuicaoTempoAtividadeController> pizzaConsumer = c -> c
 					.setColeta(coleta);
 			criarView("/fxml/grafico_pizza.fxml",
-					"Distribuição tempo/atividade: " + coleta.toString(),
+					"Distribuição tempo/activity: " + coleta.toString(),
 					pizzaConsumer);
 			break;
 

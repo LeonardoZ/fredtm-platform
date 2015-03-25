@@ -12,8 +12,8 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
-import com.fredtm.core.model.Coleta;
-import com.fredtm.core.model.TipoAtividade;
+import com.fredtm.core.model.ActivityType;
+import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.BaseController;
 
 public class TempoObtidoPorClassificacaoController extends BaseController {
@@ -21,16 +21,16 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 	@FXML
 	private BarChart<String, Number> graficoClassificacaoBarras;
 
-	private Coleta coleta;
+	private Collect coleta;
 
-	private List<Coleta> coletas;
+	private List<Collect> coletas;
 
-	public void setColetas(List<Coleta> coletas) {
+	public void setColetas(List<Collect> coletas) {
 		this.coletas = coletas;
 		configurarGraficoDeColetas();
 	}
 
-	public void setColeta(Coleta coleta) {
+	public void setColeta(Collect coleta) {
 		this.coleta = coleta;
 		configurarGraficoSimples();
 	}
@@ -44,15 +44,15 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 
 			XYChart.Data<String, Number> data1 = new XYChart.Data<String, Number>(
 					"Improdutivo",
-					coleta.getPercentualTotaisCronometradosPor(TipoAtividade.IMPRODUTIVA));
+					coleta.getTotalPercentegeOfTimed(ActivityType.IMPRODUCTIVE));
 
 			XYChart.Data<String, Number> data2 = new XYChart.Data<String, Number>(
 					"Produtivo",
-					coleta.getPercentualTotaisCronometradosPor(TipoAtividade.PRODUTIVA));
+					coleta.getTotalPercentegeOfTimed(ActivityType.PRODUCTIVE));
 
 			XYChart.Data<String, Number> data3 = new XYChart.Data<String, Number>(
 					"Auxiliar",
-					coleta.getPercentualTotaisCronometradosPor(TipoAtividade.AUXILIAR));
+					coleta.getTotalPercentegeOfTimed(ActivityType.AUXILIARY));
 			
 			
 			Series<String, Number> series = new XYChart.Series<String, Number>();
@@ -70,18 +70,18 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 
 		XYChart.Data<String, Number> data1 = new XYChart.Data<String, Number>(
 				"Improdutivo",
-				coleta.getPercentualTotaisCronometradosPor(TipoAtividade.IMPRODUTIVA));
+				coleta.getTotalPercentegeOfTimed(ActivityType.IMPRODUCTIVE));
 
 		XYChart.Data<String, Number> data2 = new XYChart.Data<String, Number>(
 				"Produtivo",
-				coleta.getPercentualTotaisCronometradosPor(TipoAtividade.PRODUTIVA));
+				coleta.getTotalPercentegeOfTimed(ActivityType.PRODUCTIVE));
 
 		XYChart.Data<String, Number> data3 = new XYChart.Data<String, Number>(
 				"Auxiliar",
-				coleta.getPercentualTotaisCronometradosPor(TipoAtividade.AUXILIAR));
-		configurarCor(data1, TipoAtividade.IMPRODUTIVA);
-		configurarCor(data2, TipoAtividade.PRODUTIVA);
-		configurarCor(data3, TipoAtividade.AUXILIAR);
+				coleta.getTotalPercentegeOfTimed(ActivityType.AUXILIARY));
+		configurarCor(data1, ActivityType.IMPRODUCTIVE);
+		configurarCor(data2, ActivityType.PRODUCTIVE);
+		configurarCor(data3, ActivityType.AUXILIARY);
 
 		Series<String, Number> series = new XYChart.Series<String, Number>();
 		series.getData().addAll(data1, data2, data3);
@@ -93,7 +93,7 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 	}
 
 	public void configurarCor(XYChart.Data<String, Number> dado,
-			TipoAtividade tipo) {
+			ActivityType tipo) {
 		dado.nodeProperty().addListener(new ChangeListener<Node>() {
 			@Override
 			public void changed(ObservableValue<? extends Node> ov,

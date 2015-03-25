@@ -2,8 +2,8 @@ package com.fredtm.desktop.eventbus;
 
 import java.util.List;
 
-import com.fredtm.core.model.Coleta;
-import com.fredtm.core.model.Operacao;
+import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.controller.MainController;
 import com.fredtm.desktop.controller.utils.TiposGrafico;
 
@@ -22,32 +22,32 @@ public class MainEventBus {
 		this.main = main;
 	}
 
-	public void eventoAbrirAtividades(Operacao operacao) {
-		main.abrirAtividades(operacao);
+	public void eventoAbrirAtividades(Operation operation) {
+		main.abrirAtividades(operation);
 	}
 
-	public void eventoAbrirColetas(Operacao operacao) {
-		main.abrirColetas(operacao);
+	public void eventoAbrirColetas(Operation operation) {
+		main.abrirColetas(operation);
 	}
 
-	public void eventoExportarAtividades(Operacao operacao) {
-		main.habilitarExportarAtividades(operacao);
+	public void eventoExportarAtividades(Operation operation) {
+		main.habilitarExportarAtividades(operation);
 	}
 
-	public void eventoExportarColetas(List<Coleta> coletas) {
+	public void eventoExportarColetas(List<Collect> coletas) {
 		main.exportarColetas(coletas);
 	}
 
-	public void eventoAbrirTemposColetados(Coleta coleta) {
+	public void eventoAbrirTemposColetados(Collect coleta) {
 		main.abrirTemposColetados(coleta);
 	}
 
-	public void eventoTiposDeGraficos(Coleta coleta, List<Coleta> coletas) {
+	public void eventoTiposDeGraficos(Collect coleta, List<Collect> coletas) {
 		main.abrirTiposDeGraficos(coleta, coletas);
 	}
 
-	public void eventoAnaliseGrafica(TiposGrafico tipo, Coleta coleta,
-			List<Coleta> coletas) {
+	public void eventoAnaliseGrafica(TiposGrafico tipo, Collect coleta,
+			List<Collect> coletas) {
 		main.abrirAnaliseGrafica(tipo, coleta, coletas);
 	}
 

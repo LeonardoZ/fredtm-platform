@@ -16,7 +16,7 @@ public interface Exportavel<T> {
 
 	default void salvarEmArquivo(String caminho, String json) {
 
-		Path path = Paths.get(caminho + "/operacoes.json");
+		Path path = Paths.get(caminho + "/operations.json");
 		try {
 			Files.createFile(path);
 		} catch (FileAlreadyExistsException e1) {

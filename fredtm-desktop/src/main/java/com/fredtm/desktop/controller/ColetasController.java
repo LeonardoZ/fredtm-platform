@@ -12,30 +12,30 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 
-import com.fredtm.core.model.Coleta;
-import com.fredtm.core.model.Operacao;
+import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class ColetasController extends BaseController implements Initializable {
 
 	@FXML
-	private ListView<Coleta> listViewColetas;
+	private ListView<Collect> listViewColetas;
 
-	private Coleta coleta;
+	private Collect coleta;
 
-	private List<Coleta> coletas;
+	private List<Collect> coletas;
 
-	private Operacao operacao;
+	private Operation operation;
 
-	public void setOperacao(Operacao operacao) {
-		this.operacao = operacao;
-		this.coletas = operacao.getColetas();
+	public void setOperacao(Operation operation) {
+		this.operation = operation;
+		this.coletas = operation.getCollects();
 		listViewColetas.setItems(FXCollections.observableArrayList(coletas));
-		
+
 		coletas.forEach(c -> {
 			System.out.println(c.toString());
 		});
-		
+
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ColetasController extends BaseController implements Initializable {
 		menuExportarColeta.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoExportarColetas(Arrays.asList(coleta)));
 		menuExportarTodasColetas.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoExportarColetas(operacao.getColetas()));
+				.eventoExportarColetas(operation.getCollects()));
 
 		menuTiposDeGraficos.setOnAction(evt -> MainEventBus.INSTANCE
 				.eventoTiposDeGraficos(coleta, coletas));
@@ -71,7 +71,6 @@ public class ColetasController extends BaseController implements Initializable {
 				.setOnMouseClicked(event -> {
 					coleta = this.listViewColetas.getSelectionModel()
 							.getSelectedItem();
-
 				});
 
 	}

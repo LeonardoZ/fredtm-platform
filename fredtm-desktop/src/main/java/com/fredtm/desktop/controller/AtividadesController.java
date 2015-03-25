@@ -15,46 +15,46 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import com.fredtm.core.model.Atividade;
-import com.fredtm.core.model.Operacao;
-import com.fredtm.core.model.TipoAtividade;
+import com.fredtm.core.model.Activity;
+import com.fredtm.core.model.ActivityType;
+import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class AtividadesController extends BaseController implements Initializable {
 
 	@FXML
-	private TableView<Atividade> tbAtividades;
+	private TableView<Activity> tbAtividades;
 	@FXML
-	private TableColumn<Atividade, String> colTitulo;
+	private TableColumn<Activity, String> colTitulo;
 	@FXML
-	private TableColumn<Atividade, String> colDescricao;
+	private TableColumn<Activity, String> colDescricao;
 	@FXML
-	private TableColumn<Atividade, TipoAtividade> colTipo;
+	private TableColumn<Activity, ActivityType> colTipo;
 	@FXML
-	private TableColumn<Atividade, String> colQuantitativa;
-	private List<Atividade> atividades;
-	private Operacao operacao;
+	private TableColumn<Activity, String> colQuantitativa;
+	private List<Activity> atividades;
+	private Operation operation;
 
-	public void setOperacao(Operacao operacao) {
-		this.operacao = operacao;
-		this.atividades = operacao.getAtividadesPreDefinidas();
+	public void setOperacao(Operation operation) {
+		this.operation = operation;
+		this.atividades = operation.getPredifinedActivities();
 		tbAtividades.setItems(FXCollections.observableArrayList(atividades));
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		colTitulo
-				.setCellValueFactory(new PropertyValueFactory<Atividade, String>(
+				.setCellValueFactory(new PropertyValueFactory<Activity, String>(
 						"titulo"));
 		colDescricao
-				.setCellValueFactory(new PropertyValueFactory<Atividade, String>(
+				.setCellValueFactory(new PropertyValueFactory<Activity, String>(
 						"descricao"));
-		colTipo.setCellValueFactory(new PropertyValueFactory<Atividade, TipoAtividade>(
+		colTipo.setCellValueFactory(new PropertyValueFactory<Activity, ActivityType>(
 				"tipoAtividade"));
 		
-		colTipo.setCellFactory(collumn -> new TableCell<Atividade, TipoAtividade>() {
+		colTipo.setCellFactory(collumn -> new TableCell<Activity, ActivityType>() {
 			@Override
-			protected void updateItem(TipoAtividade tipo, boolean empty) {
+			protected void updateItem(ActivityType tipo, boolean empty) {
 				if (tipo != null && !empty) {
 					setText(tipo.toString());
 					setStyle("-fx-background-color: " + tipo.getHexColor());
@@ -62,13 +62,13 @@ public class AtividadesController extends BaseController implements Initializabl
 			}
 		});
 		colQuantitativa.setCellValueFactory(value -> new SimpleStringProperty(
-				value.getValue() != null ? value.getValue().getNomeItem()
+				value.getValue() != null ? value.getValue().getItemName()
 						: "Não quantitativa"));
 		ContextMenu menu = new ContextMenu();
 		
 		MenuItem menuExportar = new MenuItem("Exportar");
 		menuExportar.setOnAction(e -> MainEventBus.INSTANCE
-				.eventoExportarAtividades(operacao));
+				.eventoExportarAtividades(operation));
 		menu.getItems().addAll(menuExportar);
 		
 		tbAtividades.setContextMenu(menu);

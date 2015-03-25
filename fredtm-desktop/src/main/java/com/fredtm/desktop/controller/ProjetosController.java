@@ -5,8 +5,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
@@ -14,22 +12,24 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 
-import com.fredtm.core.model.Operacao;
+import javax.swing.JOptionPane;
+
+import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.exportar.OperacoesToJson;
 
 public class ProjetosController extends BaseController implements Initializable {
 
 	@FXML
-	private ListView<Operacao> listViewProjetos;
+	private ListView<Operation> listViewProjetos;
 
-	private Operacao operacao;
+	private Operation operation;
 
-	private List<Operacao> operacoes;
+	private List<Operation> operations;
 
-	public void setOperacoes(List<Operacao> operacoes) {
-		this.operacoes = operacoes;
-		listViewProjetos.getItems().addAll(operacoes);
+	public void setOperacoes(List<Operation> operations) {
+		this.operations = operations;
+		listViewProjetos.getItems().addAll(operations);
 	}
 
 	@Override
@@ -38,9 +38,9 @@ public class ProjetosController extends BaseController implements Initializable 
 		MenuItem menuAtividade = new MenuItem("Ver atividades");
 		MenuItem menuExportar = new MenuItem("Exportar todas operações");
 		menuAtividade.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoAbrirAtividades(operacao));
+				.eventoAbrirAtividades(operation));
 		menuColeta.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoAbrirColetas(operacao));
+				.eventoAbrirColetas(operation));
 		menuExportar.setOnAction(ev -> exportarOperacoes());
 		ContextMenu contextMenu = new ContextMenu(menuColeta, menuAtividade,menuExportar);
 		contextMenu.setStyle("-fx-background-color: #fff");
@@ -48,7 +48,7 @@ public class ProjetosController extends BaseController implements Initializable 
 		listViewProjetos.setContextMenu(contextMenu);
 
 		listViewProjetos.setOnMouseClicked(event -> {
-			operacao = this.listViewProjetos.getSelectionModel()
+			operation = this.listViewProjetos.getSelectionModel()
 					.getSelectedItem();
 		});
 	}
@@ -59,7 +59,7 @@ public class ProjetosController extends BaseController implements Initializable 
 		File selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory.isDirectory() && selectedDirectory.canWrite()) {
 			OperacoesToJson op = new OperacoesToJson();
-			op.exportar(operacoes, selectedDirectory.getAbsolutePath());
+			op.exportar(operations, selectedDirectory.getAbsolutePath());
 			JOptionPane.showMessageDialog(null, "Exportação completa!");
 		} else {
 			JOptionPane

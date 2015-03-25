@@ -11,19 +11,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.fredtm.core.model.Operacao;
+import com.fredtm.core.model.Operation;
 
 @Path("/operacoes")
 public class OperacoesResource {
 
-	List<Operacao> operacoes = new ArrayList<>();
+	List<Operation> operacoes = new ArrayList<>();
 	int id;
 	
 	@POST
 	@Path("/operacao")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON})
-	public Response create(Operacao operacao) {
+	public Response create(Operation operacao) {
 		return Response.status(201).entity(operacao).build();
 	}
 	
@@ -32,7 +32,7 @@ public class OperacoesResource {
 	@Path("/operacao")
 	@Produces({ MediaType.APPLICATION_JSON})
 	public Response read(){
-		return Response.status(200).entity(new Operacao("Teste REST", "Fred Company", "Teste de criação rest")).build();
+		return Response.status(200).entity(new Operation("Teste REST", "Fred Company", "Teste de criação rest")).build();
 	}
 
 }

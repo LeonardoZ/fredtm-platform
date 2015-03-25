@@ -15,7 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
-import com.fredtm.core.model.Coleta;
+import com.fredtm.core.model.Collect;
 import com.fredtm.exportar.ErroDeExportacaoExcetion;
 import com.fredtm.exportar.Exportacao;
 import com.fredtm.exportar.ExportarColetaFactory;
@@ -25,16 +25,16 @@ public class ExportarColetasController extends BaseController implements
 		Initializable {
 
 	@FXML
-	private ListView<Coleta> listViewColetas;
+	private ListView<Collect> listViewColetas;
 	@FXML
 	private ChoiceBox<Exportacao> choiceTiposExportacao;
 	@FXML
 	private TextField tfDiretorio;
 
-	private List<Coleta> coletas;
+	private List<Collect> coletas;
 	private File selectedDirectory;
 
-	public void setColetas(List<Coleta> coletas) {
+	public void setColetas(List<Collect> coletas) {
 		this.coletas = coletas;
 		listViewColetas.getItems().addAll(coletas);
 	}
@@ -54,7 +54,7 @@ public class ExportarColetasController extends BaseController implements
 		if (selectedDirectory == null) {
 			return;
 		}
-		Exportavel<Coleta> exportador = ExportarColetaFactory
+		Exportavel<Collect> exportador = ExportarColetaFactory
 				.getExportador(choiceTiposExportacao.getValue());
 		try {
 			if (coletas.size() == 1) {

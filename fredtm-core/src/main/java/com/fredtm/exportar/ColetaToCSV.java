@@ -13,10 +13,10 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
-import com.fredtm.core.model.Coleta;
-import com.fredtm.core.model.TempoAtividade;
+import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.TimeActivity;
 
-public class ColetaToCSV implements Exportavel<Coleta> {
+public class ColetaToCSV implements Exportavel<Collect> {
 
 	private static final String SUFIX = ".csv";
 	private String diretorioDestino;
@@ -34,14 +34,14 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 		this.diretorioDestino = diretorioDestino;
 	}
 
-	public void exportar(Coleta coleta, String caminho)
+	public void exportar(Collect coleta, String caminho)
 			throws ErroDeExportacaoExcetion {
 		diretorioDestino = caminho;
-		List<TempoAtividade> tempos = coleta.getTemposEmOrdemCronologica();
+		List<TimeActivity> tempos = coleta.getTimeInChronologicalOrder();
 		if (tempos.isEmpty())
 			return;
-		String filename = fileNameGen(coleta.getOperacao().getEmpresa() + "_"
-				+ coleta.getOperacao().getNome());
+		String filename = fileNameGen(coleta.getOperation().getCompany() + "_"
+				+ coleta.getOperation().getName());
 
 		try {
 			CSVWriter w;
@@ -64,14 +64,14 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 		}
 	}
 
-	public void exportar(List<Coleta> coletas, String caminho)
+	public void exportar(List<Collect> coletas, String caminho)
 			throws ErroDeExportacaoExcetion {
 		diretorioDestino = caminho;
 		int i = 1;
-		for (Coleta c : coletas) {
-			if (!c.getTempos().isEmpty()) {
-				String filename = fileNameGenParaTodos(c.getOperacao()
-						.getEmpresa() + "_" + c.getOperacao().getNome(),
+		for (Collect c : coletas) {
+			if (!c.getTimes().isEmpty()) {
+				String filename = fileNameGenParaTodos(c.getOperation()
+						.getCompany() + "_" + c.getOperation().getName(),
 						String.valueOf(i++));
 				try {
 					CSVWriter w;
@@ -96,34 +96,34 @@ public class ColetaToCSV implements Exportavel<Coleta> {
 		}
 	}
 
-	private List<String[]> gerarLinhas(Coleta coleta) {
-		List<TempoAtividade> tempos = coleta.getTemposEmOrdemCronologica();
+	private List<String[]> gerarLinhas(Collect coleta) {
+		List<TimeActivity> tempos = coleta.getTimeInChronologicalOrder();
 		List<String[]> vals = new ArrayList<String[]>();
 		String[] headers = {
 				"Data",
 				"Hora",
-				"Atividade parcial",
+				"Activity parcial",
 				"Descricao",
 				"Classificacao",
-				coleta.getAtividadeQuantitativa() == null ? "N/A" : coleta
-						.getAtividadeQuantitativa().getNomeItem(),
+				coleta.getQuantitativeActivity() == null ? "N/A" : coleta
+						.getQuantitativeActivity().getItemName(),
 				"Duracao(s)", "Tempo acumulado(s)" };
 		vals.add(headers);
 
 		long sum = 0l;
 
-		for (TempoAtividade tempo : tempos) {
-			long tempoCronometrado = tempo.getTempoCronometradoEmSegundos();
+		for (TimeActivity tempo : tempos) {
+			long tempoCronometrado = tempo.getEllapsedTimeInSeconds();
 			sum += tempoCronometrado;
-			String[] dataInicioSeparada = tempo.getDataInicioSeparada();
+			String[] dataInicioSeparada = tempo.getSplitedStartDate();
 			String[] line = {
 					dataInicioSeparada[0],
 					dataInicioSeparada[1],
-					tempo.getAtividade().getTitulo(),
-					tempo.getAtividade().getDescricao(),
-					tempo.getAtividade().getTipoAtividade().name(),
-					tempo.getAtividade().getEhQuantitativa() ? tempo
-							.getQuantidadeColetada().toString() : "n/a",
+					tempo.getActivity().getTitle(),
+					tempo.getActivity().getDescription(),
+					tempo.getActivity().getActivityType().name(),
+					tempo.getActivity().isQuantitative() ? tempo
+							.getCollectedAmount().toString() : "n/a",
 					Long.toString(tempoCronometrado), Long.toString(sum) };
 			vals.add(line);
 		}

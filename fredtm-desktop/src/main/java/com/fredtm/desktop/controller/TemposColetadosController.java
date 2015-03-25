@@ -11,34 +11,33 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import com.fredtm.core.model.Atividade;
-import com.fredtm.core.model.TempoAtividade;
-
+import com.fredtm.core.model.Activity;
+import com.fredtm.core.model.TimeActivity;
 public class TemposColetadosController extends BaseController implements
 		Initializable {
 
 	@FXML
-	private TableView<TempoAtividade> tbAtividades;
+	private TableView<TimeActivity> tbAtividades;
 
 	@FXML
-	private TableColumn<TempoAtividade, String> colInicial;
+	private TableColumn<TimeActivity, String> colInicial;
 
 	@FXML
-	private TableColumn<TempoAtividade, Atividade> colAtividade;
+	private TableColumn<TimeActivity, Activity> colAtividade;
 
 	@FXML
-	private TableColumn<TempoAtividade, String> colColetado;
+	private TableColumn<TimeActivity, String> colColetado;
 
 	@FXML
-	private TableColumn<TempoAtividade, String> colFinal;
+	private TableColumn<TimeActivity, String> colFinal;
 
 	@FXML
-	private TableColumn<TempoAtividade, String> colQuantificado;
+	private TableColumn<TimeActivity, String> colQuantificado;
 
 	@SuppressWarnings("unused")
-	private List<TempoAtividade> tempos;
+	private List<TimeActivity> tempos;
 
-	public void setTempos(List<TempoAtividade> tempos) {
+	public void setTempos(List<TimeActivity> tempos) {
 		this.tempos = tempos;
 		tbAtividades.getItems().addAll(tempos);
 	}
@@ -46,20 +45,20 @@ public class TemposColetadosController extends BaseController implements
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		colAtividade
-				.setCellValueFactory(new PropertyValueFactory<TempoAtividade, Atividade>(
-						"atividade"));
+				.setCellValueFactory(new PropertyValueFactory<TimeActivity, Activity>(
+						"activity"));
 		colInicial.setCellValueFactory(dado -> new SimpleStringProperty(dado
-				.getValue().getDataInicioFormatada()));
+				.getValue().getFormattedStartDate()));
 		colFinal.setCellValueFactory(dado -> new SimpleStringProperty(dado
-				.getValue().getDataFimFormatada()));
+				.getValue().getFormattedEndDate()));
 		colColetado.setCellValueFactory(dado -> new SimpleStringProperty(dado
-				.getValue().getTempoDecorridoFormatadoSimples()));
+				.getValue().getSimpleEllapsedTime()));
 		colQuantificado.setCellValueFactory(dado -> new SimpleStringProperty(
-				dado.getValue().getQuantidadeColetadaFormatada()));
+				dado.getValue().getFormattedCollectedAmount()));
 		// Cell change
 		colAtividade
-				.setCellValueFactory(new PropertyValueFactory<TempoAtividade, Atividade>(
-						"atividade"));
+				.setCellValueFactory(new PropertyValueFactory<TimeActivity, Activity>(
+						"activity"));
 
 	}
 

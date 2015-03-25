@@ -3,13 +3,13 @@ package com.fredtm.exportar;
 import java.util.Comparator;
 import java.util.List;
 
-import com.fredtm.core.model.Operacao;
+import com.fredtm.core.model.Operation;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class OperacoesToJson implements Exportavel<Operacao> {
+public class OperacoesToJson implements Exportavel<Operation> {
 
 	 private Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
          @Override
@@ -23,7 +23,7 @@ public class OperacoesToJson implements Exportavel<Operacao> {
          }
      }).create();
 	@Override
-	public void exportar(Operacao t, String caminho)
+	public void exportar(Operation t, String caminho)
 			throws ErroDeExportacaoExcetion {
 		String json = gson.toJson(t);
 		salvarEmArquivo(caminho, json);
@@ -31,7 +31,7 @@ public class OperacoesToJson implements Exportavel<Operacao> {
 	}
 
 	@Override
-	public void exportar(List<Operacao> t, String caminho)
+	public void exportar(List<Operation> t, String caminho)
 			throws ErroDeExportacaoExcetion {
 		String json = gson.toJson(t);
 		salvarEmArquivo(caminho, json);
