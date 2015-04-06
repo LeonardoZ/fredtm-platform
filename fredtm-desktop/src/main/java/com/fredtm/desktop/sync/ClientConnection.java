@@ -1,6 +1,6 @@
 package com.fredtm.desktop.sync;
 
-public interface ClientConnected {
+public interface ClientConnection {
 	
 	void onConnection(String jsonContent);
 	

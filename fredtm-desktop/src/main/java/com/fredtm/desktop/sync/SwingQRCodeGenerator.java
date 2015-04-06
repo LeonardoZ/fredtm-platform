@@ -14,6 +14,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class SwingQRCodeGenerator {
+	
 	public Optional<BufferedImage> gerarQRCode() {
 		SocketConfig socketConfig = new SocketConfig();
 		String ip = socketConfig.getIp().get();

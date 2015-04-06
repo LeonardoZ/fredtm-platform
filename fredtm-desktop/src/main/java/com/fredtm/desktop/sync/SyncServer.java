@@ -15,16 +15,23 @@ import java.net.SocketException;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 
 import javafx.application.Platform;
 
 public class SyncServer {
 
-	private ClientConnected connected;
+	private ClientConnection connected;
 	private ServerSocket server;
+	private ExecutorService service;
 
-	public SyncServer(ClientConnected connected) {
+	public SyncServer(ClientConnection connected, ExecutorService service) {
 		this.connected = connected;
+		this.service = service;
+
+	}
+
+	public void start() {
 		String porta = new SocketConfig().getPort().getValue();
 		if (connected != null) {
 			startServer(Integer.valueOf(porta));
@@ -37,13 +44,15 @@ public class SyncServer {
 			Socket client = server.accept();
 			if (client != null) {
 				onAcceptClient(client);
-				Thread.currentThread().interrupt();
+				service.shutdownNow();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				server.close();
+				if (server != null) {
+					server.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -56,7 +65,7 @@ public class SyncServer {
 		PrintWriter pw = null;
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
-					client.getInputStream(),Charset.forName("UTF-8")));
+					client.getInputStream(), Charset.forName("UTF-8")));
 			String line = "";
 			StringBuilder builder = new StringBuilder();
 			if ((line = bufferedReader.readLine()) != null) {
@@ -90,7 +99,7 @@ public class SyncServer {
 			for (Enumeration<NetworkInterface> en = NetworkInterface
 					.getNetworkInterfaces(); en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
-				
+
 				for (Enumeration<InetAddress> enumIpAddr = intf
 						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
@@ -101,12 +110,23 @@ public class SyncServer {
 						return Optional.of(ipAddress);
 					}
 				}
-				
+
 			}
 		} catch (SocketException ex) {
 			ex.printStackTrace();
 		}
 		return Optional.empty();
+	}
+
+	public void stop() {
+		try {
+			if (server != null) {
+				server.close();
+				service.shutdownNow();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

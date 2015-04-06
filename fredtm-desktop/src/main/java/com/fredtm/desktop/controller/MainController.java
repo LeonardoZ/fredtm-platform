@@ -2,6 +2,8 @@ package com.fredtm.desktop.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import javafx.event.ActionEvent;
@@ -33,12 +37,12 @@ import com.fredtm.desktop.controller.grafico.DistribuicaoTempoAtividadeControlle
 import com.fredtm.desktop.controller.grafico.TempoObtidoPorClassificacaoController;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
 import com.fredtm.desktop.controller.utils.TiposGrafico;
-import com.fredtm.desktop.sync.ClientConnected;
+import com.fredtm.desktop.sync.ClientConnection;
 import com.fredtm.desktop.sync.SwingQRCodeGenerator;
 import com.fredtm.desktop.sync.SyncServer;
 
 public class MainController extends BaseController implements Initializable,
-		ClientConnected {
+		ClientConnection {
 
 	@FXML
 	private ToggleButton btnSincronizar;
@@ -57,9 +61,13 @@ public class MainController extends BaseController implements Initializable,
 
 	private MainControllerTabCreator tabCreator;
 
-	private Thread thread;
-
 	private JDialog jDialog;
+
+	private WindowAdapter adapter;
+
+	private ExecutorService service;
+
+	private SyncServer syncServer;
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
@@ -78,17 +86,30 @@ public class MainController extends BaseController implements Initializable,
 	}
 
 	private void acaoSincronizarAtivo() {
+		configurarAdapter();
 		criarServidorDeTransferencia();
 		Optional<BufferedImage> gerarQRCode = new SwingQRCodeGenerator()
 				.gerarQRCode();
 		criarJDialog(gerarQRCode.orElseThrow(IllegalStateException::new));
 	}
 
+	private void configurarAdapter() {
+		adapter = new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				syncServer.stop();
+				System.out.println("Fechando");
+				btnSincronizar.setSelected(false);
+				jDialog = null;
+			}
+		};
+
+	}
+
 	private void criarServidorDeTransferencia() {
-		if (thread == null) {
-			thread = new Thread(() -> new SyncServer(this));
-			thread.start();
-		}
+		service = Executors.newSingleThreadExecutor();
+		syncServer = new SyncServer(MainController.this, service);
+		service.execute(() -> syncServer.start());
 	}
 
 	private void criarJDialog(BufferedImage image) {
@@ -104,9 +125,13 @@ public class MainController extends BaseController implements Initializable,
 			jDialog.setLayout(new BorderLayout(10, 10));
 			jDialog.getContentPane().setBackground(new Color(226, 237, 222));
 			jDialog.getContentPane().setForeground(new Color(226, 237, 222));
+			jDialog.setLocationRelativeTo(null);
 			jDialog.add(canvasLabel, BorderLayout.CENTER);
 			jDialog.add(textTopLabel, BorderLayout.NORTH);
+			jDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			jDialog.addWindowListener(adapter);
 			jDialog.setVisible(true);
+			jDialog.setAlwaysOnTop(true);
 		} else {
 			jDialog.toFront();
 		}
@@ -151,7 +176,9 @@ public class MainController extends BaseController implements Initializable,
 	void onImportarJsonClicked(ActionEvent event) {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por você.");
-		fc.setSelectedExtensionFilter(new ExtensionFilter("Arquivos .json gerados por esse software ou pelo Fred TM (mobile)","*.<json>"));
+		fc.setSelectedExtensionFilter(new ExtensionFilter(
+				"Arquivos .json gerados por esse software ou pelo Fred TM (mobile)",
+				"*.<json>"));
 		File selectedItem = fc.showOpenDialog(getWindow());
 
 		if (selectedItem != null) {

@@ -80,7 +80,6 @@
 		</dependency>
 		
 		<!-- MigLayout -->
-
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout-javafx</artifactId>

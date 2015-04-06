@@ -48,6 +48,7 @@ public class Collect extends Entity {
 	}
 
 	public void setOperation(Operation operation) {
+		validation.isNullValue(operation);
 		this.operation = operation;
 	}
 
