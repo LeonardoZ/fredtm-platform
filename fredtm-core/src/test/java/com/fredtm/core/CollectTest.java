@@ -1,16 +1,5 @@
 package com.fredtm.core;
 
-import java.time.Instant;
-import java.time.temporal.TemporalField;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import org.junit.Test;
-
-import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
-import com.fredtm.core.model.Collect;
 
 public class CollectTest {
 
