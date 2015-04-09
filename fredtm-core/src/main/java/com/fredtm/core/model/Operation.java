@@ -3,16 +3,35 @@ package com.fredtm.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Operation extends Entity {
+@Entity
+@Table(name="operation")
+public class Operation extends FredEntity {
 
+	@Transient
 	private static final long serialVersionUID = 1L;
+	
+	@Column(nullable = false, length = 120, unique = true)
 	private String name;
+	
+	@Column(nullable = false, length = 120)
 	private String company;
+	
+	@Column(nullable = false, name="technical_characteristics")
 	private String technicalCharacteristics;
+	
+	@OneToMany(mappedBy="operation")
 	private List<Activity> activities;
+	
+	@OneToMany(mappedBy="operation")
 	private List<Collect> collects;
 
 	public Operation(String name, String company,
@@ -149,4 +168,7 @@ public class Operation extends Entity {
 				.append(technicalCharacteristics,
 						other.technicalCharacteristics).isEquals();
 	}
+	
+
+	
 }

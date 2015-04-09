@@ -10,17 +10,31 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Collect extends Entity {
+@Entity
+@Table(name="collect")
+public class Collect extends FredEntity {
 
+	@Transient
 	private static final long serialVersionUID = 4085712607350133267L;
+
+	@Transient
 	private Comparator<TimeActivity> comparator = (lhs, rhs) -> rhs
 			.getStartDate().compareTo(lhs.getStartDate());
 
+	@Transient
 	private Comparator<TimeActivity> comparatorReverse = comparator.reversed();
 
+	@Transient
 	private Comparator<Activity> comparatorActivities = (lhs, rhs) -> {
 		if (rhs.getActivityType().equals(lhs.getActivityType())) {
 			return lhs.getTitle().compareTo(rhs.getTitle());
@@ -28,8 +42,17 @@ public class Collect extends Entity {
 		return rhs.getActivityType().compareTo(lhs.getActivityType());
 	};
 
+	@ManyToOne
+	@JoinColumn(name="operation_id")
 	private Operation operation;
+	
+	@Transient
 	private HashMap<Long, List<TimeActivity>> collectedTimes;
+	
+	@OneToMany(mappedBy="collect")
+	private List<TimeActivity> times;
+	
+	@Transient
 	private List<Activity> activities;
 
 	public Collect() {

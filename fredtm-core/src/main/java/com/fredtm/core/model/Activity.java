@@ -1,16 +1,41 @@
 package com.fredtm.core.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Activity extends Entity {
+@Entity
+@Table(name="activity")
+public class Activity extends FredEntity {
 
+	@Transient
 	private static final long serialVersionUID = 1L;
+	
+	@Column(nullable = false, length = 120, unique = true)
 	private String title;
+
+	@Column(nullable = false, length = 120)
 	private String description;
+
+	@Enumerated(EnumType.STRING)
 	private ActivityType activityType;
+
+	@Column(columnDefinition = "BIT")
 	private Boolean quantitative;
+
+	@Column(length = 100,name="item_name")
 	private String itemName;
+	
+	@ManyToOne
+	@JoinColumn(name="operation_id")
 	private Operation operation;
 
 	public Activity() {
@@ -88,7 +113,7 @@ public class Activity extends Entity {
 	}
 
 	public void setIsQuantitative(boolean quantitative) {
-		if(quantitative && activityType != ActivityType.PRODUCTIVE){
+		if (quantitative && activityType != ActivityType.PRODUCTIVE) {
 			throw new IllegalArgumentException();
 		}
 		this.quantitative = quantitative;

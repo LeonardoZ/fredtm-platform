@@ -6,22 +6,52 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.fredtm.core.util.FormatElapsedTime;
 
-public class TimeActivity extends Entity {
+@Entity
+@Table(name = "time_activity")
+public class TimeActivity extends FredEntity {
 
+	@Transient
 	private static final long serialVersionUID = 1L;
+
+	@Transient
 	private static final SimpleDateFormat sdf = new SimpleDateFormat(
 			"dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
+
+	@ManyToOne
+	@JoinColumn(name = "activity_id")
 	private Activity activity;
+
+	@ManyToOne
+	@JoinColumn(name = "collect_id")
 	private Collect collect;
+
+	@Transient
 	private Calendar dataManager = GregorianCalendar.getInstance();
+
+	@Column(name="final_date")
 	private long finalDate = 0l;
+
+
+	@Column(name="start_date")
 	private long startDate = 0l;
+	
+
+	@Column
 	private long timed = 0l;
+
+	@Column(name="collected_amount")
 	private int collectedAmount;
 
 	public TimeActivity() {
@@ -128,15 +158,13 @@ public class TimeActivity extends Entity {
 
 	public String getFormattedEllapsedTime(boolean breakLine) {
 		StringBuilder formatted = new StringBuilder();
-			formatted.append(FormatElapsedTime.format(timed)
-		);
-			
+		formatted.append(FormatElapsedTime.format(timed));
+
 		String line = breakLine ? "\n" : " - ";
-		
-		formatted.append(
-				activity.isQuantitative() ? 
-						(line+ activity.getItemName() + ": " + getCollectedAmount()) : "");
-		
+
+		formatted.append(activity.isQuantitative() ? (line
+				+ activity.getItemName() + ": " + getCollectedAmount()) : "");
+
 		return formatted.toString();
 	}
 

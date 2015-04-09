@@ -8,11 +8,11 @@
 		<groupId>com.fredtm</groupId>
 		<version>1.0</version>
 	</parent>
-	<artifactId>fredtm-api</artifactId>
-	<packaging>war</packaging>
+	<artifactId>fredtm-data</artifactId>
+	<packaging>jar</packaging>
 
-	<name>FredTM API</name>
-	<description>FredTM REST API </description>
+	<name>fredtm-data</name>
+	<description>FredTM Data </description>
 
 	<dependencyManagement>
 		<dependencies>
@@ -26,48 +26,41 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>com.fredtm.api.FredTmApiApplication</start-class>
+		<start-class>com.fredtm.data.FredtmDataApplication</start-class>
 		<java.version>1.8</java.version>
-		<!-- Hibernate / JPA -->
-		<hibernate.version>4.2.1.Final</hibernate.version>
-
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> -->
+
+		<!-- Fred Core -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>com.fredtm</groupId>
+			<artifactId>fredtm-core</artifactId>
+			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.fredtm</groupId>
-			<artifactId>fredtm-data</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
 	</dependencies>
 
 	<build>
@@ -75,14 +68,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
