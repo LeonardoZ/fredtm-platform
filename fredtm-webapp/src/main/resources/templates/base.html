@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8"></meta>
+<title>Fred TM</title>
+<link  th:href="@{/css/bootstrap.css}" rel="stylesheet"  />
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					Fred TM
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a>Projeto</a></li>
+					<li><a>Projeto</a></li>
+					<li><a>Projeto</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<aside>Esq</aside>
+		<section layout:fragment="content">Hi</section>
+		<aside>Dir</aside>
+	</div>
+	<footer>Pé </footer>
+</body>
+</html>

@@ -4,6 +4,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -15,8 +16,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
+@ComponentScan(basePackages={"com.fredtm.data.repository"})
 @EnableTransactionManagement
 public class DBConfig {
+	
 	@Bean
 	LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sf = new LocalSessionFactoryBean();

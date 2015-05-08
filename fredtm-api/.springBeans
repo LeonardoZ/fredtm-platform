@@ -7,7 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>java:com.fredtm.api.RestApplication</config>
+		<config>java:com.fredtm.api.FredTmApiConfig</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

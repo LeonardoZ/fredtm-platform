@@ -9,5 +9,4 @@ import com.fredtm.core.model.Operation;
 public interface OperationRepository extends CrudRepository<Operation, Long>{
 
 	
-	
 }

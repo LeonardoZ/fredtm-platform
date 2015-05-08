@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,6 +42,21 @@ public class Collect extends FredEntity {
 		}
 		return rhs.getActivityType().compareTo(lhs.getActivityType());
 	};
+	
+	@PostConstruct
+	public void organizarTemposAtividade(){
+        for (Activity act : activities) {
+        	List<TimeActivity> timesOf = getTimesOf(act);
+        	addActivity(act, timesOf);
+        }
+	}
+
+	private List<TimeActivity> getTimesOf(Activity act) {
+		return times
+		.stream()
+		.filter(t -> t.getActivity().equals(act))
+		.collect(Collectors.toList());
+	}
 
 	@ManyToOne
 	@JoinColumn(name="operation_id")

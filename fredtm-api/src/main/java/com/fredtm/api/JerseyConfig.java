@@ -5,13 +5,13 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
-import com.fredtm.api.controller.OperationController;
+import com.fredtm.api.rest.OperationResources;
 
 @Configuration
-@ApplicationPath("/fredtm-api")
+@ApplicationPath("/fredapi")
 public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig() {
-		register(OperationController.class);
+		register(OperationResources.class);
 	}
 
 }

@@ -152,21 +152,6 @@ public class MainController extends BaseController implements Initializable,
 		criarView("/fxml/projetos.fxml", "Projetos", consumer);
 	}
 
-	/**
-	 * private void acaoSincronizarAtivo() { tabPane.getTabs().clear(); File
-	 * selectedDirectory; DirectoryChooser dc = new DirectoryChooser();
-	 * dc.setTitle
-	 * ("Escolha o local de seus arquivos no aparelho Android conectado.");
-	 * selectedDirectory = dc.showDialog(getWindow()); if (selectedDirectory !=
-	 * null && selectedDirectory.isDirectory()) { BuscarDispositivo
-	 * buscarDispositivo = new BuscarDispositivo( selectedDirectory); operations
-	 * = buscarDispositivo.getOperacoes(); if (operations.isPresent()) {
-	 * Consumer<ProjetosController> consumer = c -> c
-	 * .setOperacoes(operations.get()); criarView("/fxml/projetos.fxml",
-	 * "Projetos", consumer); btnProjetos.setDisable(false); } else {
-	 * JOptionPane.showMessageDialog(null, "Falha ao sincronizar."); } } }
-	 */
-
 	@FXML
 	void onConfigurarClicked(ActionEvent event) {
 		criarView("/fxml/configurar.fxml", "Configurar");
