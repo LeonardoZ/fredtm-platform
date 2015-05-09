@@ -1,14 +1,19 @@
 package com.fredtm.core.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.fredtm.core.util.HashGenerator;
+
 @Entity
-@Table(name="account")
+@Table(name = "account")
 public class Account extends FredEntity {
 
 	private static final long serialVersionUID = 7384555886305860670L;
@@ -16,11 +21,14 @@ public class Account extends FredEntity {
 	@Column(nullable = false, length = 120, unique = true)
 	private String email;
 
-	@Column(nullable = false, length = 255)
+	@Column(nullable = false, length = 255, name = "password_hash")
 	private String passwordHash;
 
 	@Column(nullable = false, length = 120)
 	private String name;
+
+	@OneToMany(mappedBy = "account")
+	private List<Operation> operations;
 
 	public Account() {
 
@@ -39,7 +47,8 @@ public class Account extends FredEntity {
 	}
 
 	public void setPassword(String pass) {
-		// pass -> hash
+		String hash = new HashGenerator().toHash(pass);
+		this.passwordHash = hash;
 	}
 
 	public void setPasswordHash(String passwordHash) {

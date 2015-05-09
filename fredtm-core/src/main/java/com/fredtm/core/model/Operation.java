@@ -2,9 +2,12 @@ package com.fredtm.core.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -13,26 +16,33 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
-@Table(name="operation")
+@Table(name = "operation")
 public class Operation extends FredEntity {
 
 	@Transient
 	private static final long serialVersionUID = 1L;
-	
+
+	@Column(columnDefinition = "BINARY(16)", name = "uuid")
+	private UUID uuid;
+
 	@Column(nullable = false, length = 120, unique = true)
 	private String name;
-	
+
 	@Column(nullable = false, length = 120)
 	private String company;
-	
-	@Column(nullable = false, name="technical_characteristics")
+
+	@Column(nullable = false, name = "technical_characteristics")
 	private String technicalCharacteristics;
-	
-	@OneToMany(mappedBy="operation")
+
+	@OneToMany(mappedBy = "operation")
 	private List<Activity> activities;
-	
-	@OneToMany(mappedBy="operation")
+
+	@OneToMany(mappedBy = "operation")
 	private List<Collect> collects;
+
+	@JoinColumn(name = "account_id")
+	@ManyToOne(optional = true)
+	private Account account;
 
 	public Operation(String name, String company,
 			String technicalCharacteristics) {
@@ -45,6 +55,14 @@ public class Operation extends FredEntity {
 	public Operation() {
 		activities = new ArrayList<Activity>();
 		collects = new ArrayList<Collect>();
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getName() {
@@ -168,7 +186,5 @@ public class Operation extends FredEntity {
 				.append(technicalCharacteristics,
 						other.technicalCharacteristics).isEquals();
 	}
-	
 
-	
 }

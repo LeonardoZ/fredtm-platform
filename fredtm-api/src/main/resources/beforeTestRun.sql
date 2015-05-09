@@ -1,0 +1,1 @@
+INSERT INTO account VALUES(1,'leo.zapparoli@gmail.com','leo','123');

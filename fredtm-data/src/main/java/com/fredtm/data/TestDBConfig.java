@@ -1,4 +1,5 @@
 package com.fredtm.data;
+
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -18,21 +19,19 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
 @Configuration
-@EnableJpaRepositories(basePackages={
-		"com.fredtm.data",
-		"com.fredtm.data.repository" },transactionManagerRef = "transactionManager")
+@EnableJpaRepositories(basePackages = { "com.fredtm.data",
+		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-@ComponentScan(basePackages={"com.fredtm.data.repository"})
+@ComponentScan(basePackages = { "com.fredtm.data.repository" })
 @EnableTransactionManagement
-@Profile("dev")
-public class DBConfig {
-	
+@Profile("test")
+public class TestDBConfig {
+
 	@Bean
 	LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
-		sf.setDataSource(generateDataSource());
+		sf.setDataSource(generateTestDataSource());
 		sf.setPackagesToScan(new String[] { "com.fredtm.core.model" });
 		sf.setHibernateProperties(additionalProperties());
 		return sf;
@@ -41,7 +40,7 @@ public class DBConfig {
 	@Bean
 	LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(generateDataSource());
+		em.setDataSource(generateTestDataSource());
 		em.setPackagesToScan(new String[] { "com.fredtm.core.model" });
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -52,24 +51,12 @@ public class DBConfig {
 	@Bean
 	DataSource generateTestDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/fredtm");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
+		dataSource.setUrl("jdbc:hsqldb:hsql//localhost/");
+		dataSource.setUsername("sa");
+		dataSource.setPassword("sa");
 		return dataSource;
 	}
-
-	
-	@Bean
-	DataSource generateDataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/fredtm");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-		return dataSource;
-	}
-
 
 	@Bean
 	PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
@@ -78,9 +65,9 @@ public class DBConfig {
 
 	Properties additionalProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.dialect",
-				"org.hibernate.dialect.MySQL5Dialect");
+				"org.hibernate.dialect.HSQLDialect");
 		properties.setProperty("show_sql", "true");
 		return properties;
 	}
