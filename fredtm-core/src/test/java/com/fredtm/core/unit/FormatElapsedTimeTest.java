@@ -1,4 +1,4 @@
-package com.fredtm.core;
+package com.fredtm.core.unit;
 
 import static org.junit.Assert.assertEquals;
 

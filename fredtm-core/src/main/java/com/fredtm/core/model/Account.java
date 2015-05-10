@@ -51,6 +51,9 @@ public class Account extends FredEntity {
 		this.passwordHash = hash;
 	}
 
+	public void hashInfo() {
+		passwordHash = new HashGenerator().toHash(passwordHash);		
+	}
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
@@ -82,5 +85,6 @@ public class Account extends FredEntity {
 				.append(getPasswordHash(), other.getPasswordHash())
 				.append(getName(), other.getName()).isEquals();
 	}
+
 
 }

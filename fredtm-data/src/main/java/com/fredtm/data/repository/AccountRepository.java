@@ -10,6 +10,6 @@ import com.fredtm.core.model.Account;
 @Transactional
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
-	 Optional<Account> getByEmailAndPasswordHash(String password,String passwordHash);
+	 Optional<Account> getByEmailAndPasswordHash(String email,String passwordHash);
 	
 }

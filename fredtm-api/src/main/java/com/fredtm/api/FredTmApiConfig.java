@@ -17,6 +17,7 @@ import com.fredtm.data.repository.OperationRepository;
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 @ComponentScan(basePackages = { 
 		"com.fredtm.data",
+		"com.fredtm.service",
 		"com.fredtm.api",
 		"com.fredtm.api.rest" }
 )

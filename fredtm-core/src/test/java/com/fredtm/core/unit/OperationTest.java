@@ -1,7 +1,12 @@
-package com.fredtm.core;
+package com.fredtm.core.unit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
@@ -130,6 +135,42 @@ public class OperationTest {
 		Operation op1 = new Operation("A", "B", "C");
 		Operation op2 = new Operation("A1", "B", "C");
 		assertTrue(!op1.equals(op2));
+	}
+
+	@Test
+	public void uuidMustNotBeNull() {
+		Operation op = new Operation("Drink coke", "Coca-cola",
+				"Full of coke with ice cubes");
+		op.configureUUID();
+		assertNotNull(op.getUuid());
+	}
+
+	@Test
+	public void operationWasModifiedAfterThisDate() {
+		Operation op = new Operation("Drink coke", "Coca-cola",
+				"Full of coke with ice cubes");
+		Calendar instance = GregorianCalendar.getInstance();
+		instance.set(2014, 11, 27,
+				10, 22, 53);
+		op.setModified(instance.getTime());
+		instance.set(2014, 10, 29,
+				12, 03, 21);
+		Date oldModification = instance.getTime();
+		assertTrue(op.wasModifiedAfter(oldModification));
+	}
+	
+	@Test
+	public void operationNotModifiedAfterThisDate() {
+		Operation op = new Operation("Drink coke", "Coca-cola",
+				"Full of coke with ice cubes");
+		Calendar instance = GregorianCalendar.getInstance();
+		instance.set(2014, 11, 27,
+				10, 22, 53);
+		op.setModified(instance.getTime());
+		instance.add(Calendar.DATE, 1);
+		Date newModification = instance.getTime();
+		
+		assertTrue(op.wasModifiedBefore(newModification));
 	}
 
 }

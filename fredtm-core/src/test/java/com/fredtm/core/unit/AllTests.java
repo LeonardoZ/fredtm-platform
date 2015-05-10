@@ -1,4 +1,4 @@
-package com.fredtm.core;
+package com.fredtm.core.unit;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
