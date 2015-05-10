@@ -2,6 +2,7 @@
 *.pydevproject
 .metadata
 Servers/
+RemoveSystemsTempFiles/
 .classpath
 .project
 .gradle
