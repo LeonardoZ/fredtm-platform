@@ -1,6 +1,9 @@
 # Eclipse gitignore
 *.pydevproject
 .metadata
+Servers/
+.classpath
+.project
 .gradle
 bin/
 tmp/
