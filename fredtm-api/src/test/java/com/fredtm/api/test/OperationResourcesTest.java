@@ -40,7 +40,8 @@ public class OperationResourcesTest {
 	@Test
 	public void doTest() {
 		given()
-			.relaxedHTTPSValidation().auth()
+			.relaxedHTTPSValidation()
+				.auth()
 				.basic("leo.zapparoli@gmail.com", "123")
 				.header("Accept", "application/json").log().all().then()
 				.get("/operation").then().statusCode(is(200));

@@ -11,7 +11,9 @@
     <modules>
 	<module>fredtm-core</module>
   	<module>fredtm-desktop</module>
-    <module>fredtm-webapp</module>
+        <module>fredtm-data</module>
+        <module>fredtm-api</module>
+        <module>fredtm-webapp</module>
   </modules>
 
     <build>
