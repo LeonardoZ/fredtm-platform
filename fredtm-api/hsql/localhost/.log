@@ -1,6 +1,6 @@
-/*C27*/SET SCHEMA PUBLIC
+/*C16*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C28*/SET SCHEMA PUBLIC
+/*C17*/SET SCHEMA PUBLIC
 drop table account if exists
 drop table activity if exists
 drop table collect if exists
@@ -20,9 +20,9 @@ alter table operation add constraint FK_cwjmw3oq5fhkceahr96k1xh3n foreign key (a
 alter table time_activity add constraint FK_6rb7b3rw67901r5q6j13r3wiu foreign key (activity_id) references activity
 alter table time_activity add constraint FK_akvhrpy70tcblvhjd6fg1yb2v foreign key (collect_id) references collect
 DISCONNECT
-/*C29*/SET SCHEMA PUBLIC
+/*C18*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C30*/SET SCHEMA PUBLIC
+/*C19*/SET SCHEMA PUBLIC
 alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
 alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
 alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
@@ -47,6 +47,79 @@ alter table operation add constraint FK_cwjmw3oq5fhkceahr96k1xh3n foreign key (a
 alter table time_activity add constraint FK_6rb7b3rw67901r5q6j13r3wiu foreign key (activity_id) references activity
 alter table time_activity add constraint FK_akvhrpy70tcblvhjd6fg1yb2v foreign key (collect_id) references collect
 DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+INSERT INTO ACCOUNT VALUES(1,'leo.zapparoli@gmail.com','leo','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(2,'beth.zapparoli@gmail.com','Beth','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(3,'ze.zapparoli@gmail.com','Z\u00e9','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(4,'henrique.zapparoli@gmail.com','Henrique','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(5,'rafael.zapparoli@gmail.com','Rafael','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(6,'pedro.zapparoli@gmail.com','Pedro','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(7,'hana.zapparoli@gmail.com','Hana','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+COMMIT
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C22*/SET SCHEMA PUBLIC
+DELETE FROM ACCOUNT WHERE ID=1
+DELETE FROM ACCOUNT WHERE ID=2
+DELETE FROM ACCOUNT WHERE ID=3
+DELETE FROM ACCOUNT WHERE ID=4
+DELETE FROM ACCOUNT WHERE ID=5
+DELETE FROM ACCOUNT WHERE ID=6
+DELETE FROM ACCOUNT WHERE ID=7
+COMMIT
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+INSERT INTO ACCOUNT VALUES(1,'leo.zapparoli@gmail.com','leo','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(2,'beth.zapparoli@gmail.com','Beth','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(3,'ze.zapparoli@gmail.com','Z\u00e9','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(4,'henrique.zapparoli@gmail.com','Henrique','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(5,'rafael.zapparoli@gmail.com','Rafael','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(6,'pedro.zapparoli@gmail.com','Pedro','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(7,'hana.zapparoli@gmail.com','Hana','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+COMMIT
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+DELETE FROM ACCOUNT WHERE ID=1
+DELETE FROM ACCOUNT WHERE ID=2
+DELETE FROM ACCOUNT WHERE ID=3
+DELETE FROM ACCOUNT WHERE ID=4
+DELETE FROM ACCOUNT WHERE ID=5
+DELETE FROM ACCOUNT WHERE ID=6
+DELETE FROM ACCOUNT WHERE ID=7
+COMMIT
+DISCONNECT
+/*C26*/SET SCHEMA PUBLIC
+INSERT INTO ACCOUNT VALUES(1,'leo.zapparoli@gmail.com','leo','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(2,'beth.zapparoli@gmail.com','Beth','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(3,'ze.zapparoli@gmail.com','Z\u00e9','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(4,'henrique.zapparoli@gmail.com','Henrique','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(5,'rafael.zapparoli@gmail.com','Rafael','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(6,'pedro.zapparoli@gmail.com','Pedro','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+INSERT INTO ACCOUNT VALUES(7,'hana.zapparoli@gmail.com','Hana','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
+COMMIT
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+INSERT INTO ACCOUNT VALUES(8,'leo-zapp@gmail.com','Zapparoli','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92')
+COMMIT
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+DELETE FROM ACCOUNT WHERE ID=1
+DELETE FROM ACCOUNT WHERE ID=2
+DELETE FROM ACCOUNT WHERE ID=3
+DELETE FROM ACCOUNT WHERE ID=4
+DELETE FROM ACCOUNT WHERE ID=5
+DELETE FROM ACCOUNT WHERE ID=6
+DELETE FROM ACCOUNT WHERE ID=7
+DELETE FROM ACCOUNT WHERE ID=8
+COMMIT
+DISCONNECT
 /*C31*/SET SCHEMA PUBLIC
 INSERT INTO ACCOUNT VALUES(1,'leo.zapparoli@gmail.com','leo','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
 INSERT INTO ACCOUNT VALUES(2,'beth.zapparoli@gmail.com','Beth','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
@@ -56,4 +129,45 @@ INSERT INTO ACCOUNT VALUES(5,'rafael.zapparoli@gmail.com','Rafael','a665a4592042
 INSERT INTO ACCOUNT VALUES(6,'pedro.zapparoli@gmail.com','Pedro','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
 INSERT INTO ACCOUNT VALUES(7,'hana.zapparoli@gmail.com','Hana','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3')
 COMMIT
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C33*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DELETE FROM ACCOUNT WHERE ID=1
+DELETE FROM ACCOUNT WHERE ID=2
+DELETE FROM ACCOUNT WHERE ID=3
+DELETE FROM ACCOUNT WHERE ID=4
+DELETE FROM ACCOUNT WHERE ID=5
+DELETE FROM ACCOUNT WHERE ID=6
+DELETE FROM ACCOUNT WHERE ID=7
+COMMIT
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
+alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
+alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
+alter table time_activity drop constraint FK_6rb7b3rw67901r5q6j13r3wiu
+alter table time_activity drop constraint FK_akvhrpy70tcblvhjd6fg1yb2v
+drop table account if exists
+drop table activity if exists
+drop table collect if exists
+drop table operation if exists
+drop table time_activity if exists
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+drop table account if exists
+drop table activity if exists
+drop table collect if exists
+drop table operation if exists
+drop table time_activity if exists
 DISCONNECT

@@ -43,10 +43,8 @@ public class TimeActivity extends FredEntity {
 	@Column(name="final_date")
 	private long finalDate = 0l;
 
-
 	@Column(name="start_date")
 	private long startDate = 0l;
-	
 
 	@Column
 	private long timed = 0l;

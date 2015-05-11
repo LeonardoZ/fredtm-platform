@@ -89,7 +89,9 @@ public class AccountResources {
 			@QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("elements") @DefaultValue("3") int elements) {
 		Page<Account> allAccounts = service.getAllAccounts(page, elements);
-
+		if (!allAccounts.hasContent()) {
+			return Response.ok().build();
+		}
 		List<AccountResource> ress = configureResources(allAccounts
 				.getContent());
 
@@ -99,21 +101,32 @@ public class AccountResources {
 						allAccounts.getTotalPages()));
 		resources.add(JaxRsLinkBuilder.linkTo(AccountResources.class)
 				.slash("/all").withRel("self"));
-
-		int totalPages = allAccounts.getTotalPages();
-		Pageable pageable = allAccounts.nextPageable();
-		int i = 0;
-		while (i <= totalPages && pageable != null) {
-			int number = pageable.getPageNumber();
-			Link otherPage = entityLinks.linkFor(AccountResource.class)
-					.slash("/all?page=" + number + "&elements=" + elements)
-					.withRel("page_" + number);
-			resources.add(otherPage);
-			pageable =  pageable.next();
-			i++;
+		List<Link> links = new ArrayList<>();
+		Pageable prev, next;
+		// Algumas páginas
+		// prev next first last
+		if (allAccounts.hasNext()) {
+			next = allAccounts.nextPageable();
+			links.add(pageLink(next.getPageNumber(), elements, "next"));
+		}
+		if (allAccounts.hasPrevious()) {
+			prev = allAccounts.previousPageable().previousOrFirst();
+			links.add(pageLink(prev.getPageNumber(), elements, "prev"));
 		}
 
+		links.add(pageLink(0, elements, "first"));
+		links.add(pageLink(allAccounts.getTotalPages(), elements, "last"));
+
+		resources.add(links);
+
 		return Response.ok(resources).build();
+	}
+
+	public Link pageLink(int number, int elements, String rel) {
+		Link otherPage = entityLinks.linkFor(AccountResource.class)
+				.slash("/all?page=" + number + "&elements=" + elements)
+				.withRel(rel);
+		return otherPage;
 	}
 
 	private List<AccountResource> configureResources(List<Account> accounts) {

@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,9 +48,12 @@ public class Operation extends FredEntity {
 	@JoinColumn(name = "account_id")
 	@ManyToOne(optional = true)
 	private Account account;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
+
+	@ManyToMany(mappedBy = "operations")
+	private List<Sync> syncs;
 
 	public Operation(String name, String company,
 			String technicalCharacteristics) {
@@ -72,8 +76,8 @@ public class Operation extends FredEntity {
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
 	}
-	
-	public void configureUUID(){
+
+	public void configureUUID() {
 		this.uuid = UUID.randomUUID();
 	}
 
@@ -175,19 +179,19 @@ public class Operation extends FredEntity {
 	public Date getModified() {
 		return modified;
 	}
-	
+
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
-	
-	public boolean wasModifiedAfter(Date date){
+
+	public boolean wasModifiedAfter(Date date) {
 		return modified.after(date);
 	}
-	
-	public boolean wasModifiedBefore(Date date){
+
+	public boolean wasModifiedBefore(Date date) {
 		return modified.before(date);
 	}
-	
+
 	@Override
 	public String toString() {
 		return name + " - " + company;

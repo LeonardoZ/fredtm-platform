@@ -1,4 +1,4 @@
-package com.fredtm.api.test;
+package com.fredtm.api.integration;
 
 import static com.jayway.restassured.RestAssured.basePath;
 import static com.jayway.restassured.RestAssured.baseURI;
@@ -22,6 +22,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.fredtm.api.FredTmApiConfig;
 import com.fredtm.api.dto.AccountResource;
+import com.fredtm.api.test.TestBase;
 import com.fredtm.core.util.HashGenerator;
 import com.google.gson.Gson;
 
@@ -89,14 +90,14 @@ public class AccountResourcesTest extends TestBase {
 		List<Map> list = makeRequest().and().given().queryParam("page", 0)
 				.queryParam("elements", 3).get("/account/all").andReturn()
 				.jsonPath().get("links");
-		System.err.println(list.get(3).get("rel"));
-		
-		String url = list.get(2).get("href").toString()
-				.substring("https://localhost:9000/fredapi/".length());
-		
-		System.out.println("Minha url é =" + url);
 
-		makeRequest().and().given().get(url).andReturn().prettyPrint();
+		String url = list.get(1).get("href").toString()
+				.substring("https://localhost:9000/fredapi/".length());
+
+
+		int size = makeRequest().and().given().get(url).andReturn().jsonPath()
+				.getList("content").size();
+		assertEquals(3, size);
 
 	}
 
