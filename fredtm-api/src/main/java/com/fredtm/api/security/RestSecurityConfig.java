@@ -24,8 +24,9 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		 auth.jdbcAuthentication()
 		 .dataSource(ds)
+		
 		 .usersByUsernameQuery(
-		 "select email as username, passwordHash as password,1 as enabled from account where email = ?")
+		 "select email as username, password_hash as password,1 as enabled from account where email = ?")
 		 .authoritiesByUsernameQuery(
 		 "select email as username,'ROLE_USER' as authority from account where email = ?");
 

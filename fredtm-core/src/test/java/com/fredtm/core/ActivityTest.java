@@ -3,6 +3,7 @@ package com.fredtm.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.fredtm.core.model.Activity;
@@ -44,7 +45,7 @@ public class ActivityTest {
 	public void invalidActivityTypeIdShouldBeTheDefualtValueProductive() {
 		Activity activity = new Activity();
 		activity.setActivityType(334232);
-		assertEquals(ActivityType.PRODUCTIVE, activity.getActivityType());
+		Assert.assertEquals(ActivityType.PRODUCTIVE, activity.getActivityType());
 	}
 
 	@Test

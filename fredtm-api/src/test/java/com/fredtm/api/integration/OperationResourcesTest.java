@@ -1,4 +1,4 @@
-package com.fredtm.api.test;
+package com.fredtm.api.integration;
 
 import static com.jayway.restassured.RestAssured.basePath;
 import static com.jayway.restassured.RestAssured.baseURI;
@@ -42,7 +42,7 @@ public class OperationResourcesTest {
 		given()
 			.relaxedHTTPSValidation()
 				.auth()
-				.basic("leo.zapparoli@gmail.com", "123")
+				.basic("leo.zapparoli@gmail.csom", "123")
 				.header("Accept", "application/json").log().all().then()
 				.get("/operation").then().statusCode(is(200));
 	}
