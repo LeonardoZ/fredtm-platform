@@ -1,6 +1,8 @@
 package com.fredtm.core.model;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -43,6 +47,9 @@ public class Operation extends FredEntity {
 	@JoinColumn(name = "account_id")
 	@ManyToOne(optional = true)
 	private Account account;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modified;
 
 	public Operation(String name, String company,
 			String technicalCharacteristics) {
@@ -55,6 +62,7 @@ public class Operation extends FredEntity {
 	public Operation() {
 		activities = new ArrayList<Activity>();
 		collects = new ArrayList<Collect>();
+		modified = GregorianCalendar.getInstance().getTime();
 	}
 
 	public UUID getUuid() {
@@ -63,6 +71,10 @@ public class Operation extends FredEntity {
 
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
+	}
+	
+	public void configureUUID(){
+		this.uuid = UUID.randomUUID();
 	}
 
 	public String getName() {
@@ -160,6 +172,22 @@ public class Operation extends FredEntity {
 		return null;
 	}
 
+	public Date getModified() {
+		return modified;
+	}
+	
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+	
+	public boolean wasModifiedAfter(Date date){
+		return modified.after(date);
+	}
+	
+	public boolean wasModifiedBefore(Date date){
+		return modified.before(date);
+	}
+	
 	@Override
 	public String toString() {
 		return name + " - " + company;

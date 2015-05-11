@@ -7,6 +7,10 @@ public class HashGenerator {
 
 	private MessageDigest messageDigest;
 
+	public String toHash(CharSequence password) {
+		return toHash(password.toString());
+	}
+
 	public String toHash(String password) {
 		try {
 			return calculate(password);

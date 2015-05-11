@@ -1,4 +1,5 @@
 package com.fredtm.data;
+
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -18,17 +19,16 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
 @Configuration
-@EnableJpaRepositories(basePackages={
-		"com.fredtm.data",
-		"com.fredtm.data.repository" },transactionManagerRef = "transactionManager")
+@EnableJpaRepositories(basePackages = { "com.fredtm.data",
+		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-@ComponentScan(basePackages={"com.fredtm.data.repository"})
+@ComponentScan(basePackages = { "com.fredtm.data.repository",
+		"com.fredtm.service" })
 @EnableTransactionManagement
 @Profile("dev")
 public class DBConfig {
-	
+
 	@Bean
 	LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
@@ -59,7 +59,6 @@ public class DBConfig {
 		return dataSource;
 	}
 
-	
 	@Bean
 	DataSource generateDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -69,7 +68,6 @@ public class DBConfig {
 		dataSource.setPassword("root");
 		return dataSource;
 	}
-
 
 	@Bean
 	PersistenceExceptionTranslationPostProcessor exceptionTranslation() {

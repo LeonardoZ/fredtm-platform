@@ -23,7 +23,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",
 		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-@ComponentScan(basePackages = { "com.fredtm.data.repository" })
+@ComponentScan(basePackages = { "com.fredtm.data.repository",
+		"com.fredtm.service" })
 @EnableTransactionManagement
 @Profile("test")
 public class TestDBConfig {
