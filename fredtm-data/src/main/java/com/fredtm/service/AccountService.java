@@ -2,6 +2,8 @@ package com.fredtm.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 import com.fredtm.core.model.Account;
 
 public interface AccountService {
@@ -13,5 +15,9 @@ public interface AccountService {
 	Account createAccount(Account account);
 
 	Optional<Account> loginAccount(String email, String pass);
+
+	Account getAccount(long id);
+
+	Page<Account> getAllAccounts(int page, int elementsInRequest);
 
 }

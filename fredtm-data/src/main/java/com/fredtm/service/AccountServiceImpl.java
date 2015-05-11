@@ -3,6 +3,9 @@ package com.fredtm.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +49,16 @@ public class AccountServiceImpl implements AccountService {
 	public Optional<Account> loginAccount(String email, String pass) {
 		String hash = new HashGenerator().toHash(pass);
 		return repository.getByEmailAndPasswordHash(email, hash);
+	}
+
+	@Override
+	public Account getAccount(long id) {
+		return repository.findOne(id);
+	}
+
+	@Override
+	public Page<Account> getAllAccounts(int page, int elementsInRequest) {
+		PageRequest request = new PageRequest(page, elementsInRequest, Sort.Direction.ASC, "name");
+		return repository.findAll(request);
 	}
 }

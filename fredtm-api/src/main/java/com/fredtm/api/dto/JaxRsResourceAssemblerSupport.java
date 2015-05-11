@@ -16,6 +16,7 @@ public abstract class JaxRsResourceAssemblerSupport<T, D extends ResourceSupport
 		super(controllerClass, resourceType);
 		this.controllerClass = controllerClass;
 	}
+	
 
 	@Override
 	protected D createResourceWithId(Object id, T entity, Object... parameters) {

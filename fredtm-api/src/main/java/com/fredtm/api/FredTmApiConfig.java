@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.hateoas.config.EnableEntityLinks;
 
 import com.fredtm.data.repository.OperationRepository;
 
@@ -21,6 +22,7 @@ import com.fredtm.data.repository.OperationRepository;
 		"com.fredtm.api",
 		"com.fredtm.api.rest" }
 )
+@EnableEntityLinks
 public class FredTmApiConfig {
 	
 	@Autowired

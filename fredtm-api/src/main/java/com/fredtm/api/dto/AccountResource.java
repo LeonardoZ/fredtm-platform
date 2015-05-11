@@ -4,38 +4,38 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.hateoas.ResourceSupport;
 
-public class AccountDto extends ResourceSupport {
+public class AccountResource extends ResourceSupport {
 
-	private int pkId;
+	private long pkId;
 	private String name;
 	private String email;
 	private String password;
 
-	public AccountDto id(int id) {
+	public AccountResource id(long id) {
 		this.pkId = id;
 		return this;
 	}
 
-	public AccountDto name(String name) {
+	public AccountResource name(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public AccountDto email(String email) {
+	public AccountResource email(String email) {
 		this.email = email;
 		return this;
 	}
 
-	public AccountDto password(String pass) {
+	public AccountResource password(String pass) {
 		this.password = pass;
 		return this;
 	}
 
-	public int getPkId() {
+	public long getPkId() {
 		return pkId;
 	}
 
-	public void setPkId(int id) {
+	public void setPkId(long id) {
 		this.pkId = id;
 	}
 
@@ -77,7 +77,7 @@ public class AccountDto extends ResourceSupport {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AccountDto other = (AccountDto) obj;
+		AccountResource other = (AccountResource) obj;
 		return new EqualsBuilder().append(getEmail(), other.getEmail())
 				.append(getName(), other.getName())
 				.append(getPassword(), other.getPassword()).isEquals();

@@ -16,7 +16,7 @@ public class FredEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long id = 0l;
+	protected long id = 0l;
 	
 	@Transient
 	protected final Validation validation;
@@ -25,7 +25,7 @@ public class FredEntity implements Serializable {
 		validation = new Validation();
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
