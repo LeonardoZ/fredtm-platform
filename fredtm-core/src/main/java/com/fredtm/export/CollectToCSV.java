@@ -1,4 +1,4 @@
-package com.fredtm.exportar;
+package com.fredtm.export;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,32 +16,32 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
 
-public class ColetaToCSV implements Exportavel<Collect> {
+public class CollectToCSV implements Exportable<Collect> {
 
 	private static final String SUFIX = ".csv";
-	private String diretorioDestino;
+	private String destinationDirectory;
 
-	public ColetaToCSV() {
+	public CollectToCSV() {
 
 	}
 
-	public ColetaToCSV(String diretorioDestino) {
+	public CollectToCSV(String directoryDestination) {
 		super();
-		this.diretorioDestino = diretorioDestino;
+		this.destinationDirectory = directoryDestination;
 	}
 
-	public void setDiretorioDestino(String diretorioDestino) {
-		this.diretorioDestino = diretorioDestino;
+	public void setdirectoryDestination(String directoryDestination) {
+		this.destinationDirectory = directoryDestination;
 	}
 
-	public void exportar(Collect coleta, String caminho)
-			throws ErroDeExportacaoExcetion {
-		diretorioDestino = caminho;
-		List<TimeActivity> tempos = coleta.getTimeInChronologicalOrder();
+	public void export(Collect collect, String path)
+			throws ExportationErrorExcetion {
+		destinationDirectory = path;
+		List<TimeActivity> tempos = collect.getTimeInChronologicalOrder();
 		if (tempos.isEmpty())
 			return;
-		String filename = fileNameGen(coleta.getOperation().getCompany() + "_"
-				+ coleta.getOperation().getName());
+		String filename = fileNameGenenerator(collect.getOperation().getCompany() + "_"
+				+ collect.getOperation().getName());
 
 		try {
 			CSVWriter w;
@@ -53,24 +53,24 @@ public class ColetaToCSV implements Exportavel<Collect> {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos,
 					"UTF8"));
 			w = new CSVWriter(bw, ',');
-			List<String[]> vals = gerarLinhas(coleta);
+			List<String[]> vals = generateLines(collect);
 
 			w.writeAll(vals);
 			w.flush();
 			w.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new ErroDeExportacaoExcetion();
+			throw new ExportationErrorExcetion();
 		}
 	}
 
-	public void exportar(List<Collect> coletas, String caminho)
-			throws ErroDeExportacaoExcetion {
-		diretorioDestino = caminho;
+	public void export(List<Collect> collects, String path)
+			throws ExportationErrorExcetion {
+		destinationDirectory = path;
 		int i = 1;
-		for (Collect c : coletas) {
+		for (Collect c : collects) {
 			if (!c.getTimes().isEmpty()) {
-				String filename = fileNameGenParaTodos(c.getOperation()
+				String filename = fileNameGenerationForAll(c.getOperation()
 						.getCompany() + "_" + c.getOperation().getName(),
 						String.valueOf(i++));
 				try {
@@ -83,80 +83,80 @@ public class ColetaToCSV implements Exportavel<Collect> {
 					BufferedWriter bw = new BufferedWriter(
 							new OutputStreamWriter(fos, "UTF8"));
 					w = new CSVWriter(bw, ',');
-					List<String[]> vals = gerarLinhas(c);
+					List<String[]> vals = generateLines(c);
 
 					w.writeAll(vals);
 					w.flush();
 					w.close();
 				} catch (IOException e) {
 					e.printStackTrace();
-					throw new ErroDeExportacaoExcetion();
+					throw new ExportationErrorExcetion();
 				}
 			}
 		}
 	}
 
-	private List<String[]> gerarLinhas(Collect coleta) {
-		List<TimeActivity> tempos = coleta.getTimeInChronologicalOrder();
+	private List<String[]> generateLines(Collect collect) {
+		List<TimeActivity> tempos = collect.getTimeInChronologicalOrder();
 		List<String[]> vals = new ArrayList<String[]>();
 		String[] headers = {
 				"Data",
 				"Hora",
-				"Activity parcial",
+				"Atividade parcial",
 				"Descricao",
 				"Classificacao",
-				coleta.getQuantitativeActivity() == null ? "N/A" : coleta
+				collect.getQuantitativeActivity() == null ? "N/A" : collect
 						.getQuantitativeActivity().getItemName(),
 				"Duracao(s)", "Tempo acumulado(s)" };
 		vals.add(headers);
 
 		long sum = 0l;
 
-		for (TimeActivity tempo : tempos) {
-			long tempoCronometrado = tempo.getEllapsedTimeInSeconds();
-			sum += tempoCronometrado;
-			String[] dataInicioSeparada = tempo.getSplitedStartDate();
+		for (TimeActivity timeActivity : tempos) {
+			long measuredTime = timeActivity.getEllapsedTimeInSeconds();
+			sum += measuredTime;
+			String[] dataInicioSeparada = timeActivity.getSplitedStartDate();
 			String[] line = {
 					dataInicioSeparada[0],
 					dataInicioSeparada[1],
-					tempo.getActivity().getTitle(),
-					tempo.getActivity().getDescription(),
-					tempo.getActivity().getActivityType().name(),
-					tempo.getActivity().isQuantitative() ? tempo
+					timeActivity.getActivity().getTitle(),
+					timeActivity.getActivity().getDescription(),
+					timeActivity.getActivity().getActivityType().name(),
+					timeActivity.getActivity().isQuantitative() ? timeActivity
 							.getCollectedAmount().toString() : "n/a",
-					Long.toString(tempoCronometrado), Long.toString(sum) };
+					Long.toString(measuredTime), Long.toString(sum) };
 			vals.add(line);
 		}
 		return vals;
 	}
 
-	private String fileNameGen(String conteudo) {
+	private String fileNameGenenerator(String content) {
 
-		String path = diretorioDestino + "/fred_tm";
+		String path = destinationDirectory + "/fred_tm";
 		File folder = new File(path);
 		if (!folder.exists()) {
 			folder.mkdir();
 		}
 		Date dt = GregorianCalendar.getInstance().getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
-		return path + "/" + conteudo + "_" + sdf.format(dt) + SUFIX;
+		return path + "/" + content + "_" + sdf.format(dt) + SUFIX;
 	}
 
-	private String fileNameGenParaTodos(String conteudo, String valorDoArquivo) {
-		String path = diretorioDestino + "/fred_tm";
+	private String fileNameGenerationForAll(String conteudo, String fileValue) {
+		String path = destinationDirectory + "/fred_tm";
 		File folder = new File(path);
 		if (!folder.exists()) {
 			folder.mkdir();
 		}
 		Date dt = GregorianCalendar.getInstance().getTime();
-		SimpleDateFormat sdfPasta = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
 
-		String subFolder = path + "/" + conteudo + "_" + sdfPasta.format(dt);
+		String subFolder = path + "/" + conteudo + "_" + dateFormat.format(dt);
 		File sub = new File(subFolder);
 		if (!sub.exists()) {
 			sub.mkdir();
 		}
-		return sub + "/" + valorDoArquivo + SUFIX;
+		return sub + "/" + fileValue + SUFIX;
 	}
 
 }

@@ -1,12 +1,12 @@
-package com.fredtm.api.dto;
+package com.fredtm.api.resource;
 
 import com.fredtm.api.rest.AccountResources;
 import com.fredtm.core.model.Account;
 
-public class ActivityResourceAssembler extends
+public class AccountResourceAssembler extends
 		JaxRsResourceAssemblerSupport<Account, AccountResource> {
 
-	public ActivityResourceAssembler() {
+	public AccountResourceAssembler() {
 		super(AccountResources.class, AccountResource.class);
 	}
 

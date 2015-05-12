@@ -24,8 +24,8 @@ import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.jaxrs.JaxRsLinkBuilder;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.dto.AccountResource;
-import com.fredtm.api.dto.AccountResourceAssembler;
+import com.fredtm.api.resource.AccountResource;
+import com.fredtm.api.resource.AccountResourceAssembler;
 import com.fredtm.core.model.Account;
 import com.fredtm.service.AccountService;
 

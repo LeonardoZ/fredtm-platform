@@ -1,4 +1,4 @@
-package com.fredtm.exportar;
+package com.fredtm.export;
 
 import java.util.Comparator;
 import java.util.List;
@@ -9,7 +9,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class OperacoesToJson implements Exportavel<Operation> {
+public class OperationsToJson implements Exportable<Operation> {
 
 	 private Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
          @Override
@@ -23,18 +23,17 @@ public class OperacoesToJson implements Exportavel<Operation> {
          }
      }).create();
 	@Override
-	public void exportar(Operation t, String caminho)
-			throws ErroDeExportacaoExcetion {
+	public void export(Operation t, String path)
+			throws ExportationErrorExcetion {
 		String json = gson.toJson(t);
-		salvarEmArquivo(caminho, json);
-
+		saveInFile(path, json);
 	}
 
 	@Override
-	public void exportar(List<Operation> t, String caminho)
-			throws ErroDeExportacaoExcetion {
+	public void export(List<Operation> t, String path)
+			throws ExportationErrorExcetion {
 		String json = gson.toJson(t);
-		salvarEmArquivo(caminho, json);
+		saveInFile(path, json);
 	}
 
 }

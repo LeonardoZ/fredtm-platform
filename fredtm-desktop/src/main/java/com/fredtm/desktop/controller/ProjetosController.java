@@ -34,15 +34,15 @@ public class ProjetosController extends BaseController implements Initializable 
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		MenuItem menuColeta = new MenuItem("Ver coletas");
+		MenuItem menucollect = new MenuItem("Ver collects");
 		MenuItem menuAtividade = new MenuItem("Ver atividades");
 		MenuItem menuExportar = new MenuItem("Exportar todas operações");
 		menuAtividade.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoAbrirAtividades(operation));
-		menuColeta.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoAbrirColetas(operation));
+		menucollect.setOnAction(ev -> MainEventBus.INSTANCE
+				.eventoAbrircollects(operation));
 		menuExportar.setOnAction(ev -> exportarOperacoes());
-		ContextMenu contextMenu = new ContextMenu(menuColeta, menuAtividade,menuExportar);
+		ContextMenu contextMenu = new ContextMenu(menucollect, menuAtividade,menuExportar);
 		contextMenu.setStyle("-fx-background-color: #fff");
 		contextMenu.setAutoFix(true);
 		listViewProjetos.setContextMenu(contextMenu);

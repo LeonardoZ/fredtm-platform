@@ -1,5 +1,6 @@
-package com.fredtm.api.dto;
+package com.fredtm.api.resource;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.hateoas.ResourceSupport;
@@ -12,7 +13,7 @@ public class OperationResource extends ResourceSupport {
 	private String technicalCharacteristics;
 	private long accountId;
 	private String accountHref;
-	private String modification;
+	private Date modification;
 	// private Map<Long, String> activities;
 	// private Map<Long, String> collects;
 	// private Map<Long, String> syncs;
@@ -51,26 +52,25 @@ public class OperationResource extends ResourceSupport {
 		return this;
 	}
 
-	public OperationResource modification(String value) {
+	public OperationResource modification(Date value) {
 		this.modification = value;
 		return this;
 	}
 
-	// public OperationResource putActivity(Long id, String value) {
-	// activities.put(id, value);
-	// return this;
-	// }
-	//
-	// public OperationResource putCollect(Long id, String value) {
-	// collects.put(id, value);
-	// return this;
-	// }
-	//
-	// public OperationResource putSync(Long id, String value) {
-	// syncs.put(id, value);
-	// return this;
-	// }
+	public OperationResource syncs(List<SyncResource> value) {
+		this.syncsList = value;
+		return this;
+	}
 
+	public OperationResource collects(List<CollectResource> value) {
+		this.collectsList = value;
+		return this;
+	}
+	
+	public OperationResource activities(List<ActivityResource> value) {
+		this.acitiviesList = value;
+		return this;
+	}
 	public String getUuid() {
 		return uuid;
 	}
@@ -119,37 +119,13 @@ public class OperationResource extends ResourceSupport {
 		this.accountHref = accountHref;
 	}
 
-	public String getModification() {
+	public Date getModification() {
 		return modification;
 	}
 
-	public void setModification(String modification) {
+	public void setModification(Date modification) {
 		this.modification = modification;
 	}
-
-	// public Map<Long, String> getActivities() {
-	// return activities;
-	// }
-	//
-	// public void setActivities(Map<Long, String> activities) {
-	// this.activities = activities;
-	// }
-	//
-	// public Map<Long, String> getCollects() {
-	// return collects;
-	// }
-	//
-	// public void setCollects(Map<Long, String> collects) {
-	// this.collects = collects;
-	// }
-	//
-	// public Map<Long, String> getSyncs() {
-	// return syncs;
-	// }
-	//
-	// public void setSyncs(Map<Long, String> syncs) {
-	// this.syncs = syncs;
-	// }
 
 	public List<ActivityResource> getAcitiviesList() {
 		return acitiviesList;

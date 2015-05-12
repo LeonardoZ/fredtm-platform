@@ -1,4 +1,4 @@
-package com.fredtm.api.dto;
+package com.fredtm.api.resource;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

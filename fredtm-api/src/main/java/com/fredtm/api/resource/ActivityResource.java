@@ -1,4 +1,4 @@
-package com.fredtm.api.dto;
+package com.fredtm.api.resource;
 
 import org.springframework.hateoas.ResourceSupport;
 

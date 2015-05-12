@@ -6,20 +6,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.TemposColetadosController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.TemposcollectdosController">
    <children>
       <TableView fx:id="tbAtividades" layoutY="39.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="361.0" prefWidth="828.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
         <columns>
           <TableColumn fx:id="colAtividade" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="175.0" text="Atividade" />
           <TableColumn fx:id="colInicial" maxWidth="800.0" minWidth="-Infinity" prefWidth="160.0" text="Tempo inicial" />
           <TableColumn fx:id="colFinal" maxWidth="350.0" minWidth="-Infinity" prefWidth="160.0" text="Tempo final" />
-          <TableColumn fx:id="colColetado" minWidth="-Infinity" text="Total" />
+          <TableColumn fx:id="colcollectdo" minWidth="-Infinity" text="Total" />
             <TableColumn fx:id="colQuantificado" minWidth="-Infinity" prefWidth="160.0" text="Qtd. Quantificada" />
         </columns>
       </TableView>
       <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="736.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       	<children>
-    	   <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="736.0" text="Coleta - Tempos coletados" HBox.hgrow="ALWAYS">
+    	   <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="736.0" text="collect - Tempos collectdos" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Label>

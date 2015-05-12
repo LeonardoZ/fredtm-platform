@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.dto.OperationResource;
+import com.fredtm.api.resource.OperationResource;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.data.repository.SyncRepository;
 

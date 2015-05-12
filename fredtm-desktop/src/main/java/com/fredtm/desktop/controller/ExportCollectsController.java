@@ -5,8 +5,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,28 +13,30 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
+import javax.swing.JOptionPane;
+
 import com.fredtm.core.model.Collect;
 import com.fredtm.exportar.ErroDeExportacaoExcetion;
 import com.fredtm.exportar.Exportacao;
 import com.fredtm.exportar.ExportarColetaFactory;
 import com.fredtm.exportar.Exportavel;
 
-public class ExportarColetasController extends BaseController implements
+public class ExportCollectsController extends BaseController implements
 		Initializable {
 
 	@FXML
-	private ListView<Collect> listViewColetas;
+	private ListView<Collect> listViewcollects;
 	@FXML
 	private ChoiceBox<Exportacao> choiceTiposExportacao;
 	@FXML
 	private TextField tfDiretorio;
 
-	private List<Collect> coletas;
+	private List<Collect> collects;
 	private File selectedDirectory;
 
-	public void setColetas(List<Collect> coletas) {
-		this.coletas = coletas;
-		listViewColetas.getItems().addAll(coletas);
+	public void setcollects(List<Collect> collects) {
+		this.collects = collects;
+		listViewcollects.getItems().addAll(collects);
 	}
 
 	@FXML
@@ -57,11 +57,11 @@ public class ExportarColetasController extends BaseController implements
 		Exportavel<Collect> exportador = ExportarColetaFactory
 				.getExportador(choiceTiposExportacao.getValue());
 		try {
-			if (coletas.size() == 1) {
-				exportador.exportar(coletas.get(0),
+			if (collects.size() == 1) {
+				exportador.exportar(collects.get(0),
 						selectedDirectory.getAbsolutePath());
 			} else {
-				exportador.exportar(coletas,
+				exportador.exportar(collects,
 						selectedDirectory.getAbsolutePath());
 			}
 			JOptionPane.showMessageDialog(null, "Exportação completa!");

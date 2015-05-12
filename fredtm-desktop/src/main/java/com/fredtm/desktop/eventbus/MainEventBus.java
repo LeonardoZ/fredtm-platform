@@ -26,29 +26,29 @@ public class MainEventBus {
 		main.abrirAtividades(operation);
 	}
 
-	public void eventoAbrirColetas(Operation operation) {
-		main.abrirColetas(operation);
+	public void eventoAbrircollects(Operation operation) {
+		main.abrircollects(operation);
 	}
 
 	public void eventoExportarAtividades(Operation operation) {
 		main.habilitarExportarAtividades(operation);
 	}
 
-	public void eventoExportarColetas(List<Collect> coletas) {
-		main.exportarColetas(coletas);
+	public void eventoExportarcollects(List<Collect> collects) {
+		main.exportarcollects(collects);
 	}
 
-	public void eventoAbrirTemposColetados(Collect coleta) {
-		main.abrirTemposColetados(coleta);
+	public void eventoAbrirTemposcollectdos(Collect collect) {
+		main.abrirTemposcollectdos(collect);
 	}
 
-	public void eventoTiposDeGraficos(Collect coleta, List<Collect> coletas) {
-		main.abrirTiposDeGraficos(coleta, coletas);
+	public void eventoTiposDeGraficos(Collect collect, List<Collect> collects) {
+		main.abrirTiposDeGraficos(collect, collects);
 	}
 
-	public void eventoAnaliseGrafica(TiposGrafico tipo, Collect coleta,
-			List<Collect> coletas) {
-		main.abrirAnaliseGrafica(tipo, coleta, coletas);
+	public void eventoAnaliseGrafica(TiposGrafico tipo, Collect collect,
+			List<Collect> collects) {
+		main.abrirAnaliseGrafica(tipo, collect, collects);
 	}
 
 }

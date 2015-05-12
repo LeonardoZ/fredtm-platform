@@ -1,11 +1,14 @@
-package com.fredtm.api.dto;
+package com.fredtm.api.resource;
 
+import java.util.Date;
 import java.util.List;
 
-public class SyncResource {
+import org.springframework.hateoas.ResourceSupport;
+
+public class SyncResource extends ResourceSupport {
 
 	private long pkId;
-	private String when;
+	private Date when;
 	private String jsonOldData;
 	private String jsonNewData;
 	private long accountId;
@@ -14,7 +17,37 @@ public class SyncResource {
 	public SyncResource() {
 
 	}
-	
+
+	public SyncResource pkId(long value) {
+		this.pkId = value;
+		return this;
+	}
+
+	public SyncResource when(Date value) {
+		this.when = value;
+		return this;
+	}
+
+	public SyncResource jsonOldData(String value) {
+		this.jsonOldData = value;
+		return this;
+	}
+
+	public SyncResource jsonNewData(String value) {
+		this.jsonNewData = value;
+		return this;
+	}
+
+	public SyncResource accountId(long value) {
+		this.accountId = value;
+		return this;
+	}
+
+	public SyncResource operationsIds(List<Long> value) {
+		this.operationsIds = value;
+		return this;
+	}
+
 	public long getPkId() {
 		return pkId;
 	}
@@ -23,11 +56,11 @@ public class SyncResource {
 		this.pkId = pkId;
 	}
 
-	public String getWhen() {
+	public Date getWhen() {
 		return when;
 	}
 
-	public void setWhen(String when) {
+	public void setWhen(Date when) {
 		this.when = when;
 	}
 

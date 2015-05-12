@@ -13,7 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.TimeActivity;
-public class TemposColetadosController extends BaseController implements
+public class CollectedTimesController extends BaseController implements
 		Initializable {
 
 	@FXML
@@ -26,7 +26,7 @@ public class TemposColetadosController extends BaseController implements
 	private TableColumn<TimeActivity, Activity> colAtividade;
 
 	@FXML
-	private TableColumn<TimeActivity, String> colColetado;
+	private TableColumn<TimeActivity, String> colcollectdo;
 
 	@FXML
 	private TableColumn<TimeActivity, String> colFinal;
@@ -51,7 +51,7 @@ public class TemposColetadosController extends BaseController implements
 				.getValue().getFormattedStartDate()));
 		colFinal.setCellValueFactory(dado -> new SimpleStringProperty(dado
 				.getValue().getFormattedEndDate()));
-		colColetado.setCellValueFactory(dado -> new SimpleStringProperty(dado
+		colcollectdo.setCellValueFactory(dado -> new SimpleStringProperty(dado
 				.getValue().getSimpleEllapsedTime()));
 		colQuantificado.setCellValueFactory(dado -> new SimpleStringProperty(
 				dado.getValue().getFormattedCollectedAmount()));

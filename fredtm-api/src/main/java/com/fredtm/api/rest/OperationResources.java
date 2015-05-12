@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.dto.AccountResource;
+import com.fredtm.api.resource.AccountResource;
 import com.fredtm.data.repository.OperationRepository;
 
 

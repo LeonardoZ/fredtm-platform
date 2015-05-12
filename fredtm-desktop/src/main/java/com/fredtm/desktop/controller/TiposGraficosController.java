@@ -15,29 +15,29 @@ import com.fredtm.desktop.eventbus.MainEventBus;
 public class TiposGraficosController extends BaseController implements
 		Initializable {
 
-	private Collect coleta;
-	private List<Collect> coletas;
+	private Collect collect;
+	private List<Collect> collects;
 
-	public void setColeta(Collect coleta) {
-		this.coleta = coleta;
+	public void setcollect(Collect collect) {
+		this.collect = collect;
 	}
 
-	public void setColetas(List<Collect> coletas) {
-		this.coletas = coletas;
+	public void setcollects(List<Collect> collects) {
+		this.collects = collects;
 	}
 
 	@FXML
 	void onDistribuicaoPizzaClicked(ActionEvent event) {
 		MainEventBus.INSTANCE.eventoAnaliseGrafica(
-				TiposGrafico.DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA, coleta,
-				coletas);
+				TiposGrafico.DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA, collect,
+				collects);
 	}
 
 	@FXML
 	void onClassificacaoBarrasClicked(ActionEvent event) {
 		MainEventBus.INSTANCE.eventoAnaliseGrafica(
-				TiposGrafico.CLASSIFICACAO_POR_BARRAS, coleta,
-				coletas);
+				TiposGrafico.CLASSIFICACAO_POR_BARRAS, collect,
+				collects);
 	}
 
 	@FXML
@@ -53,8 +53,8 @@ public class TiposGraficosController extends BaseController implements
 	@FXML
 	void onClassificacaoCicloBarrasClicked(ActionEvent event){
 		MainEventBus.INSTANCE.eventoAnaliseGrafica(
-				TiposGrafico.CLASSIFICACAO_CICLOS_POR_BARRAS, coleta,
-				coletas);
+				TiposGrafico.CLASSIFICACAO_CICLOS_POR_BARRAS, collect,
+				collects);
 	}
 
 	@Override

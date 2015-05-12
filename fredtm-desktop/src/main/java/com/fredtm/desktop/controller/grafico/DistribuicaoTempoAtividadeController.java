@@ -14,17 +14,17 @@ public class DistribuicaoTempoAtividadeController extends BaseController {
 
 	@FXML
 	private PieChart graficoPizzaTempos;
-	private Collect coleta;
+	private Collect collect;
 
-	public void setColeta(Collect coleta) {
-		this.coleta = coleta;
+	public void setcollect(Collect collect) {
+		this.collect = collect;
 		configuraGraficoPizza();
 	}
 
 	private void configuraGraficoPizza() {
 		ObservableList<PieChart.Data> list = FXCollections
 				.observableArrayList();
-		HashMap<String, Long> somaDosTempos = coleta.getSumOfTimes();
+		HashMap<String, Long> somaDosTempos = collect.getSumOfTimes();
 		somaDosTempos.forEach(
 				(k, v) -> list.add(new PieChart.Data(k, Double.valueOf(v)))
 		);

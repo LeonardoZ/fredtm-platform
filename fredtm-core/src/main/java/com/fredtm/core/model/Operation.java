@@ -27,8 +27,8 @@ public class Operation extends FredEntity {
 	@Transient
 	private static final long serialVersionUID = 1L;
 
-	@Column(columnDefinition = "BINARY(16)", name = "uuid")
-	private UUID uuid;
+	@Column( name = "uuid")
+	private String uuid;
 
 	@Column(nullable = false, length = 120, unique = true)
 	private String name;
@@ -66,19 +66,20 @@ public class Operation extends FredEntity {
 	public Operation() {
 		activities = new ArrayList<Activity>();
 		collects = new ArrayList<Collect>();
+		syncs = new  ArrayList<Sync>();
 		modified = GregorianCalendar.getInstance().getTime();
 	}
 
-	public UUID getUuid() {
+	public String getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(UUID uuid) {
+	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
 
 	public void configureUUID() {
-		this.uuid = UUID.randomUUID();
+		this.uuid = UUID.randomUUID().toString();
 	}
 
 	public String getName() {
@@ -190,6 +191,14 @@ public class Operation extends FredEntity {
 
 	public boolean wasModifiedBefore(Date date) {
 		return modified.before(date);
+	}
+	
+	public List<Sync> getSyncs() {
+		return syncs;
+	}
+	
+	public void setSyncs(List<Sync> syncs) {
+		this.syncs = syncs;
 	}
 
 	@Override

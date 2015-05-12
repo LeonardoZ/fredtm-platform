@@ -1,4 +1,4 @@
-package com.fredtm.exportar;
+package com.fredtm.export;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,15 +8,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public interface Exportavel<T> {
+public interface Exportable<T> {
 
-	void exportar(T t, String caminho) throws ErroDeExportacaoExcetion;
+	void export(T t, String path) throws ExportationErrorExcetion;
 
-	void exportar(List<T> t, String caminho) throws ErroDeExportacaoExcetion;
+	void export(List<T> t, String path) throws ExportationErrorExcetion;
 
-	default void salvarEmArquivo(String caminho, String json) {
+	default void saveInFile(String pathParam, String json) {
 
-		Path path = Paths.get(caminho + "/operations.json");
+		Path path = Paths.get(pathParam + "/operations.json");
 		try {
 			Files.createFile(path);
 		} catch (FileAlreadyExistsException e1) {

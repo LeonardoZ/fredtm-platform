@@ -1,6 +1,5 @@
-package com.fredtm.api.dto;
+package com.fredtm.api.resource;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.hateoas.ResourceSupport;
@@ -8,7 +7,6 @@ import org.springframework.hateoas.ResourceSupport;
 public class CollectResource extends ResourceSupport {
 
 	private long operationId;
-	private HashMap<Long, List<TimeActivityResource>> collectedTimes;
 	private List<TimeActivityResource> times;
 	private List<ActivityResource> activities;
 
@@ -18,15 +16,6 @@ public class CollectResource extends ResourceSupport {
 
 	public void setOperationId(long operationId) {
 		this.operationId = operationId;
-	}
-
-	public HashMap<Long, List<TimeActivityResource>> getCollectedTimes() {
-		return collectedTimes;
-	}
-
-	public void setCollectedTimes(
-			HashMap<Long, List<TimeActivityResource>> collectedTimes) {
-		this.collectedTimes = collectedTimes;
 	}
 
 	public List<TimeActivityResource> getTimes() {

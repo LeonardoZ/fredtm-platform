@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.fredtm.api.FredTmApiConfig;
-import com.fredtm.api.dto.AccountResource;
+import com.fredtm.api.resource.AccountResource;
 import com.fredtm.api.test.TestBase;
 import com.fredtm.core.util.HashGenerator;
 import com.google.gson.Gson;

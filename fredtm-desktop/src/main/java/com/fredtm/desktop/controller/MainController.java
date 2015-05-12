@@ -187,9 +187,9 @@ public class MainController extends BaseController implements Initializable,
 				"Atividades - " + operation.getName(), controllerAction);
 	}
 
-	public void abrirColetas(Operation operation) {
-		Consumer<ColetasController> consumidor = c -> c.setOperacao(operation);
-		criarView("/fxml/coletas.fxml", "Coletas - " + operation.getName(),
+	public void abrircollects(Operation operation) {
+		Consumer<CollectsController> consumidor = c -> c.setOperacao(operation);
+		criarView("/fxml/collects.fxml", "collects - " + operation.getName(),
 				consumidor);
 	}
 
@@ -200,52 +200,52 @@ public class MainController extends BaseController implements Initializable,
 				+ operation.getName(), consumidor);
 	}
 
-	public void abrirTemposColetados(Collect coleta) {
-		Consumer<TemposColetadosController> consumidor = c -> c
-				.setTempos(coleta.getTimeInChronologicalOrder());
-		criarView("/fxml/tempos_coletados.fxml",
-				"Tempos coletados - " + coleta.toString(), consumidor);
+	public void abrirTemposcollectdos(Collect collect) {
+		Consumer<CollectedTimesController> consumidor = c -> c
+				.setTempos(collect.getTimeInChronologicalOrder());
+		criarView("/fxml/tempos_collectdos.fxml",
+				"Tempos collectdos - " + collect.toString(), consumidor);
 	}
 
-	public void exportarColetas(List<Collect> coletas) {
-		Consumer<ExportarColetasController> consumidor = c -> c
-				.setColetas(coletas);
-		criarView("/fxml/exportar_coleta.fxml", "Exportar coletas", consumidor);
+	public void exportarcollects(List<Collect> collects) {
+		Consumer<ExportCollectsController> consumidor = c -> c
+				.setcollects(collects);
+		criarView("/fxml/exportar_collect.fxml", "Exportar collects", consumidor);
 	}
 
-	public void abrirTiposDeGraficos(Collect coleta, List<Collect> coletas) {
+	public void abrirTiposDeGraficos(Collect collect, List<Collect> collects) {
 		Consumer<TiposGraficosController> consumidor = c -> {
-			c.setColeta(coleta);
-			c.setColetas(coletas);
+			c.setcollect(collect);
+			c.setcollects(collects);
 		};
 		criarView("/fxml/tipos_graficos.fxml",
-				"Análises da coleta " + coleta.toString(), consumidor);
+				"Análises da collect " + collect.toString(), consumidor);
 	}
 
-	public void abrirAnaliseGrafica(TiposGrafico tipo, Collect coleta,
-			List<Collect> coletas) {
+	public void abrirAnaliseGrafica(TiposGrafico tipo, Collect collect,
+			List<Collect> collects) {
 		switch (tipo) {
 		case DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA:
 			Consumer<DistribuicaoTempoAtividadeController> pizzaConsumer = c -> c
-					.setColeta(coleta);
+					.setcollect(collect);
 			criarView("/fxml/grafico_pizza.fxml",
-					"Distribuição tempo/activity: " + coleta.toString(),
+					"Distribuição tempo/activity: " + collect.toString(),
 					pizzaConsumer);
 			break;
 
 		case CLASSIFICACAO_POR_BARRAS:
 			Consumer<TempoObtidoPorClassificacaoController> barConsumer = c -> c
-					.setColeta(coleta);
+					.setcollect(collect);
 			criarView("/fxml/grafico_linha_classificacao.fxml",
-					"Tempo por classificação: " + coleta.toString(),
+					"Tempo por classificação: " + collect.toString(),
 					barConsumer);
 			break;
 
 		case CLASSIFICACAO_CICLOS_POR_BARRAS:
 			Consumer<TempoObtidoPorClassificacaoController> barCicloConsumer = c -> c
-					.setColetas(coletas);
+					.setcollects(collects);
 			criarView("/fxml/grafico_linha_classificacao.fxml",
-					"Tempo por classificação/ciclo: " + coleta.toString(),
+					"Tempo por classificação/ciclo: " + collect.toString(),
 					barCicloConsumer);
 			break;
 
