@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fredtm.core.model.Account;
 
 @Transactional
-public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
+public interface AccountRepository extends PagingAndSortingRepository<Account, String> {
 
 	 Optional<Account> getByEmailAndPasswordHash(String email,String passwordHash);
 	

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.fredtm.core.model.Account;
 
+
 public interface AccountService {
 
 	Account createAccountWithHash(String email, String hash, String name);
@@ -16,7 +17,7 @@ public interface AccountService {
 
 	Optional<Account> loginAccount(String email, String pass);
 
-	Account getAccount(long id);
+	Account getAccount(String id);
 
 	Page<Account> getAllAccounts(int page, int elementsInRequest);
 

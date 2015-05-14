@@ -56,12 +56,12 @@ public class AccountResources {
 
 	@GET
 	@Path("/{id}")
-	public Response getAccount(@PathParam(value = "id") long id) {
+	public Response getAccount(@PathParam(value = "id") String id) {
 		Account account = service.getAccount(id);
 		AccountResource resource = configureResource(account);
 
 		Link getAccount = entityLinks.linkFor(AccountResource.class)
-				.slash(resource.getPkId()).withRel("self");
+				.slash(resource.getUuid()).withRel("self");
 		resource.add(getAccount);
 		return Response.ok().build();
 	}
@@ -145,7 +145,7 @@ public class AccountResources {
 		Link login = entityLinks.linkFor(AccountResource.class).slash("/login")
 				.withRel("loginAccount");
 		Link getAccount = entityLinks.linkFor(AccountResource.class)
-				.slash(resource.getPkId()).withRel("getAccount");
+				.slash(resource.getUuid()).withRel("getAccount");
 		resource.add(login);
 		resource.add(create);
 		resource.add(getAccount);

@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 @ActiveProfiles("test")
 @SqlGroup({
 		@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
-		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql"), })
+		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql") })
 public class AccountResourcesTest extends TestBase {
 
 	@Before

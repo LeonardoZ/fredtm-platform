@@ -1,13 +1,11 @@
 package com.fredtm.core.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,33 +22,26 @@ public class Sync extends FredEntity {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-	private Date when;
+	private Date created;
 
 	@Lob
 	@Column(name = "json_old_data")
 	private byte[] jsonOldData;
 
-	@Lob
-	@Column(name = "json_new_data")
-	private byte[] jsonNewData;
-
 	@ManyToOne
-	private Account account;
-
-	@ManyToMany
-	@JoinTable(name = "sync_operations")
-	private List<Operation> operations;
+	@JoinColumn(name = "operation_id")
+	private Operation operation;
 
 	public Sync() {
 
 	}
 
-	public Date getWhen() {
-		return when;
+	public Date getCreated() {
+		return created;
 	}
 
-	public void setWhen(Date when) {
-		this.when = when;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 	public byte[] getJsonOldData() {
@@ -60,35 +51,20 @@ public class Sync extends FredEntity {
 	public void setJsonOldData(byte[] jsonOldData) {
 		this.jsonOldData = jsonOldData;
 	}
-
-	public byte[] getJsonNewData() {
-		return jsonNewData;
+	
+	public Operation getOperation() {
+		return operation;
+	}
+	
+	public void setOperation(Operation operation) {
+		this.operation = operation;
 	}
 
-	public void setJsonNewData(byte[] jsonNewData) {
-		this.jsonNewData = jsonNewData;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public List<Operation> getOperations() {
-		return operations;
-	}
-
-	public void setOperations(List<Operation> operations) {
-		this.operations = operations;
-	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(when).append(jsonNewData)
-				.append(jsonOldData).append(account).toHashCode();
+		return new HashCodeBuilder().append(created).append(jsonOldData).append(operation)
+				.toHashCode();
 	}
 
 	@Override
@@ -100,10 +76,9 @@ public class Sync extends FredEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Sync other = (Sync) obj;
-		return new EqualsBuilder().append(getWhen(), other.getWhen())
-				.append(getJsonNewData(), other.getJsonNewData())
+		return new EqualsBuilder().append(getCreated(), other.getCreated())
 				.append(getJsonOldData(), other.getJsonOldData())
-				.append(getAccount(), other.getAccount()).isEquals();
+				.append(getOperation(), other.getOperation()).isEquals();
 	}
 
 }

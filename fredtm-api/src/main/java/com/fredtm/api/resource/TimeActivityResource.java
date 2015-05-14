@@ -1,14 +1,10 @@
 package com.fredtm.api.resource;
 
-import org.springframework.hateoas.ResourceSupport;
 
-public class TimeActivityResource extends ResourceSupport {
+public class TimeActivityResource extends FredResourceSupport {
 
-	private long pkId;
-	private long activityId;
-	private String activityHref;
-	private long collectId;
-	private String collectHref;
+	private String activityId;
+	private String collectId;
 	private long finalDate = 0l;
 	private long startDate = 0l;
 	private long timed = 0l;
@@ -17,19 +13,19 @@ public class TimeActivityResource extends ResourceSupport {
 	public TimeActivityResource() {
 
 	}
-	
-	public TimeActivityResource pkId(long value) {
-		this.pkId = value;
+
+	public TimeActivityResource uuid(String uuid) {
+		setUuid(uuid);
 		return this;
 	}
 
-	public TimeActivityResource activityId(long value) {
-		this.activityId = value;
-		return this;
-	}
-
-	public TimeActivityResource collectId(long value) {
+	public TimeActivityResource collectId(String value) {
 		this.collectId = value;
+		return this;
+	}
+	
+	public TimeActivityResource activityId(String value) {
+		this.activityId = value;
 		return this;
 	}
 
@@ -53,50 +49,24 @@ public class TimeActivityResource extends ResourceSupport {
 		return this;
 	}
 
-	public TimeActivityResource collectHref(String value) {
-		this.collectHref = value;
-		return this;
-	}
 
-	public long getPkId() {
-		return pkId;
-	}
-
-	public void setPkId(long pkId) {
-		this.pkId = pkId;
-	}
-
-	public long getActivityId() {
+	public String getActivityId() {
 		return activityId;
 	}
 
-	public void setActivityId(long activityId) {
+	public void setActivityId(String activityId) {
 		this.activityId = activityId;
 	}
 
-	public String getActivityHref() {
-		return activityHref;
-	}
 
-	public void setActivityHref(String activityHref) {
-		this.activityHref = activityHref;
-	}
-
-	public long getCollectId() {
+	public String getCollectId() {
 		return collectId;
 	}
 
-	public void setCollectId(long collectId) {
+	public void setCollectId(String collectId) {
 		this.collectId = collectId;
 	}
 
-	public String getCollectHref() {
-		return collectHref;
-	}
-
-	public void setCollectHref(String collectHref) {
-		this.collectHref = collectHref;
-	}
 
 	public long getFinalDate() {
 		return finalDate;

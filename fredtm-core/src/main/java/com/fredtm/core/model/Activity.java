@@ -26,6 +26,7 @@ public class Activity extends FredEntity {
 	private String description;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name="activity_type")
 	private ActivityType activityType;
 
 	@Column(columnDefinition = "BIT")

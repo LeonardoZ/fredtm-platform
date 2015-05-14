@@ -1,72 +1,90 @@
+/*C6*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
+alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
+alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
+alter table sync_operations drop constraint FK_9hfjl2hxymbe1p5kcvw7i07vp
+alter table time_activity drop constraint FK_6rb7b3rw67901r5q6j13r3wiu
+alter table time_activity drop constraint FK_akvhrpy70tcblvhjd6fg1yb2v
+drop table account if exists
+drop table activity if exists
+drop table collect if exists
+drop table operation if exists
+drop table sync if exists
+drop table sync_operations if exists
+drop table time_activity if exists
+create table account (id varchar(37) not null, email varchar(120) not null, name varchar(120) not null, password_hash varchar(255) not null, uuid varchar(255), primary key (id))
+create table activity (id varchar(37) not null, activity_type varchar(255), description varchar(120) not null, item_name varchar(100), quantitative BIT, title varchar(120) not null, operation_id varchar(37), primary key (id))
+create table collect (id varchar(37) not null, operation_id varchar(37), primary key (id))
+create table operation (id varchar(37) not null, company varchar(120) not null, modified timestamp, name varchar(120) not null, technical_characteristics varchar(255) not null, account_id varchar(37), primary key (id))
+create table sync_operations (syncs_id varchar(37) not null, operations_id varchar(37) not null)
+create table time_activity (id varchar(37) not null, collected_amount integer, final_date bigint, start_date bigint, timed bigint, activity_id varchar(37), collect_id varchar(37), primary key (id))
+alter table account add constraint UK_q0uja26qgu1atulenwup9rxyr  unique (email)
+alter table activity add constraint UK_6kgco4mac8cnxnrjxeoag1ja7  unique (title)
+alter table operation add constraint UK_i35laipdti1a2a4vdo7wpy5t4  unique (name)
+alter table activity add constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap foreign key (operation_id) references operation
+alter table collect add constraint FK_pxb0f1pgx717rp6m0weqdt572 foreign key (operation_id) references operation
+alter table operation add constraint FK_cwjmw3oq5fhkceahr96k1xh3n foreign key (account_id) references account
+alter table sync_operations add constraint FK_9hfjl2hxymbe1p5kcvw7i07vp foreign key (operations_id) references operation
+alter table time_activity add constraint FK_6rb7b3rw67901r5q6j13r3wiu foreign key (activity_id) references activity
+alter table time_activity add constraint FK_akvhrpy70tcblvhjd6fg1yb2v foreign key (collect_id) references collect
+DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
+alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
+alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
+alter table sync_operations drop constraint FK_9hfjl2hxymbe1p5kcvw7i07vp
+alter table time_activity drop constraint FK_6rb7b3rw67901r5q6j13r3wiu
+alter table time_activity drop constraint FK_akvhrpy70tcblvhjd6fg1yb2v
+drop table account if exists
+drop table activity if exists
+drop table collect if exists
+drop table operation if exists
+drop table sync if exists
+drop table sync_operations if exists
+drop table time_activity if exists
+create table account (id varchar(37) not null, email varchar(120) not null, name varchar(120) not null, password_hash varchar(255) not null, uuid varchar(255), primary key (id))
+create table activity (id varchar(37) not null, activity_type varchar(255), description varchar(120) not null, item_name varchar(100), quantitative BIT, title varchar(120) not null, operation_id varchar(37), primary key (id))
+create table collect (id varchar(37) not null, operation_id varchar(37), primary key (id))
+create table operation (id varchar(37) not null, company varchar(120) not null, modified timestamp, name varchar(120) not null, technical_characteristics varchar(255) not null, account_id varchar(37), primary key (id))
+create table sync_operations (syncs_id varchar(37) not null, operations_id varchar(37) not null)
+create table time_activity (id varchar(37) not null, collected_amount integer, final_date bigint, start_date bigint, timed bigint, activity_id varchar(37), collect_id varchar(37), primary key (id))
+alter table account add constraint UK_q0uja26qgu1atulenwup9rxyr  unique (email)
+alter table activity add constraint UK_6kgco4mac8cnxnrjxeoag1ja7  unique (title)
+alter table operation add constraint UK_i35laipdti1a2a4vdo7wpy5t4  unique (name)
+alter table activity add constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap foreign key (operation_id) references operation
+alter table collect add constraint FK_pxb0f1pgx717rp6m0weqdt572 foreign key (operation_id) references operation
+alter table operation add constraint FK_cwjmw3oq5fhkceahr96k1xh3n foreign key (account_id) references account
+alter table sync_operations add constraint FK_9hfjl2hxymbe1p5kcvw7i07vp foreign key (operations_id) references operation
+alter table time_activity add constraint FK_6rb7b3rw67901r5q6j13r3wiu foreign key (activity_id) references activity
+alter table time_activity add constraint FK_akvhrpy70tcblvhjd6fg1yb2v foreign key (collect_id) references collect
+DISCONNECT
 /*C10*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C11*/SET SCHEMA PUBLIC
+alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
+alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
+alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
+alter table sync_operations drop constraint FK_9hfjl2hxymbe1p5kcvw7i07vp
+alter table time_activity drop constraint FK_6rb7b3rw67901r5q6j13r3wiu
+alter table time_activity drop constraint FK_akvhrpy70tcblvhjd6fg1yb2v
 drop table account if exists
 drop table activity if exists
 drop table collect if exists
 drop table operation if exists
+drop table sync if exists
+drop table sync_operations if exists
 drop table time_activity if exists
-create table account (id bigint generated by default as identity (start with 1), email varchar(120) not null, name varchar(120) not null, password_hash varchar(255) not null, primary key (id))
-create table activity (id bigint generated by default as identity (start with 1), activityType varchar(255), description varchar(120) not null, item_name varchar(100), quantitative BIT, title varchar(120) not null, operation_id bigint, primary key (id))
-create table collect (id bigint generated by default as identity (start with 1), operation_id bigint, primary key (id))
-create table operation (id bigint generated by default as identity (start with 1), company varchar(120) not null, modified timestamp, name varchar(120) not null, technical_characteristics varchar(255) not null, uuid BINARY(16), account_id bigint, primary key (id))
-create table time_activity (id bigint generated by default as identity (start with 1), collected_amount integer, final_date bigint, start_date bigint, timed bigint, activity_id bigint, collect_id bigint, primary key (id))
-alter table account add constraint UK_q0uja26qgu1atulenwup9rxyr  unique (email)
-alter table activity add constraint UK_6kgco4mac8cnxnrjxeoag1ja7  unique (title)
-alter table operation add constraint UK_i35laipdti1a2a4vdo7wpy5t4  unique (name)
-alter table activity add constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap foreign key (operation_id) references operation
-alter table collect add constraint FK_pxb0f1pgx717rp6m0weqdt572 foreign key (operation_id) references operation
-alter table operation add constraint FK_cwjmw3oq5fhkceahr96k1xh3n foreign key (account_id) references account
-alter table time_activity add constraint FK_6rb7b3rw67901r5q6j13r3wiu foreign key (activity_id) references activity
-alter table time_activity add constraint FK_akvhrpy70tcblvhjd6fg1yb2v foreign key (collect_id) references collect
 DISCONNECT
 /*C12*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C13*/SET SCHEMA PUBLIC
-alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
-alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
-alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
-alter table time_activity drop constraint FK_6rb7b3rw67901r5q6j13r3wiu
-alter table time_activity drop constraint FK_akvhrpy70tcblvhjd6fg1yb2v
 drop table account if exists
 drop table activity if exists
 drop table collect if exists
 drop table operation if exists
-drop table time_activity if exists
-create table account (id bigint generated by default as identity (start with 1), email varchar(120) not null, name varchar(120) not null, password_hash varchar(255) not null, primary key (id))
-create table activity (id bigint generated by default as identity (start with 1), activityType varchar(255), description varchar(120) not null, item_name varchar(100), quantitative BIT, title varchar(120) not null, operation_id bigint, primary key (id))
-create table collect (id bigint generated by default as identity (start with 1), operation_id bigint, primary key (id))
-create table operation (id bigint generated by default as identity (start with 1), company varchar(120) not null, modified timestamp, name varchar(120) not null, technical_characteristics varchar(255) not null, uuid BINARY(16), account_id bigint, primary key (id))
-create table time_activity (id bigint generated by default as identity (start with 1), collected_amount integer, final_date bigint, start_date bigint, timed bigint, activity_id bigint, collect_id bigint, primary key (id))
-alter table account add constraint UK_q0uja26qgu1atulenwup9rxyr  unique (email)
-alter table activity add constraint UK_6kgco4mac8cnxnrjxeoag1ja7  unique (title)
-alter table operation add constraint UK_i35laipdti1a2a4vdo7wpy5t4  unique (name)
-alter table activity add constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap foreign key (operation_id) references operation
-alter table collect add constraint FK_pxb0f1pgx717rp6m0weqdt572 foreign key (operation_id) references operation
-alter table operation add constraint FK_cwjmw3oq5fhkceahr96k1xh3n foreign key (account_id) references account
-alter table time_activity add constraint FK_6rb7b3rw67901r5q6j13r3wiu foreign key (activity_id) references activity
-alter table time_activity add constraint FK_akvhrpy70tcblvhjd6fg1yb2v foreign key (collect_id) references collect
-DISCONNECT
-/*C14*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C15*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C16*/SET SCHEMA PUBLIC
-alter table activity drop constraint FK_1ccj4d5t4xi9u00w7xqrjv9ap
-alter table collect drop constraint FK_pxb0f1pgx717rp6m0weqdt572
-alter table operation drop constraint FK_cwjmw3oq5fhkceahr96k1xh3n
-alter table time_activity drop constraint FK_6rb7b3rw67901r5q6j13r3wiu
-alter table time_activity drop constraint FK_akvhrpy70tcblvhjd6fg1yb2v
-drop table account if exists
-drop table activity if exists
-drop table collect if exists
-drop table operation if exists
-drop table time_activity if exists
-DISCONNECT
-/*C17*/SET SCHEMA PUBLIC
-drop table account if exists
-drop table activity if exists
-drop table collect if exists
-drop table operation if exists
+drop table sync if exists
+drop table sync_operations if exists
 drop table time_activity if exists
 DISCONNECT

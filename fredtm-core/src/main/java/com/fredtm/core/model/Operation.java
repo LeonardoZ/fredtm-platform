@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,9 +27,6 @@ public class Operation extends FredEntity {
 	@Transient
 	private static final long serialVersionUID = 1L;
 
-	@Column( name = "uuid")
-	private String uuid;
-
 	@Column(nullable = false, length = 120, unique = true)
 	private String name;
 
@@ -39,12 +36,6 @@ public class Operation extends FredEntity {
 	@Column(nullable = false, name = "technical_characteristics")
 	private String technicalCharacteristics;
 
-	@OneToMany(mappedBy = "operation")
-	private List<Activity> activities;
-
-	@OneToMany(mappedBy = "operation")
-	private List<Collect> collects;
-
 	@JoinColumn(name = "account_id")
 	@ManyToOne(optional = true)
 	private Account account;
@@ -52,7 +43,13 @@ public class Operation extends FredEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 
-	@ManyToMany(mappedBy = "operations")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
+	private List<Activity> activities;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
+	private List<Collect> collects;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private List<Sync> syncs;
 
 	public Operation(String name, String company,
@@ -66,20 +63,8 @@ public class Operation extends FredEntity {
 	public Operation() {
 		activities = new ArrayList<Activity>();
 		collects = new ArrayList<Collect>();
-		syncs = new  ArrayList<Sync>();
+		syncs = new ArrayList<Sync>();
 		modified = GregorianCalendar.getInstance().getTime();
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-
-	public void configureUUID() {
-		this.uuid = UUID.randomUUID().toString();
 	}
 
 	public String getName() {
@@ -185,6 +170,10 @@ public class Operation extends FredEntity {
 		this.modified = modified;
 	}
 
+	public void modified() {
+		this.modified = new Date();
+	}
+
 	public boolean wasModifiedAfter(Date date) {
 		return modified.after(date);
 	}
@@ -192,13 +181,25 @@ public class Operation extends FredEntity {
 	public boolean wasModifiedBefore(Date date) {
 		return modified.before(date);
 	}
-	
+
 	public List<Sync> getSyncs() {
 		return syncs;
 	}
-	
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
 	public void setSyncs(List<Sync> syncs) {
 		this.syncs = syncs;
+	}
+
+	public void addSync(Sync sync) {
+		this.syncs.add(sync);
 	}
 
 	@Override

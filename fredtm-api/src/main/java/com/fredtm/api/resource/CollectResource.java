@@ -2,19 +2,22 @@ package com.fredtm.api.resource;
 
 import java.util.List;
 
-import org.springframework.hateoas.ResourceSupport;
+public class CollectResource extends FredResourceSupport {
 
-public class CollectResource extends ResourceSupport {
-
-	private long operationId;
+	private String operationId;
 	private List<TimeActivityResource> times;
 	private List<ActivityResource> activities;
 
-	public long getOperationId() {
+	public CollectResource uuid(String uuid) {
+		setUuid(uuid);
+		return this;
+	}
+
+	public String getOperationId() {
 		return operationId;
 	}
 
-	public void setOperationId(long operationId) {
+	public void setOperationId(String operationId) {
 		this.operationId = operationId;
 	}
 
@@ -32,6 +35,11 @@ public class CollectResource extends ResourceSupport {
 
 	public void setActivities(List<ActivityResource> activities) {
 		this.activities = activities;
+	}
+
+	@Override
+	public String toString() {
+		return "CollectResource [operationId=" + operationId + "]";
 	}
 
 }

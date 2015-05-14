@@ -71,13 +71,13 @@ public class OperationTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldNotAddTheSameCollect() {
 		Collect collect = new Collect();
-		collect.setId(12);
+		collect.setId("abc");
 
 		Collect collect2 = new Collect();
-		collect.setId(13);
+		collect.setId("acb");
 
 		Collect collect3 = new Collect();
-		collect.setId(12);
+		collect.setId("bca");
 
 		Operation operation = new Operation();
 		operation.addCollect(collect);
@@ -137,13 +137,6 @@ public class OperationTest {
 		assertTrue(!op1.equals(op2));
 	}
 
-	@Test
-	public void uuidMustNotBeNull() {
-		Operation op = new Operation("Drink coke", "Coca-cola",
-				"Full of coke with ice cubes");
-		op.configureUUID();
-		assertNotNull(op.getUuid());
-	}
 
 	@Test
 	public void operationWasModifiedAfterThisDate() {

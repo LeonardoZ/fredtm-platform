@@ -1,4 +1,4 @@
-package com.fredtm.data.test;
+package com.fredtm.data.integration;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -56,6 +56,6 @@ public class AccountRepositoryTest {
 		Pageable nextPageable = page.nextPageable();
 		Page<Account> found = repository.findAll(nextPageable);
 		Account account = found.getContent().get(0);
-		Assert.assertEquals(4, account.getId());
+		Assert.assertEquals("D", account.getId());
 	}
 }

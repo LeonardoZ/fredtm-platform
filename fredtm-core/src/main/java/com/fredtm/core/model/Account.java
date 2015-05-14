@@ -1,6 +1,7 @@
 package com.fredtm.core.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,9 @@ public class Account extends FredEntity {
 
 	private static final long serialVersionUID = 7384555886305860670L;
 
+	@Column()
+	private String uuid;
+	
 	@Column(nullable = false, length = 120, unique = true)
 	private String email;
 
@@ -34,6 +38,18 @@ public class Account extends FredEntity {
 
 	}
 
+	public String getUuid() {
+		return uuid;
+	}
+	
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	
+	public void configureUUID() {
+		this.uuid = UUID.randomUUID().toString();
+	}
+	
 	public String getEmail() {
 		return email;
 	}

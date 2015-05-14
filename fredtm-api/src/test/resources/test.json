@@ -1,0 +1,87 @@
+{
+    "uuid": "fd806586-35d4-4e8c-a119-935d4bea0773",
+    "name": "Op teste",
+    "company": "Farm SA",
+    "technicalCharacteristics": "THATS MY SPOT",
+    "accountId": 0,
+    "modification": "May 14, 2015 3:39:05 PM",
+    "activities": [
+        {
+            "title": "A",
+            "description": "XDD",
+            "activityType": "IMPRODUTIVA",
+            "quantitative": false,
+            "itemName": "N\u00e3o quantitativa",
+            "operationId": 0,
+            "uuid": "eC211186-35d4-4e8c-a1d9-935d4beaaa73",
+            "links": [
+                
+            ]
+        },
+        {
+            "title": "B",
+            "description": "Descripion of B",
+            "activityType": "PRODUTIVA",
+            "quantitative": true,
+            "itemName": "Trees",
+            "operationId": 0,
+            "uuid": "935d4beaaa73-4e8c-4e8c-a1d9-eC211186",
+            "links": [
+                
+            ]
+        }
+    ],
+    "collects": [
+        {
+            "operationId": "fd806586-35d4-4e8c-a119-935d4bea0773",
+            "times": [
+                {
+                    "activityId": "eC211186-35d4-4e8c-a1d9-935d4beaaa73",
+                    "collectId": "01f0997f-7330-4dd8-b186-87b6bc344f90",
+                    "finalDate": 124444,
+                    "startDate": 130000,
+                    "timed": 1000,
+                    "collectedAmount": 0,
+                    "links": [
+                        
+                    ]
+                }
+            ],
+            "activities": [
+                {
+                    "title": "B",
+                    "description": "Descripion of B",
+                    "activityType": "PRODUTIVA",
+                    "quantitative": true,
+                    "itemName": "Trees",
+                    "operationId": 0,
+                    "uuid": "935d4beaaa73-4e8c-4e8c-a1d9-eC211186",
+                    "links": [
+                        
+                    ]
+                },
+                {
+                    "title": "A",
+                    "description": "XDD",
+                    "activityType": "IMPRODUTIVA",
+                    "quantitative": false,
+                    "itemName": "N\u00e3o quantitativa",
+                    "operationId": 0,
+                    "uuid": "eC211186-35d4-4e8c-a1d9-935d4beaaa73",
+                    "links": [
+                        
+                    ]
+                }
+            ],
+            "links": [
+                
+            ]
+        }
+    ],
+    "syncs": [
+        
+    ],
+    "links": [
+        
+    ]
+}

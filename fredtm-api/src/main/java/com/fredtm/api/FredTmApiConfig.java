@@ -20,7 +20,8 @@ import com.fredtm.data.repository.OperationRepository;
 		"com.fredtm.data",
 		"com.fredtm.service",
 		"com.fredtm.api",
-		"com.fredtm.api.rest" }
+		"com.fredtm.api.rest",
+		"com.fredtm.api.resource"}
 )
 @EnableEntityLinks
 public class FredTmApiConfig {

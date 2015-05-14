@@ -7,6 +7,8 @@ import static com.jayway.restassured.RestAssured.port;
 
 import org.junit.Before;
 
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.ResponseSpecification;
 
 public class TestBase {
@@ -17,6 +19,7 @@ public class TestBase {
 		baseURI = "https://localhost";
 		port = 9000;
 		basePath = "/fredapi";
+		RestAssured.defaultParser = Parser.JSON;
 	}
 	
 	protected ResponseSpecification makeRequest(){
@@ -34,7 +37,7 @@ public class TestBase {
 				.auth()
 				.basic("leo.zapparoli@gmail.com", "123")
 				.header("Accept", "application/json")
-				.header("Content-Type", "application/json")
+				.header("Content-Type", "application/json;charset=UTF8")
 				.log().all().then();
 		
 	}

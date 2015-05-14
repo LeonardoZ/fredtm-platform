@@ -2,9 +2,9 @@ package com.fredtm.data.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.fredtm.core.model.Account;
+import com.fredtm.core.model.Sync;
 
 public interface SyncRepository extends
-		PagingAndSortingRepository<Account, Long> {
+		PagingAndSortingRepository<Sync, String> {
 
 }

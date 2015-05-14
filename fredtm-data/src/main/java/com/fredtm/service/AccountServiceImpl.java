@@ -36,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
 		account.setEmail(email);
 		account.setName(name);
 		account.setPassword(password);
+		account.configureUUID();
 		return createAccount(account);
 	}
 
@@ -52,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account getAccount(long id) {
+	public Account getAccount(String id) {
 		return repository.findOne(id);
 	}
 

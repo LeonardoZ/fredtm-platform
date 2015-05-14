@@ -1,17 +1,19 @@
 package com.fredtm.api.resource;
 
-import org.springframework.hateoas.ResourceSupport;
 
-public class ActivityResource extends ResourceSupport {
+public class ActivityResource extends FredResourceSupport {
 
-	private long pkId;
 	private String title;
 	private String description;
 	private String activityType;
 	private Boolean quantitative;
 	private String itemName;
 	private long operationId;
-	private String operationHref;
+	
+	public ActivityResource uuid(String uuid) {
+		setUuid(uuid);
+		return this;
+	}
 
 	public ActivityResource title(String value) {
 		this.title = value;
@@ -44,19 +46,6 @@ public class ActivityResource extends ResourceSupport {
 	}
 
 	public ActivityResource() {
-	}
-
-	public void setPkId(long pkId) {
-		this.pkId = pkId;
-	}
-
-	public long getPkId() {
-		return pkId;
-	}
-
-	public ActivityResource pkId(Long value) {
-		this.pkId = value;
-		return this;
 	}
 
 	public String getTitle() {
@@ -107,12 +96,13 @@ public class ActivityResource extends ResourceSupport {
 		this.operationId = operationId;
 	}
 
-	public String getOperationHref() {
-		return operationHref;
-	}
-
-	public void setOperationHref(String operationHref) {
-		this.operationHref = operationHref;
+	@Override
+	public String toString() {
+		return "ActivityResource [uuId=" + getUuid() + ", title=" + title
+				+ ", description=" + description + ", activityType="
+				+ activityType + ", quantitative=" + quantitative
+				+ ", itemName=" + itemName + ", operationId=" + operationId
+				+ "]";
 	}
 
 }

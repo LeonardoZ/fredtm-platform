@@ -1,10 +1,12 @@
 package com.fredtm.api.resource;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fredtm.api.rest.SyncResources;
 import com.fredtm.core.model.Sync;
+import com.fredtm.data.repository.SyncRepository;
 
 public class SyncResourceAssembler extends
 		JaxRsResourceAssemblerSupport<Sync, SyncResource> {
@@ -16,14 +18,25 @@ public class SyncResourceAssembler extends
 	@Override
 	public SyncResource toResource(Sync entity) {
 		SyncResource sr = new SyncResource();
-		List<Long> operations = entity.getOperations().stream().map(o -> o.getId())
-				.collect(Collectors.toList());
-		sr.pkId(entity.getId()).when(entity.getWhen())
-				.accountId(entity.getAccount().getId())
-				.jsonNewData(new String(entity.getJsonNewData()).intern())
-				.jsonOldData(new String(entity.getJsonOldData()).intern())
-				.operationsIds(operations);
-		return null;
 
+		sr.uuid(entity.getId()).created(entity.getCreated())
+				.operationId(entity.getOperation().getId())
+				.jsonOldData(new String(entity.getJsonOldData()).intern());
+		return sr;
+
+	}
+
+	@Autowired
+	private SyncRepository repository;
+
+	@Override
+	public Optional<Sync> fromResource(SyncResource d) {
+		Sync s = repository.findOne(d.getUuid());
+		if (s == null) {
+			return Optional.empty();
+		}
+		s.setJsonOldData(d.getJsonOldData().getBytes());
+		s.setCreated(d.getCreated());
+		return Optional.of(s);
 	}
 }

@@ -2,20 +2,18 @@ package com.fredtm.api.resource;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.hateoas.ResourceSupport;
 
-public class AccountResource extends ResourceSupport {
+public class AccountResource extends FredResourceSupport {
 
-	private long pkId;
 	private String name;
 	private String email;
 	private String password;
 
-	public AccountResource id(long id) {
-		this.pkId = id;
+
+	public AccountResource uuid(String uuid) {
+		setUuid(uuid);
 		return this;
 	}
-
 	public AccountResource name(String name) {
 		this.name = name;
 		return this;
@@ -31,13 +29,6 @@ public class AccountResource extends ResourceSupport {
 		return this;
 	}
 
-	public long getPkId() {
-		return pkId;
-	}
-
-	public void setPkId(long id) {
-		this.pkId = id;
-	}
 
 	public String getName() {
 		return name;
