@@ -1,8 +1,10 @@
 package com.fredtm.api.resource;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.hateoas.ResourceSupport;
 
 public class OperationResource extends ResourceSupport {
@@ -11,11 +13,11 @@ public class OperationResource extends ResourceSupport {
 	private String name;
 	private String company;
 	private String technicalCharacteristics;
-	private long accountId;
+	private String accountId;
 	private Date modification;
-	private List<ActivityResource> activities;
-	private List<CollectResource> collects;
-	private List<SyncResource> syncs;
+	private Set<ActivityResource> activities;
+	private Set<CollectResource> collects;
+	private Set<SyncResource> syncs;
 
 	public OperationResource() {
 		// activities = new HashMap<Long, String>();
@@ -48,17 +50,17 @@ public class OperationResource extends ResourceSupport {
 		return this;
 	}
 
-	public OperationResource syncs(List<SyncResource> value) {
+	public OperationResource syncs(Set<SyncResource> value) {
 		this.syncs = value;
 		return this;
 	}
 
-	public OperationResource collects(List<CollectResource> value) {
+	public OperationResource collects(Set<CollectResource> value) {
 		this.collects = value;
 		return this;
 	}
 
-	public OperationResource activities(List<ActivityResource> value) {
+	public OperationResource activities(Set<ActivityResource> value) {
 		this.activities = value;
 		return this;
 	}
@@ -95,11 +97,11 @@ public class OperationResource extends ResourceSupport {
 		this.technicalCharacteristics = technicalCharacteristics;
 	}
 
-	public long getAccountId() {
+	public String getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(long accountId) {
+	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
 
@@ -111,32 +113,31 @@ public class OperationResource extends ResourceSupport {
 		this.modification = modification;
 	}
 
-	public List<ActivityResource> getAcitiviesList() {
+	public Set<ActivityResource> getAcitiviesSet() {
 		return activities;
 	}
 
-	
-	public List<ActivityResource> getActivities() {
+	public Set<ActivityResource> getActivities() {
 		return activities;
 	}
 
-	public void setActivities(List<ActivityResource> activities) {
+	public void setActivities(Set<ActivityResource> activities) {
 		this.activities = activities;
 	}
 
-	public List<CollectResource> getCollects() {
+	public Set<CollectResource> getCollects() {
 		return collects;
 	}
 
-	public void setCollects(List<CollectResource> collects) {
+	public void setCollects(Set<CollectResource> collects) {
 		this.collects = collects;
 	}
 
-	public List<SyncResource> getSyncs() {
+	public Set<SyncResource> getSyncs() {
 		return syncs;
 	}
 
-	public void setSyncs(List<SyncResource> syncs) {
+	public void setSyncs(Set<SyncResource> syncs) {
 		this.syncs = syncs;
 	}
 
@@ -145,87 +146,33 @@ public class OperationResource extends ResourceSupport {
 		return "OperationResource [uuid=" + uuid + ", name=" + name
 				+ ", company=" + company + ", technicalCharacteristics="
 				+ technicalCharacteristics + ", accountId=" + accountId
-				+ ", modification=" + modification + ", acitiviesList="
-				+ activities + ", collectsList=" + collects.toString() + ", syncsList="
-				+ syncs + "]";
+				+ ", modification=" + modification + ", acitiviesSet="
+				+ activities + ", collectsSet=" + collects.toString()
+				+ ", syncsSet=" + syncs + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result;
-		result = prime * result + (int) (accountId ^ (accountId >>> 32));
-		result = prime * result
-				+ ((activities == null) ? 0 : activities.hashCode());
-		result = prime * result
-				+ ((collects == null) ? 0 : collects.hashCode());
-		result = prime * result + ((company == null) ? 0 : company.hashCode());
-		result = prime * result
-				+ ((modification == null) ? 0 : modification.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((syncs == null) ? 0 : syncs.hashCode());
-		result = prime
-				* result
-				+ ((technicalCharacteristics == null) ? 0
-						: technicalCharacteristics.hashCode());
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		return result;
+		return new HashCodeBuilder().append(getUuid()).append(name).append(company)
+				.append(technicalCharacteristics).append(modification).toHashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		OperationResource other = (OperationResource) obj;
-		if (accountId != other.accountId)
-			return false;
-		if (activities == null) {
-			if (other.activities != null)
-				return false;
-		} else if (!activities.equals(other.activities))
-			return false;
-		if (collects == null) {
-			if (other.collects != null)
-				return false;
-		} else if (!collects.equals(other.collects))
-			return false;
-		if (company == null) {
-			if (other.company != null)
-				return false;
-		} else if (!company.equals(other.company))
-			return false;
-		if (modification == null) {
-			if (other.modification != null)
-				return false;
-		} else if (!modification.equals(other.modification))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (syncs == null) {
-			if (other.syncs != null)
-				return false;
-		} else if (!syncs.equals(other.syncs))
-			return false;
-		if (technicalCharacteristics == null) {
-			if (other.technicalCharacteristics != null)
-				return false;
-		} else if (!technicalCharacteristics
-				.equals(other.technicalCharacteristics))
-			return false;
-		if (uuid == null) {
-			if (other.uuid != null)
-				return false;
-		} else if (!uuid.equals(other.uuid))
-			return false;
-		return true;
+		return new EqualsBuilder()
+				.append(getUuid(), other.getUuid())
+				.append(name, other.name)
+				.append(company, other.company)
+				.append(technicalCharacteristics,
+						other.technicalCharacteristics)
+				.append(modification, other.getModification()).isEquals();
 	}
 
 }

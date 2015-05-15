@@ -16,11 +16,10 @@ public class FredEntity implements Serializable {
 	@Transient
 	private static final long serialVersionUID = 1L;
 
-	// @Id
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(generator = "system-uuid") @Id
+	@Id
+	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@Column(length = 37)
+	@Column(length = 36, nullable = false)
 	protected String id;
 
 	@Transient
@@ -37,4 +36,22 @@ public class FredEntity implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FredEntity other = (FredEntity) obj;
+		return other.getId().equals(getId());
+	}
+
 }

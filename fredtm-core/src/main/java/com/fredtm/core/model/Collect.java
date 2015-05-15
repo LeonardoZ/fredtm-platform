@@ -8,13 +8,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,8 +47,27 @@ public class Collect extends FredEntity {
 		return rhs.getActivityType().compareTo(lhs.getActivityType());
 	};
 
+	@PrePersist
+	private void configureChilds() {
+		System.err.println("Antes de encontrar: "+activities);
+		times.forEach(t -> {
+			if (t.getCollect() == null || t.getActivity().getId() == null) {
+				t.setCollect(this);
+				Optional<Activity> activity = this.activities
+						.stream()
+						.filter(a -> a != null)
+						.filter(a -> a.getTitle().equals(
+								t.getActivity().getTitle())
+						).findFirst();
+				System.out.println("Encontrada: " + activity);
+				if (activity.isPresent())
+					t.setActivity(activity.get());
+			}
+		});
+	}
+
 	@PostConstruct
-	public void organizarTemposAtividade() {
+	public void organizeTimeActivity() {
 		for (Activity act : activities) {
 			List<TimeActivity> timesOf = getTimesOf(act);
 			addActivity(act, timesOf);
@@ -63,7 +86,7 @@ public class Collect extends FredEntity {
 	@Transient
 	private HashMap<String, List<TimeActivity>> collectedTimes;
 
-	@OneToMany(mappedBy = "collect")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "collect")
 	private List<TimeActivity> times;
 
 	@Transient
@@ -129,7 +152,7 @@ public class Collect extends FredEntity {
 	public List<TimeActivity> getCollectedTimes(Activity param) {
 		return collectedTimes.get(param.getId());
 	}
-	
+
 	public void setTimes(List<TimeActivity> times) {
 		this.times = times;
 	}
@@ -175,8 +198,12 @@ public class Collect extends FredEntity {
 	}
 
 	public String getFirstFormattedDate() throws NoSuchElementException {
-		Date date = getFirstTime();
-		return new SimpleDateFormat("dd/MM/yyyy").format(date);
+		try {
+			Date date = getFirstTime();
+			return new SimpleDateFormat("dd/MM/yyyy").format(date);
+		} catch (NoSuchElementException nse) {
+			return "";
+		}
 	}
 
 	public String getFirstFormattedHour() {
@@ -208,7 +235,7 @@ public class Collect extends FredEntity {
 		return activities;
 	}
 
-	public void setActivities(List<Activity> activities) {
+	public void setActivities(Set<Activity> activities) {
 		for (Activity a : activities) {
 			addNewActivity(a);
 		}
@@ -262,7 +289,7 @@ public class Collect extends FredEntity {
 			nsee.printStackTrace();
 			firstFormattedDate = "<sem data>";
 		}
-		return operation.getName() + " - " + firstFormattedDate;
+		return operation + " - " + firstFormattedDate;
 	}
 
 	@Override

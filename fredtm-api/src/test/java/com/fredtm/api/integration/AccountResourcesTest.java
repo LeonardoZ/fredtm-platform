@@ -10,30 +10,12 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.fredtm.api.FredTmApiConfig;
 import com.fredtm.api.resource.AccountResource;
 import com.fredtm.api.test.TestBase;
 import com.fredtm.core.util.HashGenerator;
 import com.google.gson.Gson;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = FredTmApiConfig.class)
-@WebAppConfiguration
-@IntegrationTest
-@ActiveProfiles("test")
-@SqlGroup({
-		@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
-		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql") })
 public class AccountResourcesTest extends TestBase {
 
 	@Before
@@ -57,7 +39,7 @@ public class AccountResourcesTest extends TestBase {
 		String hash = new HashGenerator().toHash("123456");
 
 		dto.password(hash);
-
+		System.err.println(response);
 		assertEquals(dto, response);
 	}
 
@@ -87,7 +69,7 @@ public class AccountResourcesTest extends TestBase {
 
 	@Test
 	public void shouldReturn3Elements() {
-		List<Map> list = makeRequest().and().given().queryParam("page", 0)
+		List<Map<Object,Object>> list = makeRequest().and().given().queryParam("page", 0)
 				.queryParam("elements", 3).get("/account/all").andReturn()
 				.jsonPath().get("links");
 

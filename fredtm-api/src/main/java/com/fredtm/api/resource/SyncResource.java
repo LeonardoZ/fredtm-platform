@@ -56,4 +56,19 @@ public class SyncResource extends FredResourceSupport {
 		this.operationId = accountId;
 	}
 
+	public String getOperationId() {
+		return operationId;
+	}
+
+	public void setOperationId(String operationId) {
+		this.operationId = operationId;
+	}
+
+	@Override
+	public String toString() {
+		return "SyncResource [created=" + created + ", jsonOldData="
+				+ jsonOldData + ", operationId=" + operationId + ", getUuid()="
+				+ getUuid() + ", getLinks()=" + getLinks() + "]";
+	}
+
 }

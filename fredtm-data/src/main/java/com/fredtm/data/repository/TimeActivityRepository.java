@@ -6,4 +6,5 @@ import com.fredtm.core.model.TimeActivity;
 
 public interface TimeActivityRepository extends CrudRepository<TimeActivity, String> {
 
+	
 }

@@ -54,6 +54,7 @@ public class AccountResource extends FredResourceSupport {
 		this.password = password;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(email).append(password)
@@ -74,5 +75,13 @@ public class AccountResource extends FredResourceSupport {
 				.append(getPassword(), other.getPassword()).isEquals();
 
 	}
+	@Override
+	public String toString() {
+		return "AccountResource [name=" + name + ", email=" + email
+				+ ", password=" + password + ", getUuid()=" + getUuid()
+				+ ", getLinks()=" + getLinks() + "]";
+	}
+	
+	
 
 }

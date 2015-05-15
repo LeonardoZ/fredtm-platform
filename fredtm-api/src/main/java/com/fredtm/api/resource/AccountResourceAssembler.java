@@ -17,7 +17,7 @@ public class AccountResourceAssembler extends
 
 	@Override
 	public AccountResource toResource(Account entity) {
-		return new AccountResource().uuid(entity.getUuid())
+		return new AccountResource().uuid(entity.getId())
 				.email(entity.getEmail()).name(entity.getName())
 				.password(entity.getPasswordHash());
 	}
@@ -26,10 +26,7 @@ public class AccountResourceAssembler extends
 	private AccountRepository repository;
 
 	public Optional<Account> fromResource(AccountResource ar) {
-		Account ac = repository.findOne(ar.getUuid());
-		if (ac == null) {
-			return Optional.empty();
-		}
+		Account ac  = ar.getId() != null ? repository.findOne(ar.getUuid()) : new Account();
 		ac.setEmail(ar.getEmail());
 		ac.setName(ar.getName());
 		ac.setPassword(ar.getPassword());

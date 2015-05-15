@@ -36,7 +36,6 @@ public class AccountServiceImpl implements AccountService {
 		account.setEmail(email);
 		account.setName(name);
 		account.setPassword(password);
-		account.configureUUID();
 		return createAccount(account);
 	}
 

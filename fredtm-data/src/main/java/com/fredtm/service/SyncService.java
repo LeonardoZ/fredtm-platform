@@ -5,7 +5,7 @@ import com.fredtm.core.model.Sync;
 
 public interface SyncService {
 
-	public Sync receiveSync(String oldJson, Operation oldOperation,
+	public Sync receiveSync(String oldJson,
 			 Operation newOperation);
 
 }

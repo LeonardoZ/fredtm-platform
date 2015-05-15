@@ -1,9 +1,12 @@
 package com.fredtm.api.resource;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class TimeActivityResource extends FredResourceSupport {
 
 	private String activityId;
+	private String activityTitle;
 	private String collectId;
 	private long finalDate = 0l;
 	private long startDate = 0l;
@@ -19,11 +22,16 @@ public class TimeActivityResource extends FredResourceSupport {
 		return this;
 	}
 
+	public TimeActivityResource activityTitle(String title) {
+		this.activityTitle = title;
+		return this;
+	}
+
 	public TimeActivityResource collectId(String value) {
 		this.collectId = value;
 		return this;
 	}
-	
+
 	public TimeActivityResource activityId(String value) {
 		this.activityId = value;
 		return this;
@@ -49,7 +57,6 @@ public class TimeActivityResource extends FredResourceSupport {
 		return this;
 	}
 
-
 	public String getActivityId() {
 		return activityId;
 	}
@@ -58,7 +65,6 @@ public class TimeActivityResource extends FredResourceSupport {
 		this.activityId = activityId;
 	}
 
-
 	public String getCollectId() {
 		return collectId;
 	}
@@ -66,7 +72,6 @@ public class TimeActivityResource extends FredResourceSupport {
 	public void setCollectId(String collectId) {
 		this.collectId = collectId;
 	}
-
 
 	public long getFinalDate() {
 		return finalDate;
@@ -98,6 +103,38 @@ public class TimeActivityResource extends FredResourceSupport {
 
 	public void setCollectedAmount(int collectedAmount) {
 		this.collectedAmount = collectedAmount;
+	}
+
+	public String getActivityTitle() {
+		return activityTitle;
+	}
+
+	public void setActivityTitle(String activityTitle) {
+		this.activityTitle = activityTitle;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getUuid()).append(activityId)
+				.append(collectId).append(finalDate).append(startDate)
+				.append(timed).build();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TimeActivityResource other = (TimeActivityResource) obj;
+		return new EqualsBuilder().append(getUuid(), other.getUuid())
+				.append(activityId, other.activityId)
+				.append(collectId, other.collectId)
+				.append(finalDate, other.finalDate)
+				.append(startDate, other.startDate).append(timed, other.timed)
+				.isEquals();
 	}
 
 }

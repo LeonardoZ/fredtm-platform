@@ -1,5 +1,8 @@
 package com.fredtm.api.resource;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 
 public class ActivityResource extends FredResourceSupport {
 
@@ -8,7 +11,7 @@ public class ActivityResource extends FredResourceSupport {
 	private String activityType;
 	private Boolean quantitative;
 	private String itemName;
-	private long operationId;
+	private String operationId;
 	
 	public ActivityResource uuid(String uuid) {
 		setUuid(uuid);
@@ -40,7 +43,7 @@ public class ActivityResource extends FredResourceSupport {
 		return this;
 	}
 
-	public ActivityResource operationId(long value) {
+	public ActivityResource operationId(String value) {
 		this.operationId = value;
 		return this;
 	}
@@ -88,14 +91,36 @@ public class ActivityResource extends FredResourceSupport {
 		this.itemName = itemName;
 	}
 
-	public long getOperationId() {
+	public String getOperationId() {
 		return operationId;
 	}
 
-	public void setOperationId(long operationId) {
+	public void setOperationId(String operationId) {
 		this.operationId = operationId;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		ActivityResource activity = (ActivityResource) o;
+		return new EqualsBuilder()
+				.append(getUuid(), activity.getUuid())
+				.append(operationId, activity.operationId)
+				.append(activityType, activity.activityType)
+				.append(title, activity.title).isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getUuid()).append(operationId).append(activityType)
+				.append(title).build();
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "ActivityResource [uuId=" + getUuid() + ", title=" + title

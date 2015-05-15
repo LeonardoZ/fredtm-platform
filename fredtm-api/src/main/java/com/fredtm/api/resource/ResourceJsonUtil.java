@@ -1,7 +1,7 @@
 package com.fredtm.api.resource;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.fredtm.core.model.Activity;
@@ -30,9 +30,9 @@ public class ResourceJsonUtil {
 			OperationResource res = gson.fromJson(json, typeOfT);
 			JsonElement jsonElement = json.getAsJsonObject().get("activities");
 			if (jsonElement.isJsonArray()) {
-				Type collectionType = new TypeToken<ArrayList<ActivityResource>>() {
+				Type collectionType = new TypeToken<HashSet<ActivityResource>>() {
 				}.getType();
-				ArrayList<ActivityResource> acts = gson.fromJson(jsonElement, collectionType);
+				HashSet<ActivityResource> acts = gson.fromJson(jsonElement, collectionType);
 				res.activities(acts);
 			}
 

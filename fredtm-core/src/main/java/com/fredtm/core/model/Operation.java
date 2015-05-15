@@ -3,7 +3,9 @@ package com.fredtm.core.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +30,7 @@ public class Operation extends FredEntity {
 	@Transient
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false, length = 120, unique = true)
+	@Column(nullable = false, length = 120)
 	private String name;
 
 	@Column(nullable = false, length = 120)
@@ -43,14 +46,16 @@ public class Operation extends FredEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 
+	//cascade = { CascadeType.PERSIST, CascadeType.DETACH,
+	// CascadeType.REMOVE, CascadeType.REFRESH 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
-	private List<Activity> activities;
+	private Set<Activity> activities;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
-	private List<Collect> collects;
+	private Set<Collect> collects;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
-	private List<Sync> syncs;
+	private Set<Sync> syncs;
 
 	public Operation(String name, String company,
 			String technicalCharacteristics) {
@@ -61,10 +66,16 @@ public class Operation extends FredEntity {
 	}
 
 	public Operation() {
-		activities = new ArrayList<Activity>();
-		collects = new ArrayList<Collect>();
-		syncs = new ArrayList<Sync>();
+		activities = new HashSet<Activity>();
+		collects = new HashSet<Collect>();
+		syncs = new HashSet<Sync>();
 		modified = GregorianCalendar.getInstance().getTime();
+	}
+	
+	@PrePersist
+	private void configureChilds(){
+		activities.forEach(a-> a.setOperation(this));
+		collects.forEach(c -> c.setOperation(this));
 	}
 
 	public String getName() {
@@ -93,19 +104,24 @@ public class Operation extends FredEntity {
 		this.technicalCharacteristics = technicalCharacteristics;
 	}
 
-	public List<Activity> getActivities() {
+	public Set<Activity> getActivities() {
 		return activities;
 	}
+	
+	public List<Activity> getActivitiesList() {
+		return new ArrayList<Activity>(activities);
+	}
 
-	public void setActivities(List<Activity> activities) {
+
+	public void setActivities(Set<Activity> activities) {
 		this.activities = activities;
 	}
 
-	public List<Collect> getCollects() {
+	public Set<Collect> getCollects() {
 		return collects;
 	}
 
-	public void setCollects(List<Collect> collects) {
+	public void setCollects(Set<Collect> collects) {
 		this.collects = collects;
 	}
 
@@ -121,11 +137,11 @@ public class Operation extends FredEntity {
 		this.collects.remove(c);
 	}
 
-	public List<Activity> getPredifinedActivities() {
+	public Set<Activity> getPredifinedActivities() {
 		return activities;
 	}
 
-	public void setPartialActivities(List<Activity> atividadesParciais) {
+	public void setPartialActivities(Set<Activity> atividadesParciais) {
 		this.activities = atividadesParciais;
 	}
 
@@ -182,7 +198,7 @@ public class Operation extends FredEntity {
 		return modified.before(date);
 	}
 
-	public List<Sync> getSyncs() {
+	public Set<Sync> getSyncs() {
 		return syncs;
 	}
 
@@ -194,7 +210,7 @@ public class Operation extends FredEntity {
 		return account;
 	}
 
-	public void setSyncs(List<Sync> syncs) {
+	public void setSyncs(Set<Sync> syncs) {
 		this.syncs = syncs;
 	}
 

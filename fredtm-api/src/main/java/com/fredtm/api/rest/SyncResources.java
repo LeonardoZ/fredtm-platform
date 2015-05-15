@@ -36,9 +36,11 @@ public class SyncResources {
 	@Autowired
 	private OperationRepository operationRepository;
 
-	private OperationResourceAssembler operationAssembler = new OperationResourceAssembler();
+	@Autowired
+	private OperationResourceAssembler operationAssembler;
 
-	private SyncResourceAssembler syncAssembler = new SyncResourceAssembler();
+	@Autowired
+	private SyncResourceAssembler syncAssembler;
 
 	// Receber Op
 	// Verificar se é válida
@@ -46,17 +48,38 @@ public class SyncResources {
 	// riar e devolver devolver sync
 	@POST
 	public Response receiveSync(OperationResource fullResource) {
-
+		String json = "";
 		String uuid = fullResource.getUuid();
-		Operation oldOperation = operationRepository.findOne(uuid);
-		OperationResource oldResource = operationAssembler
-				.toResource(oldOperation);
-		String json = new Gson().toJson(oldResource);
+		if (uuid != null && !uuid.isEmpty()) {
+			Operation oldOperation = operationRepository.findOne(uuid);
+			OperationResource oldResource = operationAssembler
+					.toResource(oldOperation);
+			json = new Gson().toJson(oldResource);
+		}
+		fullResource.getCollects().forEach(c->System.out.println(c.toString()));
 		Operation newOperation = operationAssembler.fromResource(fullResource)
 				.get();
-		Sync sync = service.receiveSync(json, oldOperation, newOperation);
+		System.err.println("New: " + newOperation);
+		System.err.println("New: " + newOperation.getId());
+		System.err.println("New: " + newOperation.getAccount());
+		System.err.println("New TIMES: " + newOperation.getCollects().iterator().next().getTimes());
+		System.err.println("New ACTS: " + newOperation.getActivities());
+		Sync sync = null;
+		try {
+			sync = service.receiveSync(json, newOperation);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("After ===========");
+
+		System.err.println("After: " + newOperation);
+		System.err.println("After: " + newOperation.getId());
+		System.err.println("After: " + newOperation.getAccount());
+		System.err.println("After: " + newOperation.getCollects());
+		newOperation.getActivities().forEach(
+				a -> System.out.println(a.getOperation().toString()));
+
 		SyncResource syncr = syncAssembler.toResource(sync);
 		return Response.ok(syncr).build();
 	}
-
 }

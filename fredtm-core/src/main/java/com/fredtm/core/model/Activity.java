@@ -19,7 +19,7 @@ public class Activity extends FredEntity {
 	@Transient
 	private static final long serialVersionUID = 1L;
 	
-	@Column(nullable = false, length = 120, unique = true)
+	@Column(nullable = false, length = 120)
 	private String title;
 
 	@Column(nullable = false, length = 120)
@@ -136,7 +136,8 @@ public class Activity extends FredEntity {
 			return false;
 
 		Activity activity = (Activity) o;
-		return new EqualsBuilder().append(operation, activity.operation)
+		return new EqualsBuilder()
+				.append(operation, activity.operation)
 				.append(activityType, activity.activityType)
 				.append(title, activity.title).isEquals();
 	}

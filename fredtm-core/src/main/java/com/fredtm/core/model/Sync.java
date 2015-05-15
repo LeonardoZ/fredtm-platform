@@ -1,5 +1,6 @@
 package com.fredtm.core.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -60,7 +61,6 @@ public class Sync extends FredEntity {
 		this.operation = operation;
 	}
 
-
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(created).append(jsonOldData).append(operation)
@@ -81,4 +81,13 @@ public class Sync extends FredEntity {
 				.append(getOperation(), other.getOperation()).isEquals();
 	}
 
+	@Override
+	public String toString() {
+		return "Sync [created=" + created + ", jsonOldData="
+				+ Arrays.toString(jsonOldData) + ", operation=" + operation
+				+ "]";
+	}
+
+	
+	
 }

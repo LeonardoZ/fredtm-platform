@@ -3,14 +3,22 @@ package com.fredtm.api.resource;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.fredtm.api.rest.ActivityResources;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.data.repository.ActivityRepository;
+import com.fredtm.data.repository.OperationRepository;
 
+@Component
 public class ActivityResourceAssembler extends
 		JaxRsResourceAssemblerSupport<Activity, ActivityResource> {
+	
+	@Autowired
+	private ActivityRepository repository;
+	@Autowired
+	private OperationRepository operationRepository;
 
 	public ActivityResourceAssembler() {
 		super(ActivityResources.class, ActivityResource.class);
@@ -27,21 +35,17 @@ public class ActivityResourceAssembler extends
 		return ar;
 	}
 
-	@Autowired
-	private ActivityRepository repository;
-	
 	@Override
 	public Optional<Activity> fromResource(ActivityResource d) {
-		Activity act = repository.findOne(d.getUuid());
-		if(act == null){
-			return Optional.empty();
-		}
+		Activity act = d.getId() != null ? repository.findOne(d.getUuid())
+				: new Activity();
 		act.setDescription(d.getDescription());
 		act.setTitle(d.getTitle());
-		act.setActivityType(ActivityType.getById(d.getActivityType()).orElse(ActivityType.PRODUCTIVE));
+		act.setActivityType(ActivityType.getById(d.getActivityType()).orElse(
+				ActivityType.PRODUCTIVE));
 		act.setItemName(d.getItemName());
 		act.setIsQuantitative(d.getQuantitative());
-		
+
 		return Optional.of(act);
 	}
 

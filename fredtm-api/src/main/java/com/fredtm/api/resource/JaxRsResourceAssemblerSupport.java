@@ -1,8 +1,8 @@
 package com.fredtm.api.resource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.jaxrs.JaxRsLinkBuilder;
@@ -33,8 +33,8 @@ public abstract class JaxRsResourceAssemblerSupport<T, D extends ResourceSupport
 		return instance;
 	}
 
-	public <L extends Iterable<D>> List<T> fromResources(L l) {
-		List<T> results = new ArrayList<T>();
+	public <L extends Iterable<D>> Set<T> fromResources(L l) {
+		Set<T> results = new HashSet<T>();
 		l.forEach(e -> results.add(fromResource(e).orElse(null)));
 		return results;
 	}

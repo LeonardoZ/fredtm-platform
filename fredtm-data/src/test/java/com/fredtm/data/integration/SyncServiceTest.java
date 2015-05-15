@@ -13,6 +13,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fredtm.core.model.Operation;
+import com.fredtm.core.model.Sync;
 import com.fredtm.data.FredDataConfig;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.service.SyncService;
@@ -32,19 +33,19 @@ public class SyncServiceTest {
 	OperationRepository repo;
 
 	@Test
-	public void aa() {
+	public void testCreatedSync() {
 		try {
 
 			Operation next = repo.findAll().iterator().next();
 			next.setTechnicalCharacteristics("THATS MY SPOT");
-			next.getActivities().get(0).setDescription("XDD");
-			next.getCollects().get(0).setActivities(next.getActivities());
+			next.getActivities().iterator().next().setDescription("XDD");
+			next.getCollects().iterator().next().setActivities(next.getActivities());
 			next.getCollects()
-					.get(0)
-					.addNewTime(next.getActivities().get(0), 130_000l,
+					.iterator().next()
+					.addNewTime(next.getActivities().iterator().next(), 130_000l,
 							124_444l, 1200l);
-			Operation old = repo.findAll().iterator().next();
-			service.receiveSync("",old,next);
+			Sync sync = service.receiveSync("",next);
+			System.out.println(sync.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -53,6 +53,7 @@ public class TimeActivity extends FredEntity {
 	private int collectedAmount;
 
 	public TimeActivity() {
+		activity = new Activity();
 	}
 
 	public TimeActivity(Activity activity, Collect collect) {
