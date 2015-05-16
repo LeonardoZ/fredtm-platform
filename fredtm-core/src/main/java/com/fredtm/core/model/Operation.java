@@ -14,7 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,15 +38,13 @@ public class Operation extends FredEntity {
 	@Column(nullable = false, name = "technical_characteristics")
 	private String technicalCharacteristics;
 
-	@JoinColumn(name = "account_id")
+	@JoinColumn(nullable = false, name = "account_id")
 	@ManyToOne(optional = true)
 	private Account account;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 
-	//cascade = { CascadeType.PERSIST, CascadeType.DETACH,
-	// CascadeType.REMOVE, CascadeType.REFRESH 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private Set<Activity> activities;
 
@@ -70,12 +67,6 @@ public class Operation extends FredEntity {
 		collects = new HashSet<Collect>();
 		syncs = new HashSet<Sync>();
 		modified = GregorianCalendar.getInstance().getTime();
-	}
-	
-	@PrePersist
-	private void configureChilds(){
-		activities.forEach(a-> a.setOperation(this));
-		collects.forEach(c -> c.setOperation(this));
 	}
 
 	public String getName() {
@@ -107,14 +98,18 @@ public class Operation extends FredEntity {
 	public Set<Activity> getActivities() {
 		return activities;
 	}
-	
+
 	public List<Activity> getActivitiesList() {
 		return new ArrayList<Activity>(activities);
 	}
 
-
 	public void setActivities(Set<Activity> activities) {
 		this.activities = activities;
+		this.activities.forEach(a -> a.setOperation(this));
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = new HashSet<Activity>(activities);
 	}
 
 	public Set<Collect> getCollects() {

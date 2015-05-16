@@ -1,5 +1,7 @@
 package com.fredtm.api.resource;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -38,6 +40,9 @@ public class CollectResource extends FredResourceSupport {
 
 	public void setActivities(Set<ActivityResource> activities) {
 		this.activities = activities;
+	}
+	public void setActivitiesList(List<ActivityResource> activities) {
+		this.activities = new HashSet<>(activities);
 	}
 
 	@Override

@@ -29,27 +29,28 @@ public class TimeActivity extends FredEntity {
 	private static final SimpleDateFormat sdf = new SimpleDateFormat(
 			"dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
 
-	@ManyToOne
-	@JoinColumn(name = "activity_id")
+	
+	@ManyToOne()
+	@JoinColumn(nullable=false,name = "activity_id")
 	private Activity activity;
 
 	@ManyToOne
-	@JoinColumn(name = "collect_id")
+	@JoinColumn(nullable=false,name = "collect_id")
 	private Collect collect;
 
 	@Transient
 	private Calendar dataManager = GregorianCalendar.getInstance();
 
-	@Column(name="final_date")
+	@Column(name = "final_date")
 	private long finalDate = 0l;
 
-	@Column(name="start_date")
+	@Column(name = "start_date")
 	private long startDate = 0l;
 
 	@Column
 	private long timed = 0l;
 
-	@Column(name="collected_amount")
+	@Column(name = "collected_amount")
 	private int collectedAmount;
 
 	public TimeActivity() {

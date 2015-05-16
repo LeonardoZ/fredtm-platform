@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,7 +36,7 @@ public class CollectResourceAssembler extends
 		CollectResource cr = new CollectResource();
 		List<Activity> activities = entity.getActivities();
 		List<ActivityResource> acrs = acra.toResources(activities);
-		List<TimeActivity> times = entity.getTimes();
+		List<TimeActivity> times = entity.getCollectedTimes();
 		List<TimeActivityResource> tars = tara.toResources(times);
 
 		cr.setOperationId(entity.getOperation().getId());
@@ -49,26 +48,15 @@ public class CollectResourceAssembler extends
 
 	@Override
 	public Optional<Collect> fromResource(CollectResource d) {
-		Collect c = d.getId() != null ? repository.findOne(d.getUuid())
-				: new Collect();
-		c.setActivities(acra.fromResources(d.getActivities()));
+		Collect c = d.getId() != null ? 
+				  repository.findOne(d.getUuid()) : 
+			      new Collect();
 
-		c.getActivities()
-				.forEach(
-						a -> {
-							List<TimeActivityResource> collected = d
-									.getTimes()
-									.stream()
-									.filter(at -> at.getActivityTitle().equals(
-											a.getTitle()))
-									.collect(Collectors.toList());
-							Set<TimeActivity> fromResources = tara
-									.fromResources(collected);
-							fromResources.forEach(t -> t.setActivity(a));
-							c.addTimes(fromResources);
-						});
+		if (c.getId() == null || c.getId().isEmpty()) {
+			tara.setOperationId(d.getOperationId());
+		}
 		Set<TimeActivity> times = tara.fromResources(d.getTimes());
-		ArrayList<TimeActivity> activities = new ArrayList<>(times);
+		List<TimeActivity> activities = new ArrayList<>(times);
 		c.setTimes(activities);
 
 		return Optional.of(c);

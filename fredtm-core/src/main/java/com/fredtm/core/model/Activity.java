@@ -1,11 +1,16 @@
 package com.fredtm.core.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -13,31 +18,34 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
-@Table(name="activity")
+@Table(name = "activity")
 public class Activity extends FredEntity {
 
 	@Transient
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(nullable = false, length = 120)
 	private String title;
 
-	@Column(nullable = false, length = 120)
+	@Column(length = 120)
 	private String description;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name="activity_type")
+	@Column(name = "activity_type")
 	private ActivityType activityType;
 
 	@Column(columnDefinition = "BIT")
 	private Boolean quantitative;
 
-	@Column(length = 100,name="item_name")
+	@Column(length = 100, name = "item_name")
 	private String itemName;
-	
-	@ManyToOne
-	@JoinColumn(name="operation_id")
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "activity")
+	private Set<TimeActivity> times;
 
 	public Activity() {
 		quantitative = false;
@@ -136,8 +144,7 @@ public class Activity extends FredEntity {
 			return false;
 
 		Activity activity = (Activity) o;
-		return new EqualsBuilder()
-				.append(operation, activity.operation)
+		return new EqualsBuilder().append(operation, activity.operation)
 				.append(activityType, activity.activityType)
 				.append(title, activity.title).isEquals();
 	}

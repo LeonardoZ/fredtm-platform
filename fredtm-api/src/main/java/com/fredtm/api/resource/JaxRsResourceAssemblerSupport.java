@@ -35,7 +35,8 @@ public abstract class JaxRsResourceAssemblerSupport<T, D extends ResourceSupport
 
 	public <L extends Iterable<D>> Set<T> fromResources(L l) {
 		Set<T> results = new HashSet<T>();
-		l.forEach(e -> results.add(fromResource(e).orElse(null)));
+		l.forEach(e -> results.add(fromResource(e).orElseThrow(
+				IllegalStateException::new)));
 		return results;
 	}
 

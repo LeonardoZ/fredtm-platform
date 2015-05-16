@@ -113,10 +113,6 @@ public class OperationResource extends ResourceSupport {
 		this.modification = modification;
 	}
 
-	public Set<ActivityResource> getAcitiviesSet() {
-		return activities;
-	}
-
 	public Set<ActivityResource> getActivities() {
 		return activities;
 	}
@@ -153,8 +149,9 @@ public class OperationResource extends ResourceSupport {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUuid()).append(name).append(company)
-				.append(technicalCharacteristics).append(modification).toHashCode();
+		return new HashCodeBuilder().append(getUuid()).append(name)
+				.append(company).append(technicalCharacteristics)
+				.append(modification).toHashCode();
 	}
 
 	@Override

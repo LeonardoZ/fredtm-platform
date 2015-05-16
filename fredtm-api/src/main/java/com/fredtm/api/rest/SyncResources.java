@@ -56,29 +56,14 @@ public class SyncResources {
 					.toResource(oldOperation);
 			json = new Gson().toJson(oldResource);
 		}
-		fullResource.getCollects().forEach(c->System.out.println(c.toString()));
 		Operation newOperation = operationAssembler.fromResource(fullResource)
 				.get();
-		System.err.println("New: " + newOperation);
-		System.err.println("New: " + newOperation.getId());
-		System.err.println("New: " + newOperation.getAccount());
-		System.err.println("New TIMES: " + newOperation.getCollects().iterator().next().getTimes());
-		System.err.println("New ACTS: " + newOperation.getActivities());
 		Sync sync = null;
 		try {
 			sync = service.receiveSync(json, newOperation);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("After ===========");
-
-		System.err.println("After: " + newOperation);
-		System.err.println("After: " + newOperation.getId());
-		System.err.println("After: " + newOperation.getAccount());
-		System.err.println("After: " + newOperation.getCollects());
-		newOperation.getActivities().forEach(
-				a -> System.out.println(a.getOperation().toString()));
-
 		SyncResource syncr = syncAssembler.toResource(sync);
 		return Response.ok(syncr).build();
 	}

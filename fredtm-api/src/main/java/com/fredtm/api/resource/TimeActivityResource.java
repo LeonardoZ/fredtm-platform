@@ -113,6 +113,18 @@ public class TimeActivityResource extends FredResourceSupport {
 	public void setActivityTitle(String activityTitle) {
 		this.activityTitle = activityTitle;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "TimeActivityResource [activityId=" + activityId
+				+ ", activityTitle=" + activityTitle + ", collectId="
+				+ collectId + ", finalDate=" + finalDate + ", startDate="
+				+ startDate + ", timed=" + timed + ", collectedAmount="
+				+ collectedAmount + ", getUuid()=" + getUuid()
+				+ ", getLinks()=" + getLinks() + "]";
+	}
 
 	@Override
 	public int hashCode() {

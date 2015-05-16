@@ -45,14 +45,6 @@ public class Collect extends FredEntity {
 		return rhs.getActivityType().compareTo(lhs.getActivityType());
 	};
 
-	public void configureChilds(List<String> activitiesTitles) {
-		System.err.println("Antes de encontrar: " + activities);
-		times.forEach(t -> {
-			if (t.getCollect() == null || t.getActivity().getId() == null)
-				t.setCollect(this);
-		});
-	}
-
 	@PostConstruct
 	public void organizeTimeActivity() {
 		for (Activity act : activities) {
@@ -67,17 +59,17 @@ public class Collect extends FredEntity {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "operation_id")
+	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
 
-	@Transient
-	private HashMap<String, List<TimeActivity>> collectedTimes;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "collect")
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "collect")
 	private List<TimeActivity> times;
 
 	@Transient
 	private List<Activity> activities;
+
+	@Transient
+	private HashMap<String, List<TimeActivity>> collectedTimes;
 
 	public Collect() {
 		activities = new ArrayList<Activity>();
@@ -143,6 +135,7 @@ public class Collect extends FredEntity {
 
 	public void setTimes(List<TimeActivity> times) {
 		this.times = times;
+		this.times.forEach(t -> t.setCollect(this));
 	}
 
 	public HashMap<String, Long> getSumOfTimes() {
@@ -169,9 +162,13 @@ public class Collect extends FredEntity {
 		return hashMap;
 	}
 
-	public List<TimeActivity> getTimes() {
+	public List<TimeActivity> getCollectedTimes() {
 		return collectedTimes.values().stream().flatMap(tss -> tss.stream())
 				.collect(Collectors.toList());
+	}
+
+	public List<TimeActivity> getTimes() {
+		return times;
 	}
 
 	public void remove(TimeActivity time) {
@@ -180,7 +177,7 @@ public class Collect extends FredEntity {
 	}
 
 	public List<TimeActivity> getTimeInChronologicalOrder() {
-		List<TimeActivity> times = getTimes();
+		List<TimeActivity> times = getCollectedTimes();
 		Collections.sort(times, comparatorReverse);
 		return times;
 	}

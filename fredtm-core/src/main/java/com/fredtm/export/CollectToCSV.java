@@ -69,7 +69,7 @@ public class CollectToCSV implements Exportable<Collect> {
 		destinationDirectory = path;
 		int i = 1;
 		for (Collect c : collects) {
-			if (!c.getTimes().isEmpty()) {
+			if (!c.getCollectedTimes().isEmpty()) {
 				String filename = fileNameGenerationForAll(c.getOperation()
 						.getCompany() + "_" + c.getOperation().getName(),
 						String.valueOf(i++));
