@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,10 +49,28 @@ public class CollectResourceAssembler extends
 
 	@Override
 	public Optional<Collect> fromResource(CollectResource d) {
-		Collect c = d.getId() != null ? repository.findOne(d.getUuid()) : new Collect();
+		Collect c = d.getId() != null ? repository.findOne(d.getUuid())
+				: new Collect();
 		c.setActivities(acra.fromResources(d.getActivities()));
-		c.setTimes(new ArrayList<>(tara.fromResources(d.getTimes())));
+
+		c.getActivities()
+				.forEach(
+						a -> {
+							List<TimeActivityResource> collected = d
+									.getTimes()
+									.stream()
+									.filter(at -> at.getActivityTitle().equals(
+											a.getTitle()))
+									.collect(Collectors.toList());
+							Set<TimeActivity> fromResources = tara
+									.fromResources(collected);
+							fromResources.forEach(t -> t.setActivity(a));
+							c.addTimes(fromResources);
+						});
+		Set<TimeActivity> times = tara.fromResources(d.getTimes());
+		ArrayList<TimeActivity> activities = new ArrayList<>(times);
+		c.setTimes(activities);
+
 		return Optional.of(c);
 	}
-
 }

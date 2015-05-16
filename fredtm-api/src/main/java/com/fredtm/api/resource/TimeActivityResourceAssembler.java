@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.fredtm.api.rest.AccountResources;
 import com.fredtm.core.model.TimeActivity;
+import com.fredtm.data.repository.ActivityRepository;
 import com.fredtm.data.repository.TimeActivityRepository;
 
 @Component
@@ -15,6 +16,8 @@ public class TimeActivityResourceAssembler extends
 
 	@Autowired
 	private TimeActivityRepository repository;
+	@Autowired
+	private ActivityRepository activityRepository;
 	
 	public TimeActivityResourceAssembler() {
 		super(AccountResources.class, TimeActivityResource.class);

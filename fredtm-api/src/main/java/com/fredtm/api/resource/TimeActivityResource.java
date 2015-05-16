@@ -73,6 +73,7 @@ public class TimeActivityResource extends FredResourceSupport {
 		this.collectId = collectId;
 	}
 
+	
 	public long getFinalDate() {
 		return finalDate;
 	}

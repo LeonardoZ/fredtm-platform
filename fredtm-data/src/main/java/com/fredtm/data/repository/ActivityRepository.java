@@ -7,7 +7,7 @@ import com.fredtm.core.model.Activity;
 
 public interface ActivityRepository extends CrudRepository<Activity, String> {
 
-	@Query(name = "findByNameAndOperationId", value = "select a from activity a where a.title = ? and a.operation.id = ? ")
+	@Query(name = "findByNameAndOperationId", value = "select a from Activity a where a.title = ? and a.operation.id = ? ")
 	Activity findByNameAndOperationId(String title, long id);
 
 }

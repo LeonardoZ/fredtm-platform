@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -47,22 +45,11 @@ public class Collect extends FredEntity {
 		return rhs.getActivityType().compareTo(lhs.getActivityType());
 	};
 
-	@PrePersist
-	private void configureChilds() {
-		System.err.println("Antes de encontrar: "+activities);
+	public void configureChilds(List<String> activitiesTitles) {
+		System.err.println("Antes de encontrar: " + activities);
 		times.forEach(t -> {
-			if (t.getCollect() == null || t.getActivity().getId() == null) {
+			if (t.getCollect() == null || t.getActivity().getId() == null)
 				t.setCollect(this);
-				Optional<Activity> activity = this.activities
-						.stream()
-						.filter(a -> a != null)
-						.filter(a -> a.getTitle().equals(
-								t.getActivity().getTitle())
-						).findFirst();
-				System.out.println("Encontrada: " + activity);
-				if (activity.isPresent())
-					t.setActivity(activity.get());
-			}
 		});
 	}
 
@@ -95,6 +82,7 @@ public class Collect extends FredEntity {
 	public Collect() {
 		activities = new ArrayList<Activity>();
 		collectedTimes = new HashMap<String, List<TimeActivity>>();
+		times = new ArrayList<TimeActivity>();
 	}
 
 	public Collect(Collect collect) {
@@ -307,6 +295,10 @@ public class Collect extends FredEntity {
 			return false;
 		Collect other = (Collect) obj;
 		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
+	}
+
+	public void addTimes(Set<TimeActivity> fromResources) {
+		fromResources.forEach(t -> times.add(t));
 	}
 
 }
