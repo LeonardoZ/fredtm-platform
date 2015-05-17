@@ -30,7 +30,7 @@ public class Sync extends FredEntity {
 	private byte[] jsonOldData;
 
 	@ManyToOne
-	@JoinColumn(name = "operation_id")
+	@JoinColumn(nullable=false,name = "operation_id")
 	private Operation operation;
 
 	public Sync() {
@@ -60,7 +60,7 @@ public class Sync extends FredEntity {
 	public void setOperation(Operation operation) {
 		this.operation = operation;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(created).append(jsonOldData).append(operation)

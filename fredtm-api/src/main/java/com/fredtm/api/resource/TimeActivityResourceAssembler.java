@@ -15,6 +15,9 @@ import com.fredtm.data.repository.TimeActivityRepository;
 public class TimeActivityResourceAssembler extends
 		JaxRsResourceAssemblerSupport<TimeActivity, TimeActivityResource> {
 
+	private String operationId = "";
+	@Autowired
+	private ActivityRepository actRepo;
 	@Autowired
 	private TimeActivityRepository repository;
 	@Autowired
@@ -40,13 +43,9 @@ public class TimeActivityResourceAssembler extends
 	public Optional<TimeActivity> fromResource(TimeActivityResource d) {
 		TimeActivity ta = d.getId() != null ? repository.findOne(d.getUuid())
 				: new TimeActivity();
-		System.out.println("I'm null? " + d.getActivityTitle() + " "
-				+ operationId);
 		if (!operationId.isEmpty()) {
-			activityRepository.findAll().forEach(a->System.err.println("Ele: "+a+" "+a.getOperation().getId()));
 			Activity activity = activityRepository.findByTitleAndOperationId(
 					d.getActivityTitle(), operationId);
-			System.err.println(activity); 
 			ta.setActivity(activity);
 		}
 
@@ -57,13 +56,8 @@ public class TimeActivityResourceAssembler extends
 		return Optional.of(ta);
 	}
 
-	private String operationId = "";
-
 	public void setOperationId(String operationId) {
 		this.operationId = operationId;
 	}
-
-	@Autowired
-	private ActivityRepository actRepo;
 
 }

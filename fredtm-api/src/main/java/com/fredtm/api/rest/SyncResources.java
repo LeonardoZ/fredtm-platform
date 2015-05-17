@@ -58,12 +58,7 @@ public class SyncResources {
 		}
 		Operation newOperation = operationAssembler.fromResource(fullResource)
 				.get();
-		Sync sync = null;
-		try {
-			sync = service.receiveSync(json, newOperation);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Sync sync = service.receiveSync(json, newOperation);
 		SyncResource syncr = syncAssembler.toResource(sync);
 		return Response.ok(syncr).build();
 	}

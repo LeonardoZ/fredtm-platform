@@ -23,8 +23,6 @@ public class SyncResourceAssembler extends
 	@Override
 	public SyncResource toResource(Sync entity) {
 		SyncResource sr = new SyncResource();
-		System.err.println("Entidade " + entity);
-		System.err.println("UUID " + entity.getId());
 		sr.uuid(entity.getId()).created(entity.getCreated())
 				.operationId(entity.getOperation().getId())
 				.jsonOldData(new String(entity.getJsonOldData()).intern());

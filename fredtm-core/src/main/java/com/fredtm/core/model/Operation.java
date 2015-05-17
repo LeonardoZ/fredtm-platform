@@ -118,6 +118,7 @@ public class Operation extends FredEntity {
 
 	public void setCollects(Set<Collect> collects) {
 		this.collects = collects;
+		this.collects.forEach(c -> c.setOperation(this));
 	}
 
 	public void addCollect(Collect c) {
@@ -207,6 +208,7 @@ public class Operation extends FredEntity {
 
 	public void setSyncs(Set<Sync> syncs) {
 		this.syncs = syncs;
+		this.syncs.forEach(s -> s.setOperation(this));
 	}
 
 	public void addSync(Sync sync) {
