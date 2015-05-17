@@ -40,5 +40,9 @@ public abstract class JaxRsResourceAssemblerSupport<T, D extends ResourceSupport
 		return results;
 	}
 
+	protected <E extends FredResourceSupport> boolean hasValidUuid(E frs) {
+		return !(frs == null || frs.getUuid() == null || frs.getUuid().isEmpty());
+	}
+
 	public abstract Optional<T> fromResource(D d);
 }

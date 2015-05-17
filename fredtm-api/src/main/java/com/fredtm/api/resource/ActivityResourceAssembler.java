@@ -37,7 +37,7 @@ public class ActivityResourceAssembler extends
 
 	@Override
 	public Optional<Activity> fromResource(ActivityResource d) {
-		Activity act = d.getId() != null ? repository.findOne(d.getUuid())
+		Activity act =  hasValidUuid(d)  ? repository.findOne(d.getUuid())
 				: new Activity();
 		act.setDescription(d.getDescription());
 		act.setTitle(d.getTitle());

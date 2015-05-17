@@ -36,7 +36,7 @@ public class CollectResourceAssembler extends
 		CollectResource cr = new CollectResource();
 		List<Activity> activities = entity.getActivities();
 		List<ActivityResource> acrs = acra.toResources(activities);
-		List<TimeActivity> times = entity.getCollectedTimes();
+		List<TimeActivity> times = entity.getTimes();
 		List<TimeActivityResource> tars = tara.toResources(times);
 
 		cr.setOperationId(entity.getOperation().getId());
@@ -48,12 +48,13 @@ public class CollectResourceAssembler extends
 
 	@Override
 	public Optional<Collect> fromResource(CollectResource d) {
-		Collect c = d.getId() != null ? 
+		Collect c =  hasValidUuid(d)   ? 
 				  repository.findOne(d.getUuid()) : 
 			      new Collect();
 
 		if (c.getId() == null || c.getId().isEmpty()) {
 			tara.setOperationId(d.getOperationId());
+			System.out.println("Null");
 		}
 		Set<TimeActivity> times = tara.fromResources(d.getTimes());
 		List<TimeActivity> activities = new ArrayList<>(times);

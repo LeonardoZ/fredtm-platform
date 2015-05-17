@@ -39,7 +39,6 @@ public class AccountResourcesTest extends TestBase {
 		String hash = new HashGenerator().toHash("123456");
 
 		dto.password(hash);
-		System.err.println(response);
 		assertEquals(dto, response);
 	}
 

@@ -33,13 +33,17 @@ import com.fredtm.service.AccountService;
 @Path(value = "/account")
 @Produces(value = MediaType.APPLICATION_JSON)
 @ExposesResourceFor(AccountResource.class)
-public class AccountResources {
+public class AccountResources implements
+		ResourcesUtil<Account, AccountResource> {
 
 	@Autowired
 	private EntityLinks entityLinks;
 
 	@Autowired
 	private AccountService service;
+
+	@Autowired
+	private AccountResourceAssembler assembler;
 
 	@POST
 	public Response createAccount(AccountResource accountresource) {
@@ -127,18 +131,11 @@ public class AccountResources {
 				.slash("/all?page=" + number + "&elements=" + elements)
 				.withRel(rel);
 		return otherPage;
+
 	}
 
-	private List<AccountResource> configureResources(List<Account> accounts) {
-		List<AccountResource> ress = new ArrayList<>();
-		accounts.iterator().forEachRemaining(
-				a -> ress.add(configureResource(a)));
-		return ress;
-	}
-
-	private AccountResource configureResource(Account account) {
+	public AccountResource configureResource(Account account) {
 		// self
-		AccountResourceAssembler assembler = new AccountResourceAssembler();
 		AccountResource resource = assembler.toResource(account);
 		Link create = entityLinks.linkFor(AccountResource.class).withRel(
 				"createAccount");

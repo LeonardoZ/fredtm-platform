@@ -5,10 +5,17 @@ import static com.jayway.restassured.RestAssured.baseURI;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.port;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -31,6 +38,9 @@ import com.jayway.restassured.specification.ResponseSpecification;
 		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql") })
 public class TestBase {
 
+	@Autowired
+	private ApplicationContext context;
+	
 	@Before
 	public void init() {
 
@@ -67,6 +77,27 @@ public class TestBase {
 				.header("Content-Type", "application/json")
 				.log().all().then();
 		
+	}
+	
+	protected StringBuilder readFromFile(String filePath) {
+		BufferedReader br = null;
+		Resource resource = context.getResource(filePath);
+		try {
+			br = new BufferedReader(new InputStreamReader(
+					resource.getInputStream()));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		String line;
+		StringBuilder sb = new StringBuilder();
+		try {
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb;
 	}
 	
 }

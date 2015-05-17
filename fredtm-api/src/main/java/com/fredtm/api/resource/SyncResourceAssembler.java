@@ -32,7 +32,7 @@ public class SyncResourceAssembler extends
 
 	@Override
 	public Optional<Sync> fromResource(SyncResource d) {
-		Sync s = d.getId() != null ? repository.findOne(d.getUuid())
+		Sync s =  hasValidUuid(d)  ? repository.findOne(d.getUuid())
 				: new Sync();
 		s.setJsonOldData(d.getJsonOldData().getBytes());
 		s.setCreated(d.getCreated());

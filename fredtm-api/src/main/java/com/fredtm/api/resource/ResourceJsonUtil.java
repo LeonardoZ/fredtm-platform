@@ -2,9 +2,7 @@ package com.fredtm.api.resource;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
-import java.util.List;
 
-import com.fredtm.core.model.Activity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -44,8 +42,6 @@ public class ResourceJsonUtil {
 
 		GsonBuilder builder = null;
 		try {
-			Type act = new TypeToken<List<Activity>>() {
-			}.getType();
 			builder = new GsonBuilder().setPrettyPrinting();
 		} catch (Exception e) {
 			e.printStackTrace();

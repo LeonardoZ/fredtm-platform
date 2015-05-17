@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.eventbus.MainEventBus;
-import com.fredtm.exportar.OperacoesToJson;
+import com.fredtm.export.OperationsToJson;
 
 public class ProjetosController extends BaseController implements Initializable {
 
@@ -42,7 +42,8 @@ public class ProjetosController extends BaseController implements Initializable 
 		menucollect.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoAbrircollects(operation));
 		menuExportar.setOnAction(ev -> exportarOperacoes());
-		ContextMenu contextMenu = new ContextMenu(menucollect, menuAtividade,menuExportar);
+		ContextMenu contextMenu = new ContextMenu(menucollect, menuAtividade,
+				menuExportar);
 		contextMenu.setStyle("-fx-background-color: #fff");
 		contextMenu.setAutoFix(true);
 		listViewProjetos.setContextMenu(contextMenu);
@@ -58,8 +59,8 @@ public class ProjetosController extends BaseController implements Initializable 
 		dc.setTitle("Escolha o diretório destino de exportação");
 		File selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory.isDirectory() && selectedDirectory.canWrite()) {
-			OperacoesToJson op = new OperacoesToJson();
-			op.exportar(operations, selectedDirectory.getAbsolutePath());
+			OperationsToJson op = new OperationsToJson();
+			op.export(operations, selectedDirectory.getAbsolutePath());
 			JOptionPane.showMessageDialog(null, "Exportação completa!");
 		} else {
 			JOptionPane

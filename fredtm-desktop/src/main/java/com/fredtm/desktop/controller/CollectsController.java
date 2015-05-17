@@ -1,6 +1,7 @@
 package com.fredtm.desktop.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,7 +30,7 @@ public class CollectsController extends BaseController implements Initializable 
 
 	public void setOperacao(Operation operation) {
 		this.operation = operation;
-		this.collects = operation.getCollects();
+		this.collects = new ArrayList<>(operation.getCollects());
 		listViewcollects.setItems(FXCollections.observableArrayList(collects));
 
 		collects.forEach(c -> {
@@ -54,7 +55,7 @@ public class CollectsController extends BaseController implements Initializable 
 		menuExportarcollect.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoExportarcollects(Arrays.asList(collect)));
 		menuExportarTodascollects.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoExportarcollects(operation.getCollects()));
+				.eventoExportarcollects(new ArrayList<>(operation.getCollects())));
 
 		menuTiposDeGraficos.setOnAction(evt -> MainEventBus.INSTANCE
 				.eventoTiposDeGraficos(collect, collects));

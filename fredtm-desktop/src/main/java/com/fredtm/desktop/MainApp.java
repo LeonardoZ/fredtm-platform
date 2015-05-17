@@ -15,8 +15,7 @@ public class MainApp extends Application {
 	private Scene scene;
 
 	public static void main(String[] args) throws Exception {
-			
-	launch(args);
+		launch(args);
 	}
 
 	public void start(Stage stage) throws Exception {

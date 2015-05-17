@@ -8,7 +8,7 @@ INSERT INTO account(id,email,name,password_hash) VALUES('G','hana.zapparoli@gmai
 
 
 INSERT INTO operation(id,name,company,technical_characteristics,account_id,modified)
-VALUES('fd806586-35d4-4e8c-a119-935d4bea0773','Op dd teste','Farm SA','Operação de coleta de valores','A',now());
+VALUES('fd806586-35d4-4e8c-a119-935d4bea0773','Op dd teste','Farm SA','Operação de coleta de valores','A','2015-05-12 15:20:02.071');
 
 INSERT INTO activity(id,title,description,activity_type,quantitative,item_name,operation_id)
 VALUES('eC211186-35d4-4e8c-a1d9-935d4beaaa73','A','Descripion of A','IMPRODUCTIVE','0','','fd806586-35d4-4e8c-a119-935d4bea0773');

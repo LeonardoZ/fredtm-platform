@@ -33,9 +33,11 @@
     ],
     "collects": [
         {
+        	"uuid":"",
             "operationId": "",
             "times": [
                 {
+                	"uuid": "",
                     "activityId": "",
             		"activityTitle": "A",
                     "collectId":  "",
@@ -48,6 +50,7 @@
                     ]
                 },
                  {
+                	"uuid": "",
                     "activityId": "",
             		"activityTitle": "B",
                     "collectId":  "",

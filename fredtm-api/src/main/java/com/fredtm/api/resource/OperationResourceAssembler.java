@@ -22,17 +22,22 @@ public class OperationResourceAssembler extends
 
 	@Autowired
 	private TimeActivityRepository ta;
-	@Autowired
-	private OperationRepository repo;
-	@Autowired
-	private ActivityRepository actRepo;
-	@Autowired
-	private AccountRepository accRepo;
 	
 	@Autowired
+	private OperationRepository repo;
+	
+	@Autowired
+	private ActivityRepository actRepo;
+	
+	@Autowired
+	private AccountRepository accRepo;
+
+	@Autowired
 	private ActivityResourceAssembler ars;
+	
 	@Autowired
 	private CollectResourceAssembler cra;
+	
 	@Autowired
 	private SyncResourceAssembler sra;
 
@@ -67,7 +72,7 @@ public class OperationResourceAssembler extends
 
 	@Override
 	public Optional<Operation> fromResource(OperationResource d) {
-		Operation op = d.getId() != null ? repo.findOne(d.getUuid())
+		Operation op = hasValidUuid(d) ? repo.findOne(d.getUuid())
 				: new Operation();
 
 		op.setTechnicalCharacteristics(d.getTechnicalCharacteristics());
@@ -79,8 +84,9 @@ public class OperationResourceAssembler extends
 		op.setSyncs(sra.fromResources(d.getSyncs()));
 
 		repo.saveAndFlush(op);
-		List<ActivityResource> resources = ars.toResources(op.getActivities());
 
+		List<ActivityResource> resources = ars.toResources(op.getActivities());
+		op.getCollects().clear();
 		d.getCollects().forEach(c -> {
 			c.setOperationId(op.getId());
 			c.setActivitiesList(resources);

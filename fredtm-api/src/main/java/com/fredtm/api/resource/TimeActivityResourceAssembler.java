@@ -41,11 +41,14 @@ public class TimeActivityResourceAssembler extends
 
 	@Override
 	public Optional<TimeActivity> fromResource(TimeActivityResource d) {
-		TimeActivity ta = d.getId() != null ? repository.findOne(d.getUuid())
+		TimeActivity ta = hasValidUuid(d) ? repository.findOne(d.getUuid())
 				: new TimeActivity();
-		if (!operationId.isEmpty()) {
+		if (!operationId.isEmpty() && d.getActivityId().isEmpty()) {
 			Activity activity = activityRepository.findByTitleAndOperationId(
 					d.getActivityTitle(), operationId);
+			ta.setActivity(activity);
+		} else {
+			Activity activity = activityRepository.findOne(d.getActivityId());
 			ta.setActivity(activity);
 		}
 

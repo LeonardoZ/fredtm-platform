@@ -5,11 +5,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.hateoas.ResourceSupport;
 
-public class OperationResource extends ResourceSupport {
+public class OperationResource extends FredResourceSupport {
 
-	private String uuid;
 	private String name;
 	private String company;
 	private String technicalCharacteristics;
@@ -26,7 +24,7 @@ public class OperationResource extends ResourceSupport {
 	}
 
 	public OperationResource uuid(String value) {
-		this.uuid = value;
+		setUuid(value);
 		return this;
 	}
 
@@ -63,14 +61,6 @@ public class OperationResource extends ResourceSupport {
 	public OperationResource activities(Set<ActivityResource> value) {
 		this.activities = value;
 		return this;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getName() {
@@ -139,7 +129,7 @@ public class OperationResource extends ResourceSupport {
 
 	@Override
 	public String toString() {
-		return "OperationResource [uuid=" + uuid + ", name=" + name
+		return "OperationResource [uuid=" + getUuid() + ", name=" + name
 				+ ", company=" + company + ", technicalCharacteristics="
 				+ technicalCharacteristics + ", accountId=" + accountId
 				+ ", modification=" + modification + ", acitiviesSet="

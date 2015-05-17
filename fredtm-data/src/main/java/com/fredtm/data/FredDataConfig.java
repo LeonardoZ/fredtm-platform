@@ -9,10 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages={
-		"com.fredtm.core.model",
-		"com.fredtm.data",
-		"com.fredtm.data.repository" },transactionManagerRef = "transactionManager")
+@EnableJpaRepositories(basePackages = { "com.fredtm.core.model",
+		"com.fredtm.data", "com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
+
 public class FredDataConfig {
 
 	public static void main(String[] args) {

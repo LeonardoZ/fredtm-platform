@@ -16,10 +16,10 @@ import javafx.stage.DirectoryChooser;
 import javax.swing.JOptionPane;
 
 import com.fredtm.core.model.Collect;
-import com.fredtm.exportar.ErroDeExportacaoExcetion;
-import com.fredtm.exportar.Exportacao;
-import com.fredtm.exportar.ExportarColetaFactory;
-import com.fredtm.exportar.Exportavel;
+import com.fredtm.export.ExportCollectFactory;
+import com.fredtm.export.Exportable;
+import com.fredtm.export.Exportation;
+import com.fredtm.export.ExportationErrorExcetion;
 
 public class ExportCollectsController extends BaseController implements
 		Initializable {
@@ -27,7 +27,7 @@ public class ExportCollectsController extends BaseController implements
 	@FXML
 	private ListView<Collect> listViewcollects;
 	@FXML
-	private ChoiceBox<Exportacao> choiceTiposExportacao;
+	private ChoiceBox<Exportation> choiceTiposExportacao;
 	@FXML
 	private TextField tfDiretorio;
 
@@ -44,28 +44,30 @@ public class ExportCollectsController extends BaseController implements
 		DirectoryChooser dc = new DirectoryChooser();
 		dc.setTitle("Escolha o local para salvar sua exportação");
 		selectedDirectory = dc.showDialog(getWindow());
-		if (selectedDirectory != null && selectedDirectory.isDirectory() && selectedDirectory.canWrite()) {
+		if (selectedDirectory != null && selectedDirectory.isDirectory()
+				&& selectedDirectory.canWrite()) {
 			tfDiretorio.setText(selectedDirectory.getAbsolutePath());
 		}
 	}
 
+	@SuppressWarnings("restriction")
 	@FXML
 	private void onExportarClicked() {
 		if (selectedDirectory == null) {
 			return;
 		}
-		Exportavel<Collect> exportador = ExportarColetaFactory
-				.getExportador(choiceTiposExportacao.getValue());
+		Exportable<Collect> exportador = ExportCollectFactory
+				.getExporter(choiceTiposExportacao.getValue());
 		try {
 			if (collects.size() == 1) {
-				exportador.exportar(collects.get(0),
+				exportador.export(collects.get(0),
 						selectedDirectory.getAbsolutePath());
 			} else {
-				exportador.exportar(collects,
+				exportador.export(collects,
 						selectedDirectory.getAbsolutePath());
 			}
 			JOptionPane.showMessageDialog(null, "Exportação completa!");
-		} catch (ErroDeExportacaoExcetion e) {
+		} catch (ExportationErrorExcetion e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -73,7 +75,7 @@ public class ExportCollectsController extends BaseController implements
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		choiceTiposExportacao.getItems().addAll(Exportacao.toList());
+		choiceTiposExportacao.getItems().addAll(Exportation.toList());
 		choiceTiposExportacao.autosize();
 	}
 

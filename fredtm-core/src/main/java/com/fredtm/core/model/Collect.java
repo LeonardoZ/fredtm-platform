@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -62,7 +63,7 @@ public class Collect extends FredEntity {
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
 
-	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "collect")
+	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "collect")
 	private List<TimeActivity> times;
 
 	@Transient

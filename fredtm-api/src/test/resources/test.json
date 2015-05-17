@@ -1,9 +1,9 @@
 {
     "uuid": "fd806586-35d4-4e8c-a119-935d4bea0773",
-    "name": "Op teste",
+    "name": "Op dd teste",
     "company": "Farm SA",
     "technicalCharacteristics": "THATS MY SPOT",
-    "accountId": 0,
+    "accountId": A,
     "modification": "May 14, 2015 3:39:05 PM",
     "activities": [
         {
@@ -12,7 +12,7 @@
             "activityType": "IMPRODUTIVA",
             "quantitative": false,
             "itemName": "N\u00e3o quantitativa",
-            "operationId": 0,
+            "operationId": "fd806586-35d4-4e8c-a119-935d4bea0773",
             "uuid": "eC211186-35d4-4e8c-a1d9-935d4beaaa73",
             "links": [
                 
@@ -24,7 +24,7 @@
             "activityType": "PRODUTIVA",
             "quantitative": true,
             "itemName": "Trees",
-            "operationId": 0,
+            "operationId": "fd806586-35d4-4e8c-a119-935d4bea0773",
             "uuid": "935d4beaaa73-4e8c-4e8c-a1d9-eC211186",
             "links": [
                 
@@ -33,11 +33,16 @@
     ],
     "collects": [
         {
+        	
+            "uuid": "01f0997f-7330-4dd8-b186-87b6bc344f90",
             "operationId": "fd806586-35d4-4e8c-a119-935d4bea0773",
             "times": [
                 {
+                	
+                	"uuid": "",
                     "activityId": "eC211186-35d4-4e8c-a1d9-935d4beaaa73",
                     "collectId": "01f0997f-7330-4dd8-b186-87b6bc344f90",
+            		"activityTitle": "A",
                     "finalDate": 124444,
                     "startDate": 130000,
                     "timed": 1000,
@@ -54,7 +59,7 @@
                     "activityType": "PRODUTIVA",
                     "quantitative": true,
                     "itemName": "Trees",
-                    "operationId": 0,
+                    "operationId": "fd806586-35d4-4e8c-a119-935d4bea0773",
                     "uuid": "935d4beaaa73-4e8c-4e8c-a1d9-eC211186",
                     "links": [
                         
@@ -66,7 +71,7 @@
                     "activityType": "IMPRODUTIVA",
                     "quantitative": false,
                     "itemName": "N\u00e3o quantitativa",
-                    "operationId": 0,
+                    "operationId": "fd806586-35d4-4e8c-a119-935d4bea0773",
                     "uuid": "eC211186-35d4-4e8c-a1d9-935d4beaaa73",
                     "links": [
                         
