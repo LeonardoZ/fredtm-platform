@@ -27,6 +27,11 @@ public class FredTmApiConfig {
 	private OperationRepository repo;
 
 	public static void main(String[] args) {
+		String webPort = System.getenv("PORT");
+		if (webPort == null || webPort.isEmpty()) {
+			webPort = "9000";
+		}
+		System.setProperty("server.port", webPort);
 		SpringApplication.run(FredTmApiConfig.class, args);
 	}
 
