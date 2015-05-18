@@ -57,7 +57,7 @@ public class ProdDBConfig {
 	DataSource generateDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.postgresql.Driver");
-		dataSource.setUrl("jdbc:postgres://xqbackfnvyowex:q7erwh1TskPNB0woi7Pne48aCd@ec2-107-20-234-127.compute-1.amazonaws.com:5432/d2q3aflbm4bg7p");
+		dataSource.setUrl("jdbc:postgres://zmjlnczlkkcehh:MMuYhUtsGMClWFfTLy_ZiVmqg0@ec2-184-73-253-4.compute-1.amazonaws.com:5432/d6jhi09e6pcqvq");
 		dataSource.setUsername("root");
 		dataSource.setPassword("");
 		return dataSource;
