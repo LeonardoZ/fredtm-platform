@@ -1,1 +1,1 @@
-web: java -Dspring.profiles.active=prod -jar target/fredtm-api-1.0.jar  
+web: java -Dspring.profiles.active=prod -jar fredtm-api/target/*.jar  
