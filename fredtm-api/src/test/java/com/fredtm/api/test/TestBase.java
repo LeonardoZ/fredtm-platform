@@ -45,7 +45,8 @@ public class TestBase {
 	@Before
 	public void init() {
 
-		baseURI = "https://localhost";
+		// baseURI = "https://localhost";
+		baseURI =  "https://fredtm-api.herokuapp.com/";
 		port = 9000;
 		basePath = "/fredapi";
 		RestAssured.defaultParser = Parser.JSON;

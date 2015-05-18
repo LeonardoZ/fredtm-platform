@@ -20,12 +20,6 @@ import com.google.gson.Gson;
 @ActiveProfiles(value="test")
 public class AccountResourcesTest extends TestBase {
 
-	@Before
-	public void init() {
-		baseURI = "https://localhost";
-		port = 9000;
-		basePath = "/fredapi";
-	}
 
 	@Test
 	public void shouldPostNewAccount() {
