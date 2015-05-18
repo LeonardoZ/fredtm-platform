@@ -9,7 +9,7 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>fredtm-api</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>FredTM API</name>
 	<description>FredTM REST API </description>
