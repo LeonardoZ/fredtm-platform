@@ -30,7 +30,7 @@ import com.jayway.restassured.specification.ResponseSpecification;
 
 @FredApiTest
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles(profiles="test")
+@ActiveProfiles(value = "test")
 @SpringApplicationConfiguration(classes = FredTmApiConfig.class)
 @WebAppConfiguration
 @IntegrationTest
@@ -41,7 +41,7 @@ public class TestBase {
 
 	@Autowired
 	private ApplicationContext context;
-	
+
 	@Before
 	public void init() {
 
@@ -50,36 +50,30 @@ public class TestBase {
 		basePath = "/fredapi";
 		RestAssured.defaultParser = Parser.JSON;
 	}
-	
-	protected ResponseSpecification makeRequest(){
-		return given()
-				.relaxedHTTPSValidation()
-				.auth()
+
+	protected ResponseSpecification makeRequest() {
+		return given().relaxedHTTPSValidation().auth()
 				.basic("leo.zapparoli@gmail.com", "123")
 				.header("Accept", "application/json").log().all().then();
-		
+
 	}
-	
-	protected ResponseSpecification makeContentRequest(){
-		return given()
-				.relaxedHTTPSValidation()
-				.auth()
+
+	protected ResponseSpecification makeContentRequest() {
+		return given().relaxedHTTPSValidation().auth()
 				.basic("leo.zapparoli@gmail.com", "123")
 				.header("Accept", "application/json")
-				.header("Content-Type", "application/json;charset=UTF8")
-				.log().all().then();
-		
+				.header("Content-Type", "application/json;charset=UTF8").log()
+				.all().then();
+
 	}
-	
-	protected ResponseSpecification makeHeaderlessContentRequest(){
-		return given()
-				.relaxedHTTPSValidation()
+
+	protected ResponseSpecification makeHeaderlessContentRequest() {
+		return given().relaxedHTTPSValidation()
 				.header("Accept", "application/json")
-				.header("Content-Type", "application/json")
-				.log().all().then();
-		
+				.header("Content-Type", "application/json").log().all().then();
+
 	}
-	
+
 	protected StringBuilder readFromFile(String filePath) {
 		BufferedReader br = null;
 		Resource resource = context.getResource(filePath);
@@ -100,5 +94,5 @@ public class TestBase {
 		}
 		return sb;
 	}
-	
+
 }
