@@ -18,8 +18,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -27,12 +27,13 @@ import com.fredtm.api.FredTmApiConfig;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.ResponseSpecification;
+
 @FredApiTest
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles(profiles="test")
 @SpringApplicationConfiguration(classes = FredTmApiConfig.class)
 @WebAppConfiguration
 @IntegrationTest
-@ActiveProfiles("test")
 @SqlGroup({
 		@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
 		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql") })

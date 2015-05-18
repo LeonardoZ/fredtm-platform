@@ -1,7 +1,5 @@
 package com.fredtm.api.security;
 
-import groovy.util.logging.Slf4j;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import com.fredtm.core.util.HashGenerator;
 
 @Configuration
 @EnableWebSecurity
-@Slf4j
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired

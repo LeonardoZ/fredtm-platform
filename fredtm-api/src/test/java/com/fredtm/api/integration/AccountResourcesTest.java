@@ -10,12 +10,14 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.fredtm.api.resource.AccountResource;
 import com.fredtm.api.test.TestBase;
 import com.fredtm.core.util.HashGenerator;
 import com.google.gson.Gson;
 
+@ActiveProfiles(value="test")
 public class AccountResourcesTest extends TestBase {
 
 	@Before
@@ -69,14 +71,14 @@ public class AccountResourcesTest extends TestBase {
 	@Test
 	public void shouldReturn3Elements() {
 		List<Map<Object,Object>> list = makeRequest().and().given().queryParam("page", 0)
-				.queryParam("elements", 3).get("/account/all").andReturn()
+				.queryParam("elements", 3).get("/account/all").andReturn().prettyPeek()
 				.jsonPath().get("links");
 
-		String url = list.get(1).get("href").toString()
+		String url = list.get(2).get("href").toString()
 				.substring("https://localhost:9000/fredapi/".length());
+		System.err.println("URL "+url);
 
-
-		int size = makeRequest().and().given().get(url).andReturn().jsonPath()
+		int size = makeRequest().and().given().get(url).andReturn().prettyPeek().jsonPath()
 				.getList("content").size();
 		assertEquals(3, size);
 

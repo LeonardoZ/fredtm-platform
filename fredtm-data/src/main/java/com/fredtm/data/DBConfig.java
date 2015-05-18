@@ -19,6 +19,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@Profile("dev")
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",
 		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
@@ -26,10 +27,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = { "com.fredtm.data.repository",
 		"com.fredtm.service" })
 @EnableTransactionManagement
-@Profile("dev")
+
 public class DBConfig {
 
 	@Bean
+	@Profile("dev")
 	LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
 		sf.setDataSource(generateDataSource());
@@ -39,6 +41,7 @@ public class DBConfig {
 	}
 
 	@Bean
+	@Profile("dev")
 	LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(generateDataSource());
@@ -50,33 +53,26 @@ public class DBConfig {
 	}
 
 	@Bean
-	DataSource generateTestDataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/fredtm");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-		return dataSource;
-	}
-
-	@Bean
+	@Profile("dev")
 	DataSource generateDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/fredtm");
 		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setPassword("");
 		return dataSource;
 	}
 
 	@Bean
+	@Profile("dev")
 	PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
 	}
 
+	@Profile("dev")
 	Properties additionalProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+		properties.setProperty("hibernate.hbm2ddl.auto", "create");
 		properties.setProperty("hibernate.dialect",
 				"org.hibernate.dialect.MySQL5Dialect");
 		properties.setProperty("show_sql", "true");

@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,30 +19,32 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@Profile("prod")
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",
 		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
-@EnableAutoConfiguration()
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 @ComponentScan(basePackages = { "com.fredtm.data.repository",
 		"com.fredtm.service" })
 @EnableTransactionManagement
-public class TestDBConfig {
+
+public class ProdDBConfig {
 
 	@Bean
-	@Profile("test")
+	@Profile("prod")
 	LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
-		sf.setDataSource(generateTestDataSource());
+		sf.setDataSource(generateDataSource());
 		sf.setPackagesToScan(new String[] { "com.fredtm.core.model" });
 		sf.setHibernateProperties(additionalProperties());
 		return sf;
 	}
 
 	@Bean
-	@Profile("test")
+	@Profile("prod")
 	LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(generateTestDataSource());
+		em.setDataSource(generateDataSource());
 		em.setPackagesToScan(new String[] { "com.fredtm.core.model" });
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -50,28 +53,28 @@ public class TestDBConfig {
 	}
 
 	@Bean
-	@Profile("test")
-	DataSource generateTestDataSource() {
+	@Profile("prod")
+	DataSource generateDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		dataSource.setUrl("jdbc:hsqldb:hsql//localhost/");
-		dataSource.setUsername("sa");
-		dataSource.setPassword("sa");
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:postgres://xqbackfnvyowex:q7erwh1TskPNB0woi7Pne48aCd@ec2-107-20-234-127.compute-1.amazonaws.com:5432/d2q3aflbm4bg7p");
+		dataSource.setUsername("root");
+		dataSource.setPassword("");
 		return dataSource;
 	}
 
 	@Bean
-	@Profile("test")
+	@Profile("prod")
 	PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
 	}
 
-	@Profile("test")
+	@Profile("prod")
 	Properties additionalProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		properties.setProperty("hibernate.hbm2ddl.auto", "create");
 		properties.setProperty("hibernate.dialect",
-				"org.hibernate.dialect.HSQLDialect");
+				"org.hibernate.dialect.PostgreSQLDialect");
 		properties.setProperty("show_sql", "true");
 		return properties;
 	}

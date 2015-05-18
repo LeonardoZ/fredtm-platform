@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.Sync;
-import com.fredtm.data.FredDataConfig;
+import com.fredtm.data.FredTmDataConfig;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.service.SyncService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { FredDataConfig.class })
+@SpringApplicationConfiguration(classes = { FredTmDataConfig.class })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 @ActiveProfiles("test")

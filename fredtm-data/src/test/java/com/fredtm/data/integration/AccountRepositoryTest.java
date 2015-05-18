@@ -18,11 +18,11 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fredtm.core.model.Account;
-import com.fredtm.data.FredDataConfig;
+import com.fredtm.data.FredTmDataConfig;
 import com.fredtm.data.repository.AccountRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { FredDataConfig.class })
+@SpringApplicationConfiguration(classes = { FredTmDataConfig.class })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
 @ActiveProfiles("test")
