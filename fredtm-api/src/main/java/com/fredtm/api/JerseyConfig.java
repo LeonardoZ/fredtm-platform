@@ -6,6 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
 import com.fredtm.api.rest.AccountResources;
+import com.fredtm.api.rest.FredApiResources;
 import com.fredtm.api.rest.OperationResources;
 import com.fredtm.api.rest.SyncResources;
 
@@ -16,6 +17,6 @@ public class JerseyConfig extends ResourceConfig {
 		register(OperationResources.class);
 		register(AccountResources.class);
 		register(SyncResources.class);
+		register(FredApiResources.class);
 	}
-
 }
