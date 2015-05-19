@@ -1,10 +1,14 @@
 package com.fredtm.api.integration;
 
+import static com.jayway.restassured.RestAssured.basePath;
+import static com.jayway.restassured.RestAssured.baseURI;
+import static com.jayway.restassured.RestAssured.port;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -12,10 +16,20 @@ import com.fredtm.api.resource.AccountResource;
 import com.fredtm.api.test.TestBase;
 import com.fredtm.core.util.HashGenerator;
 import com.google.gson.Gson;
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.parsing.Parser;
 
 @ActiveProfiles(value="test")
 public class AccountResourcesTest extends TestBase {
+	@Before
+	public void init() {
 
+//		baseURI = "https://localhost";
+		baseURI = "https://fredtm-api.herokuapp.com";
+		basePath = "/fredapi";
+		RestAssured.defaultParser = Parser.JSON;
+	}
+	
 
 	@Test
 	public void shouldPostNewAccount() {

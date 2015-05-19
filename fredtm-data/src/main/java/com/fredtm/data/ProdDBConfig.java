@@ -80,6 +80,7 @@ public class ProdDBConfig {
 		basicDataSource.setUrl(dbUrl);
 		basicDataSource.setUsername(username);
 		basicDataSource.setPassword(password);
+		basicDataSource.addConnectionProperty("connectionProperties", "ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory");
 		return basicDataSource;
 	}
 
