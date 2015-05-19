@@ -35,7 +35,6 @@ public class OperationResources {
 			return Response.noContent().build();
 		}
 		Operation found = repository.findOne(id);
-		System.out.println(id);
 		OperationResource resource = assembler.toResource(found);
 		return Response.ok(resource).build();
 	}
