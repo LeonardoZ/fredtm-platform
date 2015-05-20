@@ -1,4 +1,4 @@
-package com.fredtm.resources.resource;
+package com.fredtm.resources.dto;
 
 public class Link {
 	private String rel;

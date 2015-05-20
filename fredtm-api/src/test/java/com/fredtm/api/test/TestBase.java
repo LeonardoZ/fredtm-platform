@@ -50,20 +50,21 @@ public class TestBase {
 		port = 9000;
 		RestAssured.defaultParser = Parser.JSON;
 	}
-	
-	
 
 	protected ResponseSpecification makeRequest() {
-		
+
 		return given().relaxedHTTPSValidation().auth()
 				.basic("leo.zapparoli@gmail.com", "123")
-				.header("Accept", "application/json").log().all().then();
+				.log().all(true)
+				.header("Accept", "application/json").log().headers().then()
+				.log().all().then();
 
 	}
 
 	protected ResponseSpecification makeContentRequest() {
 		return given().relaxedHTTPSValidation().auth()
 				.basic("leo.zapparoli@gmail.com", "123")
+				
 				.header("Accept", "application/json")
 				.header("Content-Type", "application/json;charset=UTF8").log()
 				.all().then();

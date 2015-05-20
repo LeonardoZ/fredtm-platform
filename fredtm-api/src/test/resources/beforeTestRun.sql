@@ -15,7 +15,7 @@ VALUES('eC211186-35d4-4e8c-a1d9-935d4beaaa73','A','Descripion of A','IMPRODUCTIV
 INSERT INTO activity(id,title,description,activity_type,quantitative,item_name,operation_id)
 VALUES('935d4beaaa73-4e8c-4e8c-a1d9-eC211186','B','Descripion of B','PRODUCTIVE','1','Trees','fd806586-35d4-4e8c-a119-935d4bea0773');
 
-INSERT INTO collect(id, operation_id) VALUES('01f0997f-7330-4dd8-b186-87b6bc344f90','fd806586-35d4-4e8c-a119-935d4bea0773')
+INSERT INTO collect(id, operation_id) VALUES('01f0997f-7330-4dd8-b186-87b6bc344f90','fd806586-35d4-4e8c-a119-935d4bea0773');
 
 INSERT INTO time_activity(id,activity_id,collect_id,start_date,final_date,timed,collected_amount)
 VALUES('eeaaca35-728b-477c-bb8c-edc76767d457','eC211186-35d4-4e8c-a1d9-935d4beaaa73','01f0997f-7330-4dd8-b186-87b6bc344f90',

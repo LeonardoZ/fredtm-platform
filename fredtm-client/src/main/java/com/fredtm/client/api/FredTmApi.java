@@ -1,15 +1,40 @@
 package com.fredtm.client.api;
 
+import java.util.Base64;
+
 import retrofit.RestAdapter;
 
 public class FredTmApi {
 
-	public RestAdapter configAdapter() {
-		return new RestAdapter.Builder().setEndpoint(
-				"https://localhost:9000/fredapi").build();
+	private final String email, password;
+	private String encodedCredentials = "";
+
+	public FredTmApi(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
 	}
 
-	public <T> T build(Class<T> apiDef) {
+	public RestAdapter configAdapter() {
+		return new RestAdapter.Builder()
+
+		.setRequestInterceptor(rf -> {
+
+			String authorization = encodeCredentialsForBasicAuthorization();
+			rf.addHeader("Authorization", authorization);
+		}).setEndpoint("http://fredtm-api.herokuapp.com/fredapi").build();
+	}
+
+	private String encodeCredentialsForBasicAuthorization() {
+		if (encodedCredentials.isEmpty()) {
+			final String userAndPassword = email + ":" + password;
+			encodedCredentials = "Basic "
+					+ new String(Base64.getEncoder().encode(userAndPassword.getBytes())).intern();
+		}
+		return encodedCredentials;
+	}
+
+	public <T> T get(Class<T> apiDef) {
 		return configAdapter().create(apiDef);
 	}
 
