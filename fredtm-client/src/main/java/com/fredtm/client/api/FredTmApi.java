@@ -3,6 +3,7 @@ package com.fredtm.client.api;
 import java.util.Base64;
 
 import retrofit.RestAdapter;
+import retrofit.RestAdapter.LogLevel;
 
 public class FredTmApi {
 
@@ -17,7 +18,7 @@ public class FredTmApi {
 
 	public RestAdapter configAdapter() {
 		return new RestAdapter.Builder()
-
+		.setLogLevel(LogLevel.FULL)
 		.setRequestInterceptor(rf -> {
 
 			String authorization = encodeCredentialsForBasicAuthorization();
