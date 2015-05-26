@@ -1,7 +1,10 @@
 package com.fredtm.client.api;
 
-import java.util.Base64;
 
+
+import org.apache.commons.codec.binary.Base64;
+
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
 
@@ -9,6 +12,15 @@ public class FredTmApi {
 
 	private final String email, password;
 	private String encodedCredentials = "";
+	private String endpoint;
+
+	public FredTmApi(String endpoint,String email, String password) {
+		super();
+
+		this.endpoint = endpoint;
+		this.email = email;
+		this.password = password;
+	}
 
 	public FredTmApi(String email, String password) {
 		super();
@@ -16,21 +28,28 @@ public class FredTmApi {
 		this.password = password;
 	}
 
+	
 	public RestAdapter configAdapter() {
 		return new RestAdapter.Builder()
-		.setLogLevel(LogLevel.FULL)
-		.setRequestInterceptor(rf -> {
-
-			String authorization = encodeCredentialsForBasicAuthorization();
-			rf.addHeader("Authorization", authorization);
-		}).setEndpoint("http://fredtm-api.herokuapp.com/fredapi").build();
+				.setLogLevel(LogLevel.FULL)
+				.setRequestInterceptor(new RequestInterceptor() {
+					
+					@Override
+					public void intercept(RequestFacade request) {
+						String authorization = encodeCredentialsForBasicAuthorization();
+						request.addHeader("Authorization", authorization);
+						
+					}
+				})
+				.setEndpoint(endpoint == null ? "http://fredtm-api.herokuapp.com/fredapi" : endpoint).build();
 	}
 
 	private String encodeCredentialsForBasicAuthorization() {
 		if (encodedCredentials.isEmpty()) {
 			final String userAndPassword = email + ":" + password;
 			encodedCredentials = "Basic "
-					+ new String(Base64.getEncoder().encode(userAndPassword.getBytes())).intern();
+					+ new String(Base64.encodeBase64(
+							userAndPassword.getBytes())).intern();
 		}
 		return encodedCredentials;
 	}

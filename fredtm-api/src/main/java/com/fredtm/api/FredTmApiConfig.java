@@ -31,8 +31,7 @@ public class FredTmApiConfig {
 		if (webPort == null || webPort.isEmpty()) {
 			webPort = "9000";
 		}
-		System.setProperty("server.port", webPort);
-		SpringApplication.run(FredTmApiConfig.class, args);
+			SpringApplication.run(FredTmApiConfig.class, args);
 	}
 
 }

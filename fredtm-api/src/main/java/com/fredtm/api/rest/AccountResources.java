@@ -87,8 +87,6 @@ public class AccountResources implements
 		}
 	}
 
-	@GET
-	@Path("/all")
 	public Response getAllAccounts(
 			@QueryParam("page") @DefaultValue("0") int page,
 			@QueryParam("elements") @DefaultValue("3") int elements) {

@@ -41,6 +41,7 @@ public class AtividadesController extends BaseController implements Initializabl
 		tbAtividades.setItems(FXCollections.observableArrayList(atividades));
 	}
 
+	@SuppressWarnings("restriction")
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		colTitulo

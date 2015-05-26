@@ -29,7 +29,11 @@ public class BaseDTO {
 	}
 
 	public Link getHref(String rel) {
-		return links.stream().filter(f -> f.getRel().equals(rel)).findFirst()
-				.get();
+		for (Link link : links) {
+			if (link.getRel().equals(rel)) {
+				return link;
+			}
+		}
+		return null;
 	}
 }

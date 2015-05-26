@@ -2,7 +2,3 @@ spring:
   profiles: dev,test
 server:
   port: 9000
-  ssl:
-    key-store: fredssl.jks
-    key-store-password: 563asd563
-    keyAlias: fredapi
