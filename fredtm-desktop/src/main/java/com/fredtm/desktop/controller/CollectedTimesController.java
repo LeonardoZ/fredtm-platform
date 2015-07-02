@@ -46,7 +46,7 @@ public class CollectedTimesController extends BaseController implements
 	public void initialize(URL url, ResourceBundle bundle) {
 		colAtividade
 				.setCellValueFactory(new PropertyValueFactory<TimeActivity, Activity>(
-						"activity"));
+						"atividade"));
 		colInicial.setCellValueFactory(dado -> new SimpleStringProperty(dado
 				.getValue().getFormattedStartDate()));
 		colFinal.setCellValueFactory(dado -> new SimpleStringProperty(dado
@@ -58,7 +58,7 @@ public class CollectedTimesController extends BaseController implements
 		// Cell change
 		colAtividade
 				.setCellValueFactory(new PropertyValueFactory<TimeActivity, Activity>(
-						"activity"));
+						"atividade"));
 
 	}
 

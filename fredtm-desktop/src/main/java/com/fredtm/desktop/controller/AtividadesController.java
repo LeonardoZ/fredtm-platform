@@ -41,7 +41,6 @@ public class AtividadesController extends BaseController implements Initializabl
 		tbAtividades.setItems(FXCollections.observableArrayList(atividades));
 	}
 
-	@SuppressWarnings("restriction")
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
 		colTitulo
@@ -64,7 +63,7 @@ public class AtividadesController extends BaseController implements Initializabl
 		});
 		colQuantitativa.setCellValueFactory(value -> new SimpleStringProperty(
 				value.getValue() != null ? value.getValue().getItemName()
-						: "NÃ£o quantitativa"));
+						: "Não quantitativa"));
 		ContextMenu menu = new ContextMenu();
 		
 		MenuItem menuExportar = new MenuItem("Exportar");

@@ -42,7 +42,7 @@ public class ExportCollectsController extends BaseController implements
 	@FXML
 	void onEscolherDiretorioClicked(ActionEvent event) {
 		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportaÃ§Ã£o");
+		dc.setTitle("Escolha o local para salvar sua exportação");
 		selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory != null && selectedDirectory.isDirectory()
 				&& selectedDirectory.canWrite()) {
@@ -50,7 +50,6 @@ public class ExportCollectsController extends BaseController implements
 		}
 	}
 
-	@SuppressWarnings("restriction")
 	@FXML
 	private void onExportarClicked() {
 		if (selectedDirectory == null) {
@@ -66,7 +65,7 @@ public class ExportCollectsController extends BaseController implements
 				exportador.export(collects,
 						selectedDirectory.getAbsolutePath());
 			}
-			JOptionPane.showMessageDialog(null, "ExportaÃ§Ã£o completa!");
+			JOptionPane.showMessageDialog(null, "Exportação completa!");
 		} catch (ExportationErrorExcetion e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());

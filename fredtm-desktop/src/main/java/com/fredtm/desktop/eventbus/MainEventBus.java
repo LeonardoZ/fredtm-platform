@@ -17,7 +17,7 @@ public class MainEventBus {
 
 	public void registrarOuvinte(MainController main) {
 		if (this.main != null) {
-			throw new IllegalArgumentException("Ouvinte j√° registrado!");
+			throw new IllegalArgumentException("Ouvinte j· registrado!");
 		}
 		this.main = main;
 	}

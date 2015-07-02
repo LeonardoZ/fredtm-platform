@@ -18,7 +18,7 @@ import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.export.OperationsToJson;
 
-public class ProjetosController extends BaseController implements Initializable {
+public class ProjectsController extends BaseController implements Initializable {
 
 	@FXML
 	private ListView<Operation> listViewProjetos;
@@ -34,9 +34,9 @@ public class ProjetosController extends BaseController implements Initializable 
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		MenuItem menucollect = new MenuItem("Ver collects");
+		MenuItem menucollect = new MenuItem("Ver coletas");
 		MenuItem menuAtividade = new MenuItem("Ver atividades");
-		MenuItem menuExportar = new MenuItem("Exportar todas opera√ß√µes");
+		MenuItem menuExportar = new MenuItem("Exportar todas operaÁıes");
 		menuAtividade.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoAbrirAtividades(operation));
 		menucollect.setOnAction(ev -> MainEventBus.INSTANCE
@@ -56,16 +56,16 @@ public class ProjetosController extends BaseController implements Initializable 
 
 	private void exportarOperacoes() {
 		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o diret√≥rio destino de exporta√ß√£o");
+		dc.setTitle("Escolha o diretÛrio destino de exportaÁ„o");
 		File selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory.isDirectory() && selectedDirectory.canWrite()) {
 			OperationsToJson op = new OperationsToJson();
 			op.export(operations, selectedDirectory.getAbsolutePath());
-			JOptionPane.showMessageDialog(null, "Exporta√ß√£o completa!");
+			JOptionPane.showMessageDialog(null, "ExportaÁ„o completa!");
 		} else {
 			JOptionPane
 					.showMessageDialog(null,
-							"Erro ao exportar. Verifique se √© o destino √© um diret√≥rio v√°lido.");
+							"Erro ao exportar. Verifique se o destino È um diretÛrio v·lido.");
 		}
 	}
 

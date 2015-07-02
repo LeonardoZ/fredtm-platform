@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 import com.fredtm.desktop.sync.SocketConfig;
 
-public class ConfigurarController extends BaseController implements
+public class ConfigureController extends BaseController implements
 		Initializable {
 
 	@FXML
@@ -29,7 +29,7 @@ public class ConfigurarController extends BaseController implements
 		boolean salvo = config.salvar();
 		if (salvo) {
 			JOptionPane.showMessageDialog(null,
-					"AlteraÃ§Ãµes realizadas com sucesso!");
+					"Alterações realizadas com sucesso!");
 		}
 	}
 

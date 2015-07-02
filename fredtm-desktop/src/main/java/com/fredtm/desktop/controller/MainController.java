@@ -115,7 +115,7 @@ public class MainController extends BaseController implements Initializable,
 	private void criarJDialog(BufferedImage image) {
 		JLabel canvasLabel = new JLabel(new ImageIcon(image));
 		JLabel textTopLabel = new JLabel(
-				"Leia esse QRCode com a opÃ§Ã£o \"Sincronizar com PC\" "
+				"Leia esse QRCode com a opção \"Sincronizar com PC\" "
 						+ "no aplicativo Fred TM para sincronizar.");
 		textTopLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 3, 10));
 		if (jDialog == null) {
@@ -148,19 +148,19 @@ public class MainController extends BaseController implements Initializable,
 	}
 
 	private void criarJanelaProjetos(List<Operation> list) {
-		Consumer<ProjetosController> consumer = c -> c.setOperacoes(list);
-		criarView("/fxml/projetos.fxml", "Projetos", consumer);
+		Consumer<ProjectsController> consumer = c -> c.setOperacoes(list);
+		criarView("/fxml/projects.fxml", "Projetos", consumer);
 	}
 
 	@FXML
 	void onConfigurarClicked(ActionEvent event) {
-		criarView("/fxml/configurar.fxml", "Configurar");
+		criarView("/fxml/configure.fxml", "Configurar");
 	}
 
 	@FXML
 	void onImportarJsonClicked(ActionEvent event) {
 		FileChooser fc = new FileChooser();
-		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por vocÃª.");
+		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por você.");
 		fc.setSelectedExtensionFilter(new ExtensionFilter(
 				"Arquivos .json gerados por esse software ou pelo Fred TM (mobile)",
 				"*.<json>"));
@@ -183,34 +183,34 @@ public class MainController extends BaseController implements Initializable,
 	public void abrirAtividades(Operation operation) {
 		Consumer<AtividadesController> controllerAction = c -> c
 				.setOperacao(operation);
-		criarView("/fxml/atividades.fxml",
+		criarView("/fxml/activities.fxml",
 				"Atividades - " + operation.getName(), controllerAction);
 	}
 
 	public void abrircollects(Operation operation) {
 		Consumer<CollectsController> consumidor = c -> c.setOperacao(operation);
-		criarView("/fxml/collects.fxml", "collects - " + operation.getName(),
+		criarView("/fxml/collects.fxml", "Coletas - " + operation.getName(),
 				consumidor);
 	}
 
 	public void habilitarExportarAtividades(Operation operation) {
 		Consumer<AtividadesController> consumidor = c -> c
 				.setOperacao(operation);
-		criarView("/fxml/exportar_atividades.fxml", "Exportar atividades - "
+		criarView("/fxml/export_activities.fxml", "Exportar atividades - "
 				+ operation.getName(), consumidor);
 	}
 
 	public void abrirTemposcollectdos(Collect collect) {
 		Consumer<CollectedTimesController> consumidor = c -> c
 				.setTempos(collect.getTimeInChronologicalOrder());
-		criarView("/fxml/tempos_collectdos.fxml",
-				"Tempos collectdos - " + collect.toString(), consumidor);
+		criarView("/fxml/collected_times.fxml",
+				"Tempos coletados - " + collect.toString(), consumidor);
 	}
 
 	public void exportarcollects(List<Collect> collects) {
 		Consumer<ExportCollectsController> consumidor = c -> c
 				.setcollects(collects);
-		criarView("/fxml/exportar_collect.fxml", "Exportar collects", consumidor);
+		criarView("/fxml/export_collect.fxml", "Exportar coletas", consumidor);
 	}
 
 	public void abrirTiposDeGraficos(Collect collect, List<Collect> collects) {
@@ -218,8 +218,8 @@ public class MainController extends BaseController implements Initializable,
 			c.setcollect(collect);
 			c.setcollects(collects);
 		};
-		criarView("/fxml/tipos_graficos.fxml",
-				"AnÃ¡lises da collect " + collect.toString(), consumidor);
+		criarView("/fxml/types_chart.fxml",
+				"Análises da coleta " + collect.toString(), consumidor);
 	}
 
 	public void abrirAnaliseGrafica(TiposGrafico tipo, Collect collect,
@@ -228,24 +228,24 @@ public class MainController extends BaseController implements Initializable,
 		case DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA:
 			Consumer<DistribuicaoTempoAtividadeController> pizzaConsumer = c -> c
 					.setcollect(collect);
-			criarView("/fxml/grafico_pizza.fxml",
-					"DistribuiÃ§Ã£o tempo/activity: " + collect.toString(),
+			criarView("/fxml/pizza_chart.fxml",
+					"Distribuição tempo/atividade: " + collect.toString(),
 					pizzaConsumer);
 			break;
 
 		case CLASSIFICACAO_POR_BARRAS:
 			Consumer<TempoObtidoPorClassificacaoController> barConsumer = c -> c
 					.setcollect(collect);
-			criarView("/fxml/grafico_linha_classificacao.fxml",
-					"Tempo por classificaÃ§Ã£o: " + collect.toString(),
+			criarView("/fxml/chart_line_classification.fxml",
+					"Tempo por classificação: " + collect.toString(),
 					barConsumer);
 			break;
 
 		case CLASSIFICACAO_CICLOS_POR_BARRAS:
 			Consumer<TempoObtidoPorClassificacaoController> barCicloConsumer = c -> c
 					.setcollects(collects);
-			criarView("/fxml/grafico_linha_classificacao.fxml",
-					"Tempo por classificaÃ§Ã£o/ciclo: " + collect.toString(),
+			criarView("/fxml/chart_line_classification.fxml",
+					"Tempo por classificação/ciclo: " + collect.toString(),
 					barCicloConsumer);
 			break;
 

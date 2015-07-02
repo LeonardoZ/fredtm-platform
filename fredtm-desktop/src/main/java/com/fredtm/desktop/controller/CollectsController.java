@@ -33,21 +33,17 @@ public class CollectsController extends BaseController implements Initializable 
 		this.collects = new ArrayList<>(operation.getCollects());
 		listViewcollects.setItems(FXCollections.observableArrayList(collects));
 
-		collects.forEach(c -> {
-			System.out.println(c.toString());
-		});
-
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		MenuItem menucollectdos = new MenuItem("Ver tempos collectdos");
+		MenuItem menucollectdos = new MenuItem("Ver tempos coletados");
 
-		MenuItem menuTiposDeGraficos = new MenuItem("AnÃ¡lises de collect");
+		MenuItem menuTiposDeGraficos = new MenuItem("Análise da coleta");
 
-		MenuItem menuExportarcollect = new MenuItem("Exportar collect");
+		MenuItem menuExportarcollect = new MenuItem("Exportar coleta");
 		MenuItem menuExportarTodascollects = new MenuItem(
-				"Exportar todas collects");
+				"Exportar todas coletas");
 
 		menucollectdos.setOnAction(ev -> MainEventBus.INSTANCE
 				.eventoAbrirTemposcollectdos(collect));

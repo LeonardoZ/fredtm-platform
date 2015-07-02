@@ -163,7 +163,7 @@ public class Operation extends FredEntity {
 		}
 		return false;
 	}
-
+	
 	public Activity getQuantitativeActivity() {
 		for (Activity a : activities) {
 			if (a.getActivityType().equals(ActivityType.PRODUCTIVE)

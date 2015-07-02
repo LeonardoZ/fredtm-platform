@@ -45,7 +45,7 @@ public class TestBase {
 	@Before
 	public void init() {
 
-		baseURI = "https://localhost";
+		baseURI = "http://localhost";
 		basePath = "/fredapi";
 		port = 9000;
 		RestAssured.defaultParser = Parser.JSON;

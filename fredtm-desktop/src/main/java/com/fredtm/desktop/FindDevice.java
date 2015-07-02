@@ -7,13 +7,13 @@ import java.util.Optional;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.OperacoesJsonUtils;
 
-public class BuscarDispositivo {
+public class FindDevice {
 
 	private File selectedDirectory;
 	private OperacoesJsonUtils jsonUtils = new OperacoesJsonUtils();
 	private List<Operation> operations;
 
-	public BuscarDispositivo(File selectedDirectory) {
+	public FindDevice(File selectedDirectory) {
 		this.selectedDirectory = selectedDirectory;
 		buscarEmDispositivo();
 	}

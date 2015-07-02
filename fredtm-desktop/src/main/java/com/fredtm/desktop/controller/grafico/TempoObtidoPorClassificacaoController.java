@@ -56,7 +56,7 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 			
 			
 			Series<String, Number> series = new XYChart.Series<String, Number>();
-			series.setName(ai.incrementAndGet()+"ยบ Ciclo");
+			series.setName(ai.incrementAndGet()+"บ Ciclo");
 			series.getData().addAll(data1, data2, data3);
 			seriesList.add(series);
 		});
