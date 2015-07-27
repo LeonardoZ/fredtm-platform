@@ -3,37 +3,32 @@ package com.fredtm.api.resource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.rest.CollectResources;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
-import com.fredtm.data.repository.CollectRepository;
+import com.fredtm.resources.ActivityResource;
+import com.fredtm.resources.CollectResource;
+import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.base.ElementParser;
 
 @Component
 public class CollectResourceAssembler extends
-		JaxRsResourceAssemblerSupport<Collect, CollectResource> {
+		ElementParser<Collect, CollectResource> {
 
-	@Autowired
-	private CollectRepository repository;
 	@Autowired
 	private ActivityResourceAssembler acra;
 	@Autowired
 	private TimeActivityResourceAssembler tara;
 
-	public CollectResourceAssembler() {
-		super(CollectResources.class, CollectResource.class);
-	}
-
 	@Override
 	public CollectResource toResource(Collect entity) {
 
 		CollectResource cr = new CollectResource();
+		cr.setUuid(entity.getId());
 		List<Activity> activities = entity.getActivities();
 		List<ActivityResource> acrs = acra.toResources(activities);
 		List<TimeActivity> times = entity.getTimes();
@@ -47,19 +42,12 @@ public class CollectResourceAssembler extends
 	}
 
 	@Override
-	public Optional<Collect> fromResource(CollectResource d) {
-		Collect c =  hasValidUuid(d)   ? 
-				  repository.findOne(d.getUuid()) : 
-			      new Collect();
-
-		if (c.getId() == null || c.getId().isEmpty()) {
-			tara.setOperationId(d.getOperationId());
-			System.out.println("Null");
-		}
-		Set<TimeActivity> times = tara.fromResources(d.getTimes());
+	public Collect toEntity(CollectResource r) {
+		Collect c = new Collect();
+		List<TimeActivity> times = tara.toEntities(r.getTimes());
 		List<TimeActivity> activities = new ArrayList<>(times);
 		c.setTimes(activities);
 
-		return Optional.of(c);
+		return c;
 	}
 }

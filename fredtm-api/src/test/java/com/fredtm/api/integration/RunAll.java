@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AccountResourcesTest.class, OperationResourcesTest.class,
-		SyncResourcesTest.class })
+@SuiteClasses({ AccountControllerTest.class, OperationControllerTest.class,
+		SyncControllerTest.class })
 public class RunAll {
 
 }

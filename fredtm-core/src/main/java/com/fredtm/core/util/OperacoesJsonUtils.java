@@ -10,12 +10,19 @@ import java.util.Optional;
 
 import com.fredtm.core.model.Operation;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 public class OperacoesJsonUtils {
 
-	public Gson gson = new Gson();
+	public Gson gson;
+	
+	public OperacoesJsonUtils() {
+		gson = new GsonBuilder().setDateFormat("dd/MM/yyyy hh:mm:ss").create();
+	}
+	
+	
 
 	public Optional<List<Operation>> converterJsonParaJava(File f) {
 		List<Operation> operations = new ArrayList<Operation>();
@@ -33,6 +40,7 @@ public class OperacoesJsonUtils {
 	public Optional<List<Operation>> converterJsonParaJava(String s) {
 		List<Operation> operations = new ArrayList<Operation>();
 		try {
+			System.out.println(s);
 			Operation[] fromJson = gson.fromJson(s, Operation[].class);
 			operations.addAll(Arrays.asList(fromJson));
 			return Optional.of(operations);

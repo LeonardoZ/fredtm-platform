@@ -44,15 +44,15 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 
 			XYChart.Data<String, Number> data1 = new XYChart.Data<String, Number>(
 					"Improdutivo",
-					collect.getTotalPercentegeOfTimed(ActivityType.IMPRODUCTIVE));
+					collect.getTotalPercentageOfTimed(ActivityType.IMPRODUCTIVE));
 
 			XYChart.Data<String, Number> data2 = new XYChart.Data<String, Number>(
 					"Produtivo",
-					collect.getTotalPercentegeOfTimed(ActivityType.PRODUCTIVE));
+					collect.getTotalPercentageOfTimed(ActivityType.PRODUCTIVE));
 
 			XYChart.Data<String, Number> data3 = new XYChart.Data<String, Number>(
 					"Auxiliar",
-					collect.getTotalPercentegeOfTimed(ActivityType.AUXILIARY));
+					collect.getTotalPercentageOfTimed(ActivityType.AUXILIARY));
 			
 			
 			Series<String, Number> series = new XYChart.Series<String, Number>();
@@ -70,15 +70,15 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 
 		XYChart.Data<String, Number> data1 = new XYChart.Data<String, Number>(
 				"Improdutivo",
-				collect.getTotalPercentegeOfTimed(ActivityType.IMPRODUCTIVE));
+				collect.getTotalPercentageOfTimed(ActivityType.IMPRODUCTIVE));
 
 		XYChart.Data<String, Number> data2 = new XYChart.Data<String, Number>(
 				"Produtivo",
-				collect.getTotalPercentegeOfTimed(ActivityType.PRODUCTIVE));
+				collect.getTotalPercentageOfTimed(ActivityType.PRODUCTIVE));
 
 		XYChart.Data<String, Number> data3 = new XYChart.Data<String, Number>(
 				"Auxiliar",
-				collect.getTotalPercentegeOfTimed(ActivityType.AUXILIARY));
+				collect.getTotalPercentageOfTimed(ActivityType.AUXILIARY));
 		configurarCor(data1, ActivityType.IMPRODUCTIVE);
 		configurarCor(data2, ActivityType.PRODUCTIVE);
 		configurarCor(data3, ActivityType.AUXILIARY);

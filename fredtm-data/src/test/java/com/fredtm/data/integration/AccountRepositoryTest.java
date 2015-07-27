@@ -23,10 +23,12 @@ import com.fredtm.data.repository.AccountRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { FredTmDataConfig.class })
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @ActiveProfiles("test")
-@SqlGroup({ @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql") })
+@SqlGroup({ 
+	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql") 
+})
 public class AccountRepositoryTest {
 
 	@Autowired

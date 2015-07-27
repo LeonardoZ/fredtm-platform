@@ -63,7 +63,7 @@ public class Collect extends FredEntity {
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
 
-	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "collect")
+	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "collect",orphanRemoval=true)
 	private List<TimeActivity> times;
 
 	@Transient
@@ -172,7 +172,11 @@ public class Collect extends FredEntity {
 		return times;
 	}
 
-	public void remove(TimeActivity time) {
+	public void addTimes(Set<TimeActivity> fromResources) {
+		fromResources.forEach(t -> times.add(t));
+	}
+
+	public void removeTimeActivity(TimeActivity time) {
 		collectedTimes.values().stream().filter(lta -> lta.contains(time))
 				.iterator().remove();
 	}
@@ -211,6 +215,11 @@ public class Collect extends FredEntity {
 		organizeTimes(times);
 	}
 
+	public void removeActivity(Activity at) {
+		activities.remove(at);
+		collectedTimes.remove(at.getId());
+	}
+
 	public List<Activity> listActivities() {
 		organizeActivities();
 		return activities;
@@ -232,11 +241,6 @@ public class Collect extends FredEntity {
 		collectedTimes.put(activity.getId(), new ArrayList<TimeActivity>());
 	}
 
-	public void removeActivity(Activity at) {
-		activities.remove(at);
-		collectedTimes.remove(at.getId());
-	}
-
 	public String getAllCollectedTimes() {
 		return collectedTimes.toString();
 	}
@@ -253,7 +257,7 @@ public class Collect extends FredEntity {
 		return sum;
 	}
 
-	public double getTotalPercentegeOfTimed(ActivityType type) {
+	public double getTotalPercentageOfTimed(ActivityType type) {
 		long totalSegsType = collectedTimes.values().stream()
 				.flatMap(fl -> fl.stream())
 				.filter(tp -> tp.getActivity().getActivityType().equals(type))
@@ -293,10 +297,6 @@ public class Collect extends FredEntity {
 			return false;
 		Collect other = (Collect) obj;
 		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
-	}
-
-	public void addTimes(Set<TimeActivity> fromResources) {
-		fromResources.forEach(t -> times.add(t));
 	}
 
 }

@@ -20,7 +20,7 @@
 				<!-- Import dependency management from Spring Boot -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>1.2.3.RELEASE</version>
+				<version>1.2.5.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -64,10 +64,21 @@
 			<artifactId>fredtm-data</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fredtm</groupId>
+			<artifactId>fredtm-resources</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		<groupId>com.fredtm</groupId>
+			<artifactId>fredtm-java-sdk</artifactId>
+			<version>1.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -91,11 +102,27 @@
 			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
 			<version>2.1.5</version>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
 	</dependencies>
+
+
 
 	<build>
 		<plugins>
@@ -118,7 +145,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>

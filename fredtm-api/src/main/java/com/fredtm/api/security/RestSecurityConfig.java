@@ -48,10 +48,16 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/fredapi/account/login","/fredapi/base").permitAll()
+		http.authorizeRequests().
+		antMatchers(
+				"/fredapi/account/login",
+				"/fredapi/base",
+				"/fredapi/account"
+		)
+		.permitAll()
 		.antMatchers("/**").hasRole("USER")
-		.and().httpBasic().and().formLogin().disable();
+		.and().httpBasic()
+		.and().formLogin().disable();
 		http.csrf().disable();
 
 	}

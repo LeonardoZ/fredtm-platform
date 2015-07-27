@@ -5,8 +5,8 @@ import java.util.Optional;
 
 public enum ActivityType {
 
-	IMPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA"), AUXILIARY(1, "#ffe0a2",
-			"AUXILIAR"), PRODUCTIVE(2, "#a2deff", "PRODUTIVA");
+	IMPRODUCTIVE(0, "#ff7d77", "IMPRODUCTIVE"), AUXILIARY(1, "#ffe0a2",
+			"AUXILIARY"), PRODUCTIVE(2, "#a2deff", "PRODUCTIVE");
 
 	private int idActivityType;
 	private String hexColor;

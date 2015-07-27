@@ -3,6 +3,8 @@ package com.fredtm.api.resource;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 
+import com.fredtm.resources.ActivityResource;
+import com.fredtm.resources.OperationResource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;

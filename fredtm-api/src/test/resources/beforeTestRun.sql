@@ -8,7 +8,7 @@ INSERT INTO account(id,email,name,password_hash) VALUES('G','hana.zapparoli@gmai
 
 
 INSERT INTO operation(id,name,company,technical_characteristics,account_id,modified)
-VALUES('fd806586-35d4-4e8c-a119-935d4bea0773','Op dd teste','Farm SA','Operação de coleta de valores','A','2015-05-12 15:20:02.071');
+VALUES('fd806586-35d4-4e8c-a119-935d4bea0773','Op dd teste','Farm SA','Operação de coleta de valores','A','2015-04-10 20:07:48');
 
 INSERT INTO activity(id,title,description,activity_type,quantitative,item_name,operation_id)
 VALUES('eC211186-35d4-4e8c-a1d9-935d4beaaa73','A','Descripion of A','IMPRODUCTIVE','0','','fd806586-35d4-4e8c-a119-935d4bea0773');
@@ -20,3 +20,8 @@ INSERT INTO collect(id, operation_id) VALUES('01f0997f-7330-4dd8-b186-87b6bc344f
 INSERT INTO time_activity(id,activity_id,collect_id,start_date,final_date,timed,collected_amount)
 VALUES('eeaaca35-728b-477c-bb8c-edc76767d457','eC211186-35d4-4e8c-a1d9-935d4beaaa73','01f0997f-7330-4dd8-b186-87b6bc344f90',
 123344,144444,100,0);
+
+INSERT INTO sync(id,
+created,
+json_old_data,
+operation_id) values ('402881e44e8daeb5014e8daeec7f001d','2015-04-14 02:07:48','','fd806586-35d4-4e8c-a119-935d4bea0773');

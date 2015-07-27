@@ -1,28 +1,16 @@
 package com.fredtm.api.resource;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.rest.ActivityResources;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
-import com.fredtm.data.repository.ActivityRepository;
-import com.fredtm.data.repository.OperationRepository;
+import com.fredtm.resources.ActivityResource;
+import com.fredtm.resources.base.ElementParser;
 
 @Component
 public class ActivityResourceAssembler extends
-		JaxRsResourceAssemblerSupport<Activity, ActivityResource> {
-	
-	@Autowired
-	private ActivityRepository repository;
-	@Autowired
-	private OperationRepository operationRepository;
+		ElementParser<Activity, ActivityResource> {
 
-	public ActivityResourceAssembler() {
-		super(ActivityResources.class, ActivityResource.class);
-	}
 
 	@Override
 	public ActivityResource toResource(Activity entity) {
@@ -31,22 +19,21 @@ public class ActivityResourceAssembler extends
 				.description(entity.getDescription())
 				.activityType(entity.getActivityType().getValue())
 				.itemName(entity.getItemName())
-				.quantitative(entity.isQuantitative());
+				.quantitative(entity.isQuantitative())
+				.operationId(entity.getOperation().getId());
 		return ar;
 	}
 
 	@Override
-	public Optional<Activity> fromResource(ActivityResource d) {
-		Activity act =  hasValidUuid(d)  ? repository.findOne(d.getUuid())
-				: new Activity();
-		act.setDescription(d.getDescription());
-		act.setTitle(d.getTitle());
-		act.setActivityType(ActivityType.getById(d.getActivityType()).orElse(
+	public Activity toEntity(ActivityResource r) {
+		Activity act = new Activity();
+		act.setDescription(r.getDescription());
+		act.setTitle(r.getTitle());
+		act.setActivityType(ActivityType.getById(r.getActivityType()).orElse(
 				ActivityType.PRODUCTIVE));
-		act.setItemName(d.getItemName());
-		act.setIsQuantitative(d.getQuantitative());
-
-		return Optional.of(act);
+		act.setItemName(r.getItemName());
+		act.setIsQuantitative(r.getQuantitative());
+		return act;
 	}
 
 }

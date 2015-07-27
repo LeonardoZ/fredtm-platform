@@ -1,6 +1,7 @@
 package com.fredtm.core.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -52,7 +53,7 @@ public class Operation extends FredEntity {
 	private Set<Collect> collects;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
-	private Set<Sync> syncs;
+	private List<Sync> syncs;
 
 	public Operation(String name, String company,
 			String technicalCharacteristics) {
@@ -65,7 +66,7 @@ public class Operation extends FredEntity {
 	public Operation() {
 		activities = new HashSet<Activity>();
 		collects = new HashSet<Collect>();
-		syncs = new HashSet<Sync>();
+		syncs = new ArrayList<Sync>();
 		modified = GregorianCalendar.getInstance().getTime();
 	}
 
@@ -110,6 +111,7 @@ public class Operation extends FredEntity {
 
 	public void setActivities(List<Activity> activities) {
 		this.activities = new HashSet<Activity>(activities);
+		this.activities.forEach(a -> a.setOperation(this));
 	}
 
 	public Set<Collect> getCollects() {
@@ -194,7 +196,7 @@ public class Operation extends FredEntity {
 		return modified.before(date);
 	}
 
-	public Set<Sync> getSyncs() {
+	public List<Sync> getSyncs() {
 		return syncs;
 	}
 
@@ -206,11 +208,11 @@ public class Operation extends FredEntity {
 		return account;
 	}
 
-	public void setSyncs(Set<Sync> syncs) {
+	public void setSyncs(List<Sync> syncs) {
 		this.syncs = syncs;
 		this.syncs.forEach(s -> s.setOperation(this));
 	}
-
+	
 	public void addSync(Sync sync) {
 		this.syncs.add(sync);
 	}
@@ -240,6 +242,11 @@ public class Operation extends FredEntity {
 				.append(company, other.company)
 				.append(technicalCharacteristics,
 						other.technicalCharacteristics).isEquals();
+	}
+
+	public Sync getLastSync() {
+		Collections.sort(syncs);
+		return syncs != null && !syncs.isEmpty() ? syncs.get(0) : null;
 	}
 
 }

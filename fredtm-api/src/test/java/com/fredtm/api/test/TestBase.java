@@ -2,8 +2,8 @@ package com.fredtm.api.test;
 
 import static com.jayway.restassured.RestAssured.basePath;
 import static com.jayway.restassured.RestAssured.baseURI;
-import static com.jayway.restassured.RestAssured.port;
 import static com.jayway.restassured.RestAssured.given;
+import static com.jayway.restassured.RestAssured.port;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +34,7 @@ import com.jayway.restassured.specification.ResponseSpecification;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles(value = "test")
 @SpringApplicationConfiguration(classes = FredTmApiConfig.class)
+@EnableAutoConfiguration(exclude = { HypermediaAutoConfiguration.class})
 @WebAppConfiguration
 @IntegrationTest
 @SqlGroup({
@@ -64,7 +67,15 @@ public class TestBase {
 	protected ResponseSpecification makeContentRequest() {
 		return given().relaxedHTTPSValidation().auth()
 				.basic("leo.zapparoli@gmail.com", "123")
-				
+				.header("Accept", "application/json")
+				.header("Content-Type", "application/json;charset=UTF8").log()
+				.all().then();
+
+	}
+	
+	protected ResponseSpecification makeContentWrongRequest() {
+		return given().relaxedHTTPSValidation().auth()
+				.basic("leo.zapparoli@gmail.ssscom", "123")
 				.header("Accept", "application/json")
 				.header("Content-Type", "application/json;charset=UTF8").log()
 				.all().then();

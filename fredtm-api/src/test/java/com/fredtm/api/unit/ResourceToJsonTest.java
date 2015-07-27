@@ -5,13 +5,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fredtm.api.resource.OperationResource;
 import com.fredtm.api.resource.OperationResourceAssembler;
 import com.fredtm.api.resource.ResourceJsonUtil;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
+import com.fredtm.resources.OperationResource;
 
 public class ResourceToJsonTest {
 

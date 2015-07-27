@@ -50,7 +50,7 @@ public class CollectedTimesController extends BaseController implements
 		colInicial.setCellValueFactory(dado -> new SimpleStringProperty(dado
 				.getValue().getFormattedStartDate()));
 		colFinal.setCellValueFactory(dado -> new SimpleStringProperty(dado
-				.getValue().getFormattedEndDate()));
+				.getValue().getFormattedFinalDate()));
 		colcollectdo.setCellValueFactory(dado -> new SimpleStringProperty(dado
 				.getValue().getSimpleEllapsedTime()));
 		colQuantificado.setCellValueFactory(dado -> new SimpleStringProperty(

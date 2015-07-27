@@ -24,6 +24,7 @@ local.properties
 .cproject
 # PDT-specific
 .buildpath
+.recommenders/**
 # sbteclipse plugin
 .target
 */target/**

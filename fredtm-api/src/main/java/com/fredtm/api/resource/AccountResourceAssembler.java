@@ -1,38 +1,34 @@
 package com.fredtm.api.resource;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.rest.AccountResources;
 import com.fredtm.core.model.Account;
 import com.fredtm.data.repository.AccountRepository;
+import com.fredtm.resources.AccountResource;
+import com.fredtm.resources.base.ElementParser;
 
 @Component
-public class AccountResourceAssembler extends
-		JaxRsResourceAssemblerSupport<Account, AccountResource> {
+public class AccountResourceAssembler extends ElementParser<Account, AccountResource>{
 
-	public AccountResourceAssembler() {
-		super(AccountResources.class, AccountResource.class);
-	}
+	@Autowired
+	private AccountRepository repository;
 
-	@Override
+
+
 	public AccountResource toResource(Account entity) {
 		return new AccountResource().uuid(entity.getId())
 				.email(entity.getEmail()).name(entity.getName())
 				.password(entity.getPasswordHash());
 	}
 
-	@Autowired
-	private AccountRepository repository;
-
-	public Optional<Account> fromResource(AccountResource ar) {
+	@Override
+	public Account toEntity(AccountResource ar) {
 		Account ac  =  hasValidUuid(ar)  ? repository.findOne(ar.getUuid()) : new Account();
 		ac.setEmail(ar.getEmail());
 		ac.setName(ar.getName());
 		ac.setPassword(ar.getPassword());
-		return Optional.of(ac);
+		return null;
 	}
 
 }

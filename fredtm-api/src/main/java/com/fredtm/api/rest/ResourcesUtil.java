@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.hateoas.Resource;
+
 public interface ResourcesUtil<E, D> {
 
-	default <C extends Collection<E>> List<D> configureResources(C elements) {
-		List<D> ress = new ArrayList<>();
+	default <C extends Collection<E>> List<Resource<D>> configureResources(C elements) {
+		List<Resource<D>> ress = new ArrayList<>();
 		elements.iterator().forEachRemaining(
 				a -> ress.add(configureResource(a))
 		);
 		return ress;
 	}
 
-	D configureResource(E e);
+	Resource<D> configureResource(E e);
 }

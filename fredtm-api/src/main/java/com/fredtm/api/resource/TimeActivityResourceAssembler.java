@@ -1,31 +1,24 @@
 package com.fredtm.api.resource;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fredtm.api.rest.AccountResources;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.data.repository.ActivityRepository;
 import com.fredtm.data.repository.TimeActivityRepository;
+import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.base.ElementParser;
 
 @Component
 public class TimeActivityResourceAssembler extends
-		JaxRsResourceAssemblerSupport<TimeActivity, TimeActivityResource> {
+		ElementParser<TimeActivity, TimeActivityResource> {
 
 	private String operationId = "";
-	@Autowired
-	private ActivityRepository actRepo;
 	@Autowired
 	private TimeActivityRepository repository;
 	@Autowired
 	private ActivityRepository activityRepository;
-
-	public TimeActivityResourceAssembler() {
-		super(AccountResources.class, TimeActivityResource.class);
-	}
 
 	@Override
 	public TimeActivityResource toResource(TimeActivity entity) {
@@ -35,12 +28,18 @@ public class TimeActivityResourceAssembler extends
 				.startDate(entity.getStartDate()).timed(entity.getTimed())
 				.activityId(entity.getActivity().getId())
 				.finalDate(entity.getFinalDate())
+				.latitude(Long.valueOf(entity.getLatitude()))
+				.longitude(Long.valueOf(entity.getLongitude()))
 				.collectedAmount(entity.getCollectedAmount());
 		return tar;
 	}
 
+	public void setOperationId(String operationId) {
+		this.operationId = operationId;
+	}
+
 	@Override
-	public Optional<TimeActivity> fromResource(TimeActivityResource d) {
+	public TimeActivity toEntity(TimeActivityResource d) {
 		TimeActivity ta = hasValidUuid(d) ? repository.findOne(d.getUuid())
 				: new TimeActivity();
 		if (!operationId.isEmpty() && d.getActivityId().isEmpty()) {
@@ -56,11 +55,9 @@ public class TimeActivityResourceAssembler extends
 		ta.setFinalDate(d.getFinalDate());
 		ta.setStartDate(ta.getStartDate());
 		ta.setTimed(ta.getTimed());
-		return Optional.of(ta);
-	}
-
-	public void setOperationId(String operationId) {
-		this.operationId = operationId;
+		ta.setLongitude(String.valueOf(d.getLongitude()));
+		ta.setLatitude(String.valueOf(d.getLatitude()));
+		return ta;
 	}
 
 }

@@ -4,12 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -29,13 +33,12 @@ public class TimeActivity extends FredEntity {
 	private static final SimpleDateFormat sdf = new SimpleDateFormat(
 			"dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
 
-	
 	@ManyToOne()
-	@JoinColumn(nullable=false,name = "activity_id")
+	@JoinColumn(nullable = false, name = "activity_id")
 	private Activity activity;
 
 	@ManyToOne
-	@JoinColumn(nullable=false,name = "collect_id")
+	@JoinColumn(nullable = false, name = "collect_id")
 	private Collect collect;
 
 	@Transient
@@ -53,6 +56,14 @@ public class TimeActivity extends FredEntity {
 	@Column(name = "collected_amount")
 	private int collectedAmount;
 
+	private String latitude;
+
+	private String longitude;
+
+	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "timeActivity")
+	private List<TimeActivityPicture>	 pictures;
+	
+	
 	public TimeActivity() {
 		activity = new Activity();
 	}
@@ -98,7 +109,7 @@ public class TimeActivity extends FredEntity {
 		return sdf.format(new Date(startDate)).split(" ");
 	}
 
-	public String getFormattedEndDate() {
+	public String getFormattedFinalDate() {
 		return sdf.format(new Date(finalDate));
 	}
 
@@ -187,6 +198,50 @@ public class TimeActivity extends FredEntity {
 		long t = timed / 1000;
 		return t;
 	}
+
+	public String getLongitude() {
+		return longitude == null || longitude.isEmpty() ? "0" : longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude == null || latitude.isEmpty() ? "0" : latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	
+	public List<TimeActivityPicture> getPictures() {
+		return pictures;
+	}
+	
+	public void setPictures(List<TimeActivityPicture> pictures) {
+		this.pictures = pictures;
+	}
+	
+
+    public void addPictures(List<String> uris) {
+        for (String s : uris) {
+            addPicture(s);
+        }
+    }
+
+
+    public void addPicture(String uri) {
+        TimeActivityPicture tap = new TimeActivityPicture();
+        tap.setTimeActivity(this);
+        tap.setUri(uri);
+        addPicture(tap);
+    }
+
+    public void addPicture(TimeActivityPicture pic) {
+        this.pictures.add(pic);
+    }
+
 
 	@Override
 	public String toString() {
