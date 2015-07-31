@@ -22,7 +22,7 @@
             <Label text="IP (ex.: 192.168.1.101) )" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Porta" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <TextField fx:id="textEditIp" editable="false" GridPane.rowIndex="2" />
-            <TextField fx:id="textEditPorta" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="textEditPort" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#onConfirmarClicked" prefHeight="20.0" prefWidth="137.0" text="Confirmar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                <GridPane.margin>
                   <Insets top="10.0" />

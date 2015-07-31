@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 
@@ -60,27 +61,22 @@ public class SyncServer {
 	}
 
 	private void onAcceptClient(Socket client) {
-		BufferedReader bufferedReader = null;
 		OutputStream outputStream = null;
 		PrintWriter pw = null;
-		try {
-			bufferedReader = new BufferedReader(new InputStreamReader(
-					client.getInputStream(), Charset.forName("UTF-8")));
-			String line = "";
-			StringBuilder builder = new StringBuilder();
-			if ((line = bufferedReader.readLine()) != null) {
-				builder.append(line);
-			}
+		try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+				client.getInputStream(), Charset.forName("UTF-8")))) {
+			String collected = bufferedReader.lines().collect(Collectors.joining());
+			// response to client after the job is done
 			outputStream = client.getOutputStream();
 			pw = new PrintWriter(new OutputStreamWriter(outputStream,
 					Charset.forName("UTF-8")), true);
 			pw.println("OK");
-			Platform.runLater(() -> connected.onConnection(builder.toString()));
+			// Run json processing
+			Platform.runLater(() -> connected.onConnection(collected));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				bufferedReader.close();
 				pw.close();
 				outputStream.close();
 				server.close();

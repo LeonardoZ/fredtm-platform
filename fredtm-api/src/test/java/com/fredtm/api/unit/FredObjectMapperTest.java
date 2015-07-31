@@ -6,8 +6,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fredtm.api.resource.FredObjectMapper;
 import com.fredtm.core.model.Operation;
+import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.resources.OperationResource;
 import com.google.gson.Gson;
 
@@ -19,8 +19,7 @@ public class FredObjectMapperTest {
 		OperationResource fromJson = new Gson().fromJson(sb,
 				OperationResource.class);
 
-		FredObjectMapper fom = new FredObjectMapper();
-		Operation operation = fom.mapResourceToEntity(fromJson);
+		Operation operation = FredObjectMapper.mapResourceToEntity(fromJson);
 		
 		Assert.assertEquals(2, operation.getActivities().size());
 		Assert.assertEquals(2, operation.getCollects().iterator().next().getActivities().size());

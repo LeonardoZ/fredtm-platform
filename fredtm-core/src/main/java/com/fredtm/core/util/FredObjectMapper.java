@@ -1,8 +1,9 @@
-package com.fredtm.api.resource;
+package com.fredtm.core.util;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
@@ -16,7 +17,7 @@ import com.fredtm.resources.TimeActivityResource;
 
 public class FredObjectMapper {
 
-	public Operation mapResourceToEntity(OperationResource operationResource) {
+	public static Operation mapResourceToEntity(OperationResource operationResource) {
 
 		Operation operation = new Operation();
 		operation.setId(operationResource.getUuid() == null || operationResource.getUuid().isEmpty() ? ""
@@ -32,7 +33,8 @@ public class FredObjectMapper {
 			activity.setDescription(activityResource.getDescription());
 			activity.setTitle(activityResource.getTitle());
 			activity.setActivityType(
-					ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE));
+					ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE)
+			);
 			activity.setItemName(activityResource.getItemName());
 			activity.setIsQuantitative(activityResource.getQuantitative());
 			activity.setOperation(operation);
@@ -66,5 +68,17 @@ public class FredObjectMapper {
 
 		return operation;
 	}
+	
+	
+    public static List<Operation> mapResourcesToEntities(List<OperationResource> resources) {
+        return resources.stream()
+        	.map(FredObjectMapper::mapResourceToEntity)
+        	.collect(Collectors.toList());
+    }
+	
+	
+
+	
+	
 
 }

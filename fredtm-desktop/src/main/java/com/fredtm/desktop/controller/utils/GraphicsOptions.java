@@ -1,6 +1,6 @@
 package com.fredtm.desktop.controller.utils;
 
-public enum TiposGrafico {
+public enum GraphicsOptions {
 
 	CLASSIFICACAO_POR_BARRAS, 
 	CLASSIFICACAO_CICLOS_POR_BARRAS,

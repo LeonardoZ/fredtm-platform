@@ -1,41 +1,130 @@
 
 .root {
-	-fx-background-color: #e2edde;
+	-fx-background-color: #fff
+}
+
+.button {
+	-fx-font: 12.0px "Sans-Serif";
+    -fx-font-weight: bold;
+}
+
+.button:hover, .btn-fred-main:hover{
+    -fx-base: #395bae;
+}
+
+#fredTitle {
+	-fx-text-fill: #fff;
 }
 
 .btn-fred-main {
-	-fx-font: 12px "Sans-Serif";
-	-fx-padding: 10;
-	-fx-background-color: #a9c99c;
-	-fx-border-radius: 1px;
-	-fx-font-weight: bold;
-	-fx-background-insets: 0 0 0 0;
+	-fx-font: 14.0px "Sans-Serif";
+    -fx-font-weight: bold;
+	-fx-background-color: #116493;
+	-fx-text-fill: #fff;
+	-fx-border-width: 0.0 0.0 1.0 0.0;
+    -fx-border-color: 
+        transparent
+        transparent
+        derive(-fx-base, 80.0%) 
+        transparent;
+    -fx-border-insets: 0.0 10.0 1.0 0.0;
+  	-fx-background-repeat: no-repeat;
+  	-fx-background-position: left center;
+
+}
+
+#btnSync {
+	-fx-background-image:url('/images/ic_sync.png');
+}
+
+#btnImport {
+	-fx-background-image:url('/images/ic_import.png');
 }
 
 .btn-fred-main:hover {
-	-fx-text-fill: #fff;
+    -fx-background-color: #a2deff;
 }
+
+#btn-fred-main:pressed {
+	-fx-background-color: #317256;
+}
+
+
+
+.btn-fred-lists {
+	-fx-font: 12.0px "Sans-Serif";
+    -fx-font-weight: bold;
+}
+
+.btn-fred-activities {
+	 -fx-background-color:  #faa622;
+}
+
+.btn-fred-collects {
+	 -fx-background-color: #c4d70c;
+}
+
 
 .root.popup {
     -fx-background-color: transparent;
 }
 
-.btn-fred-simple {
-	-fx-font: 10px "Sans-Serif";
-	-fx-padding: 5;
-	-fx-background-color: #419873;
-	-fx-border-radius: 1px;
-	-fx-font-weight: bold;
-	-fx-background-insets: 0 0 0 0;
-}
-
-
-
-
 .fred-tab-pane {
 	-fx-background-color: #fff;
+	-fx-font-weight: bold;
 }
 
-#fred-btn-sincronizar:selected {
-	-fx-background-color: #317256;
+#btPanel {
+	-fx-background-color: #525162;
+	
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+	   -fx-background-color: #e1e1e1;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90.0px;
+    -fx-text-fill: #fff;
+}
+
+.tab{
+    -fx-background-insets: 0.0 1.0 0.0 1.0,0.0,0.0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #f9f9f9;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #525162;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12.0px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #fff;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #a3ccd8;
+    -fx-text-fill: white;
+}
+
+.list-cell:even,.list-cell:odd { /* <=== changed to even */
+    -fx-background-color: white;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #c0e7f2;
+    -fx-text-fill: white;
 }

@@ -34,7 +34,7 @@ public class MainControllerTabCreator {
 			e.printStackTrace();
 		}
 
-		criarTabs(p, titulo);
+		createTabs(p, titulo);
 	}
 
 	private <T extends BaseController> void doOnController(Pane p,
@@ -47,7 +47,7 @@ public class MainControllerTabCreator {
 		consumidor.accept(controller);
 	}
 
-	private void criarTabs(Pane p, String titulo) {
+	private void createTabs(Pane p, String titulo) {
 		Tab tab = new Tab(titulo);
 		tab.setClosable(true);
 		p.setStyle("-fx-background-color: #fff");

@@ -7,8 +7,8 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ExportCollectsController">
    <children>
-      <Button layoutX="4.0" layoutY="335.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onExportarClicked" prefWidth="100.0" text="Exportar" />
-      <ChoiceBox fx:id="choiceTiposExportacao" layoutX="3.0" layoutY="271.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="598.0" />
+      <Button layoutX="4.0" layoutY="335.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onExportClicked" prefWidth="100.0" text="Export" />
+      <ChoiceBox fx:id="choiceTypesExportacao" layoutX="3.0" layoutY="271.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="598.0" />
       <Label layoutX="4.0" layoutY="247.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Formatos" />
       <ListView fx:id="listViewcollects" layoutX="3.0" layoutY="36.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="598.0" />
       <Button layoutX="4.0" layoutY="305.0" mnemonicParsing="false" onAction="#onEscolherDiretorioClicked" text="Diretorio de destino" />

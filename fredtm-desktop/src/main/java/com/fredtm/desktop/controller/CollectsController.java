@@ -6,16 +6,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Operation;
+import com.fredtm.desktop.eventbus.MainEventBus;
+import com.fredtm.desktop.views.CollectCustomCell;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-
-import com.fredtm.core.model.Collect;
-import com.fredtm.core.model.Operation;
-import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class CollectsController extends BaseController implements Initializable {
 
@@ -31,34 +32,35 @@ public class CollectsController extends BaseController implements Initializable 
 	public void setOperacao(Operation operation) {
 		this.operation = operation;
 		this.collects = new ArrayList<>(operation.getCollects());
-		listViewcollects.setItems(FXCollections.observableArrayList(collects));
+		this.listViewcollects.setItems(FXCollections.observableArrayList(collects));
 
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		MenuItem menucollectdos = new MenuItem("Ver tempos coletados");
+		MenuItem menuCollecteds = new MenuItem("Ver tempos coletados");
 
-		MenuItem menuTiposDeGraficos = new MenuItem("Análise da coleta");
+		MenuItem menuGrapgicsOptions = new MenuItem("Análise da coleta");
 
-		MenuItem menuExportarcollect = new MenuItem("Exportar coleta");
-		MenuItem menuExportarTodascollects = new MenuItem(
-				"Exportar todas coletas");
+		MenuItem menuExportCollect = new MenuItem("Exportar coleta");
+		MenuItem menuExportAllCollects = new MenuItem(
+				"Export todas coletas");
 
-		menucollectdos.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoAbrirTemposcollectdos(collect));
-		// TODO - Exportar todas collects
-		menuExportarcollect.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoExportarcollects(Arrays.asList(collect)));
-		menuExportarTodascollects.setOnAction(ev -> MainEventBus.INSTANCE
-				.eventoExportarcollects(new ArrayList<>(operation.getCollects())));
+		menuCollecteds.setOnAction(ev -> MainEventBus.INSTANCE
+				.eventOpenTemposcollectdos(collect));
+		// TODO - Export todas collects
+		menuExportCollect.setOnAction(ev -> MainEventBus.INSTANCE
+				.eventExportcollects(Arrays.asList(collect)));
+		menuExportAllCollects.setOnAction(ev -> MainEventBus.INSTANCE
+				.eventExportcollects(new ArrayList<>(operation.getCollects())));
 
-		menuTiposDeGraficos.setOnAction(evt -> MainEventBus.INSTANCE
-				.eventoTiposDeGraficos(collect, collects));
+		menuGrapgicsOptions.setOnAction(evt -> MainEventBus.INSTANCE
+				.eventTypesGrapficOptions(collect, collects));
 
-		ContextMenu contextMenu = new ContextMenu(menucollectdos,
-				menuExportarcollect, menuExportarTodascollects,
-				menuTiposDeGraficos);
+		ContextMenu contextMenu = new ContextMenu(menuCollecteds,
+				menuExportCollect, menuExportAllCollects,
+				menuGrapgicsOptions);
+		
 		contextMenu.centerOnScreen();
 		contextMenu.setStyle("-fx-background-color: #fff");
 		contextMenu.setAutoFix(true);
@@ -70,5 +72,7 @@ public class CollectsController extends BaseController implements Initializable 
 							.getSelectedItem();
 				});
 
+		
+		listViewcollects.setCellFactory(ls -> new CollectCustomCell());
 	}
 }

@@ -1,4 +1,4 @@
-package com.fredtm.desktop.controller.grafico;
+package com.fredtm.desktop.controller.graphic;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.ScatterChart;

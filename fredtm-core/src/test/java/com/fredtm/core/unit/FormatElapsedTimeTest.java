@@ -10,7 +10,7 @@ public class FormatElapsedTimeTest {
 
 	@Test
 	public void formattedTimeShouldBeIn0() {
-		// 52 Minutes in miliseconds
+		// 52 Minutes in milliseconds
 		String output = FormatElapsedTime.format(0);
 		assertEquals("0s", output);
 	}

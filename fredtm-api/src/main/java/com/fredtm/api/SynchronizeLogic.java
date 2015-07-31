@@ -5,8 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fredtm.api.resource.FredObjectMapper;
 import com.fredtm.core.model.Operation;
+import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.resources.OperationResource;
 
@@ -20,16 +20,14 @@ public class SynchronizeLogic {
 	@Transactional(rollbackOn = Exception.class)
 	public Operation doSyncOnNew(OperationResource resource) {
 		// Create new
-		FredObjectMapper fom = new FredObjectMapper();
-		Operation operation = fom.mapResourceToEntity(resource);
+		Operation operation = FredObjectMapper.mapResourceToEntity(resource);
 		opRepository.save(operation);
 		return operation;
 	}
 
 	public Operation doSyncOnExisting(OperationResource resource) {
 		// Create new
-		FredObjectMapper fom = new FredObjectMapper();
-		Operation operation = fom.mapResourceToEntity(resource);
+		Operation operation = FredObjectMapper.mapResourceToEntity(resource);
 		return operation;
 	}
 	

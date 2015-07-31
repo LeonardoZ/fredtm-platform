@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fredtm.core.model.Operation;
-import com.fredtm.core.util.OperacoesJsonUtils;
+import com.fredtm.core.util.FredObjectMapper;
+import com.fredtm.core.util.OperationJsonUtils;
 
 public class FindDevice {
 
 	private File selectedDirectory;
-	private OperacoesJsonUtils jsonUtils = new OperacoesJsonUtils();
+	private OperationJsonUtils jsonUtils = new OperationJsonUtils();
 	private List<Operation> operations;
 
 	public FindDevice(File selectedDirectory) {
@@ -25,7 +26,7 @@ public class FindDevice {
 	private void buscarEmDispositivo() {
 		File file = new File(selectedDirectory.getPath()
 				+ "/Documents/fred_tm/json-export/operations.json");
-		operations = jsonUtils.converterJsonParaJava(file).get();
+		operations = FredObjectMapper.mapResourcesToEntities(jsonUtils.jsonToJava(file));
 	}
 	
 

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -32,8 +33,7 @@ public class Collect extends FredEntity {
 	private static final long serialVersionUID = 4085712607350133267L;
 
 	@Transient
-	private Comparator<TimeActivity> comparator = (lhs, rhs) -> rhs
-			.getStartDate().compareTo(lhs.getStartDate());
+	private Comparator<TimeActivity> comparator = (lhs, rhs) -> rhs.getStartDate().compareTo(lhs.getStartDate());
 
 	@Transient
 	private Comparator<TimeActivity> comparatorReverse = comparator.reversed();
@@ -47,7 +47,7 @@ public class Collect extends FredEntity {
 	};
 
 	@PostConstruct
-	public void organizeTimeActivity() {
+	public synchronized void organizeTimeActivity() {
 		for (Activity act : activities) {
 			List<TimeActivity> timesOf = getTimesOf(act);
 			addActivity(act, timesOf);
@@ -55,15 +55,14 @@ public class Collect extends FredEntity {
 	}
 
 	private List<TimeActivity> getTimesOf(Activity act) {
-		return times.stream().filter(t -> t.getActivity().equals(act))
-				.collect(Collectors.toList());
+		return times.stream().filter(t -> t.getActivity().equals(act)).collect(Collectors.toList());
 	}
 
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
 
-	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "collect",orphanRemoval=true)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
 	private List<TimeActivity> times;
 
 	@Transient
@@ -97,14 +96,12 @@ public class Collect extends FredEntity {
 		return operation.getQuantitativeActivity();
 	}
 
-	public TimeActivity addNewTime(Activity activity, Long startDate,
-			Long finalDate, Long timed) {
+	public TimeActivity addNewTime(Activity activity, Long startDate, Long finalDate, Long timed) {
 		TimeActivity activityTime = new TimeActivity(activity, this);
 		activityTime.setStartDate(startDate);
 		activityTime.setFinalDate(finalDate);
 		activityTime.setTimed(timed);
-		List<TimeActivity> activitiesTime = collectedTimes
-				.get(activity.getId());
+		List<TimeActivity> activitiesTime = collectedTimes.get(activity.getId());
 		activitiesTime.add(activityTime);
 		organizeTimes(activitiesTime);
 		return activityTime;
@@ -118,8 +115,7 @@ public class Collect extends FredEntity {
 		Collections.sort(activities, comparatorActivities);
 	}
 
-	public TimeActivity updateFinal(Activity activity, Long startDate,
-			Long finalDate, Long timed) {
+	public TimeActivity updateFinal(Activity activity, Long startDate, Long finalDate, Long timed) {
 		for (TimeActivity ta : collectedTimes.get(activity.getId())) {
 			if (ta.getStartDate().equals(startDate)) {
 				ta.setFinalDate(finalDate);
@@ -142,11 +138,9 @@ public class Collect extends FredEntity {
 	public HashMap<String, Long> getSumOfTimes() {
 		List<Long> calculados = collectedTimes
 				// Stream<List<TimeActivity>>
-				.values()
-				.stream()
+				.values().stream()
 				// Stream<Stream<Long>>
-				.map(m -> m.stream().map(
-						(TimeActivity ml) -> ml.getEllapsedTimeInSeconds()))
+				.map(m -> m.stream().map((TimeActivity ml) -> ml.getEllapsedTimeInSeconds()))
 				// Stream<List<Long>>
 				.map(s -> s.collect(Collectors.toList()))
 				// LongStream
@@ -164,8 +158,7 @@ public class Collect extends FredEntity {
 	}
 
 	public List<TimeActivity> getCollectedTimes() {
-		return collectedTimes.values().stream().flatMap(tss -> tss.stream())
-				.collect(Collectors.toList());
+		return collectedTimes.values().stream().flatMap(tss -> tss.stream()).collect(Collectors.toList());
 	}
 
 	public List<TimeActivity> getTimes() {
@@ -177,12 +170,10 @@ public class Collect extends FredEntity {
 	}
 
 	public void removeTimeActivity(TimeActivity time) {
-		collectedTimes.values().stream().filter(lta -> lta.contains(time))
-				.iterator().remove();
+		collectedTimes.values().stream().filter(lta -> lta.contains(time)).iterator().remove();
 	}
 
 	public List<TimeActivity> getTimeInChronologicalOrder() {
-		List<TimeActivity> times = getCollectedTimes();
 		Collections.sort(times, comparatorReverse);
 		return times;
 	}
@@ -210,7 +201,6 @@ public class Collect extends FredEntity {
 	}
 
 	public void addActivity(Activity atv, List<TimeActivity> times) {
-		this.activities.add(atv);
 		this.collectedTimes.put(atv.getId(), times);
 		organizeTimes(times);
 	}
@@ -231,9 +221,7 @@ public class Collect extends FredEntity {
 	}
 
 	public void setActivities(Set<Activity> activities) {
-		for (Activity a : activities) {
-			addNewActivity(a);
-		}
+		activities.forEach(this::addNewActivity);
 	}
 
 	public void addNewActivity(Activity activity) {
@@ -258,8 +246,7 @@ public class Collect extends FredEntity {
 	}
 
 	public double getTotalPercentageOfTimed(ActivityType type) {
-		long totalSegsType = collectedTimes.values().stream()
-				.flatMap(fl -> fl.stream())
+		long totalSegsType = collectedTimes.values().stream().flatMap(fl -> fl.stream())
 				.filter(tp -> tp.getActivity().getActivityType().equals(type))
 				.mapToLong(ta -> ta.getEllapsedTimeInSeconds()).sum();
 		long totalSegs = getTotalTimedSeconds();
@@ -268,6 +255,20 @@ public class Collect extends FredEntity {
 		if (totalD == 0 || totalType == 0)
 			return 0;
 		return (totalType / totalD) * 100;
+	}
+
+	public String getTimeRangeFormatted() {
+		List<TimeActivity> timeInChronologicalOrder = getTimeInChronologicalOrder();
+		if (timeInChronologicalOrder.isEmpty())
+			return "0 - 0";
+
+		TimeActivity first = timeInChronologicalOrder.get(0);
+		int size = timeInChronologicalOrder.size();
+		
+		TimeActivity last = timeInChronologicalOrder.get(--size);
+		String formattedStartDate = first.getFormattedStartDate();
+		String formattedFinalDate = last.getFormattedFinalDate();
+		return new StringJoiner(formattedStartDate, " - ", formattedFinalDate).toString();
 	}
 
 	@Override

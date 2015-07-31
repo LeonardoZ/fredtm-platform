@@ -1,4 +1,4 @@
-package com.fredtm.desktop.controller.grafico;
+package com.fredtm.desktop.controller.graphic;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;

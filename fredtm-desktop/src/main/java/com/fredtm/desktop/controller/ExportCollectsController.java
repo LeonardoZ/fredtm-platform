@@ -25,18 +25,18 @@ public class ExportCollectsController extends BaseController implements
 		Initializable {
 
 	@FXML
-	private ListView<Collect> listViewcollects;
+	private ListView<Collect> listViewCollects;
 	@FXML
-	private ChoiceBox<Exportation> choiceTiposExportacao;
+	private ChoiceBox<Exportation> choiceExportionOptions;
 	@FXML
-	private TextField tfDiretorio;
+	private TextField tfDirectory;
 
 	private List<Collect> collects;
 	private File selectedDirectory;
 
 	public void setcollects(List<Collect> collects) {
 		this.collects = collects;
-		listViewcollects.getItems().addAll(collects);
+		listViewCollects.getItems().addAll(collects);
 	}
 
 	@FXML
@@ -46,17 +46,17 @@ public class ExportCollectsController extends BaseController implements
 		selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory != null && selectedDirectory.isDirectory()
 				&& selectedDirectory.canWrite()) {
-			tfDiretorio.setText(selectedDirectory.getAbsolutePath());
+			tfDirectory.setText(selectedDirectory.getAbsolutePath());
 		}
 	}
 
 	@FXML
-	private void onExportarClicked() {
+	private void onExportClicked() {
 		if (selectedDirectory == null) {
 			return;
 		}
 		Exportable<Collect> exportador = ExportCollectFactory
-				.getExporter(choiceTiposExportacao.getValue());
+				.getExporter(choiceExportionOptions.getValue());
 		try {
 			if (collects.size() == 1) {
 				exportador.export(collects.get(0),
@@ -74,8 +74,8 @@ public class ExportCollectsController extends BaseController implements
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		choiceTiposExportacao.getItems().addAll(Exportation.toList());
-		choiceTiposExportacao.autosize();
+		choiceExportionOptions.getItems().addAll(Exportation.toList());
+		choiceExportionOptions.autosize();
 	}
 
 }

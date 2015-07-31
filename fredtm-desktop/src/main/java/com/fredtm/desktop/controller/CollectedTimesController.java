@@ -17,48 +17,48 @@ public class CollectedTimesController extends BaseController implements
 		Initializable {
 
 	@FXML
-	private TableView<TimeActivity> tbAtividades;
+	private TableView<TimeActivity> tbActivities;
 
 	@FXML
-	private TableColumn<TimeActivity, String> colInicial;
+	private TableColumn<TimeActivity, String> colInitial;
 
 	@FXML
-	private TableColumn<TimeActivity, Activity> colAtividade;
+	private TableColumn<TimeActivity, Activity> colActivity;
 
 	@FXML
-	private TableColumn<TimeActivity, String> colcollectdo;
+	private TableColumn<TimeActivity, String> colCollected;
 
 	@FXML
 	private TableColumn<TimeActivity, String> colFinal;
 
 	@FXML
-	private TableColumn<TimeActivity, String> colQuantificado;
+	private TableColumn<TimeActivity, String> colQuantified;
 
 	@SuppressWarnings("unused")
-	private List<TimeActivity> tempos;
+	private List<TimeActivity> times;
 
-	public void setTempos(List<TimeActivity> tempos) {
-		this.tempos = tempos;
-		tbAtividades.getItems().addAll(tempos);
+	public void setTempos(List<TimeActivity> times) {
+		this.times = times;
+		tbActivities.getItems().addAll(times);
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		colAtividade
+		colActivity
 				.setCellValueFactory(new PropertyValueFactory<TimeActivity, Activity>(
-						"atividade"));
-		colInicial.setCellValueFactory(dado -> new SimpleStringProperty(dado
+						"activity"));
+		colInitial.setCellValueFactory(data -> new SimpleStringProperty(data
 				.getValue().getFormattedStartDate()));
-		colFinal.setCellValueFactory(dado -> new SimpleStringProperty(dado
+		colFinal.setCellValueFactory(data -> new SimpleStringProperty(data
 				.getValue().getFormattedFinalDate()));
-		colcollectdo.setCellValueFactory(dado -> new SimpleStringProperty(dado
+		colCollected.setCellValueFactory(data -> new SimpleStringProperty(data
 				.getValue().getSimpleEllapsedTime()));
-		colQuantificado.setCellValueFactory(dado -> new SimpleStringProperty(
-				dado.getValue().getFormattedCollectedAmount()));
+		colQuantified.setCellValueFactory(data -> new SimpleStringProperty(
+				data.getValue().getFormattedCollectedAmount()));
 		// Cell change
-		colAtividade
+		colActivity
 				.setCellValueFactory(new PropertyValueFactory<TimeActivity, Activity>(
-						"atividade"));
+						"activity"));
 
 	}
 

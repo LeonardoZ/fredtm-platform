@@ -103,7 +103,7 @@ public class CollectToCSV implements Exportable<Collect> {
 				"Data",
 				"Hora",
 				"Atividade parcial",
-				"Descricao",
+				"Description",
 				"Classificacao",
 				collect.getQuantitativeActivity() == null ? "N/A" : collect
 						.getQuantitativeActivity().getItemName(),

@@ -5,7 +5,7 @@ import java.util.List;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.controller.MainController;
-import com.fredtm.desktop.controller.utils.TiposGrafico;
+import com.fredtm.desktop.controller.utils.GraphicsOptions;
 
 public class MainEventBus {
 
@@ -22,33 +22,33 @@ public class MainEventBus {
 		this.main = main;
 	}
 
-	public void eventoAbrirAtividades(Operation operation) {
-		main.abrirAtividades(operation);
+	public void eventOpenActivities(Operation operation) {
+		main.openActivities(operation);
 	}
 
-	public void eventoAbrircollects(Operation operation) {
-		main.abrircollects(operation);
+	public void eventOpenCollects(Operation operation) {
+		main.openCollects(operation);
 	}
 
-	public void eventoExportarAtividades(Operation operation) {
-		main.habilitarExportarAtividades(operation);
+	public void eventExportActivities(Operation operation) {
+		main.habilitarExportActivities(operation);
 	}
 
-	public void eventoExportarcollects(List<Collect> collects) {
-		main.exportarcollects(collects);
+	public void eventExportcollects(List<Collect> collects) {
+		main.exportCollects(collects);
 	}
 
-	public void eventoAbrirTemposcollectdos(Collect collect) {
-		main.abrirTemposcollectdos(collect);
+	public void eventOpenTemposcollectdos(Collect collect) {
+		main.openCollectedTimes(collect);
 	}
 
-	public void eventoTiposDeGraficos(Collect collect, List<Collect> collects) {
-		main.abrirTiposDeGraficos(collect, collects);
+	public void eventTypesGrapficOptions(Collect collect, List<Collect> collects) {
+		main.openGraphicTypes(collect, collects);
 	}
 
-	public void eventoAnaliseGrafica(TiposGrafico tipo, Collect collect,
+	public void eventGraphicalAnalises(GraphicsOptions tipo, Collect collect,
 			List<Collect> collects) {
-		main.abrirAnaliseGrafica(tipo, collect, collects);
+		main.openraphicalAnalises(tipo, collect, collects);
 	}
 
 }

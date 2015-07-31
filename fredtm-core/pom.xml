@@ -14,6 +14,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+	
+		<!-- Fred Resources -->
+		<dependency>
+			<groupId>com.fredtm</groupId>
+			<artifactId>fredtm-resources</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 		<!-- BEGIN Exportação depencencies -->
 		<dependency>

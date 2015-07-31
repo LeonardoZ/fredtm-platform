@@ -47,7 +47,7 @@ public class SocketConfig {
 		this.port.setValue(port);
 	}
 
-	public boolean salvar() {
+	public boolean save() {
 		File propertiesFile = getPropertiesFile();
 		try {
 			FileWriter osw = new FileWriter(propertiesFile);
