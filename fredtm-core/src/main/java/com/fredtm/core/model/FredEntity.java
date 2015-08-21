@@ -19,7 +19,7 @@ public class FredEntity implements Serializable {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@Column(length = 36, nullable = false)
+	@Column(length = 36, nullable = false,unique=true)
 	protected String id;
 
 	@Transient

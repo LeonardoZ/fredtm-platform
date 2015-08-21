@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fredtm.core.model.Activity;
+import com.fredtm.core.model.Location;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.data.repository.ActivityRepository;
 import com.fredtm.data.repository.TimeActivityRepository;
@@ -23,13 +24,14 @@ public class TimeActivityResourceAssembler extends
 	@Override
 	public TimeActivityResource toResource(TimeActivity entity) {
 		TimeActivityResource tar = new TimeActivityResource();
+		Location location = new Location(0, 0);
 		tar.uuid(entity.getId()).activityTitle(entity.getActivity().getTitle())
 				.collectId(entity.getCollect().getId())
 				.startDate(entity.getStartDate()).timed(entity.getTimed())
 				.activityId(entity.getActivity().getId())
 				.finalDate(entity.getFinalDate())
-				.latitude(Long.valueOf(entity.getLatitude()))
-				.longitude(Long.valueOf(entity.getLongitude()))
+				.latitude(entity.getLocation().orElseGet(()->location).getLatitude())
+				.longitude(entity.getLocation().orElseGet(()->location).getLongitude())
 				.collectedAmount(entity.getCollectedAmount());
 		return tar;
 	}
@@ -55,8 +57,7 @@ public class TimeActivityResourceAssembler extends
 		ta.setFinalDate(d.getFinalDate());
 		ta.setStartDate(ta.getStartDate());
 		ta.setTimed(ta.getTimed());
-		ta.setLongitude(String.valueOf(d.getLongitude()));
-		ta.setLatitude(String.valueOf(d.getLatitude()));
+		ta.setLocation(new Location(d.getLatitude(),d.getLongitude()));
 		return ta;
 	}
 

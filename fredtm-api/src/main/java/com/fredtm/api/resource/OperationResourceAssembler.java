@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.fredtm.core.model.Operation;
 import com.fredtm.resources.ActivityResource;
-import com.fredtm.resources.CollectResource;
 import com.fredtm.resources.OperationResource;
 import com.fredtm.resources.base.ElementParser;
 
@@ -37,9 +36,8 @@ public class OperationResourceAssembler extends ElementParser<Operation, Operati
 				.activities(
 						new HashSet<ActivityResource>(ars.toResources(entity
 								.getActivities())))
-				.collects(
-						new HashSet<CollectResource>(cra.toResources(entity
-								.getCollects())))
+				.collects(cra.toResources(entity
+								.getCollects()))
 				.lastSync(sra.toResource(entity
 						.getLastSync()));
 

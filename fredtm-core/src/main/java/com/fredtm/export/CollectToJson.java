@@ -3,12 +3,12 @@ package com.fredtm.export;
 import java.util.List;
 
 import com.fredtm.core.model.Collect;
+import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class CollectToJson implements Exportable<Collect> {
 
-	private Gson gson = new GsonBuilder().create();
+	private Gson gson = GsonFactory.getGson();
 
 	@Override
 	public void export(Collect collect, String path) {

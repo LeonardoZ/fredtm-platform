@@ -20,16 +20,17 @@ public class MainControllerTabCreator {
 		this.tabPane = tabPane;
 	}
 
-	public <T extends BaseController> void criaViewMecanismo(String fxml,
-			String titulo, Optional<Consumer<T>> consumidor) {
+	public <T extends BaseController> void createViewMechanism(String fxml,
+			String titulo, Optional<Consumer<T>> consumer) {
 		Pane p = null;
 		try {
 
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
 			p = (Pane) fxmlLoader.load();
-			if (consumidor.isPresent()) {
-				doOnController(p, fxmlLoader, consumidor.get());
+			if (consumer.isPresent()) {
+				doOnController(p, fxmlLoader, consumer.get());
 			}
+			p.setCenterShape(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,13 +39,13 @@ public class MainControllerTabCreator {
 	}
 
 	private <T extends BaseController> void doOnController(Pane p,
-			FXMLLoader fxmlLoader, Consumer<T> consumidor) {
+			FXMLLoader fxmlLoader, Consumer<T> consumer) {
 		T controller = fxmlLoader.<T> getController();
 		Scene scene = p.getScene();
 		if (scene != null && scene.getWindow() != null) {
 			controller.setWindow(scene.getWindow());
 		}
-		consumidor.accept(controller);
+		consumer.accept(controller);
 	}
 
 	private void createTabs(Pane p, String titulo) {

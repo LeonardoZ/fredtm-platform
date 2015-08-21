@@ -24,9 +24,9 @@ import com.fredtm.core.model.Account;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.Sync;
 import com.fredtm.data.repository.AccountRepository;
-import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.resources.OperationResource;
 import com.fredtm.resources.SyncResource;
+import com.fredtm.service.OperationService;
 import com.fredtm.service.SyncService;
 import com.fredtm.service.SyncState;
 
@@ -44,7 +44,7 @@ public class SyncController implements ResourcesUtil<Sync, SyncResource> {
 	private AccountRepository accountRepository;
 
 	@Autowired
-	private OperationRepository operationRepository;
+	private OperationService operationService;
 
 	@Autowired
 	private OperationResourceAssembler operationAssembler;
@@ -58,20 +58,12 @@ public class SyncController implements ResourcesUtil<Sync, SyncResource> {
 		return new Resource<OperationResource>(resource, self);
 	};
 
-	// public HttpEntity<Resource<String>> verifySyncState(@RequestBody
-	// OperationResource resource){
-	//
-	// SyncState state = service.isValidSync(resource.getUuid(),
-	// resource.getLastSync() != null? resource.getLastSync().getUuid():"",
-	// resource.getModification());
-	// return new ResponseEntity<Resource<String>>(200);
-	// }
-
-	// Receber Op
 	@RequestMapping(method = RequestMethod.POST)
 	public HttpEntity<Resource<SyncResource>> receiveSync(@RequestBody OperationResource fullResource) {
+		
 		// Check if exists
-		SyncState state = service.isValidSync(fullResource.getUuid(), fullResource.getLastSync().getUuid(),
+		SyncState state = service.isValidSync(fullResource.getUuid(),
+				fullResource.getLastSync() == null ? "" : fullResource.getLastSync().getUuid(),
 				fullResource.getModification());
 
 		if (state == SyncState.INVALID_DATA) {
@@ -88,14 +80,16 @@ public class SyncController implements ResourcesUtil<Sync, SyncResource> {
 		Sync sync = null;
 		Account acc = accountRepository.findOne(fullResource.getAccountId());
 
-		if (state== SyncState.SYNC_EXISTING) {
-			Operation oldOperation = operationRepository.findOne(uuid);
+		if (state == SyncState.SYNC_EXISTING) {
+			Operation oldOperation = operationService.getOperation(uuid);
+			System.err.println("In old one " + oldOperation.getCollects().size());
 			Operation newOperation = logic.doSyncOnExisting(fullResource);
 			// logic doesn't cover account
 			newOperation.setAccount(acc);
+			System.err.println("New " + newOperation.getCollects().size());
 			sync = service.receiveSync(oldOperation, newOperation);
 
-		} else if(state == SyncState.NEW_SYNC) {
+		} else if (state == SyncState.NEW_SYNC) {
 			Operation newOperation = logic.doSyncOnExisting(fullResource);
 			// logic doesn't cover account
 			newOperation.setAccount(acc);
@@ -112,8 +106,8 @@ public class SyncController implements ResourcesUtil<Sync, SyncResource> {
 
 		if (!operations.isEmpty()) {
 			List<Resource<OperationResource>> resourcesList = operationResourceUtil.configureResources(operations);
-			Resources<Resource<OperationResource>> resources = 
-					new Resources<Resource<OperationResource>>(resourcesList);
+			Resources<Resource<OperationResource>> resources = new Resources<Resource<OperationResource>>(
+					resourcesList);
 			return new ResponseEntity<Resources<Resource<OperationResource>>>(resources, HttpStatus.OK);
 
 		} else {
@@ -134,11 +128,4 @@ public class SyncController implements ResourcesUtil<Sync, SyncResource> {
 		return new Resource<SyncResource>(resource, self);
 	}
 
-	public List<OperationResource> sendDataToClient(String accountUuid) {
-		/*
-		 * Select
-		 */
-
-		return null;
-	}
 }

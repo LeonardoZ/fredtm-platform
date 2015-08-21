@@ -24,13 +24,13 @@ public class Activity extends FredEntity {
 	@Transient
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false, length = 120)
+	@Column(nullable = false, length = 120, name = "title")
 	private String title;
 
 	@Column(length = 120)
 	private String description;
 
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "activity_type")
 	private ActivityType activityType;
 
@@ -62,14 +62,12 @@ public class Activity extends FredEntity {
 		setDescription(description);
 	}
 
-	public Activity(String title, String description,
-			ActivityType activityType, boolean isQuantitative) {
+	public Activity(String title, String description, ActivityType activityType, boolean isQuantitative) {
 		this(title, description, activityType);
 		setIsQuantitative(isQuantitative);
 	}
 
-	public Activity(Operation op, String title, String description,
-			ActivityType activityType, boolean isQuantitative) {
+	public Activity(Operation op, String title, String description, ActivityType activityType, boolean isQuantitative) {
 		this(title, description, activityType, isQuantitative);
 	}
 
@@ -100,8 +98,7 @@ public class Activity extends FredEntity {
 	}
 
 	public void setActivityType(int activityType) {
-		this.activityType = ActivityType.getById(activityType).orElse(
-				ActivityType.PRODUCTIVE);
+		this.activityType = ActivityType.getById(activityType).orElse(ActivityType.PRODUCTIVE);
 	}
 
 	public Operation getOperation() {
@@ -129,7 +126,7 @@ public class Activity extends FredEntity {
 	}
 
 	public String getItemName() {
-		return quantitative ? itemName : "Não quantitativa";
+		return quantitative ? itemName : "n/a";
 	}
 
 	public void setItemName(String itemName) {
@@ -144,15 +141,13 @@ public class Activity extends FredEntity {
 			return false;
 
 		Activity activity = (Activity) o;
-		return new EqualsBuilder().append(operation, activity.operation)
-				.append(activityType, activity.activityType)
+		return new EqualsBuilder().append(operation, activity.operation).append(activityType, activity.activityType)
 				.append(title, activity.title).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(operation).append(activityType)
-				.append(title).build();
+		return new HashCodeBuilder().append(operation).append(activityType).append(title).build();
 	}
 
 	@Override

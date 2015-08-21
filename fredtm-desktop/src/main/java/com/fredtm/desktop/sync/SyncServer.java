@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
-import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 
@@ -29,13 +28,12 @@ public class SyncServer {
 	public SyncServer(ClientConnection connected, ExecutorService service) {
 		this.connected = connected;
 		this.service = service;
-
 	}
 
 	public void start() {
-		String porta = new SocketConfig().getPort().getValue();
+		String port = new SocketConfig().getPort().getValue();
 		if (connected != null) {
-			startServer(Integer.valueOf(porta));
+			startServer(Integer.valueOf(port));
 		}
 	}
 
@@ -63,16 +61,18 @@ public class SyncServer {
 	private void onAcceptClient(Socket client) {
 		OutputStream outputStream = null;
 		PrintWriter pw = null;
-		try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-				client.getInputStream(), Charset.forName("UTF-8")))) {
-			String collected = bufferedReader.lines().collect(Collectors.joining());
+		try (BufferedReader bufferedReader = new BufferedReader(
+				new InputStreamReader(client.getInputStream(), Charset.forName("UTF-8")))) {
+			String line = bufferedReader.readLine();
 			// response to client after the job is done
+			System.out.println("Aqui");
 			outputStream = client.getOutputStream();
-			pw = new PrintWriter(new OutputStreamWriter(outputStream,
-					Charset.forName("UTF-8")), true);
+			pw = new PrintWriter(new OutputStreamWriter(outputStream, Charset.forName("UTF-8")), true);
 			pw.println("OK");
+			System.out.println("Aquidepois");
+			
 			// Run json processing
-			Platform.runLater(() -> connected.onConnection(collected));
+			Platform.runLater(() -> connected.onConnection(line));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -92,17 +92,13 @@ public class SyncServer {
 	 */
 	public static Optional<String> getIpAddress() {
 		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface
-					.getNetworkInterfaces(); en.hasMoreElements();) {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
 				NetworkInterface intf = en.nextElement();
 
-				for (Enumeration<InetAddress> enumIpAddr = intf
-						.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress()
-							&& (inetAddress instanceof Inet4Address)) {
-						String ipAddress = inetAddress.getHostAddress()
-								.toString();
+					if (!inetAddress.isLoopbackAddress() && (inetAddress instanceof Inet4Address)) {
+						String ipAddress = inetAddress.getHostAddress().toString();
 						return Optional.of(ipAddress);
 					}
 				}

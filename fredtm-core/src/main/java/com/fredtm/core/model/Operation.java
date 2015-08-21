@@ -114,21 +114,17 @@ public class Operation extends FredEntity {
 		this.activities.forEach(a -> a.setOperation(this));
 	}
 
-	public Set<Collect> getCollects() {
-		return collects;
+	public List<Collect> getCollects() {
+		return new ArrayList<>(collects);
 	}
 
-	public void setCollects(Set<Collect> collects) {
-		this.collects = collects;
+	public void setCollects(List<Collect> collects) {
+		this.collects = new HashSet<>(collects);
 		this.collects.forEach(c -> c.setOperation(this));
 	}
 
 	public void addCollect(Collect c) {
-		if (!collects.contains(c)) {
-			this.collects.add(c);
-		} else {
-			throw new IllegalArgumentException("Collect já adicionada");
-		}
+		this.collects.add(c);
 	}
 
 	public void removeCollect(Collect c) {
@@ -219,7 +215,7 @@ public class Operation extends FredEntity {
 
 	@Override
 	public String toString() {
-		return name + " - " + company;
+		return name + " - " + company + " - "+collects.size();
 	}
 
 	@Override

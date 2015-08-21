@@ -50,7 +50,7 @@ public class OperationCustomCell extends ListCell<Operation> {
 		line1 = new HBox(lbTitle,lbTitleValue);
 		line2 = new HBox(btActivities, btCollects);
 		
-		lbIc = new Label("", new ImageView("/images/ger.png"));
+		lbIc = new Label("", new ImageView("/images/ic_ops.png"));
 		VBox.getVgrow(lbIc);
 		lbIc.setAlignment(Pos.CENTER);
 		lbIc.setTextAlignment(TextAlignment.CENTER);
@@ -58,12 +58,12 @@ public class OperationCustomCell extends ListCell<Operation> {
 		mainContent.getChildren().addAll(line1, lbCharacteristics, line2);
 		Border border = new Border(
 				new BorderStroke(
-						javafx.scene.paint.Paint.valueOf("#323638"), 
-						BorderStrokeStyle.SOLID, 
+						javafx.scene.paint.Paint.valueOf("#bababa"), 
+						BorderStrokeStyle.DASHED, 
 						CornerRadii.EMPTY, 
 						new BorderWidths(0, 0, 1.0, 0)));
 		structure = new HBox(lbIc, mainContent);
-		structure.setPadding(new Insets(0.7, 0, 0.7, 0));
+		structure.setPadding(new Insets(0, 0, 0, 0));
 		structure.setAlignment(Pos.CENTER_LEFT);
 		structure.setBorder(border);
 

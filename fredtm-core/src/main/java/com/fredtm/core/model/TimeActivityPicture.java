@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="time_activity_picture")
@@ -18,6 +19,9 @@ public class TimeActivityPicture extends FredEntity {
 
 	@Column(nullable = false)
 	private String uri;
+
+	@Transient
+	private byte[] content;
 
 	public TimeActivityPicture() {
 		
@@ -37,6 +41,14 @@ public class TimeActivityPicture extends FredEntity {
 
 	public void setUri(String uri) {
 		this.uri = uri;
+	}
+	
+	public byte[] getContent() {
+		return this.content;
+	}
+	
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 }

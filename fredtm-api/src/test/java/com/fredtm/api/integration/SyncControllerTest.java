@@ -12,6 +12,7 @@ import com.fredtm.resources.ActivityResource;
 import com.fredtm.resources.OperationResource;
 import com.fredtm.resources.OperationsResource;
 import com.fredtm.resources.SyncResource;
+import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -31,11 +32,12 @@ public class SyncControllerTest extends TestBase {
 		String asString = makeContentRequest().given().body(fromJson)
 				.post("/sync").andReturn().body().asString();
 
-		System.out.println(asString);
 
 		SyncResource syncResource = gson.fromJson(asString, SyncResource.class);
 
+
 		Assert.assertTrue(!syncResource.getUuid().isEmpty());
+		
 	}
 
 	@Test
@@ -51,11 +53,10 @@ public class SyncControllerTest extends TestBase {
 
 		SyncResource syncResource = gson.fromJson(asString, SyncResource.class);
 
-		System.out.println(syncResource);
-
 		String ops = makeRequest().given()
 				.pathParam("id", syncResource.getOperationId())
 				.get("/operation/{id}").andReturn().body().asString();
+
 		OperationResource syncdOperation = gson.fromJson(ops,
 				OperationResource.class);
 		
@@ -92,8 +93,7 @@ public class SyncControllerTest extends TestBase {
 	@Test
 	public void shouldReturn2operations() {
 		StringBuilder sb = readFromFile("classpath:testInsert.json");
-		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy hh:mm:ss")
-				.create();
+		Gson gson = GsonFactory.getGson();
 		OperationResource fromJson = gson.fromJson(sb.toString(),
 				OperationResource.class);
 
@@ -105,11 +105,12 @@ public class SyncControllerTest extends TestBase {
 
 		Type listType = new TypeToken<OperationsResource>() {
 		}.getType();
+		
 		OperationsResource operationsResource = gson.fromJson(operationsJson,
 				listType);
 		Assert.assertEquals(2, operationsResource.getEmbedded().getOperations()
 				.size());
 
 	}
-
+	
 }

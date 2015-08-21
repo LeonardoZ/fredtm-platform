@@ -9,7 +9,7 @@
         {
             "title": "A",
             "description": "XDD",
-            "activityType": "IMPRODUTIVA",
+            "activityType": 0,
             "quantitative": false,
             "itemName": "N\u00e3o quantitativa",
             "operationId": "",
@@ -21,7 +21,7 @@
         {
             "title": "B",
             "description": "Descripion of B",
-            "activityType": "PRODUTIVA",
+            "activityType": 2,
             "quantitative": true,
             "itemName": "Trees",
             "operationId": "",
@@ -67,7 +67,7 @@
                 {
                     "title": "B",
                     "description": "Descripion of B",
-                    "activityType": "PRODUTIVA",
+                    "activityType": 2,
                     "quantitative": true,
                     "itemName": "Trees",
                     "operationId": "",
@@ -79,7 +79,7 @@
                 {
                     "title": "A",
                     "description": "XDD",
-                    "activityType": "IMPRODUTIVA",
+                    "activityType": 0,
                     "quantitative": false,
                     "itemName": "N\u00e3o quantitativa",
                     "operationId": "",

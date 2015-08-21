@@ -16,8 +16,6 @@ import com.google.gson.reflect.TypeToken;
 
 @ActiveProfiles(value = "test")
 public class AccountControllerTest extends TestBase {
-
-	
 	
 	@Test
 	public void shouldPostNewAccount() {

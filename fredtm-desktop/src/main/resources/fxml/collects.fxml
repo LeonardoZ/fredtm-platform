@@ -6,9 +6,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectsController">
-   <children>
-      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="736.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <ListView fx:id="listViewcollects" layoutX="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    </children>
-</AnchorPane>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectsController">
+   <center>
+      <VBox>
+         <children>
+            <ListView fx:id="listViewcollects" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="380.0" prefWidth="1024.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <ButtonBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="39.0" prefWidth="1024.0" styleClass="fred-button-bar" BorderPane.alignment="CENTER">
+        <buttons>
+            <MenuButton fx:id="btnGraphicOption" mnemonicParsing="false" text="Análise geral">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onClassificationPerCollectClicked" text="Tempo/Atividade por coleta" />
+              </items>
+            </MenuButton>
+            <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExportAllPressed" text="Exportar todos" />
+        </buttons>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </ButtonBar>
+   </top>
+</BorderPane>

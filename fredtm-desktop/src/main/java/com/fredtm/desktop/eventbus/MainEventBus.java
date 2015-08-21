@@ -5,7 +5,7 @@ import java.util.List;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.desktop.controller.MainController;
-import com.fredtm.desktop.controller.utils.GraphicsOptions;
+import com.fredtm.desktop.controller.utils.FredCharts;
 
 public class MainEventBus {
 
@@ -30,25 +30,22 @@ public class MainEventBus {
 		main.openCollects(operation);
 	}
 
-	public void eventExportActivities(Operation operation) {
-		main.habilitarExportActivities(operation);
-	}
-
-	public void eventExportcollects(List<Collect> collects) {
+	public void eventExportCollects(List<Collect> collects) {
 		main.exportCollects(collects);
 	}
 
-	public void eventOpenTemposcollectdos(Collect collect) {
+	public void eventOpenTimeActivity(Collect collect) {
 		main.openCollectedTimes(collect);
 	}
 
-	public void eventTypesGrapficOptions(Collect collect, List<Collect> collects) {
-		main.openGraphicTypes(collect, collects);
-	}
-
-	public void eventGraphicalAnalises(GraphicsOptions tipo, Collect collect,
+	public void eventChartAnalyses(FredCharts type,
 			List<Collect> collects) {
-		main.openraphicalAnalises(tipo, collect, collects);
+		main.openGraphicalAnalisys(type,  collects);
 	}
+	
+	public void eventChartAnalyses(FredCharts type, Collect collect) {
+		main.openGraphicalAnalisys(type, collect);
+	}
+		
 
 }

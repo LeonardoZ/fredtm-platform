@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import com.fredtm.resources.ActivityResource;
 import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -18,8 +19,7 @@ public class ResourceJsonUtil {
 	private Gson gson = new Gson();
 
 	public <T> String toJson(T t) {
-		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-		String json = builder.create().toJson(t);
+		String json = GsonFactory.getGson().toJson(t);
 		return json;
 	}
 

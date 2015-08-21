@@ -4,11 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -56,16 +59,17 @@ public class TimeActivity extends FredEntity {
 	@Column(name = "collected_amount")
 	private int collectedAmount;
 
-	private String latitude;
-
-	private String longitude;
+	@Embedded
+	private Location location;
 
 	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "timeActivity")
 	private List<TimeActivityPicture>	 pictures;
 	
 	
 	public TimeActivity() {
+		location = new Location(0, 0);
 		activity = new Activity();
+		pictures = new LinkedList<>();
 	}
 
 	public TimeActivity(Activity activity, Collect collect) {
@@ -102,6 +106,7 @@ public class TimeActivity extends FredEntity {
 	}
 
 	public String getFormattedStartDate() {
+		System.out.println(startDate);
 		return sdf.format(new Date(startDate));
 	}
 
@@ -160,6 +165,12 @@ public class TimeActivity extends FredEntity {
 		}
 
 	}
+	
+	public String getTimeRange() {
+		String start = sdf.format(new Date(startDate));
+		String end = sdf.format(new Date(finalDate));
+		return start + " - " + end;
+	}
 
 	public String getFullElapsedTime() {
 		String start = sdf.format(new Date(startDate));
@@ -199,20 +210,12 @@ public class TimeActivity extends FredEntity {
 		return t;
 	}
 
-	public String getLongitude() {
-		return longitude == null || longitude.isEmpty() ? "0" : longitude;
+	public void setLocation(Location location){
+		this.location = location;
 	}
-
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
-
-	public String getLatitude() {
-		return latitude == null || latitude.isEmpty() ? "0" : latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
+	
+	public Optional<Location> getLocation() {
+		return Optional.ofNullable(location);
 	}
 	
 	public List<TimeActivityPicture> getPictures() {
@@ -264,10 +267,12 @@ public class TimeActivity extends FredEntity {
 			return false;
 		TimeActivity other = (TimeActivity) obj;
 		return new EqualsBuilder().append(activity, other.activity)
-				.append(collect, other.collect)
+				.append(collect.getId(), other.collect.getId())
 				.append(finalDate, other.finalDate)
 				.append(startDate, other.startDate).append(timed, other.timed)
 				.isEquals();
 	}
+
+	
 
 }

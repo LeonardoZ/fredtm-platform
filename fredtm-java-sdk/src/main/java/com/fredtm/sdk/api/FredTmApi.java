@@ -4,8 +4,8 @@ package com.fredtm.sdk.api;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -42,7 +42,7 @@ public class FredTmApi {
 	}
 	
 	private RestAdapter configAdapter(boolean complete) {
-		Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
+		Gson g = GsonFactory.getGson();
 		Builder builder = new RestAdapter.Builder()
 				.setLogLevel(LogLevel.FULL)
 				.setConverter(new GsonConverter(g))

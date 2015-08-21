@@ -26,8 +26,10 @@ public class ExportCollectsController extends BaseController implements
 
 	@FXML
 	private ListView<Collect> listViewCollects;
+	
 	@FXML
 	private ChoiceBox<Exportation> choiceExportionOptions;
+	
 	@FXML
 	private TextField tfDirectory;
 

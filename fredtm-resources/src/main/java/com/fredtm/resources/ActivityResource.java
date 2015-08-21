@@ -10,7 +10,7 @@ public class ActivityResource extends FredResourceSupport {
 
 	private String title;
 	private String description;
-	private String activityType;
+	private int activityType;
 	private Boolean quantitative;
 	private String itemName;
 	private String operationId;
@@ -30,7 +30,7 @@ public class ActivityResource extends FredResourceSupport {
 		return this;
 	}
 
-	public ActivityResource activityType(String value) {
+	public ActivityResource activityType(int value) {
 		this.activityType = value;
 		return this;
 	}
@@ -69,11 +69,11 @@ public class ActivityResource extends FredResourceSupport {
 		this.description = description;
 	}
 
-	public String getActivityType() {
+	public int getActivityType() {
 		return activityType;
 	}
 
-	public void setActivityType(String activityType) {
+	public void setActivityType(int activityType) {
 		this.activityType = activityType;
 	}
 

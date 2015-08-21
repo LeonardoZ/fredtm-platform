@@ -14,8 +14,7 @@ import javax.swing.JOptionPane;
 
 import com.fredtm.desktop.sync.SocketConfig;
 
-public class ConfigureController extends BaseController implements
-		Initializable {
+public class ConfigureController extends BaseController implements Initializable {
 
 	@FXML
 	private TextField textEditIp;
@@ -26,10 +25,9 @@ public class ConfigureController extends BaseController implements
 	private SocketConfig config;
 
 	@FXML
-	void onConfirmarClicked(ActionEvent event) {
-		Optional.of(config.save()).ifPresent((t)-> 
-			JOptionPane.showMessageDialog(null,"Alterações realizadas com sucesso!")
-		);
+	void onConfirmClicked(ActionEvent event) {
+		Optional.of(config.save())
+				.ifPresent((t) -> JOptionPane.showMessageDialog(null, "Alterações realizadas com sucesso!"));
 	}
 
 	@Override

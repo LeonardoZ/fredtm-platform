@@ -33,7 +33,7 @@ public class ResourceToJsonTest {
 				ActivityType.PRODUCTIVE, true);
 		activity.setId("bbb");
 		Activity activity2 = new Activity("Toast 2", "For tests 2",
-				ActivityType.IMPRODUCTIVE);
+				ActivityType.UNPRODUCTIVE);
 		activity2.setOperation(operation);
 		activity2.setId("ccc");
 		Activity activity3 = new Activity(operation, "Toast 3", "For tests 3",

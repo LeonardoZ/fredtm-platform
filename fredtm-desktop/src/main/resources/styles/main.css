@@ -25,7 +25,7 @@
     -fx-border-color: 
         transparent
         transparent
-        derive(-fx-base, 80.0%) 
+        derive(-fx-base, 30.0%) 
         transparent;
     -fx-border-insets: 0.0 10.0 1.0 0.0;
   	-fx-background-repeat: no-repeat;
@@ -41,6 +41,21 @@
 	-fx-background-image:url('/images/ic_import.png');
 }
 
+#btnConfig{
+	-fx-background-image:url('/images/ic_config.png');
+}
+
+#btnExit{
+	-fx-background-image:url('/images/ic_exit.png');
+}
+
+.btnLocation{
+	-fx-background-image:url('/images/ic_maps_place.png');
+}
+
+.btnExportJson {
+}
+
 .btn-fred-main:hover {
     -fx-background-color: #a2deff;
 }
@@ -48,8 +63,6 @@
 #btn-fred-main:pressed {
 	-fx-background-color: #317256;
 }
-
-
 
 .btn-fred-lists {
 	-fx-font: 12.0px "Sans-Serif";
@@ -63,7 +76,6 @@
 .btn-fred-collects {
 	 -fx-background-color: #c4d70c;
 }
-
 
 .root.popup {
     -fx-background-color: transparent;
@@ -80,7 +92,7 @@
 }
 
 .tab-pane .tab-header-area .tab-header-background {
-	   -fx-background-color: #e1e1e1;
+	   -fx-background-color: #bababa;
 }
 
 .tab-pane
@@ -116,15 +128,19 @@
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: #a3ccd8;
-    -fx-text-fill: white;
+    -fx-background-color: #89dff7;
+    -fx-text-fill: #142325;
 }
 
-.list-cell:even,.list-cell:odd { /* <=== changed to even */
+.list-cell:even,.list-cell:odd { 
     -fx-background-color: white;
 }
 
 .list-cell:filled:hover {
-    -fx-background-color: #c0e7f2;
-    -fx-text-fill: white;
+    -fx-background-color: #89dff7;
+    -fx-text-fill: #142325;
+}
+
+.fred-button-bar {
+	-fx-background-color:  #525162;
 }

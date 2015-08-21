@@ -6,24 +6,17 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectedTimesController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectedTimesController">
    <children>
-      <TableView fx:id="tbActivities" layoutY="39.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="361.0" prefWidth="828.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
+      <TableView fx:id="tbActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn fx:id="colAtividade" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="175.0" text="Atividade" />
-          <TableColumn fx:id="colInicial" maxWidth="800.0" minWidth="-Infinity" prefWidth="160.0" text="Tempo inicial" />
-          <TableColumn fx:id="colFinal" maxWidth="350.0" minWidth="-Infinity" prefWidth="160.0" text="Tempo final" />
-          <TableColumn fx:id="colcollectdo" minWidth="-Infinity" text="Total" />
-            <TableColumn fx:id="colQuantificado" minWidth="-Infinity" prefWidth="160.0" text="Qtd. Quantificada" />
+          <TableColumn fx:id="colActivity" editable="false" minWidth="-Infinity" prefWidth="190.0" text="Atividade" />
+          <TableColumn fx:id="colTimeRange" editable="false" minWidth="-Infinity" prefWidth="273.0" text="Período" />
+          <TableColumn fx:id="colTotal" editable="false" minWidth="-Infinity" prefWidth="107.0" text="Total" />
+            <TableColumn fx:id="colQuantified" editable="false" minWidth="-Infinity" prefWidth="152.0" text="Quantificado" />
+            <TableColumn fx:id="colGeo" editable="false" minWidth="-Infinity" prefWidth="120.0" text="Geo" />
         </columns>
       </TableView>
-      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="736.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      	<children>
-    	   <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="736.0" text="collect - Tempos collectdos" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></Label>
-      	</children>
-      </HBox>
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="736.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </children>
 </AnchorPane>

@@ -4,6 +4,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.fredtm.core.model.Activity;
+import com.fredtm.core.model.ActivityType;
+import com.fredtm.core.model.Operation;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,11 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-
-import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
-import com.fredtm.core.model.Operation;
-import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class ActivitiesController extends BaseController implements Initializable {
 
@@ -78,22 +77,11 @@ public class ActivitiesController extends BaseController implements Initializabl
 			}
 		});
 		
-//		colType.setCellFactory((TableColumn<Activity, ActivityType> collumn) -> new TableCell<Activity, ActivityType>() {
-//			@Override
-//			protected void updateItem(ActivityType type, boolean empty) {
-//				if (type != null && !empty) {
-//					setText(type.toString());
-//					setStyle("-fx-background-color: " + type.getHexColor());
-//				}
-//			}
-//		});
 		colQuantitative.setCellValueFactory(value -> new SimpleStringProperty(
 				value.getValue() != null ? value.getValue().getItemName()
 						: "Não quantitativa"));
 		ContextMenu menu = new ContextMenu();
-		
 		MenuItem menuExport = new MenuItem("Exportar");
-		menuExport.setOnAction(e -> MainEventBus.INSTANCE.eventExportActivities(operation));
 		menu.getItems().addAll(menuExport);
 		
 		tbActivities.setContextMenu(menu);

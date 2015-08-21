@@ -34,24 +34,22 @@ public class SyncServiceImpl implements SyncService {
 	@Autowired
 	private ActivityRepository activityRepo;
 
+	
+	
 	public SyncState isValidSync(String uuid, String syncId, Date newModification) {
 		if (uuid == null || uuid.isEmpty()) {
 			return SyncState.NEW_SYNC;
 		}
 
 		Operation operation = opRepository.findOne(uuid);
-
 		clearDates(operation.getModified(), newModification);
 
 		if (operation.getModified().before(newModification)) {
-			System.out.println("Before");
 			return SyncState.SYNC_EXISTING;
 		} else if (operation.getModified().after(newModification) ||
 				operation.getModified().equals(newModification.getTime())) {
-			System.out.println("Ahead or Equals");
-			return SyncState.NOTHING_TO_RECEIVE_FROM_SYNC;
+			return SyncState.SYNC_DATE_CONFLICT;
 		} else {
-			System.out.println("After");
 			return SyncState.NOTHING_TO_RECEIVE_FROM_SYNC;
 		}
 	}
@@ -66,10 +64,6 @@ public class SyncServiceImpl implements SyncService {
 		c1.clear(Calendar.MILLISECOND);
 		c2.clear(Calendar.MILLISECOND);
 
-	}
-
-	public List<Operation> sendLastOperations(Account acc) {
-		return opRepository.findOperationsBy(acc);
 	}
 
 	@Override
@@ -91,6 +85,7 @@ public class SyncServiceImpl implements SyncService {
 
 	@Transactional(value = TxType.MANDATORY, rollbackOn = Exception.class)
 	public void eraseDataFromOperation(Operation op) {
+		System.err.println("Collects! = "+op.getCollects().size());
 		collectRepo.delete(op.getCollects());
 		activityRepo.delete(op.getActivities());
 	}
@@ -106,6 +101,11 @@ public class SyncServiceImpl implements SyncService {
 		sync.setOperation(newOperation);
 		newOperation.addSync(sync);
 		return syncRepository.save(sync);
+	}
+
+	@Override
+	public List<Operation> sendLastOperations(Account acc) {
+		return opRepository.findOperationsBy(acc);
 	}
 
 }

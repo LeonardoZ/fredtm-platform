@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Location;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.TimeActivity;
+import com.fredtm.core.model.TimeActivityPicture;
 import com.fredtm.resources.ActivityResource;
 import com.fredtm.resources.CollectResource;
 import com.fredtm.resources.OperationResource;
@@ -26,59 +28,56 @@ public class FredObjectMapper {
 		operation.setName(operationResource.getName());
 		operation.setCompany(operationResource.getCompany());
 		operation.setModified(operationResource.getModification());
-		
+
 		Set<ActivityResource> activityResources = operationResource.getActivities();
 		for (ActivityResource activityResource : activityResources) {
 			Activity activity = new Activity();
 			activity.setDescription(activityResource.getDescription());
 			activity.setTitle(activityResource.getTitle());
 			activity.setActivityType(
-					ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE)
-			);
+					ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE));
 			activity.setItemName(activityResource.getItemName());
 			activity.setIsQuantitative(activityResource.getQuantitative());
 			activity.setOperation(operation);
 			operation.addActivity(activity);
 		}
 
-		Set<CollectResource> collectResources = operationResource.getCollects();
+		List<CollectResource> collectResources = operationResource.getCollects();
 		for (CollectResource collectResource : collectResources) {
 			Collect collect = new Collect();
 			collect.setOperation(operation);
 			collect.setActivities(operation.getActivities());
 			Set<TimeActivityResource> timesResources = collectResource.getTimes();
 			List<TimeActivity> times = new LinkedList<>();
+
 			for (TimeActivityResource timeResource : timesResources) {
 				TimeActivity time = new TimeActivity();
 				time.setCollectedAmount(timeResource.getCollectedAmount());
 				time.setFinalDate(timeResource.getFinalDate());
 				time.setStartDate(timeResource.getStartDate());
 				time.setTimed(timeResource.getTimed());
-
 				time.setCollect(collect);
 				Activity activity = operation.getActivities().stream()
 						.filter(a -> a.getTitle().equals(timeResource.getActivityTitle())).findFirst().get();
 				time.setActivity(activity);
+				time.setLocation(new Location(timeResource.getLatitude(), timeResource.getLongitude()));
+				timeResource.getPics().forEach(p ->{
+					TimeActivityPicture tap = new TimeActivityPicture();
+					tap.setContent(p.getCompressedPictureContent().getBytes());
+					time.addPicture(tap);
+				});
+				
 				times.add(time);
 			}
 			collect.setTimes(times);
 			operation.addCollect(collect);
 		}
 
-
 		return operation;
 	}
-	
-	
-    public static List<Operation> mapResourcesToEntities(List<OperationResource> resources) {
-        return resources.stream()
-        	.map(FredObjectMapper::mapResourceToEntity)
-        	.collect(Collectors.toList());
-    }
-	
-	
 
-	
-	
+	public static List<Operation> mapResourcesToEntities(List<OperationResource> resources) {
+		return resources.stream().map(FredObjectMapper::mapResourceToEntity).collect(Collectors.toList());
+	}
 
 }

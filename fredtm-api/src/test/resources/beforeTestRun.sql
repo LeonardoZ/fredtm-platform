@@ -11,9 +11,9 @@ INSERT INTO operation(id,name,company,technical_characteristics,account_id,modif
 VALUES('fd806586-35d4-4e8c-a119-935d4bea0773','Op dd teste','Farm SA','Operação de coleta de valores','A','2015-04-10 20:07:48');
 
 INSERT INTO activity(id,title,description,activity_type,quantitative,item_name,operation_id)
-VALUES('eC211186-35d4-4e8c-a1d9-935d4beaaa73','A','Descripion of A','IMPRODUCTIVE','0','','fd806586-35d4-4e8c-a119-935d4bea0773');
+VALUES('eC211186-35d4-4e8c-a1d9-935d4beaaa73','A','Descripion of A',0,'0','','fd806586-35d4-4e8c-a119-935d4bea0773');
 INSERT INTO activity(id,title,description,activity_type,quantitative,item_name,operation_id)
-VALUES('935d4beaaa73-4e8c-4e8c-a1d9-eC211186','B','Descripion of B','PRODUCTIVE','1','Trees','fd806586-35d4-4e8c-a119-935d4bea0773');
+VALUES('935d4beaaa73-4e8c-4e8c-a1d9-eC211186','B','Descripion of B',2,'1','Trees','fd806586-35d4-4e8c-a119-935d4bea0773');
 
 INSERT INTO collect(id, operation_id) VALUES('01f0997f-7330-4dd8-b186-87b6bc344f90','fd806586-35d4-4e8c-a119-935d4bea0773');
 
@@ -23,5 +23,4 @@ VALUES('eeaaca35-728b-477c-bb8c-edc76767d457','eC211186-35d4-4e8c-a1d9-935d4beaa
 
 INSERT INTO sync(id,
 created,
-json_old_data,
-operation_id) values ('402881e44e8daeb5014e8daeec7f001d','2015-04-14 02:07:48','','fd806586-35d4-4e8c-a119-935d4bea0773');
+operation_id) values ('402881e44e8daeb5014e8daeec7f001d','2015-04-14 02:07:48','fd806586-35d4-4e8c-a119-935d4bea0773');

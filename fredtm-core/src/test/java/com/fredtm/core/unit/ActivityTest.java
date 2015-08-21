@@ -38,7 +38,7 @@ public class ActivityTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void onlyProductiveActivityShouldBeQuantitative() {
-		new Activity("Imp", "imp", ActivityType.IMPRODUCTIVE, true);
+		new Activity("Imp", "imp", ActivityType.UNPRODUCTIVE, true);
 	}
 
 	@Test
@@ -52,7 +52,7 @@ public class ActivityTest {
 	public void validActivityTypeIddShouldBeImproductive() {
 		Activity activity = new Activity();
 		activity.setActivityType(0);
-		assertEquals(ActivityType.IMPRODUCTIVE, activity.getActivityType());
+		assertEquals(ActivityType.UNPRODUCTIVE, activity.getActivityType());
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class ActivityTest {
 		Activity a1 = new Activity(operacao, "AA", "This is a...",
 				ActivityType.AUXILIARY, false);
 		Activity a2 = new Activity(operacao, "AAb", "This is a....",
-				ActivityType.IMPRODUCTIVE, false);
+				ActivityType.UNPRODUCTIVE, false);
 		assertTrue(!a1.equals(a2));
 	}
 

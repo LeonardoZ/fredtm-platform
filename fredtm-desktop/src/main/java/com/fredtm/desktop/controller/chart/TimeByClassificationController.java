@@ -1,4 +1,4 @@
-package com.fredtm.desktop.controller.graphic;
+package com.fredtm.desktop.controller.chart;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,27 +16,27 @@ import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.BaseController;
 
-public class TempoObtidoPorClassificacaoController extends BaseController {
+public class TimeByClassificationController extends BaseController {
 
 	@FXML
-	private BarChart<String, Number> graficoClassificacaoBarras;
+	private BarChart<String, Number> barsClassificationChart;
 
 	private Collect collect;
 
 	private List<Collect> collects;
 
-	public void setcollects(List<Collect> collects) {
+	public void setCollects(List<Collect> collects) {
 		this.collects = collects;
-		configurarGraficoDecollects();
+		configureChartForCollects();
 	}
 
-	public void setcollect(Collect collect) {
+	public void setCollect(Collect collect) {
 		this.collect = collect;
-		configurarGraficoSimples();
+		configureSimpleChart();
 	}
 
 	@SuppressWarnings("unchecked")
-	private void configurarGraficoDecollects() {
+	private void configureChartForCollects() {
 		AtomicInteger ai = new AtomicInteger(0);
 		List<Series<String, Number>> seriesList = FXCollections.observableArrayList();
 		
@@ -44,7 +44,7 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 
 			XYChart.Data<String, Number> data1 = new XYChart.Data<String, Number>(
 					"Improdutivo",
-					collect.getTotalPercentageOfTimed(ActivityType.IMPRODUCTIVE));
+					collect.getTotalPercentageOfTimed(ActivityType.UNPRODUCTIVE));
 
 			XYChart.Data<String, Number> data2 = new XYChart.Data<String, Number>(
 					"Produtivo",
@@ -56,21 +56,22 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 			
 			
 			Series<String, Number> series = new XYChart.Series<String, Number>();
-			series.setName(ai.incrementAndGet()+"º Ciclo");
+			series.setName(ai.incrementAndGet()+"º Coleta (ciclo)");
 			series.getData().addAll(data1, data2, data3);
 			seriesList.add(series);
 		});
-		graficoClassificacaoBarras.getYAxis().setAutoRanging(false);
-		graficoClassificacaoBarras.getYAxis().setLabel("Tempo (%)");
-		graficoClassificacaoBarras.getData().addAll(seriesList);
+		barsClassificationChart.getYAxis().setAutoRanging(false);
+		barsClassificationChart.getYAxis().setLabel("Tempo (%)");
+		barsClassificationChart.setTitle("Tempo/atividade por coleta (ciclo)");
+		barsClassificationChart.getData().addAll(seriesList);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void configurarGraficoSimples() {
+	private void configureSimpleChart() {
 
 		XYChart.Data<String, Number> data1 = new XYChart.Data<String, Number>(
 				"Improdutivo",
-				collect.getTotalPercentageOfTimed(ActivityType.IMPRODUCTIVE));
+				collect.getTotalPercentageOfTimed(ActivityType.UNPRODUCTIVE));
 
 		XYChart.Data<String, Number> data2 = new XYChart.Data<String, Number>(
 				"Produtivo",
@@ -79,20 +80,21 @@ public class TempoObtidoPorClassificacaoController extends BaseController {
 		XYChart.Data<String, Number> data3 = new XYChart.Data<String, Number>(
 				"Auxiliar",
 				collect.getTotalPercentageOfTimed(ActivityType.AUXILIARY));
-		configurarCor(data1, ActivityType.IMPRODUCTIVE);
-		configurarCor(data2, ActivityType.PRODUCTIVE);
-		configurarCor(data3, ActivityType.AUXILIARY);
+		configureColor(data1, ActivityType.UNPRODUCTIVE);
+		configureColor(data2, ActivityType.PRODUCTIVE);
+		configureColor(data3, ActivityType.AUXILIARY);
 
 		Series<String, Number> series = new XYChart.Series<String, Number>();
 		series.getData().addAll(data1, data2, data3);
 
-		graficoClassificacaoBarras.getYAxis().setAutoRanging(false);
-		graficoClassificacaoBarras.getYAxis().setLabel("Tempo (%)");
-		graficoClassificacaoBarras.getData().add(series);
+		barsClassificationChart.getYAxis().setAutoRanging(false);
+		barsClassificationChart.getYAxis().setLabel("Tempo (%)");
+		barsClassificationChart.getData().add(series);
+		barsClassificationChart.setLegendVisible(false);
 
 	}
 
-	public void configurarCor(XYChart.Data<String, Number> dado,
+	public void configureColor(XYChart.Data<String, Number> dado,
 			ActivityType tipo) {
 		dado.nodeProperty().addListener(new ChangeListener<Node>() {
 			@Override

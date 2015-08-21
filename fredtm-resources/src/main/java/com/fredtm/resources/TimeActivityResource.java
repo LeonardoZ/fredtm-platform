@@ -1,5 +1,8 @@
 package com.fredtm.resources;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,12 +16,13 @@ public class TimeActivityResource extends FredResourceSupport {
 	private long finalDate = 0l;
 	private long startDate = 0l;
 	private long timed = 0l;
-	private long latitude = 0l;
-	private long longitude = 0l;
+	private String latitude = "";
+	private String longitude = "";
 	private int collectedAmount;
+	private List<PictureResource> pics;
 
 	public TimeActivityResource() {
-
+		this.pics = new LinkedList<>();
 	}
 
 	public TimeActivityResource uuid(String uuid) {
@@ -57,18 +61,28 @@ public class TimeActivityResource extends FredResourceSupport {
 	}
 	
 
-	public TimeActivityResource latitude(long value) {
+	public TimeActivityResource latitude(String value) {
 		this.latitude = value;
 		return this;
 	}
 
-	public TimeActivityResource longitude(long value) {
+	public TimeActivityResource longitude(String value) {
 		this.longitude = value;
 		return this;
 	}
 
 	public TimeActivityResource collectedAmount(int value) {
 		this.collectedAmount = value;
+		return this;
+	}
+	
+	public TimeActivityResource pic(byte[] value) {
+		this.pics.add(new PictureResource(value));
+		return this;
+	}
+	
+	public TimeActivityResource pic(List<PictureResource> value) {
+		this.pics.addAll(value);
 		return this;
 	}
 
@@ -128,20 +142,28 @@ public class TimeActivityResource extends FredResourceSupport {
 		this.activityTitle = activityTitle;
 	}
 
-	public long getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(long latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
-	public long getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(long longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+	
+	public List<PictureResource> getPics() {
+		return this.pics;
+	}
+	
+	public void setPics(List<PictureResource> pics) {
+		this.pics = pics;
 	}
 
 	@Override

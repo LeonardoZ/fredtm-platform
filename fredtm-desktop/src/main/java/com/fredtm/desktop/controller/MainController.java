@@ -23,27 +23,26 @@ import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.core.util.OperationJsonUtils;
-import com.fredtm.desktop.controller.graphic.DistribuicaoTempoAtividadeController;
-import com.fredtm.desktop.controller.graphic.TempoObtidoPorClassificacaoController;
-import com.fredtm.desktop.controller.utils.GraphicsOptions;
+import com.fredtm.desktop.controller.chart.TimeActivityDistributionController;
+import com.fredtm.desktop.controller.chart.TimeByClassificationController;
+import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
 import com.fredtm.desktop.sync.ClientConnection;
 import com.fredtm.desktop.sync.SwingQRCodeGenerator;
 import com.fredtm.desktop.sync.SyncServer;
 import com.fredtm.resources.OperationResource;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class MainController extends BaseController implements Initializable,
-		ClientConnection {
+public class MainController extends BaseController implements Initializable, ClientConnection {
 
 	@FXML
 	private Label btnSync;
@@ -59,11 +58,11 @@ public class MainController extends BaseController implements Initializable,
 
 	@FXML
 	private VBox boxNoSync;
-	
-	boolean syncSelected = true;
-	
+
 	@FXML
 	private ImageView imLogo;
+
+	boolean syncSelected = true;
 
 	private MainControllerTabCreator tabCreator;
 
@@ -83,32 +82,29 @@ public class MainController extends BaseController implements Initializable,
 		abrirParaDebug();
 	}
 
-
 	private void abrirParaDebug() {
 		File f = new File("C:/Users/Leonardo/Desktop/operations.json");
 		OperationJsonUtils oju = new OperationJsonUtils();
 		List<OperationResource> operations = oju.jsonToJava(f);
 		List<Operation> entities = FredObjectMapper.mapResourcesToEntities(operations);
-		createOperationsWindow(entities);		
+		createOperationsWindow(entities);
 	}
-
 
 	@FXML
 	private void onSincronizarClicked() {
 		if (!syncSelected) {
 			tabPane.getTabs().clear();
 		} else {
-			acaoSincronizarAtivo();
+			actionSyncActive();
 		}
 
 		syncSelected = !syncSelected;
 	}
 
-	private void acaoSincronizarAtivo() {
+	private void actionSyncActive() {
 		configurarAdapter();
-		createServidorDeTransferencia();
-		Optional<BufferedImage> gerarQRCode = new SwingQRCodeGenerator()
-				.gerarQRCode();
+		createTransferServer();
+		Optional<BufferedImage> gerarQRCode = new SwingQRCodeGenerator().gerarQRCode();
 		createJDialog(gerarQRCode.orElseThrow(IllegalStateException::new));
 	}
 
@@ -124,7 +120,7 @@ public class MainController extends BaseController implements Initializable,
 
 	}
 
-	private void createServidorDeTransferencia() {
+	private void createTransferServer() {
 		service = Executors.newSingleThreadExecutor();
 		syncServer = new SyncServer(MainController.this, service);
 		service.execute(syncServer::start);
@@ -133,8 +129,7 @@ public class MainController extends BaseController implements Initializable,
 	private void createJDialog(BufferedImage image) {
 		JLabel canvasLabel = new JLabel(new ImageIcon(image));
 		JLabel labelTopText = new JLabel(
-				"Leia esse QRCode com a opção \"Sincronizar com PC\" "
-						+ "no aplicativo Fred TM para sincronizar.");
+				"Leia esse QRCode com a opção \"Sincronizar com PC\" " + "no aplicativo Fred TM para sincronizar.");
 		labelTopText.setBorder(BorderFactory.createEmptyBorder(10, 10, 3, 10));
 		if (jDialog == null) {
 			jDialog = new JDialog();
@@ -158,8 +153,12 @@ public class MainController extends BaseController implements Initializable,
 	@Override
 	public void onConnection(String jsonContent) {
 		OperationJsonUtils utils = new OperationJsonUtils();
-		List<Operation> operations = FredObjectMapper.mapResourcesToEntities(utils
-				.jsonToJava(jsonContent));
+//		List<Operation> operations = jsonContent.stream()
+//				.map(utils::jsonElementToJava)
+//				.map(FredObjectMapper::mapResourceToEntity)
+//				.collect(Collectors.toList());
+		List<OperationResource> jsonToJava = utils.jsonToJava(jsonContent);
+		List<Operation> operations = FredObjectMapper.mapResourcesToEntities(jsonToJava);
 		createOperationsWindow(operations);
 		jDialog.setVisible(false);
 		jDialog = null;
@@ -171,7 +170,7 @@ public class MainController extends BaseController implements Initializable,
 	}
 
 	@FXML
-	void onConfigureClicked(ActionEvent event) {
+	void onConfigureClicked(MouseEvent me) {
 		createView("/fxml/configure.fxml", "Configurar");
 	}
 
@@ -179,9 +178,8 @@ public class MainController extends BaseController implements Initializable,
 	void onImportarJsonClicked() {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por você.");
-		fc.setSelectedExtensionFilter(new ExtensionFilter(
-				"Arquivos .json gerados por esse software ou pelo Fred TM (mobile)",
-				"*.<json>"));
+		fc.setSelectedExtensionFilter(
+				new ExtensionFilter("Arquivos .json gerados por esse software ou pelo Fred TM (mobile)", "*.<json>"));
 		File selectedItem = fc.showOpenDialog(getWindow());
 
 		if (selectedItem != null) {
@@ -190,96 +188,71 @@ public class MainController extends BaseController implements Initializable,
 			List<Operation> entities = FredObjectMapper.mapResourcesToEntities(operations);
 			createOperationsWindow(entities);
 		}
-
+		fc = null;
 	}
-	
 
 	@FXML
-	void onSairClicked() {
+	void onExitClicked() {
 		System.exit(0);
 	}
 
 	public void openActivities(Operation operation) {
-		Consumer<ActivitiesController> controllerAction = c -> c
-				.setOperacao(operation);
-		createView("/fxml/activities.fxml",
-				"Activities - " + operation.getName(), controllerAction);
+		Consumer<ActivitiesController> controllerAction = c -> c.setOperacao(operation);
+		createView("/fxml/activities.fxml", "Atividades - " + operation.getName(), controllerAction);
 	}
 
 	public void openCollects(Operation operation) {
 		Consumer<CollectsController> consumidor = c -> c.setOperacao(operation);
-		createView("/fxml/collects.fxml", "Coletas - " + operation.getName(),
-				consumidor);
-	}
-
-	public void habilitarExportActivities(Operation operation) {
-		Consumer<ActivitiesController> consumidor = c -> c
-				.setOperacao(operation);
-		createView("/fxml/export_activities.fxml", "Export atividades - "
-				+ operation.getName(), consumidor);
+		createView("/fxml/collects.fxml", "Coletas - " + operation.getName(), consumidor);
 	}
 
 	public void openCollectedTimes(Collect collect) {
-		Consumer<CollectedTimesController> consumidor = c -> c
-				.setTempos(collect.getTimeInChronologicalOrder());
-		createView("/fxml/collected_times.fxml",
-				"Tempos coletados - " + collect.toString(), consumidor);
+		Consumer<CollectedTimesController> consumidor = c -> c.setTempos(collect.getTimeInChronologicalOrder());
+		createView("/fxml/collected_times.fxml", "Tempos coletados - " + collect.toString(), consumidor);
 	}
 
 	public void exportCollects(List<Collect> collects) {
-		Consumer<ExportCollectsController> consumidor = c -> c
-				.setcollects(collects);
-		createView("/fxml/export_collect.fxml", "Export coletas", consumidor);
+		Consumer<ExportCollectsController> consumidor = c -> c.setcollects(collects);
+		createView("/fxml/export_collect.fxml", "Exportar coletas", consumidor);
 	}
 
-	public void openGraphicTypes(Collect collect, List<Collect> collects) {
-		Consumer<GraphicsOptionsController> consumidor = c -> {
-			c.setcollect(collect);
-			c.setcollects(collects);
-		};
-		createView("/fxml/types_graphic.fxml",
-				"Análises da coleta " + collect.toString(), consumidor);
-	}
-
-	public void openraphicalAnalises(GraphicsOptions type, Collect collect,
-			List<Collect> collects) {
+	public <T extends BaseController> void openGraphicalAnalisys(FredCharts type, List<Collect> collects) {
 		switch (type) {
-		case DISTRIBUICAO_TEMPO_ATIVIDADE_PIZZA:
-			Consumer<DistribuicaoTempoAtividadeController> pizzaConsumer = c -> c
-					.setcollect(collect);
-			createView("/fxml/chart_pizza.fxml",
-					"Distribuição tempo/atividade: " + collect.toString(),
-					pizzaConsumer);
-			break;
 
-		case CLASSIFICACAO_POR_BARRAS:
-			Consumer<TempoObtidoPorClassificacaoController> barConsumer = c -> c
-					.setcollect(collect);
+		case BARS_CLASSIFICATION:
+			Consumer<TimeByClassificationController> barCicleConsumer = c -> c.setCollects(collects);
 			createView("/fxml/chart_line_classification.fxml",
-					"Tempo por classificação: " + collect.toString(),
-					barConsumer);
+					"Tempo/Atividade por coleta (ciclo): " + collects.get(0).getOperation().toString(),
+					barCicleConsumer);
 			break;
-
-		case CLASSIFICACAO_CICLOS_POR_BARRAS:
-			Consumer<TempoObtidoPorClassificacaoController> barCicloConsumer = c -> c
-					.setcollects(collects);
-			createView("/fxml/chart_line_classification.fxml",
-					"Tempo por classificação/ciclo: " + collect.toString(),
-					barCicloConsumer);
-			break;
-
 		default:
 			break;
 		}
 	}
 
-	private <T extends BaseController> void createView(String fxml, String titulo) {
-		tabCreator.criaViewMecanismo(fxml, titulo, Optional.empty());
+	public void openGraphicalAnalisys(FredCharts type, Collect collect) {
+		switch (type) {
+		case TIME_ACTIVITY_DISTRIBUTION:
+			Consumer<TimeActivityDistributionController> pizzaConsumer = c -> c.setCollect(collect);
+			createView("/fxml/chart_pizza.fxml", "Distribuição tempo/atividade: ", pizzaConsumer);
+			break;
+
+		case BARS_CLASSIFICATION:
+			Consumer<TimeByClassificationController> barConsumer = c -> c.setCollect(collect);
+			createView("/fxml/chart_line_classification.fxml", "Tempo por classificação: " + collect.toString(),
+					barConsumer);
+			break;
+		default:
+			break;
+		}
 	}
 
-	private <T extends BaseController> void createView(String fxml,
-			String titulo, Consumer<T> consumidor) {
-		tabCreator.criaViewMecanismo(fxml, titulo, Optional.of(consumidor));
+	private <T extends BaseController> void createView(String fxml, String title) {
+		tabCreator.createViewMechanism(fxml, title, Optional.empty());
+	}
+
+	private <T extends BaseController> void createView(String fxml, String title, Consumer<T> consumer) {
+		tabCreator.createViewMechanism(fxml, title, Optional.of(consumer));
 	}
 
 }

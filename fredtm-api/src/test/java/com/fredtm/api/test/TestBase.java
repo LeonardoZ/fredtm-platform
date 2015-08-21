@@ -8,12 +8,12 @@ import static com.jayway.restassured.RestAssured.port;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -34,11 +34,10 @@ import com.jayway.restassured.specification.ResponseSpecification;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles(value = "test")
 @SpringApplicationConfiguration(classes = FredTmApiConfig.class)
-@EnableAutoConfiguration(exclude = { HypermediaAutoConfiguration.class})
+@EnableAutoConfiguration
 @WebAppConfiguration
 @IntegrationTest
-@SqlGroup({
-		@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
+@SqlGroup({ @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
 		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql") })
 public class TestBase {
 
@@ -56,58 +55,41 @@ public class TestBase {
 
 	protected ResponseSpecification makeRequest() {
 
-		return given().relaxedHTTPSValidation().auth()
-				.basic("leo.zapparoli@gmail.com", "123")
-				.log().all(true)
-				.header("Accept", "application/json").log().headers().then()
-				.log().all().then();
+		return given().relaxedHTTPSValidation().auth().basic("leo.zapparoli@gmail.com", "123").log().all(true)
+				.header("Accept", "application/json").log().headers().then().log().all().then();
 
 	}
 
 	protected ResponseSpecification makeContentRequest() {
-		return given().relaxedHTTPSValidation().auth()
-				.basic("leo.zapparoli@gmail.com", "123")
-				.header("Accept", "application/json")
-				.header("Content-Type", "application/json;charset=UTF8").log()
+		return given().relaxedHTTPSValidation().auth().basic("leo.zapparoli@gmail.com", "123")
+				.header("Accept", "application/json").header("Content-Type", "application/json;charset=UTF8").log()
 				.all().then();
 
 	}
-	
+
 	protected ResponseSpecification makeContentWrongRequest() {
-		return given().relaxedHTTPSValidation().auth()
-				.basic("leo.zapparoli@gmail.ssscom", "123")
-				.header("Accept", "application/json")
-				.header("Content-Type", "application/json;charset=UTF8").log()
+		return given().relaxedHTTPSValidation().auth().basic("leo.zapparoli@gmail.ssscom", "123")
+				.header("Accept", "application/json").header("Content-Type", "application/json;charset=UTF8").log()
 				.all().then();
 
 	}
 
 	protected ResponseSpecification makeHeaderlessContentRequest() {
-		return given().relaxedHTTPSValidation()
-				.header("Accept", "application/json")
+		return given().relaxedHTTPSValidation().header("Accept", "application/json")
 				.header("Content-Type", "application/json").log().all().then();
 
 	}
 
 	protected StringBuilder readFromFile(String filePath) {
-		BufferedReader br = null;
 		Resource resource = context.getResource(filePath);
-		try {
-			br = new BufferedReader(new InputStreamReader(
-					resource.getInputStream()));
+
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
+			String collect = br.lines().collect(Collectors.joining());
+			return new StringBuilder(collect);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			return new StringBuilder();
 		}
-		String line;
-		StringBuilder sb = new StringBuilder();
-		try {
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return sb;
 	}
 
 }

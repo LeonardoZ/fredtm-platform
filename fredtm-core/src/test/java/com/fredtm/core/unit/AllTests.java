@@ -6,8 +6,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ OperationTest.class, ActivityTest.class,
-		TimeActivityTest.class, FormatElapsedTimeTest.class, CollectTest.class,
-		ValidationTest.class })
+		TimeActivityTest.class, FormatElapsedTimeTest.class, 
+		SyncTest.class,
+		ValidationTest.class,HashGeneratorTest.class })
 public class AllTests {
 
 }

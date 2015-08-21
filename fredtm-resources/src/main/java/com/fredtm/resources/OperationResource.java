@@ -1,6 +1,7 @@
 package com.fredtm.resources;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,7 +22,7 @@ public class OperationResource extends FredResourceSupport {
 	private String accountId;
 	private Date modification;
 	private Set<ActivityResource> activities;
-	private Set<CollectResource> collects;
+	private List<CollectResource> collects;
 	private SyncResource lastSync;
 
 	@JsonIgnore
@@ -72,7 +73,7 @@ public class OperationResource extends FredResourceSupport {
 		return this;
 	}
 
-	public OperationResource collects(Set<CollectResource> value) {
+	public OperationResource collects(List<CollectResource> value) {
 		this.collects = value;
 		return this;
 	}
@@ -135,11 +136,11 @@ public class OperationResource extends FredResourceSupport {
 		this.activities = activities;
 	}
 
-	public Set<CollectResource> getCollects() {
+	public List<CollectResource> getCollects() {
 		return collects;
 	}
 
-	public void setCollects(Set<CollectResource> collects) {
+	public void setCollects(List<CollectResource> collects) {
 		this.collects = collects;
 	}
 	

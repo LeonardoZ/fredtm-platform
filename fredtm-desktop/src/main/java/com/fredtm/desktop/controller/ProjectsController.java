@@ -12,8 +12,10 @@ import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.desktop.views.OperationCustomCell;
 import com.fredtm.export.OperationsToJson;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -24,6 +26,9 @@ public class ProjectsController extends BaseController implements Initializable 
 	@FXML
 	private ListView<Operation> listViewProjetos;
 
+	@FXML
+	private Button btnExportJson;
+	
 	private Operation operation;
 
 	private List<Operation> operations;
@@ -42,6 +47,8 @@ public class ProjectsController extends BaseController implements Initializable 
 		menuAtividade.setOnAction(ev -> MainEventBus.INSTANCE.eventOpenActivities(operation));
 		menucollect.setOnAction(ev -> MainEventBus.INSTANCE.eventOpenCollects(operation));
 		menuExport.setOnAction(ev -> exportOperations());
+		
+		btnExportJson.setOnAction(ev -> exportOperations());
 		
 		ContextMenu contextMenu = new ContextMenu(menucollect, menuAtividade, menuExport);
 		contextMenu.setStyle("-fx-background-color: #fff");
@@ -68,5 +75,10 @@ public class ProjectsController extends BaseController implements Initializable 
 			JOptionPane.showMessageDialog(null, "Erro ao exportar. Verifique se o destino é um diretório válido.");
 		}
 	}
+	
+    @FXML
+    void onExportJsonPressed(ActionEvent event) {
+
+    }
 
 }

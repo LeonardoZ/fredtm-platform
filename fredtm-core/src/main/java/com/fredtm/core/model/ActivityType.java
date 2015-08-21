@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public enum ActivityType {
 
-	IMPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA"), AUXILIARY(1, "#ffe0a2",
+	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA"), AUXILIARY(1, "#ffe0a2",
 			"AUXILIAR"), PRODUCTIVE(2, "#a2deff", "PRODUTIVA");
 
 	private int idActivityType;

@@ -77,14 +77,22 @@
 			<artifactId>fredtm-core</artifactId>
 			<version>1.0</version>
 		</dependency>
-	
-		
+
+
 		<!-- MigLayout -->
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout-javafx</artifactId>
 			<version>4.2</version>
 		</dependency>
+
+		<!-- Google maps -->
+		<dependency>
+			<groupId>com.lynden</groupId>
+			<artifactId>GMapsFX</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 
 		<!-- Apache Commons -->
 

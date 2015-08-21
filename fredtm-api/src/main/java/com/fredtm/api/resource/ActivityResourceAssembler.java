@@ -17,7 +17,7 @@ public class ActivityResourceAssembler extends
 		ActivityResource ar = new ActivityResource();
 		ar.uuid(entity.getId()).title(entity.getTitle())
 				.description(entity.getDescription())
-				.activityType(entity.getActivityType().getValue())
+				.activityType(entity.getActivityType().getActivityType())
 				.itemName(entity.getItemName())
 				.quantitative(entity.isQuantitative())
 				.operationId(entity.getOperation().getId());

@@ -27,7 +27,7 @@ public class MainApp extends Application {
 		MainController controller = loader.getController();
 		MainEventBus.INSTANCE.registrarOuvinte(controller);
 
-		scene = new Scene(rootNode, 800, 500);
+		scene = new Scene(rootNode, 1024, 500);
 		scene.getStylesheets().addAll("/styles/main.css");
 		stage.setTitle("Fred TM Helper - O ajudante de tempos e movimentos");
 		stage.setScene(scene);

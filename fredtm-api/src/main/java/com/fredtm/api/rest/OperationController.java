@@ -17,11 +17,14 @@ import com.fredtm.api.resource.OperationResourceAssembler;
 import com.fredtm.core.model.Operation;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.resources.OperationResource;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
+@Api(value = "operation", description = "Operations methods")
 @RestController
 @RequestMapping(value = "fredapi/operation")
-public class OperationController implements
-		ResourcesUtil<Operation, OperationResource> {
+public class OperationController implements ResourcesUtil<Operation, OperationResource> {
 
 	@Autowired
 	private OperationRepository repository;
@@ -29,40 +32,35 @@ public class OperationController implements
 	@Autowired
 	private OperationResourceAssembler assembler;
 
+	@ApiOperation(value = "View the Specific info of the operation")
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public HttpEntity<Resource<OperationResource>> getOperation(
+			@ApiParam(name = "operationId", value = "The Id of the operation to be viewed", required = true)
 			@PathVariable("id") String id) {
 		if (id.isEmpty()) {
-			return new ResponseEntity<Resource<OperationResource>>(
-					HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Resource<OperationResource>>(HttpStatus.NO_CONTENT);
 		}
 		Operation found = repository.findOne(id);
 
 		Resource<OperationResource> resource = configureResource(found);
-		return new ResponseEntity<Resource<OperationResource>>(resource,
-				HttpStatus.OK);
+		return new ResponseEntity<Resource<OperationResource>>(resource, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/full")
-	public HttpEntity<Resource<OperationResource>> getOperationFull(
-			@PathVariable("id") String id) {
+	public HttpEntity<Resource<OperationResource>> getOperationFull(@PathVariable("id") String id) {
 		if (id.isEmpty()) {
-			return new ResponseEntity<Resource<OperationResource>>(
-					HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Resource<OperationResource>>(HttpStatus.NO_CONTENT);
 		}
 		Operation found = repository.findOne(id);
 		Resource<OperationResource> resource = configureResource(found);
-		return new ResponseEntity<Resource<OperationResource>>(resource,
-				HttpStatus.OK);
+		return new ResponseEntity<Resource<OperationResource>>(resource, HttpStatus.OK);
 	}
 
 	@Override
 	public Resource<OperationResource> configureResource(Operation e) {
 		OperationResource resource = assembler.toResource(e);
-		Link self = linkTo(OperationController.class).slash(e.getId())
-				.withSelfRel();
-		Resource<OperationResource> result = new Resource<OperationResource>(
-				resource, self);
+		Link self = linkTo(OperationController.class).slash(e.getId()).withSelfRel();
+		Resource<OperationResource> result = new Resource<OperationResource>(resource, self);
 		return result;
 	}
 

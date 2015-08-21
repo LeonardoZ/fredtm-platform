@@ -7,9 +7,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -46,18 +46,7 @@ public class Collect extends FredEntity {
 		return rhs.getActivityType().compareTo(lhs.getActivityType());
 	};
 
-	@PostConstruct
-	public synchronized void organizeTimeActivity() {
-		for (Activity act : activities) {
-			List<TimeActivity> timesOf = getTimesOf(act);
-			addActivity(act, timesOf);
-		}
-	}
-
-	private List<TimeActivity> getTimesOf(Activity act) {
-		return times.stream().filter(t -> t.getActivity().equals(act)).collect(Collectors.toList());
-	}
-
+	
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
@@ -81,6 +70,18 @@ public class Collect extends FredEntity {
 		this();
 		this.setId(collect.getId());
 		this.setOperation(collect.getOperation());
+	}
+	
+	@PostConstruct
+	public synchronized void organizeTimeActivity() {
+		for (Activity act : activities) {
+			List<TimeActivity> timesOf = getTimesOf(act);
+			addActivity(act, timesOf);
+		}
+	}
+
+	private List<TimeActivity> getTimesOf(Activity act) {
+		return times.stream().filter(t -> t.getActivity().equals(act)).collect(Collectors.toList());
 	}
 
 	public Operation getOperation() {
@@ -135,30 +136,18 @@ public class Collect extends FredEntity {
 		this.times.forEach(t -> t.setCollect(this));
 	}
 
-	public HashMap<String, Long> getSumOfTimes() {
-		List<Long> calculados = collectedTimes
-				// Stream<List<TimeActivity>>
-				.values().stream()
-				// Stream<Stream<Long>>
-				.map(m -> m.stream().map((TimeActivity ml) -> ml.getEllapsedTimeInSeconds()))
-				// Stream<List<Long>>
-				.map(s -> s.collect(Collectors.toList()))
-				// LongStream
-				.mapToLong(g -> g.stream().reduce(Long::sum).orElse(0l))
-				// Stream<Long>
-				.boxed()
-				// List<Long>
-				.collect(Collectors.toList());
-
-		HashMap<String, Long> hashMap = new HashMap<String, Long>();
-		for (int i = 0; i < activities.size(); i++) {
-			hashMap.put(activities.get(i).getTitle(), calculados.get(i));
-		}
-		return hashMap;
+	public Map<String, Long> getSumOfTimesByActivity() {
+			Map<String, Long> collect = 
+					times.stream()
+					.collect(Collectors.groupingBy(t -> t.getActivity().getTitle(),
+							 	Collectors.reducing(0L, TimeActivity::getEllapsedTimeInSeconds, Long::sum)
+							 )
+					);
+		return collect;
 	}
 
 	public List<TimeActivity> getCollectedTimes() {
-		return collectedTimes.values().stream().flatMap(tss -> tss.stream()).collect(Collectors.toList());
+		return times;
 	}
 
 	public List<TimeActivity> getTimes() {
@@ -166,11 +155,12 @@ public class Collect extends FredEntity {
 	}
 
 	public void addTimes(Set<TimeActivity> fromResources) {
-		fromResources.forEach(t -> times.add(t));
+		fromResources.forEach(times::add);
 	}
 
 	public void removeTimeActivity(TimeActivity time) {
 		collectedTimes.values().stream().filter(lta -> lta.contains(time)).iterator().remove();
+		
 	}
 
 	public List<TimeActivity> getTimeInChronologicalOrder() {
@@ -232,21 +222,34 @@ public class Collect extends FredEntity {
 	public String getAllCollectedTimes() {
 		return collectedTimes.toString();
 	}
+	
+	public long getTotalTimed() {
+		return times.stream()
+				.mapToLong(ta -> ta.getTimed()).sum();
+	}
+
 
 	public long getTotalTimedSeconds() {
-		return collectedTimes.values().stream().flatMap(fl -> fl.stream())
+		return times.stream()
 				.mapToLong(ta -> ta.getEllapsedTimeInSeconds()).sum();
 	}
 
+	public long getTotalTimedByType(ActivityType type) {
+		long sum = times.stream()
+				.filter(tp -> tp.getActivity().getActivityType().equals(type))
+				.mapToLong(ta -> ta.getTimed()).sum();
+		return sum;
+	}
+	
 	public long getTotalTimedSecondsByType(ActivityType type) {
-		long sum = collectedTimes.values().stream().flatMap(fl -> fl.stream())
+		long sum = times.stream()
 				.filter(tp -> tp.getActivity().getActivityType().equals(type))
 				.mapToLong(ta -> ta.getEllapsedTimeInSeconds()).sum();
 		return sum;
 	}
 
 	public double getTotalPercentageOfTimed(ActivityType type) {
-		long totalSegsType = collectedTimes.values().stream().flatMap(fl -> fl.stream())
+		long totalSegsType = times.stream()
 				.filter(tp -> tp.getActivity().getActivityType().equals(type))
 				.mapToLong(ta -> ta.getEllapsedTimeInSeconds()).sum();
 		long totalSegs = getTotalTimedSeconds();
@@ -268,7 +271,10 @@ public class Collect extends FredEntity {
 		TimeActivity last = timeInChronologicalOrder.get(--size);
 		String formattedStartDate = first.getFormattedStartDate();
 		String formattedFinalDate = last.getFormattedFinalDate();
-		return new StringJoiner(formattedStartDate, " - ", formattedFinalDate).toString();
+		return new StringBuilder()
+					.append(formattedStartDate)
+					.append(" - ")
+					.append(formattedFinalDate).toString();
 	}
 
 	@Override
@@ -285,7 +291,7 @@ public class Collect extends FredEntity {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getId()).toHashCode();
+		return new HashCodeBuilder().append(getId()).append(operation).toHashCode();
 	}
 
 	@Override
@@ -297,7 +303,7 @@ public class Collect extends FredEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Collect other = (Collect) obj;
-		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
+		return new EqualsBuilder().append(getId(), other.getId()).append(getOperation(), other.getOperation()).append(getTimes(), other.getTimes()).isEquals();
 	}
 
 }

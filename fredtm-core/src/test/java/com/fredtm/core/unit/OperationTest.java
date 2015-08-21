@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
-import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 
 public class OperationTest {
@@ -55,7 +54,7 @@ public class OperationTest {
 				ActivityType.PRODUCTIVE, true);
 
 		Activity activity2 = new Activity("Toast 2", "For tests 2",
-				ActivityType.IMPRODUCTIVE);
+				ActivityType.UNPRODUCTIVE);
 		activity2.setOperation(operation);
 
 		Activity activity3 = new Activity(operation, "Toast 3", "For tests 3",
@@ -67,22 +66,6 @@ public class OperationTest {
 
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldNotAddTheSameCollect() {
-		Collect collect = new Collect();
-		collect.setId("abc");
-
-		Collect collect2 = new Collect();
-		collect.setId("acb");
-
-		Collect collect3 = new Collect();
-		collect.setId("bca");
-
-		Operation operation = new Operation();
-		operation.addCollect(collect);
-		operation.addCollect(collect2);
-		operation.addCollect(collect3);
-	}
 
 	@Test
 	public void shouldHaveQuantitative() {
