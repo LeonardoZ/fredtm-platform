@@ -61,18 +61,20 @@ public class SyncServer {
 	private void onAcceptClient(Socket client) {
 		OutputStream outputStream = null;
 		PrintWriter pw = null;
+
 		try (BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(client.getInputStream(), Charset.forName("UTF-8")))) {
 			String line = bufferedReader.readLine();
 			// response to client after the job is done
-			System.out.println("Aqui");
+			
 			outputStream = client.getOutputStream();
 			pw = new PrintWriter(new OutputStreamWriter(outputStream, Charset.forName("UTF-8")), true);
 			pw.println("OK");
 			System.out.println("Aquidepois");
-			
+
 			// Run json processing
 			Platform.runLater(() -> connected.onConnection(line));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

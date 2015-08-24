@@ -153,10 +153,10 @@ public class MainController extends BaseController implements Initializable, Cli
 	@Override
 	public void onConnection(String jsonContent) {
 		OperationJsonUtils utils = new OperationJsonUtils();
-//		List<Operation> operations = jsonContent.stream()
-//				.map(utils::jsonElementToJava)
-//				.map(FredObjectMapper::mapResourceToEntity)
-//				.collect(Collectors.toList());
+		// List<Operation> operations = jsonContent.stream()
+		// .map(utils::jsonElementToJava)
+		// .map(FredObjectMapper::mapResourceToEntity)
+		// .collect(Collectors.toList());
 		List<OperationResource> jsonToJava = utils.jsonToJava(jsonContent);
 		List<Operation> operations = FredObjectMapper.mapResourcesToEntities(jsonToJava);
 		createOperationsWindow(operations);

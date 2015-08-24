@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.chart.TimeByClassificationController">
+
+<VBox fx:id="rootNode" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.chart.TimeByClassificationController">
    <children>
-      <BarChart fx:id="barsClassificationChart" legendSide="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" title="Tempo percentual obtido classificação" HBox.hgrow="ALWAYS">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </BarChart>
+      <ButtonBar buttonMinWidth="90.0" prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+            <Button fx:id="btnComparative" mnemonicParsing="false" onAction="#onComperativeClicked" text="Comparativa" />
+            <Button fx:id="btnPizza" mnemonicParsing="false" onAction="#onSimplePizzaClicked" text="Pizza Simples" />
+            <Button fx:id="btnPizza" mnemonicParsing="false" onAction="#onPizzaClicked" text="Pizza" />
+            <Button mnemonicParsing="false" onAction="#onVerticalClicked" text="Vertical" />
+            <Button mnemonicParsing="false" onAction="#onHorizontalClicked" text="Horizontal" />
+          <Button mnemonicParsing="false" onAction="#saveAsPng" text="Salvar" />
+        </buttons>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" right="10.0" top="10.0" />
+         </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </ButtonBar>
    </children>
-</HBox>
+</VBox>

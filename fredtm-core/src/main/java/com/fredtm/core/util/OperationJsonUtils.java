@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -16,15 +17,24 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 public class OperationJsonUtils {
 
 	public Gson gson;
+	private Type listType = new TypeToken<List<OperationResource>>() {
+	}.getType();
 
 	public OperationJsonUtils() {
 		gson = GsonFactory.getGson();
 	}
 
+	public List<OperationResource> jsonToJava(Reader f) {
+		JsonReader jsonReader = new JsonReader(f);
+		List<OperationResource> fromJson = gson.fromJson(jsonReader, listType);
+		return fromJson;
+	}
+	
 	public List<OperationResource> jsonToJava(File f) {
 		List<OperationResource> operations = new LinkedList<>();
 		try {
@@ -48,16 +58,14 @@ public class OperationJsonUtils {
 	}
 	
 	public OperationResource jsonElementToJava(String f) {
-		System.out.println(f);
 		return gson.fromJson(f, OperationResource.class);
 	}
-	Type listType = new TypeToken<List<OperationResource>>() {
-	}.getType();
 
 	private List<OperationResource> getJsonFrom(String f) {
-		System.err.println(f);
 		return gson.fromJson(f, listType);
 	}
+	
+	
 
 	private OperationResource[] getJsonFrom(File f) throws FileNotFoundException {
 		InputStreamReader reader = new InputStreamReader(
