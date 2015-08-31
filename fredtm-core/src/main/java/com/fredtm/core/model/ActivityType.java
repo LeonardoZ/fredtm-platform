@@ -5,8 +5,11 @@ import java.util.Optional;
 
 public enum ActivityType {
 
-	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA"), AUXILIARY(1, "#ffe0a2",
-			"AUXILIAR"), PRODUCTIVE(2, "#a2deff", "PRODUTIVA");
+	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA"),
+	AUXILIARY(1, "#ffe0a2","AUXILIAR"),
+	PRODUCTIVE(2, "#a2deff","PRODUTIVA"),
+	UNDEFINED(3, "#ffffff", "INDEFINIDA"),
+	NOT_PRODUCTIVE(4, "#ce77ff", "NÃO-PRODUTIVA");
 
 	private int idActivityType;
 	private String hexColor;
@@ -19,13 +22,11 @@ public enum ActivityType {
 	}
 
 	public static Optional<ActivityType> getById(int activityType) {
-		return Arrays.stream(values())
-				.filter(t -> t.getActivityType() == activityType).findFirst();
+		return Arrays.stream(values()).filter(t -> t.getActivityType() == activityType).findFirst();
 	}
 
 	public static Optional<ActivityType> getById(String activityType) {
-		return Arrays.stream(values())
-				.filter(t -> t.getValue().equals(activityType)).findFirst();
+		return Arrays.stream(values()).filter(t -> t.getValue().equals(activityType)).findFirst();
 	}
 
 	public String getHexColor() {

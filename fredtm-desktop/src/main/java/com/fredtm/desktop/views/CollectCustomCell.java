@@ -35,8 +35,8 @@ public class CollectCustomCell extends ListCell<Collect> {
 	private Label lbTitleValue, lbTotalTime, lbIcon, lbTotal, lbUnproductive, lbProductive, lbAuxiliary;
 	private Button btCollectedTimes, btExport;
 	private MenuButton btIndividualAnalysis;
-	private MenuItem btnChartDistributionPizza;
-	private MenuItem btnChartClassificationBars;
+	private MenuItem btnTimeByActivity;
+	private MenuItem btnClassification,	btnSimpleClassification,btnTimes;
 
 	public CollectCustomCell() {
 		super();
@@ -90,9 +90,12 @@ public class CollectCustomCell extends ListCell<Collect> {
 		structure.setAlignment(Pos.CENTER_LEFT);
 		structure.setBorder(border);
 
-		btnChartDistributionPizza = new MenuItem("Distribuição Tempo/Atividade");
-		btnChartClassificationBars = new MenuItem("Distribuição Tempo/Classificação");
-		btIndividualAnalysis.getItems().addAll(btnChartClassificationBars, btnChartDistributionPizza);
+		btnTimeByActivity = new MenuItem("Distribuição Tempo/Atividade");
+		btnClassification = new MenuItem("Distribuição Tempo/Classificação");
+		btnSimpleClassification = new MenuItem("Distribuição Tempo/Classificação simples");
+		btnTimes = new MenuItem("Análise dos tempos");
+		
+		btIndividualAnalysis.getItems().addAll(btnClassification,btnSimpleClassification,btnTimeByActivity,btnTimes);
 		
 	}
 
@@ -130,10 +133,16 @@ public class CollectCustomCell extends ListCell<Collect> {
 		btCollectedTimes.setOnMouseClicked(evt -> MainEventBus.INSTANCE.eventOpenTimeActivity(co));
 		btExport.setOnMousePressed(ev -> MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(co)));
 		
-		btnChartDistributionPizza.setOnAction(
+		btnTimeByActivity.setOnAction(
 				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ACTIVITY_DISTRIBUTION, co));
-		btnChartClassificationBars.setOnAction(
-				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.BARS_CLASSIFICATION, co));
+		btnClassification.setOnAction(
+				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_CLASSIFICATION, co));
+		btnSimpleClassification.setOnAction(
+				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_SIMPLE_CLASSIFICATION,
+						co));
+		btnTimes.setOnAction(
+				eevt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ANALYSYS,
+						co));
 		
 		setGraphic(structure);
 	}

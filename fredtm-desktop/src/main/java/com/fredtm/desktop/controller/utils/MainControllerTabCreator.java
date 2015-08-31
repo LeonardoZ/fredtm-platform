@@ -54,5 +54,6 @@ public class MainControllerTabCreator {
 		p.setStyle("-fx-background-color: #fff");
 		tab.setContent(p);
 		tabPane.getTabs().add(tab);
+		tabPane.getSelectionModel().select(tab);
 	}
 }

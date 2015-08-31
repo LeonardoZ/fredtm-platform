@@ -1,7 +1,8 @@
 package com.fredtm.export;
 
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,8 +16,7 @@ public interface Exportable<T> {
 	void export(List<T> t, String path) throws ExportationErrorExcetion;
 
 	default void saveInFile(String pathParam, String json) {
-
-		Path path = Paths.get(pathParam + "/operations.json");
+		Path path = Paths.get(pathParam + "/operations_"+System.currentTimeMillis()+".json");
 		try {
 			Files.createFile(path);
 		} catch (FileAlreadyExistsException e1) {
@@ -31,14 +31,22 @@ public interface Exportable<T> {
 			e.printStackTrace();
 		}
 		
-		FileWriter fw;
 		try {
-			fw = new FileWriter(path.toFile());
-			fw.append(json);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			BufferedWriter bw = Files.newBufferedWriter(path, Charset.forName("UTF-8"));
+			bw.append(json);
+			bw.flush();
+			bw.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+//		FileWriter fw;
+//		try {
+//			fw = new FileWriter(path.toFile());
+//			fw.append(json);
+//			fw.flush();
+//			fw.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }

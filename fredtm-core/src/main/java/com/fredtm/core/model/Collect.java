@@ -140,7 +140,7 @@ public class Collect extends FredEntity {
 			Map<String, Long> collect = 
 					times.stream()
 					.collect(Collectors.groupingBy(t -> t.getActivity().getTitle(),
-							 	Collectors.reducing(0L, TimeActivity::getEllapsedTimeInSeconds, Long::sum)
+							 	Collectors.reducing(0l, TimeActivity::getEllapsedTimeInSeconds, Long::sum)
 							 )
 					);
 		return collect;

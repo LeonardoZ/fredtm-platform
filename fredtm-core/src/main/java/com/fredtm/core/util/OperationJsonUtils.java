@@ -62,6 +62,7 @@ public class OperationJsonUtils {
 	}
 
 	private List<OperationResource> getJsonFrom(String f) {
+		System.err.println(f);
 		return gson.fromJson(f, listType);
 	}
 	

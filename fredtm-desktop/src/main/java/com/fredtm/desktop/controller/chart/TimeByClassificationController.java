@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+import com.fredtm.core.decorator.TimeSystem;
+import com.fredtm.core.decorator.TimeSystems;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.BaseController;
@@ -19,6 +24,7 @@ import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.Axis;
@@ -30,6 +36,7 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -37,29 +44,50 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
 @SuppressWarnings("unchecked")
-public class TimeByClassificationController extends BaseController {
+public class TimeByClassificationController extends BaseController implements Initializable {
+
 
 	@FXML
 	private VBox rootNode;
 
-	private BarChart<Object, Object> chart;
+	@FXML
+	private ChoiceBox<TimeSystems> chcBox;
 
-	private Collect collect;
-
-	private List<Collect> collects;
 	@FXML
 	private Button btnComparative;
 
 	@FXML
 	private Button btnPizza;
 
+	@FXML
+	private Button btnPizzaSimple;
+
+	private Charts selected = Charts.V_BARS;
+
+	private BarChart<Object, Object> chart;
+
+	private TimeSystem collectSystem;
+
+	private List<TimeSystem> collectsSystem;
+
 	public void setCollects(List<Collect> collects) {
-		this.collects = collects;
-		configureChartForCollects(Orientation.HORIZONTAL);
+		int selectedIndex = chcBox.getSelectionModel().getSelectedIndex();
+		selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
+		this.collectsSystem = chcBox.getSelectionModel().getSelectedItem().buildList(collects);
+		configureChartForCollects(Orientation.VERTICAL);
+		disableButtons();
+	}
+
+	private void disableButtons() {
+		btnPizza.setVisible(false);
+		btnComparative.setVisible(false);
+		btnPizzaSimple.setVisible(false);
 	}
 
 	public void setCollect(Collect collect) {
-		this.collect = collect;
+		int selectedIndex = chcBox.getSelectionModel().getSelectedIndex();
+		selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
+		this.collectSystem = chcBox.getItems().get(selectedIndex).build(collect);
 		configureDefaultChart();
 	}
 
@@ -67,7 +95,7 @@ public class TimeByClassificationController extends BaseController {
 		AtomicInteger ai = new AtomicInteger(0);
 		List<Series<Object, Object>> seriesList = FXCollections.observableArrayList();
 
-		collects.forEach(collect -> {
+		collectsSystem.forEach(collect -> {
 			Series<Object, Object> seriesFrom = getSeriesFrom(collect, orientation);
 			seriesFrom.setName(ai.incrementAndGet() + "º Coleta (ciclo)");
 			seriesList.add(seriesFrom);
@@ -80,31 +108,34 @@ public class TimeByClassificationController extends BaseController {
 	}
 
 	public void configureNumberAxis(Axis<Object> axis) {
-		axis.setAutoRanging(false);
-		axis.setLabel("Tempo (%)");
+		TimeSystems ts = chcBox.getSelectionModel().getSelectedItem();
+
+		boolean isPct = ts == TimeSystems.PCT;
+		axis.setAutoRanging(!isPct);
+		axis.setLabel("Tempo (" + ts.getValue() + ")");
 	}
 
 	@FXML
 	void onHorizontalClicked(ActionEvent event) {
-		if (collect != null)
+		selected = Charts.H_BARS;
+		if (collectSystem != null)
 			configureHorizontalChart();
 		else
-			configureChartForCollects(Orientation.VERTICAL);
+			configureChartForCollects(Orientation.HORIZONTAL);
 	}
 
 	@FXML
 	void onVerticalClicked(ActionEvent event) {
-		if (collect != null)
+		selected = Charts.V_BARS;
+		if (collectSystem != null)
 			configureDefaultChart();
 		else
 			configureChartForCollects(Orientation.VERTICAL);
 	}
 
-	enum Orientation {
-		HORIZONTAL, VERTICAL
-	}
+	
 
-	void configureChart(Collect c, Orientation orientation, Pane rootNode) {
+	void configureChart(TimeSystem c, Orientation orientation, Pane rootNode) {
 		Series<Object, Object> series = getSeriesFrom(c, orientation);
 		chart.getData().add(series);
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
@@ -112,17 +143,22 @@ public class TimeByClassificationController extends BaseController {
 	}
 
 	private void configureChartOnNode(Pane rootNode) {
-
 		chart.setLegendVisible(false);
-		int size = rootNode.getChildren().size();
-		if (size > 1) {
-			rootNode.getChildren().remove(1, size - 1);
-		}
+		chart.setAnimated(true);
+		chart.setBarGap(2.0);
+		removeNodes(rootNode);
 		rootNode.getChildren().add(chart);
 	}
 
+	private void removeNodes(Pane rootNode) {
+		int size = rootNode.getChildren().size();
+		if (size > 2) {
+			rootNode.getChildren().remove(2, size);
+		}
+	}
+
 	@SuppressWarnings("rawtypes")
-	private Series<Object, Object> getSeriesFrom(Collect c, Orientation orientation) {
+	private Series<Object, Object> getSeriesFrom(TimeSystem c, Orientation orientation) {
 		final NumberAxis numberAxis = new NumberAxis();
 		final CategoryAxis categoryAxis = new CategoryAxis();
 		final boolean isVertical = orientation == Orientation.VERTICAL;
@@ -142,69 +178,62 @@ public class TimeByClassificationController extends BaseController {
 		return series;
 	}
 
-	private XYChart.Data<Object, Object> getChartData(Collect collect, String label, ActivityType type,
+	private XYChart.Data<Object, Object> getChartData(TimeSystem time, String label, ActivityType type,
 			Orientation orientation) {
-		Double total = collect.getTotalPercentageOfTimed(type);
+		Double total = time.getValue(type);
 		return new XYChart.Data<>(orientation == Orientation.VERTICAL ? label : total,
 				orientation == Orientation.VERTICAL ? total : label);
 
 	}
 
 	private void configureDefaultChart() {
-		configureChart(collect, Orientation.VERTICAL, rootNode);
+		configureChart(collectSystem, Orientation.VERTICAL, rootNode);
 	}
 
 	private void configureHorizontalChart() {
-		configureChart(collect, Orientation.HORIZONTAL, rootNode);
+		configureChart(collectSystem, Orientation.HORIZONTAL, rootNode);
 	}
 
 	@FXML
 	void onComperativeClicked(ActionEvent event) {
-		int size = rootNode.getChildren().size();
-		if (size > 1) {
-			rootNode.getChildren().remove(1, size);
-		}
+		selected = Charts.ALL;
+		removeNodes(rootNode);
 		HBox hBoxBars = new HBox();
 		HBox hBoxCircles = new HBox();
 
 		PieChart pieChart = generatePieChart();
 		PieChart pieSimpleChart = generateSimplesPieChart();
-		
-		hBoxCircles.getChildren().addAll(pieChart,pieSimpleChart);
-		
-		configureChart(collect, Orientation.VERTICAL, hBoxBars);
-		configureChart(collect, Orientation.HORIZONTAL, hBoxBars);
+
+		hBoxCircles.getChildren().addAll(pieChart, pieSimpleChart);
+
+		configureChart(collectSystem, Orientation.VERTICAL, hBoxBars);
+		configureChart(collectSystem, Orientation.HORIZONTAL, hBoxBars);
 		rootNode.getChildren().addAll(hBoxBars, hBoxCircles);
 
 	}
 
 	@FXML
 	void onPizzaClicked(ActionEvent event) {
+		selected = Charts.PIZZA;
 		PieChart pieChart = generatePieChart();
-
-		int size = rootNode.getChildren().size();
-		if (size > 1) {
-			rootNode.getChildren().remove(1, size);
-		}
+		removeNodes(rootNode);
 		rootNode.getChildren().add(pieChart);
 	}
 
 	@FXML
 	void onSimplePizzaClicked(ActionEvent event) {
+		selected = Charts.PIZZA_SIMPLE;
 		PieChart pieChart = generateSimplesPieChart();
-
-		int size = rootNode.getChildren().size();
-		if (size > 1) {
-			rootNode.getChildren().remove(1, size);
-		}
+		removeNodes(rootNode);
 		rootNode.getChildren().add(pieChart);
 	}
 
 	private PieChart generatePieChart() {
 		PieChart pieChart = new PieChart();
-		Double totalUn = collect.getTotalPercentageOfTimed(ActivityType.UNPRODUCTIVE);
-		Double totalAux = collect.getTotalPercentageOfTimed(ActivityType.AUXILIARY);
-		Double totalProd = collect.getTotalPercentageOfTimed(ActivityType.PRODUCTIVE);
+
+		Double totalUn = collectSystem.getValue(ActivityType.UNPRODUCTIVE);
+		Double totalAux = collectSystem.getValue(ActivityType.AUXILIARY);
+		Double totalProd = collectSystem.getValue(ActivityType.PRODUCTIVE);
 
 		Data dataUn = new PieChart.Data(configureLabelPercantage("Improdutivo ", totalUn), totalUn);
 		Data dataAux = new PieChart.Data(configureLabelPercantage("Auxiliar", totalAux), totalAux);
@@ -222,18 +251,18 @@ public class TimeByClassificationController extends BaseController {
 
 	private PieChart generateSimplesPieChart() {
 		PieChart pieChart = new PieChart();
-		Double totalUn = collect.getTotalPercentageOfTimed(ActivityType.UNPRODUCTIVE);
-		Double totalAux = collect.getTotalPercentageOfTimed(ActivityType.AUXILIARY);
-		Double totalProd = collect.getTotalPercentageOfTimed(ActivityType.PRODUCTIVE);
+		Double totalUn = collectSystem.getValue(ActivityType.UNPRODUCTIVE);
+		Double totalAux = collectSystem.getValue(ActivityType.AUXILIARY);
+		Double totalProd = collectSystem.getValue(ActivityType.PRODUCTIVE);
 
-		BigDecimal notProdVal = new BigDecimal(totalAux).add(BigDecimal.valueOf(totalUn)).setScale(2,
-				RoundingMode.DOWN);
+		BigDecimal notProdVal = new BigDecimal(totalAux).add(BigDecimal.valueOf(totalUn)).setScale(1,
+				RoundingMode.FLOOR);
 
 		Data dataNotProd = new PieChart.Data(configureLabelPercantage("Não-produtivo", notProdVal.doubleValue()),
 				notProdVal.doubleValue());
 		Data dataProd = new PieChart.Data(configureLabelPercantage("Produtivo ", totalProd), totalProd);
 
-		pieChart.getData().addAll(dataProd,dataNotProd);
+		pieChart.getData().addAll(dataProd, dataNotProd);
 		dataNotProd.getNode().setStyle("-fx-pie-color: #ce77ff;");
 		dataProd.getNode().setStyle("-fx-pie-color:" + ActivityType.PRODUCTIVE.getHexColor() + ";");
 
@@ -243,14 +272,14 @@ public class TimeByClassificationController extends BaseController {
 	}
 
 	String configureLabelPercantage(String text, Double value) {
-		BigDecimal bd = new BigDecimal(value).setScale(2, RoundingMode.DOWN);
-		return new StringBuilder().append(text).append(" (").append(bd.toString()).append("%)").toString();
+		BigDecimal bd = new BigDecimal(value).setScale(1, RoundingMode.FLOOR);
+		return new StringBuilder().append(text).append(" (").append(bd.toString())
+				.append("" + collectSystem.getSymbol() + ")").toString();
 	}
 
 	@FXML
 	public void saveAsPng() {
 		WritableImage image = chart.snapshot(new SnapshotParameters(), null);
-		// TODO: probably use a file chooser here
 		DirectoryChooser dc = new DirectoryChooser();
 		dc.setTitle("Escolha o local para salvar sua exportação");
 		File directory = dc.showDialog(getWindow());
@@ -261,7 +290,7 @@ public class TimeByClassificationController extends BaseController {
 				f.createNewFile();
 				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
 			} catch (IOException e) {
-				// TODO: handle exception here
+				e.printStackTrace();
 			}
 		}
 
@@ -277,6 +306,42 @@ public class TimeByClassificationController extends BaseController {
 			}
 		});
 
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		chcBox.setItems(FXCollections.observableArrayList(TimeSystems.values()));
+		chcBox.getSelectionModel().select(3);
+		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeSystems>() {
+
+			@Override
+			public void changed(ObservableValue<? extends TimeSystems> observable, TimeSystems oldValue,
+					TimeSystems newValue) {
+				if (collectSystem != null) {
+					collectSystem = newValue.build(collectSystem.getCollect());
+				} else {
+					collectsSystem = collectsSystem.stream().map(cs -> newValue.build(cs.getCollect())).collect(Collectors.toList());
+				}
+				switch (selected) {
+				case H_BARS:
+					onHorizontalClicked(null);
+					break;
+				case V_BARS:
+					onVerticalClicked(null);
+					break;
+				case PIZZA:
+					onPizzaClicked(null);
+					break;
+				case PIZZA_SIMPLE:
+					onSimplePizzaClicked(null);
+				case ALL:
+					onComperativeClicked(null);
+					break;
+				default:
+					break;
+				}
+			}
+		});
 	}
 
 }

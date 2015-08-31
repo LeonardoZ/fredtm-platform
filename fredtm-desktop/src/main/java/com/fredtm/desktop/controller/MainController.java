@@ -23,8 +23,10 @@ import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.core.util.OperationJsonUtils;
-import com.fredtm.desktop.controller.chart.TimeActivityDistributionController;
+import com.fredtm.desktop.controller.chart.TimeByActivityController;
 import com.fredtm.desktop.controller.chart.TimeByClassificationController;
+import com.fredtm.desktop.controller.chart.TimeBySimplifiedClassificationController;
+import com.fredtm.desktop.controller.chart.TimesChartController;
 import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
 import com.fredtm.desktop.sync.ClientConnection;
@@ -83,7 +85,7 @@ public class MainController extends BaseController implements Initializable, Cli
 	}
 
 	private void abrirParaDebug() {
-		File f = new File("C:/Users/Leonardo/Desktop/operations.json");
+		File f = new File("C:/Users/Leonardo/Desktop/operations_1440786273270.json");
 		OperationJsonUtils oju = new OperationJsonUtils();
 		List<OperationResource> operations = oju.jsonToJava(f);
 		List<Operation> entities = FredObjectMapper.mapResourcesToEntities(operations);
@@ -219,11 +221,17 @@ public class MainController extends BaseController implements Initializable, Cli
 	public <T extends BaseController> void openGraphicalAnalisys(FredCharts type, List<Collect> collects) {
 		switch (type) {
 
-		case BARS_CLASSIFICATION:
+		case TIME_BY_CLASSIFICATION:
 			Consumer<TimeByClassificationController> barCicleConsumer = c -> c.setCollects(collects);
 			createView("/fxml/chart_line_classification.fxml",
-					"Tempo/Atividade por coleta (ciclo): " + collects.get(0).getOperation().toString(),
+					"Tempo/classificação por coleta (ciclo): " + collects.get(0).getOperation().toString(),
 					barCicleConsumer);
+			break;
+		case TIME_BY_SIMPLE_CLASSIFICATION:
+			Consumer<TimeBySimplifiedClassificationController> barSimpleConsumer = c -> c.setCollects(collects);
+			createView("/fxml/chart_line_classification_simple.fxml",
+					"Tempo/Classificação por coleta (ciclo): " + collects.get(0).getOperation().toString(),
+					barSimpleConsumer);
 			break;
 		default:
 			break;
@@ -233,15 +241,28 @@ public class MainController extends BaseController implements Initializable, Cli
 	public void openGraphicalAnalisys(FredCharts type, Collect collect) {
 		switch (type) {
 		case TIME_ACTIVITY_DISTRIBUTION:
-			Consumer<TimeActivityDistributionController> pizzaConsumer = c -> c.setCollect(collect);
-			createView("/fxml/chart_pizza.fxml", "Distribuição tempo/atividade: ", pizzaConsumer);
+			Consumer<TimeByActivityController> chart = c -> c.setCollect(collect);
+			createView("/fxml/chart_time_activity.fxml", "Distribuição tempo/atividade: "+collect.toString(), chart);
 			break;
 
-		case BARS_CLASSIFICATION:
+		case TIME_BY_CLASSIFICATION:
 			Consumer<TimeByClassificationController> barConsumer = c -> c.setCollect(collect);
-			createView("/fxml/chart_line_classification.fxml", "Tempo por classificação: " + collect.toString(),
+			createView("/fxml/chart_line_classification.fxml", "Tempo/classificação: " + collect.toString(),
 					barConsumer);
 			break;
+
+		case TIME_BY_SIMPLE_CLASSIFICATION:
+			Consumer<TimeBySimplifiedClassificationController> barSimpleConsumer = c -> c.setCollect(collect);
+			createView("/fxml/chart_line_classification_simple.fxml", "Tempo/classificação simples: " + collect.toString(),
+					barSimpleConsumer);
+			break;
+		case TIME_ANALYSYS:
+			Consumer<TimesChartController> timeConsumer = c -> c.setCollect(collect);
+			createView("/fxml/chart_times.fxml", "Análises dos tempos: " + collect.toString(),
+					timeConsumer);
+			break;
+			
+			
 		default:
 			break;
 		}

@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -19,7 +18,6 @@ import org.springframework.test.context.ActiveProfiles;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.mangofactory.swagger.configuration.DocumentationConfig;
 
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",

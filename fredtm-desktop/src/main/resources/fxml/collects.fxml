@@ -19,7 +19,8 @@
         <buttons>
             <MenuButton fx:id="btnGraphicOption" mnemonicParsing="false" text="Análise geral">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#onClassificationPerCollectClicked" text="Tempo/Atividade por coleta" />
+                <MenuItem mnemonicParsing="false" onAction="#onClassificationPerCollectClicked" text="Tempo/Classificação por coleta" />
+                  <MenuItem mnemonicParsing="false" onAction="#onSimpleClassificationPerCollectClicked" text="Tempo/Classificação Simples por coleta" />
               </items>
             </MenuButton>
             <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExportAllPressed" text="Exportar todos" />

@@ -53,6 +53,33 @@
 	-fx-background-image:url('/images/ic_maps_place.png');
 }
 
+.btnPizza{
+	-fx-background-image:url('/images/ic_pie_chart.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	
+}
+
+.btnPizzaSimple{
+	-fx-background-image:url('/images/ic_simples_pie_chart.png');
+		-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	
+}
+
+.btnVertical{
+	-fx-background-image:url('/images/ic_vert.png');
+		-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	
+}
+
+.btnHorizontal{
+	-fx-background-image:url('/images/ic_hor.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
+
 .btnExportJson {
 }
 
@@ -144,3 +171,4 @@
 .fred-button-bar {
 	-fx-background-color:  #525162;
 }
+

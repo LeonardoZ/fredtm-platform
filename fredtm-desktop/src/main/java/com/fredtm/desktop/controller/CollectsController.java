@@ -44,7 +44,7 @@ public class CollectsController extends BaseController implements Initializable 
 	public void initialize(URL url, ResourceBundle bundle) {
 		MenuItem menuCollecteds = new MenuItem("Ver tempos coletados");
 
-		MenuItem menuGrapgicsOptions = new MenuItem("Análise gráfica");
+		MenuItem menuGraphicsOptions = new MenuItem("Análise gráfica");
 
 		MenuItem menuExportCollect = new MenuItem("Exportar coleta");
 		MenuItem menuExportAllCollects = new MenuItem("Export todas coletas");
@@ -56,7 +56,7 @@ public class CollectsController extends BaseController implements Initializable 
 				.setOnAction(ev -> MainEventBus.INSTANCE.eventExportCollects(new ArrayList<>(operation.getCollects())));
 
 		ContextMenu contextMenu = new ContextMenu(menuCollecteds, menuExportCollect, menuExportAllCollects,
-				menuGrapgicsOptions);
+				menuGraphicsOptions);
 
 		contextMenu.centerOnScreen();
 		contextMenu.setStyle("-fx-background-color: #fff");
@@ -77,12 +77,17 @@ public class CollectsController extends BaseController implements Initializable 
 
 	@FXML
 	void onGeneralAnalysesClicked(ActionEvent event) {
-		
+
 	}
 
 	@FXML
 	void onClassificationPerCollectClicked(ActionEvent event) {
-		MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.BARS_CLASSIFICATION, collects);
+		MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_CLASSIFICATION, collects);
+	}
+
+	@FXML
+	void onSimpleClassificationPerCollectClicked(ActionEvent event) {
+		MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_SIMPLE_CLASSIFICATION, collects);
 	}
 
 }
