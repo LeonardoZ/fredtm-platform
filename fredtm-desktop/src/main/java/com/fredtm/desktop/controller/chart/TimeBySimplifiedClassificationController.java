@@ -101,6 +101,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		});
 
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
+		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
 		chart.setTitle("Tempo/atividade por coleta (ciclo)");
 		chart.getData().addAll(seriesList);
 		configureChartOnNode(rootNode);
@@ -110,9 +111,13 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		TimeSystems ts = chcBox.getSelectionModel().getSelectedItem();
 		boolean isPct = ts == TimeSystems.PCT;
 		axis.setAutoRanging(!isPct);
-		axis.setLabel("Tempo (" + ts.getValue() + ")");
+		axis.setLabel("Tempo total (" + ts.getValue() + ")");
 	}
 
+	private void configureCategoryAxis(Axis<Object> axis) {
+		axis.setLabel("Classificações simplificadas");
+	}
+	
 	@FXML
 	void onHorizontalClicked(ActionEvent event) {
 		selected = Charts.H_BARS;
@@ -139,6 +144,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		Series<Object, Object> series = getSeriesFrom(c, orientation);
 		chart.getData().add(series);
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
+		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
 		configureChartOnNode(rootNode);
 	}
 

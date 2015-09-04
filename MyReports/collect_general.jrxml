@@ -1,0 +1,1998 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.0.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-09-04T16:21:23 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="collected_times" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Empty" uuid="a354acbb-cdbd-4d82-b049-937aa6d7f01d">
+	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fred_m_adapter"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F5F5F5" fontName="Verdana" fontSize="8">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#FFBFBF" fontName="Verdana" fontSize="8">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#B5B5B5" fontName="Verdana" fontSize="8">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF" fontName="Verdana" fontSize="8">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CG" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 1_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CG" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 2_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 3_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 3_CG" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 3_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 3_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 4_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 4_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 4_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 4_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 5_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 5_CG" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 5_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 5_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 6_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 6_CG" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 6_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 6_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 7_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 7_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 7_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 7_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab 8_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 8_CG" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 8_CT" mode="Opaque" backcolor="#B5B5B5">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="Crosstab 8_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<leftPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="prod_dataset" whenResourceMissingType="Empty" uuid="3500db01-f39d-4efc-8470-181f5bc6f278">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fred_m_adapter"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="activityId" class="java.lang.String">
+			<fieldDescription><![CDATA[activityId]]></fieldDescription>
+		</field>
+		<field name="activityTitle" class="java.lang.String">
+			<fieldDescription><![CDATA[activityTitle]]></fieldDescription>
+		</field>
+		<field name="collectIndex" class="java.lang.String">
+			<fieldDescription><![CDATA[collectIndex]]></fieldDescription>
+		</field>
+		<field name="activityType" class="java.lang.String">
+			<fieldDescription><![CDATA[activityType]]></fieldDescription>
+		</field>
+		<field name="timed" class="java.lang.Long">
+			<fieldDescription><![CDATA[timed]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="unprod_dataset" whenResourceMissingType="Empty" uuid="2e1b5414-69ff-4401-85f3-51da9a6b755f">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fred_m_adapter"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="timed" class="java.lang.Long">
+			<fieldDescription><![CDATA[timed]]></fieldDescription>
+		</field>
+		<field name="activityTitle" class="java.lang.String">
+			<fieldDescription><![CDATA[activityTitle]]></fieldDescription>
+		</field>
+		<field name="collectIndex" class="java.lang.String">
+			<fieldDescription><![CDATA[collectIndex]]></fieldDescription>
+		</field>
+		<field name="activityType" class="java.lang.String">
+			<fieldDescription><![CDATA[activityType]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="aux_dataset" whenResourceMissingType="Empty" uuid="4781106c-ebf0-40ca-bfbc-ceaeb8f4a53d">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fred_m_adapter"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="timed" class="java.lang.Long">
+			<fieldDescription><![CDATA[timed]]></fieldDescription>
+		</field>
+		<field name="activityTitle" class="java.lang.String">
+			<fieldDescription><![CDATA[activityTitle]]></fieldDescription>
+		</field>
+		<field name="collectIndex" class="java.lang.String">
+			<fieldDescription><![CDATA[collectIndex]]></fieldDescription>
+		</field>
+		<field name="activityType" class="java.lang.String">
+			<fieldDescription><![CDATA[activityType]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="operation_info" class="java.lang.String"/>
+	<parameter name="period" class="java.lang.String"/>
+	<parameter name="tech_charac" class="java.lang.String"/>
+	<parameter name="Parameter1" class="com.fredtm.resources.TimeActivityResource"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="productiveTimes" class="java.util.ArrayList">
+		<fieldDescription><![CDATA[productiveTimes]]></fieldDescription>
+	</field>
+	<field name="auxiliaryTimes" class="java.util.ArrayList">
+		<fieldDescription><![CDATA[auxiliaryTimes]]></fieldDescription>
+	</field>
+	<field name="unproductiveTimes" class="java.util.ArrayList">
+		<fieldDescription><![CDATA[unproductiveTimes]]></fieldDescription>
+	</field>
+	<variable name="Variable_1" class="java.lang.String"/>
+	<variable name="Variable_2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="20" width="475" height="30" uuid="93b494c0-41c3-4c18-b759-0945302f0d06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Relatório geral das coletas]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="8" y="8" width="50" height="50" uuid="2874a7ff-5ea4-4b8f-9e17-03d732630770"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="82" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="21" width="555" height="13" uuid="5f363a69-e8dc-4826-848f-f9581cd9254d">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Operação: "+$P{operation_info}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="34" width="555" height="13" uuid="86a2a586-7005-4bfc-abae-ba3081caf4e8">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Coleta realizada no periodo de "+$P{period}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="47" width="554" height="30" uuid="2d1a593a-e20f-4496-bfc3-afa1d19bc7f7"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Caracteristicas técnicas: \n"+ ($P{tech_charac} != null ? $P{tech_charac} : "Sem caracteristícas específicas.")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="500" y="2" width="55" height="13" uuid="ad004e8f-49de-4ec1-9605-bbace49024b6">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="500" height="13" uuid="a199e123-2cd9-47bb-ab8f-dcb2222467fe">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerado por Fred TM - Tempos e movimentos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="2" forecolor="#362E2E" uuid="379a3b01-4f0e-4090-989c-7e67886b620b"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="155" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<crosstab>
+				<reportElement positionType="Float" x="0" y="-1" width="800" height="40" uuid="da4edb35-0356-4050-9b04-ffb8b78e5036"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="prod_dataset" uuid="19d2f72d-f9e4-45fd-97b0-ec82e1295ad9">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{productiveTimes})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<staticText>
+							<reportElement x="0" y="0" width="120" height="26" backcolor="#1092DE" uuid="4e6c4032-af28-4dfa-b4b9-7cff733090a9">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.5" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.5" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.5" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.5" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="8" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Tempo Produtivo]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="activityTitle1" width="120" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{activityTitle}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CH">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="120" height="13" uuid="0dc64685-9779-48a5-9a51-2e564c185140">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="local_mesure_unitheight" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{activityTitle1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CT">
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="13" forecolor="#FFFFFF" uuid="b448c3c9-808b-4752-b188-e0c76f849ce8">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="local_mesure_unitwidth" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Produtivo]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="collectIndex1" height="26" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{collectIndex}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CH">
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="100" height="13" uuid="6419f2e3-0046-41b4-9130-28a636cd9010">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="local_mesure_unitwidth" value="pixel"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Coleta "+$V{collectIndex1}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="20" y="13" width="40" height="13" uuid="b3b5710e-cf23-437a-873b-d868277c874e"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[(s)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="60" y="13" width="40" height="13" uuid="e40272ce-d54e-47fa-aae5-da5bb03f8693">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="local_mesure_unitx" value="pixel"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[média]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="13" width="20" height="13" uuid="c4d4a974-2b1a-4d5c-9396-c10eda2f8a4a">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box leftPadding="2">
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[qtd.]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CT">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="13" forecolor="#FFFFFF" uuid="9ea18771-ad7d-4993-a10c-924310bc5bc1">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Produtivo]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="60" y="13" width="40" height="13" forecolor="#FFFFFF" uuid="dd2b4bed-664a-43f7-a9e4-ea2c1f9def11">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[média]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="20" y="13" width="40" height="13" forecolor="#FFFFFF" uuid="8242a404-662f-49e2-87ff-604469df42fc">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[(s)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="13" width="20" height="13" forecolor="#FFFFFF" uuid="0bdf6f7c-0bb2-4940-b5ff-ef0ee753b648">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box leftPadding="2">
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[qtd.]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="timed_MEASURE1" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE2" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE3" class="java.lang.Long" calculation="Average">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE4" class="java.lang.Long" calculation="Average">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<crosstabCell width="100" height="13">
+					<cellContents mode="Opaque" style="Crosstab 5_CD">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="13" uuid="c14b316a-ab7c-4795-8bba-29cf5c8861cc">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" uuid="c2239436-dfcb-4634-98fe-8862371d432f">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" uuid="b63058c6-47b3-4b93-a6f1-f8b5cd7eaea1">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" columnTotalGroup="collectIndex1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="67976d93-7d8e-4830-9fd4-4d02ce19180f">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="eac3424c-708f-4b83-ac0c-fe992c0f72d9">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="d7b6fc91-6969-4630-a08e-a612a963c96e">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" rowTotalGroup="activityTitle1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="e935f684-4e04-4568-be2e-556d49ebd51d">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="eae1bec3-ba0d-403d-9473-e89d47e0665e">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="94605549-787f-4484-927a-da93945acb52">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" rowTotalGroup="activityTitle1" columnTotalGroup="collectIndex1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="8741caf2-258e-4c87-9d54-791c168f190d">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="f46e3df1-4a60-468d-93cc-5e42b424cf8c">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="12ac27fd-d863-471d-afcc-63a935b632a9">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<crosstab>
+				<reportElement positionType="Float" x="0" y="103" width="800" height="40" uuid="5334c7cc-e492-46ab-9033-23d7ec271515"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="unprod_dataset" uuid="617e9f9c-1175-4951-bf5c-2edd2b66b0b0">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{unproductiveTimes})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<staticText>
+							<reportElement x="0" y="0" width="120" height="26" backcolor="#1092DE" uuid="cb7056a0-0338-4f0e-af4b-0bce1bf47e9d">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.5" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.5" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.5" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.5" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="8" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Tempo Improdutivo]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="activityTitle1" width="120" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{activityTitle}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CH">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="120" height="13" uuid="4a608646-1447-4310-85af-dc65a09200ff">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="local_mesure_unitheight" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{activityTitle1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CT">
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="13" forecolor="#FFFFFF" uuid="d224e493-a589-45a7-af77-e648dfddb205">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="local_mesure_unitwidth" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Improdutivo]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="collectIndex1" height="26" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{collectIndex}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CH">
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="100" height="13" uuid="b6dceda9-be7e-4e49-864f-0925af87dde5">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="local_mesure_unitwidth" value="pixel"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Coleta "+$V{collectIndex1}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="20" y="13" width="40" height="13" uuid="273d8d95-c06e-486b-8191-54b26cbc082a"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[(s)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="60" y="13" width="40" height="13" uuid="e07b1534-07bf-4e8d-b2a2-39d0ac280902">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="local_mesure_unitx" value="pixel"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[média]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="13" width="20" height="13" uuid="dbe74991-71cf-4ff5-a40d-2fe6e462b7ca">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box leftPadding="2">
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[qtd.]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CT">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="13" forecolor="#FFFFFF" uuid="89205793-a8c9-4e40-b0cc-ad2c5bfeb785">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Improdutivo]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="60" y="13" width="40" height="13" forecolor="#FFFFFF" uuid="3b691e31-57d6-4a19-af60-969ef2c3f4e7">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[média]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="20" y="13" width="40" height="13" forecolor="#FFFFFF" uuid="1c8589b2-330e-409c-86a6-fcd8b3fa052f">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[(s)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="13" width="20" height="13" forecolor="#FFFFFF" uuid="b6cbe545-d483-4026-a4ff-eee9c7938c79">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box leftPadding="2">
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[qtd.]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="timed_MEASURE1" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE2" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE3" class="java.lang.Long" calculation="Average">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE4" class="java.lang.Long" calculation="Average">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<crosstabCell width="100" height="13">
+					<cellContents mode="Opaque" style="Crosstab 5_CD">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="13" uuid="fa5162f2-2f2b-4d0f-a20d-aaa1b0ce9b59">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" uuid="5819853d-9350-4bc1-a294-1ba4dd2990ad">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" uuid="8b9c0def-61e1-481b-8481-aca2f6fe08ab">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" columnTotalGroup="collectIndex1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="04b8c1b8-23a1-4967-a374-ab6b070d7bde">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="945b50fc-ea15-41ea-ae5f-0be0c3856968">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="6a2f37c4-a21a-4f39-bd67-34ae21310b83">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" rowTotalGroup="activityTitle1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="8d2bbc91-fc1a-4e71-9ef0-93cc024229bb">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="11a22c3d-3440-4245-b035-f9bc2422ee24">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="ad0fe59d-6fbf-47a7-bc9a-26b5fc364802">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" rowTotalGroup="activityTitle1" columnTotalGroup="collectIndex1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="4d62cdff-b231-4bd5-8617-05c7ac470ec1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="d4b5d0cf-2a19-44ed-939d-f868898c98e0">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="cf206b95-572a-4f30-b6fe-69749a659f2c">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+			<crosstab>
+				<reportElement positionType="Float" x="0" y="50" width="800" height="40" uuid="696ebb6a-42bc-47e7-aba1-06f5ed49f4d2"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="aux_dataset" uuid="a20db160-4fe4-408d-a49b-b33c2aec5ea3">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{auxiliaryTimes})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<staticText>
+							<reportElement x="0" y="0" width="120" height="26" backcolor="#1092DE" uuid="6b4e137a-b0fc-45ba-a93d-a593d19f6f17">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.5" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.5" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.5" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.5" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="8" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Tempo Auxiliar]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="activityTitle1" width="120" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{activityTitle}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CH">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="120" height="13" uuid="c6f5f114-bbac-4be9-bfa7-77c167d9710f">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="local_mesure_unitheight" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{activityTitle1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CT">
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="13" forecolor="#FFFFFF" uuid="e7d629d1-5b19-4b0d-8188-4c8985ee9e96">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="local_mesure_unitwidth" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Auxiliar]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="collectIndex1" height="26" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{collectIndex}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CH">
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="100" height="13" uuid="9b8e4dc3-ae12-4eb6-a787-6afea04195dc">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<property name="local_mesure_unitwidth" value="pixel"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Coleta "+$V{collectIndex1}]]></textFieldExpression>
+							</textField>
+							<staticText>
+								<reportElement x="20" y="13" width="40" height="13" uuid="1bf43af1-a969-4f44-8fce-4de0b453fa67"/>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[(s)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="60" y="13" width="40" height="13" uuid="9683e60b-549b-4691-9f41-7e0628cc6dec">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="local_mesure_unitx" value="pixel"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[média]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="13" width="20" height="13" uuid="f8343c31-2c10-48e7-b59f-61acf54b6e92">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box leftPadding="2">
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[qtd.]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab 5_CT">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<topPen lineColor="#615C5C"/>
+								<leftPen lineColor="#615C5C"/>
+								<bottomPen lineColor="#615C5C"/>
+								<rightPen lineColor="#615C5C"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="13" forecolor="#FFFFFF" uuid="66830df1-1b84-47d2-92f4-de5fa43309d4">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Auxiliar]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="60" y="13" width="40" height="13" forecolor="#FFFFFF" uuid="7a1444d6-8d6a-41b6-abfb-3a95d7b25c31">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[média]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="20" y="13" width="40" height="13" forecolor="#FFFFFF" uuid="b272ea3a-380a-4503-8809-e7d3920141b5">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[(s)]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="13" width="20" height="13" forecolor="#FFFFFF" uuid="8be216e2-2c8a-4f18-bf08-5c5afe719f97">
+									<property name="local_mesure_unitwidth" value="pixel"/>
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								</reportElement>
+								<box leftPadding="2">
+									<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+									<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Verdana" size="8"/>
+								</textElement>
+								<text><![CDATA[qtd.]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="timed_MEASURE1" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE2" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE3" class="java.lang.Long" calculation="Average">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<measure name="timed_MEASURE4" class="java.lang.Long" calculation="Average">
+					<measureExpression><![CDATA[$F{timed} / 1000]]></measureExpression>
+				</measure>
+				<crosstabCell width="100" height="13">
+					<cellContents mode="Opaque" style="Crosstab 5_CD">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="13" uuid="dd3f9f42-b5a4-4474-a274-326ee6a6abab">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" uuid="ee71d8ff-8c41-41f3-853f-f2abfc1009ba">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" uuid="04513e7d-1076-4c23-9387-c090b0bc06f9">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" columnTotalGroup="collectIndex1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="e67e41b5-5b6d-4556-a6be-2cd5f3d5793f">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="b02237d6-d214-49c8-a9fe-09ac25acbc96">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="8c24c432-ba43-442d-96b9-f6dc054052ec">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" rowTotalGroup="activityTitle1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="e7fce728-299d-4363-8ed4-aeb287a5602e">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="69089b9b-48d3-48f6-92e6-6b9e3daf9e9b">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="da38f149-42ed-4119-bb6f-e96a1782aed6">
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="100" height="13" rowTotalGroup="activityTitle1" columnTotalGroup="collectIndex1">
+					<cellContents mode="Opaque" style="Crosstab 5_CT">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<box>
+							<topPen lineColor="#615C5C"/>
+							<leftPen lineColor="#615C5C"/>
+							<bottomPen lineColor="#615C5C"/>
+							<rightPen lineColor="#615C5C"/>
+						</box>
+						<textField>
+							<reportElement x="60" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="9e9e3a9b-17a2-4e8f-a4a9-f75692d4bedf">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE3}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="20" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="54a44cbb-4efb-4bcb-a312-dfd23a8df68a">
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE2}+"s"]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="0" y="0" width="20" height="13" forecolor="#FFFFFF" uuid="d29bbb91-0036-4184-bf6d-c950319b5449">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<bottomPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+								<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#615C5C"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Verdana" size="7" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{timed_MEASURE1}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

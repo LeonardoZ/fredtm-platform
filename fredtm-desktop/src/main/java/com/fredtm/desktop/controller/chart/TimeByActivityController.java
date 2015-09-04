@@ -92,14 +92,18 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 	NumberAxis getNumberAxis() {
 		NumberAxis numberAxis = new NumberAxis();
-		if (chcBox.getSelectionModel().getSelectedItem() == TimeSystems.PCT) {
+		TimeSystems selectedItem = chcBox.getSelectionModel().getSelectedItem();
+		if (selectedItem == TimeSystems.PCT) {
 			numberAxis.setAutoRanging(false);
 		}
+		numberAxis.setLabel("Tempo total (" + selectedItem.getValue() + ")");
 		return numberAxis;
 	}
 
 	CategoryAxis getCategoryAxis() {
-		return new CategoryAxis();
+		CategoryAxis categoryAxis = new CategoryAxis();
+		categoryAxis.setLabel("Atividades");
+		return categoryAxis;
 	}
 
 	@FXML

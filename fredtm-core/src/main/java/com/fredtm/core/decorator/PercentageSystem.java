@@ -3,12 +3,10 @@ package com.fredtm.core.decorator;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
@@ -38,14 +36,14 @@ public class PercentageSystem extends TimeSystem {
 	}
 	
 	@Override
-	public Map<String, Optional<Double>> getTimeByActivities() {
+	public LinkedHashMap<String, Optional<Double>> getTimeByActivities() {
 		Collect collect = getCollect();
 		
 		double totalInMs = Double.valueOf(collect.getTotalTimed());
 		
 		Function<TimeActivity,Double> fn = a -> (a.getTimed() / totalInMs) * 100;
 		
-		Map<String, Optional<Double>> collected = collect.getTimes().stream()
+		LinkedHashMap<String, Optional<Double>> collected = collect.getTimes().stream()
 			.collect(
 					Collectors.groupingBy(
 								ta -> ta.getActivity().getTitle(),

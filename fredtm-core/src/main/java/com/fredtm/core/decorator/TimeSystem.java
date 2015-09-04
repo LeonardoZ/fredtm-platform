@@ -1,8 +1,9 @@
 package com.fredtm.core.decorator;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.fredtm.core.model.ActivityType;
@@ -38,21 +39,17 @@ public abstract class TimeSystem {
 
 	public abstract String getSymbol();
 
-	public Map<TimeActivity,Double> getValueMap(){
-		Map<TimeActivity, Double> collected = getTimes().stream()
+	public LinkedHashMap<TimeActivity,Double> getValueMap(){
+		List<TimeActivity> times = getTimes().stream().sorted((e1, e2) -> e1.getStartDate().compareTo(e2.getStartDate())).collect(Collectors.toList());
+		LinkedHashMap<TimeActivity, Double> collected = times.stream()
 			.collect(Collectors.toMap(
-					t -> t, t2 -> convertTime(t2)
+					Function.<TimeActivity>identity(), 
+					this::convertTime,
+					(u, v) -> 0.0, 
+					LinkedHashMap::new
 			)
 		);
 		
-		collected.entrySet()
-	        .stream()
-	        .peek(System.out::println)
-	        .sorted((e1, e2) -> e1.getKey().getStartDate().compareTo(e2.getKey().getStartDate())) // custom Comparator
-	        .map(e -> e.getKey())
-
-	        .peek(System.out::println)
-	        .collect(Collectors.toList());
 		return collected;
 	}
 	
@@ -66,12 +63,14 @@ public abstract class TimeSystem {
 		}
 	}
 
-	public Map<String, Optional<Double>> getTimeByActivities() {
+	public LinkedHashMap<String, Optional<Double>> getTimeByActivities() {
 		if (!getCollect().getTimes().isEmpty()) {
 			return getCollect().getTimes()
 					.stream()
 					.collect(
-							Collectors.groupingBy(ta -> ta.getActivity().getTitle(),
+							Collectors.groupingBy(
+									ta -> ta.getActivity().getTitle(),
+									LinkedHashMap::new,
 									Collectors.mapping(this::convertTime, Collectors.reducing((x,y)->x+y))
 							)
 					);

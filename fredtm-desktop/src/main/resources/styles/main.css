@@ -80,6 +80,13 @@
 	-fx-background-repeat: no-repeat;
 }
 
+.btnPoints{
+	-fx-background-image:url('/images/ic_points_chart.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
+
+
 .btnExportJson {
 }
 
@@ -103,6 +110,12 @@
 .btn-fred-collects {
 	 -fx-background-color: #c4d70c;
 }
+
+
+.btn-fred-reports {
+	 -fx-background-color: #ea4335;
+}
+
 
 .root.popup {
     -fx-background-color: transparent;

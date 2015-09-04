@@ -17,10 +17,16 @@
    <top>
       <ButtonBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="39.0" prefWidth="1024.0" styleClass="fred-button-bar" BorderPane.alignment="CENTER">
         <buttons>
+            <MenuButton fx:id="btnReports" mnemonicParsing="false" text="Relatório geral">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onGeneralReportClicked" text="Relatório geral de coletas" />
+              </items>
+            </MenuButton>
             <MenuButton fx:id="btnGraphicOption" mnemonicParsing="false" text="Análise geral">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onClassificationPerCollectClicked" text="Tempo/Classificação por coleta" />
                   <MenuItem mnemonicParsing="false" onAction="#onSimpleClassificationPerCollectClicked" text="Tempo/Classificação Simples por coleta" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
               </items>
             </MenuButton>
             <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExportAllPressed" text="Exportar todos" />

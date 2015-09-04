@@ -39,10 +39,8 @@ public class ActivitiesController extends BaseController implements Initializabl
 	
 	private List<Activity> atividades;
 	
-	private Operation operation;
 
 	public void setOperacao(Operation operation) {
-		this.operation = operation;
 		this.atividades = operation.getActivitiesList();
 		this.tbActivities.setItems(FXCollections.observableArrayList(atividades));
 	}

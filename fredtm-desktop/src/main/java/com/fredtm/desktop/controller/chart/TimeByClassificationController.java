@@ -102,6 +102,7 @@ public class TimeByClassificationController extends BaseController implements In
 		});
 
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
+		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
 		chart.setTitle("Tempo/atividade por coleta (ciclo)");
 		chart.getData().addAll(seriesList);
 		configureChartOnNode(rootNode);
@@ -112,7 +113,7 @@ public class TimeByClassificationController extends BaseController implements In
 
 		boolean isPct = ts == TimeSystems.PCT;
 		axis.setAutoRanging(!isPct);
-		axis.setLabel("Tempo (" + ts.getValue() + ")");
+		axis.setLabel("Tempo total (" + ts.getValue() + ")");
 	}
 
 	@FXML
@@ -139,7 +140,12 @@ public class TimeByClassificationController extends BaseController implements In
 		Series<Object, Object> series = getSeriesFrom(c, orientation);
 		chart.getData().add(series);
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
+		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
 		configureChartOnNode(rootNode);
+	}
+
+	private void configureCategoryAxis(Axis<Object> axis) {
+		axis.setLabel("Classificações (tipos de atividade)");
 	}
 
 	private void configureChartOnNode(Pane rootNode) {

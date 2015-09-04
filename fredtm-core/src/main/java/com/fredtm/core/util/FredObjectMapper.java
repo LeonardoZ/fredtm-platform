@@ -123,7 +123,7 @@ public class FredObjectMapper {
 			List<Activity> activities = entity.getActivities();
 			List<ActivityResource> acrs = new ArrayList<>(toResourcesAct(activities));
 			List<TimeActivity> times = entity.getTimes();
-			List<TimeActivityResource> tars = toResourcesTAct(times);
+			List<TimeActivityResource> tars = toResourcesFromTimeActivity(times);
 
 			cr.setOperationId(entity.getOperation().getId());
 			cr.setActivities(new HashSet<ActivityResource>(acrs));
@@ -133,7 +133,7 @@ public class FredObjectMapper {
 		return crs;
 	}
 
-	private static List<TimeActivityResource> toResourcesTAct(List<TimeActivity> tas) {
+	public static List<TimeActivityResource> toResourcesFromTimeActivity(List<TimeActivity> tas) {
 		List<TimeActivityResource> trs = new ArrayList<>();
 		for (TimeActivity entity : tas) {
 			TimeActivityResource tar = new TimeActivityResource();

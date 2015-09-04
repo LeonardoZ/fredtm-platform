@@ -20,9 +20,8 @@
                   <Insets />
                </HBox.margin>
             </ChoiceBox>
-            <Button fx:id="btnPoints" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onPointsClicked" styleClass="btnPizza" />
-            <Button fx:id="btnArea" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onAreaClicked" styleClass="btnHorizontal" />
-            <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnVertical" />
+            <Button fx:id="btnPoints" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onPointsClicked" styleClass="btnPoints" />
+            <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnHorizontal" />
             <Button minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#saveAsPng" text="Salvar">
                <HBox.margin>
                   <Insets left="10.0" />

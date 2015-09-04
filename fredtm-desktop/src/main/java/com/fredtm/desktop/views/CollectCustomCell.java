@@ -1,13 +1,18 @@
 package com.fredtm.desktop.views;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.FormatElapsedTime;
+import com.fredtm.core.util.FredObjectMapper;
+import com.fredtm.desktop.controller.ReportController;
 import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.eventbus.MainEventBus;
+import com.fredtm.resources.TimeActivityResource;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,10 +38,11 @@ public class CollectCustomCell extends ListCell<Collect> {
 	private VBox mainContent, infoContent;
 	private HBox structure, line1, line2;
 	private Label lbTitleValue, lbTotalTime, lbIcon, lbTotal, lbUnproductive, lbProductive, lbAuxiliary;
-	private Button btCollectedTimes, btExport;
-	private MenuButton btIndividualAnalysis;
+	private Button btnCollectedTimes, btnExport;
+	private MenuButton btnIndividualAnalysis, btnReports;
 	private MenuItem btnTimeByActivity;
-	private MenuItem btnClassification,	btnSimpleClassification,btnTimes;
+	private MenuItem btnClassification, btnSimpleClassification, btnTimes;
+	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnGeneralInfoReport;
 
 	public CollectCustomCell() {
 		super();
@@ -47,19 +53,22 @@ public class CollectCustomCell extends ListCell<Collect> {
 		lbTitleValue.setStyle("-fx-font-weight: bold;");
 		lbTotalTime = new Label();
 
-		btCollectedTimes = new Button("Tempo/Atividade");
-		btCollectedTimes.getStyleClass().addAll("btn-fred-lists", "btn-fred-activities");
+		btnCollectedTimes = new Button("Tempo/Atividade");
+		btnCollectedTimes.getStyleClass().addAll("btn-fred-lists", "btn-fred-activities");
 
-		btExport = new Button("Exportar");
-		btExport.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
-		
-		btIndividualAnalysis = new MenuButton("Análises indivíduais");
-		btIndividualAnalysis.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
-		
-		applyCss(btCollectedTimes, btExport, btIndividualAnalysis);
+		btnExport = new Button("Exportar");
+		btnExport.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
+
+		btnIndividualAnalysis = new MenuButton("Análises indivíduais");
+		btnIndividualAnalysis.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
+
+		btnReports = new MenuButton("Relatórios");
+		btnReports.getStyleClass().addAll("btn-fred-lists", "btn-fred-reports");
+
+		applyCss(btnCollectedTimes, btnExport, btnIndividualAnalysis, btnReports);
 
 		line1 = new HBox(lbTitleValue);
-		line2 = new HBox(btCollectedTimes, btExport, btIndividualAnalysis);
+		line2 = new HBox(btnCollectedTimes, btnExport, btnIndividualAnalysis, btnReports);
 
 		lbIcon = new Label("", new ImageView("/images/ic_action_alarm.png"));
 		VBox.getVgrow(lbIcon);
@@ -94,8 +103,14 @@ public class CollectCustomCell extends ListCell<Collect> {
 		btnClassification = new MenuItem("Distribuição Tempo/Classificação");
 		btnSimpleClassification = new MenuItem("Distribuição Tempo/Classificação simples");
 		btnTimes = new MenuItem("Análise dos tempos");
+
+		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity,
+				btnTimes);
 		
-		btIndividualAnalysis.getItems().addAll(btnClassification,btnSimpleClassification,btnTimeByActivity,btnTimes);
+		btnCollectedsSimplesReport = new MenuItem("Relatório de tempos simples");
+		btnCollectedsAnalyticReport = new MenuItem("Relatório de tempos analítico");
+		btnGeneralInfoReport = new MenuItem("Relatório geral");
+		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnGeneralInfoReport);
 		
 	}
 
@@ -130,21 +145,60 @@ public class CollectCustomCell extends ListCell<Collect> {
 		lbAuxiliary.setText("Total auxiliar: " + fTotalAux);
 		lbTotal.setText("Total geral: " + total);
 
-		btCollectedTimes.setOnMouseClicked(evt -> MainEventBus.INSTANCE.eventOpenTimeActivity(co));
-		btExport.setOnMousePressed(ev -> MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(co)));
-		
+		btnCollectedTimes.setOnMouseClicked(evt -> MainEventBus.INSTANCE.eventOpenTimeActivity(co));
+		btnExport.setOnMousePressed(ev -> MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(co)));
+
 		btnTimeByActivity.setOnAction(
 				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ACTIVITY_DISTRIBUTION, co));
-		btnClassification.setOnAction(
-				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_CLASSIFICATION, co));
+		btnClassification
+				.setOnAction(evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_CLASSIFICATION, co));
 		btnSimpleClassification.setOnAction(
-				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_SIMPLE_CLASSIFICATION,
-						co));
-		btnTimes.setOnAction(
-				eevt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ANALYSYS,
-						co));
-		
+				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_SIMPLE_CLASSIFICATION, co));
+		btnTimes.setOnAction(eevt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ANALYSYS, co));
+
 		setGraphic(structure);
+		configureReportButtons(co);
+	}
+
+	private void configureReportButtons(Collect co) {
+		List<TimeActivityResource> times = FredObjectMapper.toResourcesFromTimeActivity(co.getTimes());
+		btnCollectedsSimplesReport.setOnAction(evt ->{
+			Operation operation = co.getOperation();
+			String technicalCharacteristics = operation.getTechnicalCharacteristics();
+			String info = operation.toString();
+			String timeRangeFormatted = co.getTimeRangeFormatted();
+			
+			ReportController reportController = new ReportController();
+			reportController
+					.fillDataSource(times)
+					.fillParam("operation_info", info)
+					.fillParam("tech_charac", technicalCharacteristics)
+					.fillParam("period", timeRangeFormatted)
+					.loadReport("collected_times.jasper")
+					.buildAndShow();
+		});
+		
+		btnCollectedsAnalyticReport.setOnAction((ect)->{
+			Operation operation = co.getOperation();
+			String technicalCharacteristics = operation.getTechnicalCharacteristics();
+			String info = operation.toString();
+			String timeRangeFormatted = co.getTimeRangeFormatted();
+			double sum = times.stream().mapToDouble(t-> t.getTimed()/1000).sum();
+			
+			ReportController reportController = new ReportController();
+			reportController
+					.fillDataSource(times)
+					.fillParam("total", sum)
+					.fillParam("operation_info", info)
+					.fillParam("tech_charac", technicalCharacteristics)
+					.fillParam("period", timeRangeFormatted)
+					.loadReport("collected_times_analytics.jasper")
+					.buildAndShow();
+		});
+		
+		btnGeneralInfoReport.setOnAction(evt -> {
+			
+		});
 	}
 
 	private void applyCss(Node... btns) {

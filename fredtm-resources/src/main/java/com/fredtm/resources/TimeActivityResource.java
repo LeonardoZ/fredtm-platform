@@ -13,6 +13,8 @@ public class TimeActivityResource extends FredResourceSupport {
 	private String activityId;
 	private String activityTitle;
 	private String collectId;
+	private String collectIndex;
+	private String activityType;
 	private long finalDate = 0l;
 	private long startDate = 0l;
 	private long timed = 0l;
@@ -164,6 +166,22 @@ public class TimeActivityResource extends FredResourceSupport {
 	
 	public void setPics(List<PictureResource> pics) {
 		this.pics = pics;
+	}
+	
+	public String getCollectIndex() {
+		return this.collectIndex;
+	}
+	
+	public void setCollectIndex(String collectIndex) {
+		this.collectIndex = collectIndex;
+	}
+	
+	public String getActivityType() {
+		return this.activityType;
+	}
+	
+	public void setActivityType(String activityType) {
+		this.activityType = activityType;
 	}
 
 	@Override

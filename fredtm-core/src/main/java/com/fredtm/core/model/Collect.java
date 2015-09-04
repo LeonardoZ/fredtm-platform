@@ -145,6 +145,18 @@ public class Collect extends FredEntity {
 					);
 		return collect;
 	}
+	
+	public Map<String, Double> getSumOfTimesByActivity(ActivityType type) {
+				Map<String, Double> collected = times.stream()
+				.filter(ta -> ta.getActivity().getActivityType().equals(type))
+				.collect(Collectors.groupingBy(t -> t.getActivity().getTitle(),
+							Collectors.mapping(tt -> Double.valueOf(tt.getTimed()),
+											Collectors.reducing(0.0, (x,y) -> x+y)
+									))
+						);
+	return collected;
+}
+
 
 	public List<TimeActivity> getCollectedTimes() {
 		return times;
@@ -259,6 +271,13 @@ public class Collect extends FredEntity {
 			return 0;
 		return (totalType / totalD) * 100;
 	}
+	
+
+	public List<TimeActivity> getTimesByType(ActivityType type) {
+		return times.stream()
+					.filter(t->t.getActivity().getActivityType().equals(type))
+					.collect(Collectors.toList());
+	}
 
 	public String getTimeRangeFormatted() {
 		List<TimeActivity> timeInChronologicalOrder = getTimeInChronologicalOrder();
@@ -305,5 +324,6 @@ public class Collect extends FredEntity {
 		Collect other = (Collect) obj;
 		return new EqualsBuilder().append(getId(), other.getId()).append(getOperation(), other.getOperation()).append(getTimes(), other.getTimes()).isEquals();
 	}
+
 
 }

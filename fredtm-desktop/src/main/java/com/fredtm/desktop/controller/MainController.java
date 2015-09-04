@@ -92,6 +92,7 @@ public class MainController extends BaseController implements Initializable, Cli
 		createOperationsWindow(entities);
 	}
 
+
 	@FXML
 	private void onSincronizarClicked() {
 		if (!syncSelected) {
@@ -242,7 +243,7 @@ public class MainController extends BaseController implements Initializable, Cli
 		switch (type) {
 		case TIME_ACTIVITY_DISTRIBUTION:
 			Consumer<TimeByActivityController> chart = c -> c.setCollect(collect);
-			createView("/fxml/chart_time_activity.fxml", "Distribuição tempo/atividade: "+collect.toString(), chart);
+			createView("/fxml/chart_time_activity.fxml", "Distribuição tempo/atividade: " + collect.toString(), chart);
 			break;
 
 		case TIME_BY_CLASSIFICATION:
@@ -253,16 +254,14 @@ public class MainController extends BaseController implements Initializable, Cli
 
 		case TIME_BY_SIMPLE_CLASSIFICATION:
 			Consumer<TimeBySimplifiedClassificationController> barSimpleConsumer = c -> c.setCollect(collect);
-			createView("/fxml/chart_line_classification_simple.fxml", "Tempo/classificação simples: " + collect.toString(),
-					barSimpleConsumer);
+			createView("/fxml/chart_line_classification_simple.fxml",
+					"Tempo/classificação simples: " + collect.toString(), barSimpleConsumer);
 			break;
 		case TIME_ANALYSYS:
 			Consumer<TimesChartController> timeConsumer = c -> c.setCollect(collect);
-			createView("/fxml/chart_times.fxml", "Análises dos tempos: " + collect.toString(),
-					timeConsumer);
+			createView("/fxml/chart_times.fxml", "Análises dos tempos: " + collect.toString(), timeConsumer);
 			break;
-			
-			
+
 		default:
 			break;
 		}
