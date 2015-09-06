@@ -41,9 +41,5 @@ public enum ActivityType {
 		return value;
 	}
 
-	@Override
-	public String toString() {
-		return getValue();
-	}
 
 }

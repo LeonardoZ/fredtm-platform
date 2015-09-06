@@ -20,6 +20,7 @@
             <MenuButton fx:id="btnReports" mnemonicParsing="false" text="Relatório geral">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onGeneralReportClicked" text="Relatório geral de coletas" />
+                  <MenuItem mnemonicParsing="false" onAction="#onGeneralSimplifiedReportClicked" text="Relatório geral de coletas simplificado" />
               </items>
             </MenuButton>
             <MenuButton fx:id="btnGraphicOption" mnemonicParsing="false" text="Análise geral">

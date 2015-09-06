@@ -21,6 +21,8 @@
                </HBox.margin>
             </ChoiceBox>
             <Button fx:id="btnPoints" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onPointsClicked" styleClass="btnPoints" />
+            <Button fx:id="btnLines" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onLinesClicked" styleClass="btnLines" />
+            <Button fx:id="btnLinesCumulative" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onCumulativeClicked" styleClass="btnCumulative" />
             <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnHorizontal" />
             <Button minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#saveAsPng" text="Salvar">
                <HBox.margin>

@@ -1,17 +1,24 @@
 package com.fredtm.desktop.views;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
+
+import javax.swing.JOptionPane;
 
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
+import com.fredtm.core.model.TimeActivity;
 import com.fredtm.core.util.FormatElapsedTime;
 import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.desktop.controller.ReportController;
 import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.eventbus.MainEventBus;
+import com.fredtm.resources.GeneralCollectsBean;
 import com.fredtm.resources.TimeActivityResource;
 
 import javafx.geometry.Insets;
@@ -42,7 +49,8 @@ public class CollectCustomCell extends ListCell<Collect> {
 	private MenuButton btnIndividualAnalysis, btnReports;
 	private MenuItem btnTimeByActivity;
 	private MenuItem btnClassification, btnSimpleClassification, btnTimes;
-	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnGeneralInfoReport;
+	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, 
+	btnAreaReport, btnGeneralReport,btnGeneralSimpleReport;
 
 	public CollectCustomCell() {
 		super();
@@ -106,12 +114,14 @@ public class CollectCustomCell extends ListCell<Collect> {
 
 		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity,
 				btnTimes);
-		
+
 		btnCollectedsSimplesReport = new MenuItem("Relatório de tempos simples");
 		btnCollectedsAnalyticReport = new MenuItem("Relatório de tempos analítico");
-		btnGeneralInfoReport = new MenuItem("Relatório geral");
-		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnGeneralInfoReport);
-		
+		btnAreaReport = new MenuItem("Área da coleta");
+		btnGeneralReport = new MenuItem("Relatório geral de coleta");
+		btnGeneralSimpleReport= new MenuItem("Relatório geral simplificado de coleta ");
+		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,btnGeneralSimpleReport);
+
 	}
 
 	@Override
@@ -162,43 +172,98 @@ public class CollectCustomCell extends ListCell<Collect> {
 
 	private void configureReportButtons(Collect co) {
 		List<TimeActivityResource> times = FredObjectMapper.toResourcesFromTimeActivity(co.getTimes());
-		btnCollectedsSimplesReport.setOnAction(evt ->{
+		btnCollectedsSimplesReport.setOnAction(evt -> {
 			Operation operation = co.getOperation();
 			String technicalCharacteristics = operation.getTechnicalCharacteristics();
 			String info = operation.toString();
 			String timeRangeFormatted = co.getTimeRangeFormatted();
-			
+
 			ReportController reportController = new ReportController();
-			reportController
-					.fillDataSource(times)
-					.fillParam("operation_info", info)
-					.fillParam("tech_charac", technicalCharacteristics)
-					.fillParam("period", timeRangeFormatted)
-					.loadReport("collected_times.jasper")
-					.buildAndShow();
+			reportController.fillDataSource(times).fillParam("operation_info", info)
+					.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
+					.loadReport("collected_times.jasper").buildAndShow();
 		});
-		
-		btnCollectedsAnalyticReport.setOnAction((ect)->{
+
+		btnCollectedsAnalyticReport.setOnAction((ect) -> {
 			Operation operation = co.getOperation();
 			String technicalCharacteristics = operation.getTechnicalCharacteristics();
 			String info = operation.toString();
 			String timeRangeFormatted = co.getTimeRangeFormatted();
-			double sum = times.stream().mapToDouble(t-> t.getTimed()/1000).sum();
-			
+			double sum = times.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
+
 			ReportController reportController = new ReportController();
-			reportController
-					.fillDataSource(times)
-					.fillParam("total", sum)
-					.fillParam("operation_info", info)
-					.fillParam("tech_charac", technicalCharacteristics)
-					.fillParam("period", timeRangeFormatted)
-					.loadReport("collected_times_analytics.jasper")
-					.buildAndShow();
+			reportController.fillDataSource(times).fillParam("total", sum).fillParam("operation_info", info)
+					.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
+					.loadReport("collected_times_analytics.jasper").buildAndShow();
+		});
+
+		btnAreaReport.setOnAction(evt -> {
+			Operation operation = co.getOperation();
+			String technicalCharacteristics = operation.getTechnicalCharacteristics();
+			String info = operation.toString();
+			String timeRangeFormatted = co.getTimeRangeFormatted();
+			double sum = times.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
+			Optional<TimeActivityResource> first = times.stream().filter(t -> !t.getLatitude().isEmpty()).findFirst();
+			if (!first.isPresent()) {
+				new JOptionPane("Coleta com nenhuma localização regisrada.");
+			} else {
+				ReportController reportController = new ReportController();
+				reportController.fillDataSource(times).fillParam("total", sum).fillParam("operation_info", info)
+						.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
+						.fillParam("baseLatitude", Float.valueOf(first.get().getLatitude()))
+						.fillParam("baseLongitude", Float.valueOf(first.get().getLongitude()))
+						.loadReport("collect_area.jasper").buildAndShow();
+			}
 		});
 		
-		btnGeneralInfoReport.setOnAction(evt -> {
-			
-		});
+		btnGeneralReport.setOnAction(evt -> openGeneralReport(co, false));
+		btnGeneralSimpleReport.setOnAction(evt -> openGeneralReport(co, true));
+	}
+
+	private void openGeneralReport(Collect co, boolean isSimple) {
+		Operation operation = co.getOperation();
+		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+		String info = operation.toString();
+		AtomicInteger ai = new AtomicInteger(0);
+
+		List<TimeActivityResource> resourcePro = new ArrayList<>();
+		List<TimeActivityResource> resourceAux = new ArrayList<>();
+		List<TimeActivityResource> resourceUnpro = new ArrayList<>();
+
+		int index = ai.incrementAndGet();
+		List<TimeActivity> pros = co.getTimesByType(ActivityType.PRODUCTIVE);
+		List<TimeActivity> auxs = co.getTimesByType(ActivityType.AUXILIARY);
+		List<TimeActivity> unprods = co.getTimesByType(ActivityType.UNPRODUCTIVE);
+
+		resourcePro.addAll(configureResources(pros, index));
+		resourceAux.addAll(configureResources(auxs, index));
+		resourceUnpro.addAll(configureResources(unprods, index));
+
+		List<TimeActivityResource> ttt = new ArrayList<>();
+		ttt.addAll(resourceUnpro);
+		ttt.addAll(resourcePro);
+		ttt.addAll(resourceAux);
+
+		GeneralCollectsBean gcb = new GeneralCollectsBean();
+		gcb.setAuxiliaryTimes(resourceAux);
+		gcb.setProductiveTimes(resourcePro);
+		gcb.setUnproductiveTimes(resourceUnpro);
+		gcb.setTimes(ttt);
+
+		ReportController reportController = new ReportController();
+		reportController.fillDataSource(Arrays.asList(gcb)).fillParam("operation_info", info)
+				.fillParam("tech_charac", technicalCharacteristics)
+				.loadReport(isSimple ? "collect_general_simple.jasper" : "collect_general.jasper").buildAndShow();
+		resourcePro = null;
+		resourceAux = null;
+		resourceUnpro = null;
+		gcb = null;
+	}
+
+	public List<TimeActivityResource> configureResources(List<TimeActivity> tas, Integer colIndex) {
+		List<TimeActivityResource> tars = FredObjectMapper.toResourcesFromTimeActivity(tas);
+		tars.forEach(t -> t.setCollectIndex(colIndex.toString()));
+		return tars;
 	}
 
 	private void applyCss(Node... btns) {

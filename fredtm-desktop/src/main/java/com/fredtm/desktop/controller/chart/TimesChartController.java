@@ -26,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
@@ -49,6 +50,10 @@ public class TimesChartController extends BaseController implements Initializabl
 	private ScatterChart<String, Number> pointsChart;
 
 	private BarChart<Number, String> horizontalChart;
+	
+	private LineChart<String, Number> linesChart;
+	
+	private LineChart<String, Number> cumulativeChart;
 
 	@FXML
 	private Button btnPoints;
@@ -58,6 +63,12 @@ public class TimesChartController extends BaseController implements Initializabl
 
 	@FXML
 	private Button btnHorizontal;
+	
+    @FXML
+    private Button btnLines;
+
+    @FXML
+    private Button btnLinesCumulative;
 
 	private Charts selected;
 
@@ -134,6 +145,48 @@ public class TimesChartController extends BaseController implements Initializabl
 		this.collectSystem = ts.build(collect);
 		onHorizontalClicked(null);
 	}
+	
+
+    @FXML
+    void onCumulativeClicked(ActionEvent event) {
+    	this.selected = Charts.CUMULATIVE_LINES;
+		this.cumulativeChart = new LineChart<>(getCategoryAxis(), getNumberAxis());
+
+		Series<String, Number> series = new Series<>();
+
+		LinkedHashMap<TimeActivity, Double> times = collectSystem.getCumulativeValueMap();
+		AtomicInteger ai = new AtomicInteger(0);
+		times.forEach((t, v) -> {
+			Integer index = ai.incrementAndGet();
+			String category = index.toString() + " - " + t.getActivity().getTitle();
+			Data<String, Number> data = new XYChart.Data<>(category, v);
+			series.getData().add(data);
+		});
+		this.cumulativeChart.setLegendVisible(false);
+		this.cumulativeChart.getData().add(series);
+		addChart(this.cumulativeChart);
+    }
+
+    @FXML
+    void onLinesClicked(ActionEvent event) {
+    	this.selected = Charts.LINES;
+		this.linesChart = new LineChart<>(getCategoryAxis(), getNumberAxis());
+
+		Series<String, Number> series = new Series<>();
+
+		LinkedHashMap<TimeActivity, Double> times = collectSystem.getValueMap();
+		AtomicInteger ai = new AtomicInteger(0);
+		times.forEach((t, v) -> {
+			Integer index = ai.incrementAndGet();
+			String category = index.toString() + " - " + t.getActivity().getTitle();
+			Data<String, Number> data = new XYChart.Data<>(category, v);
+			series.getData().add(data);
+		});
+		this.linesChart.setLegendVisible(false);
+		this.linesChart.getData().add(series);
+		addChart(this.linesChart);
+    }
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -156,6 +209,12 @@ public class TimesChartController extends BaseController implements Initializabl
 				case POINTS:
 					onPointsClicked(null);
 					break;
+				case LINES:
+					onLinesClicked(null);
+					break;
+				case CUMULATIVE_LINES:
+					onCumulativeClicked(null);
+					break;
 				default:
 					break;
 				}
@@ -173,9 +232,12 @@ public class TimesChartController extends BaseController implements Initializabl
 		case POINTS:
 			saveImage(pointsChart);
 			break;
-		// case AREA:
-		// saveImage();
-		// break;
+		case CUMULATIVE_LINES:
+			saveImage(cumulativeChart);
+			break;
+		case LINES:
+			saveImage(linesChart);
+			break;
 		default:
 			return;
 		}

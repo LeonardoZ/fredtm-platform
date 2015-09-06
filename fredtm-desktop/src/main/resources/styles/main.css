@@ -86,6 +86,17 @@
 	-fx-background-repeat: no-repeat;
 }
 
+.btnLines{
+	-fx-background-image:url('/images/ic_chart_line.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
+
+.btnCumulative{
+	-fx-background-image:url('/images/ic_lines_crazy.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
 
 .btnExportJson {
 }

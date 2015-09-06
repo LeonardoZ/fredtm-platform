@@ -1,8 +1,11 @@
 package com.fredtm.core.decorator;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,8 +52,23 @@ public abstract class TimeSystem {
 					LinkedHashMap::new
 			)
 		);
-		
 		return collected;
+	}
+	
+	public LinkedHashMap<TimeActivity,Double> getCumulativeValueMap(){
+		LinkedHashMap<TimeActivity, Double> values = getValueMap();
+		LinkedHashMap<TimeActivity, Double> newValues  = new LinkedHashMap<>();
+
+		BigDecimal sum = new BigDecimal(0);
+		sum.setScale(2, RoundingMode.CEILING);
+		Set<TimeActivity> times = values.keySet();
+		for (TimeActivity t : times) {
+			BigDecimal value = new BigDecimal(values.get(t));
+			sum = sum.add(value);
+			newValues.put(t, sum.doubleValue());
+		}
+		values = null;
+		return newValues;
 	}
 	
 	public Double getValueSimplified() {

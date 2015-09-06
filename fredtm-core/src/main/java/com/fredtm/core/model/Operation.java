@@ -212,6 +212,7 @@ public class Operation extends FredEntity {
 	public void addSync(Sync sync) {
 		this.syncs.add(sync);
 	}
+	
 
 	@Override
 	public String toString() {

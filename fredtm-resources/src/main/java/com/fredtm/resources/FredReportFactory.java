@@ -9,6 +9,7 @@ public class FredReportFactory {
 
 	public static List<GeneralCollectsBean> createMultipleTimes() {
 		ArrayList<TimeActivityResource> finaltars = new ArrayList<>();
+
 		for (int i = 1; i <= 5; i++) {
 			finaltars.addAll(createTimesWithIndex(Integer.toString(i)));
 		}
@@ -16,6 +17,7 @@ public class FredReportFactory {
 		ArrayList<TimeActivityResource> aux = new ArrayList<>();
 		ArrayList<TimeActivityResource> prod = new ArrayList<>();
 		ArrayList<TimeActivityResource> unprod = new ArrayList<>();
+
 		for (TimeActivityResource timeActivityResource : finaltars) {
 			if (timeActivityResource.getActivityType().equals("AUXILIARY")) {
 				aux.add(timeActivityResource);
@@ -25,18 +27,28 @@ public class FredReportFactory {
 				unprod.add(timeActivityResource);
 			}
 		}
+
 		GeneralCollectsBean gcb = new GeneralCollectsBean();
-		gcb.setAuxiliaryTimes(aux);gcb.setProductiveTimes(prod);
+		gcb.setAuxiliaryTimes(aux);
+		gcb.setProductiveTimes(prod);
 		gcb.setUnproductiveTimes(unprod);
+
+		ArrayList<TimeActivityResource> ttts = new ArrayList<>();
+		ttts.addAll(aux);
+		ttts.addAll(prod);
+		ttts.addAll(unprod);
+
+		gcb.setTimes(ttts);
 		ArrayList<GeneralCollectsBean> gcbs = new ArrayList<>();
 		gcbs.add(gcb);
+
 		return gcbs;
 	}
-	
+
 	public static List<TimeActivityResource> createTimesWithIndex(String colIndex) {
 		List<String> acts = new ArrayList<>();
 		ArrayList<TimeActivityResource> tars = new ArrayList<>();
-
+		// latitude":"-22.7504339","longitude":"-48.5698403",
 		for (int i = 0; i < 15; i++) {
 			acts.add(Integer.toOctalString(i));
 		}
@@ -54,14 +66,21 @@ public class FredReportFactory {
 				tar.setFinalDate(end);
 
 				start = end;
-
+				//"latitude":"-22.7504329","longitude":"-48.5698419"
 				tar.setCollectIndex(colIndex);
-				if (i % 5 == 0)
+				if (i % 5 == 0) {
 					tar.setActivityType("AUXILIARY");
-				else if (i % 2 == 0)
+					tar.setLatitude("-22.7504339");
+					tar.setLongitude("-48.5698403");
+				} else if (i % 2 == 0) {
 					tar.setActivityType("PRODUCTIVE");
-				else
+					tar.setLatitude("-22.7504329");
+					tar.setLongitude("-48.5698419");
+				} else {
 					tar.setActivityType("UNPRODUCTIVE");
+					tar.setLatitude("-22.7504339");
+					tar.setLongitude("-48.5698403");
+				}
 				tars.add(tar);
 			}
 		}

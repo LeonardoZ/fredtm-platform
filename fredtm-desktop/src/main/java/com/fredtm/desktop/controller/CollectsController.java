@@ -97,12 +97,25 @@ public class CollectsController extends BaseController implements Initializable 
 	}
 
 	@FXML
+	void onGeneralSimplifiedReportClicked(ActionEvent event){
+		openGeneralReport(true);
+	}
+	
+	@FXML
 	void onGeneralReportClicked(ActionEvent event) {
-		Operation operation = collects.get(0).getOperation();
+		openGeneralReport(false);
+	}
+
+	private void openGeneralReport(boolean isSimple) {
+		Collect firstCollect = collects.get(0);
+		Operation operation = firstCollect.getOperation();
+		
 		String technicalCharacteristics = operation.getTechnicalCharacteristics();
 		String info = operation.toString();
 		AtomicInteger ai = new AtomicInteger(0);
 
+		
+		
 		List<TimeActivityResource> resourcePro = new ArrayList<>();
 		List<TimeActivityResource> resourceAux = new ArrayList<>();
 		List<TimeActivityResource> resourceUnpro = new ArrayList<>();
@@ -118,14 +131,23 @@ public class CollectsController extends BaseController implements Initializable 
 			resourceUnpro.addAll(configureResources(unprods, index));
 		}
 
+		List<TimeActivityResource> ttt = new ArrayList<>();
+		ttt.addAll(resourceUnpro);
+		ttt.addAll(resourcePro);
+		ttt.addAll(resourceAux);
+
 		GeneralCollectsBean gcb = new GeneralCollectsBean();
 		gcb.setAuxiliaryTimes(resourceAux);
 		gcb.setProductiveTimes(resourcePro);
 		gcb.setUnproductiveTimes(resourceUnpro);
+		gcb.setTimes(ttt);
+
 
 		ReportController reportController = new ReportController();
 		reportController.fillDataSource(Arrays.asList(gcb)).fillParam("operation_info", info)
-				.fillParam("tech_charac", technicalCharacteristics).loadReport("collect_general.jasper").buildAndShow();
+				.fillParam("tech_charac", technicalCharacteristics)
+				.loadReport(isSimple ? "collect_general_simple.jasper" :"collect_general.jasper")
+				.buildAndShow();
 		resourcePro = null;
 		resourceAux = null;
 		resourceUnpro = null;

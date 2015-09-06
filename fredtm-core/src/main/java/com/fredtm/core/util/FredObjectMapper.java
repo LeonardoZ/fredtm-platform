@@ -144,6 +144,7 @@ public class FredObjectMapper {
 					.latitude(entity.getLocation().orElseGet(() -> location).getLatitude())
 					.longitude(entity.getLocation().orElseGet(() -> location).getLongitude())
 					.collectedAmount(entity.getCollectedAmount());
+			tar.setActivityType(entity.getActivity().getActivityType().toString());
 
 			// List<PictureResource> pics = new LinkedList<>();
 			// for (TimeActivityPicture tap : entity.getPictures()) {
