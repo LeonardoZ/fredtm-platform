@@ -87,9 +87,9 @@ public class CollectToCSV implements Exportable<Collect> {
 	private List<String[]> generateLines(Collect collect) {
 		List<TimeActivity> tempos = collect.getTimeInChronologicalOrder();
 		List<String[]> vals = new ArrayList<String[]>();
-		String[] headers = { "Data", "Hora", "Atividade parcial", "Description", "Classificacao",
+		String[] headers = { "Data", "Hora", "Atividade parcial", "Descrição", "Classificacão",
 				collect.getQuantitativeActivity() == null ? "N/A" : collect.getQuantitativeActivity().getItemName(),
-				"Duracao(s)", "Tempo acumulado(s)", "Latitude", "Longitude" };
+				"Duracão(s)", "Tempo acumulado(s)", "Latitude", "Longitude" };
 		vals.add(headers);
 
 		long sum = 0l;

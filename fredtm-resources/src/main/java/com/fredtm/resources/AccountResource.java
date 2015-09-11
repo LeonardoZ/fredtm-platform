@@ -2,14 +2,12 @@ package com.fredtm.resources;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.hateoas.core.Relation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fredtm.resources.base.FredResourceSupport;
 import com.fredtm.resources.base.SimpleLink;
 import com.google.gson.annotations.SerializedName;
 
-@Relation(value = "account", collectionRelation = "accounts")
 public class AccountResource extends FredResourceSupport {
 
 	private String name;

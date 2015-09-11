@@ -1,7 +1,6 @@
 package com.fredtm.resources;
 
-import java.util.ArrayList;
-import java.util.ArrayList;
+import java.util.ArrayList;	
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +89,24 @@ public class FredReportFactory {
 
 	public static List<TimeActivityResource> createTimes() {
 		return createTimesWithIndex("1");
+	}
+	
+	public static List<ActivityResource> createActivities() {
+		List<ActivityResource> acts = new ArrayList<>();
+		for (int i = 0; i < 15; i++) {
+			ActivityResource ar = new ActivityResource();
+			ar.setTitle(Integer.toHexString(i));
+			ar.setDescription(Integer.toBinaryString(i*120));
+			if (i % 5 == 0) {
+				ar.setActivityType(1);
+			} else if (i % 2 == 0) {
+				ar.setActivityType(2);
+			} else {
+				ar.setActivityType(0);
+			}
+			acts.add(ar);
+		}
+		return acts;
 	}
 
 }

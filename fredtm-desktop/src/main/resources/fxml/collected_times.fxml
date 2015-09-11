@@ -6,9 +6,24 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectedTimesController">
+
+<VBox xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectedTimesController">
    <children>
-      <TableView fx:id="tbActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
+        <buttons>
+            <Button mnemonicParsing="false" onAction="#onExportClicked" text="Exportar" />
+            <MenuButton mnemonicParsing="false" text="Relatórios">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onSimpleReportClicked" text="Relatório de tempos simples" />
+                <MenuItem mnemonicParsing="false" onAction="#onAnalyticClicked" text="Relatório de tempos analítico" />
+              </items>
+            </MenuButton>
+        </buttons>
+         <VBox.margin>
+            <Insets right="10.0" />
+         </VBox.margin>
+      </ButtonBar>
+      <TableView fx:id="tbActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="380.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
         <columns>
           <TableColumn fx:id="colActivity" editable="false" minWidth="-Infinity" prefWidth="190.0" text="Atividade" />
           <TableColumn fx:id="colTimeRange" editable="false" minWidth="-Infinity" prefWidth="273.0" text="Período" />
@@ -17,6 +32,5 @@
             <TableColumn fx:id="colGeo" editable="false" minWidth="-Infinity" prefWidth="120.0" text="Geo" />
         </columns>
       </TableView>
-      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="39.0" prefWidth="736.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    </children>
-</AnchorPane>
+   </children>
+</VBox>

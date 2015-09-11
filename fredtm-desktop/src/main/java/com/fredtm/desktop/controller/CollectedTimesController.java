@@ -1,16 +1,23 @@
 package com.fredtm.desktop.controller;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.fredtm.core.model.Activity;
+import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Location;
+import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.TimeActivity;
+import com.fredtm.core.util.FredObjectMapper;
+import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.desktop.views.TimeActivityCustomTableCell;
+import com.fredtm.resources.TimeActivityResource;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableCell;
@@ -39,7 +46,13 @@ public class CollectedTimesController extends BaseController implements Initiali
 	@FXML
 	private TableColumn<TimeActivity, Optional<Location>> colGeo;
 
-	public void setTempos(List<TimeActivity> times) {
+	private List<TimeActivity> times;
+
+	private Collect collect;
+
+	public void setCollect(Collect co) {
+		this.collect = co;
+		this.times = co.getTimeInChronologicalOrder();
 		this.tbActivities.getItems().addAll(times);
 	}
 
@@ -67,5 +80,47 @@ public class CollectedTimesController extends BaseController implements Initiali
 		colGeo.setStyle("-fx-alignment: CENTER;");
 
 	}
+	
+	
+
+    @FXML
+    void onAnalyticClicked(ActionEvent event) {
+    	if(times.isEmpty()) return;
+    	List<TimeActivityResource> res = FredObjectMapper.toResourcesFromTimeActivity(times);
+    	Operation operation = times.get(0).getActivity().getOperation();
+		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+		String info = operation.toString();
+		String timeRangeFormatted = collect.getTimeRangeFormatted();
+		double sum = times.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
+
+		ReportController reportController = new ReportController();
+		reportController.fillDataSource(res).fillParam("total", sum).fillParam("operation_info", info)
+				.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
+				.loadReport("collected_times_analytics.jasper").buildAndShow();
+    }
+
+    @FXML
+    void onExportClicked(ActionEvent event) {
+    	if(times.isEmpty()) return;
+    	MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(collect));
+    }
+
+    @FXML
+    void onSimpleReportClicked(ActionEvent event) {
+    	if(times.isEmpty()) return;
+
+    	List<TimeActivityResource> res = FredObjectMapper.toResourcesFromTimeActivity(times);
+		Operation operation = collect.getOperation();
+		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+		String info = operation.toString();
+		String timeRangeFormatted = collect.getTimeRangeFormatted();
+
+		ReportController reportController = new ReportController();
+		reportController.fillDataSource(res).fillParam("operation_info", info)
+				.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
+				.loadReport("collected_times.jasper").buildAndShow();
+    }
+
+	
 
 }

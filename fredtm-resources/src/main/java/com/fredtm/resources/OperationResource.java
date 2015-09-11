@@ -6,14 +6,12 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.hateoas.core.Relation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fredtm.resources.base.FredResourceSupport;
 import com.fredtm.resources.base.SimpleLink;
 import com.google.gson.annotations.SerializedName;
 
-@Relation(value = "operation", collectionRelation = "operations")
 public class OperationResource extends FredResourceSupport {
 
 	private String name;

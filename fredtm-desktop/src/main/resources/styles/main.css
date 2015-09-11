@@ -68,8 +68,8 @@
 }
 
 .btnVertical{
-	-fx-background-image:url('/images/ic_vert.png');
-		-fx-background-position: center;
+	-fx-background-image:url('/images/ic_vet.png');
+	-fx-background-position: center;
 	-fx-background-repeat: no-repeat;
 	
 }

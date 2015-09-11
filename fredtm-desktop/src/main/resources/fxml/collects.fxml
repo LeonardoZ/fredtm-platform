@@ -27,7 +27,6 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onClassificationPerCollectClicked" text="Tempo/Classificação por coleta" />
                   <MenuItem mnemonicParsing="false" onAction="#onSimpleClassificationPerCollectClicked" text="Tempo/Classificação Simples por coleta" />
-                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
               </items>
             </MenuButton>
             <Button fx:id="btnExport" mnemonicParsing="false" onAction="#onExportAllPressed" text="Exportar todos" />

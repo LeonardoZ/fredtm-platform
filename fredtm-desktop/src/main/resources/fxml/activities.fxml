@@ -6,15 +6,23 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ActivitiesController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ActivitiesController">
    <children>
-      <TableView fx:id="tbActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
+        <buttons>
+          <Button fx:id="btnReportActivities" mnemonicParsing="false" onAction="#onReportClicked" text="Relatório" />
+        </buttons>
+         <VBox.margin>
+            <Insets right="10.0" />
+         </VBox.margin>
+      </ButtonBar>
+      <TableView fx:id="tbActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="colTitle" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Título" />
-          <TableColumn fx:id="colDescription" maxWidth="800.0" minWidth="-Infinity" prefWidth="206.0" text="Descrição" />
-          <TableColumn fx:id="colType" maxWidth="234.0" minWidth="-Infinity" prefWidth="100.0" resizable="false" text="Tipo" />
-          <TableColumn fx:id="colQuantitative" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="197.0" resizable="false" text="Quantitativo" />
+          <TableColumn fx:id="colTitle" maxWidth="1.7976931348623157E308" minWidth="250.0" prefWidth="0.0" text="Título" />
+          <TableColumn fx:id="colDescription" maxWidth="800.0" minWidth="300.0" prefWidth="0.0" text="Descrição" />
+          <TableColumn fx:id="colType" maxWidth="300.0" minWidth="-Infinity" prefWidth="134.0" text="Tipo" />
+          <TableColumn fx:id="colQuantitative" maxWidth="500.0" minWidth="-1.0" prefWidth="163.0" text="Quantitativo" />
         </columns>
       </TableView>
-    </children>
-</AnchorPane>
+   </children>
+</VBox>

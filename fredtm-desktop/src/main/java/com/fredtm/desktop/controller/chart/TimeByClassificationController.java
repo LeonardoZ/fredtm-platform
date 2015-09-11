@@ -25,6 +25,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.Axis;
@@ -40,6 +41,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
@@ -97,12 +99,15 @@ public class TimeByClassificationController extends BaseController implements In
 
 		collectsSystem.forEach(collect -> {
 			Series<Object, Object> seriesFrom = getSeriesFrom(collect, orientation);
-			seriesFrom.setName(ai.incrementAndGet() + "º Coleta (ciclo)");
+			seriesFrom.setName(Integer.toString(ai.incrementAndGet()));
 			seriesList.add(seriesFrom);
 		});
 
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
 		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
+		
+		VBox.setVgrow(chart, Priority.ALWAYS);
+		
 		chart.setTitle("Tempo/atividade por coleta (ciclo)");
 		chart.getData().addAll(seriesList);
 		configureChartOnNode(rootNode);
@@ -174,7 +179,6 @@ public class TimeByClassificationController extends BaseController implements In
 		XYChart.Data<Object, Object> data1 = getChartData(c, "Improdutivo", ActivityType.UNPRODUCTIVE, orientation);
 		XYChart.Data<Object, Object> data2 = getChartData(c, "Produtivo", ActivityType.PRODUCTIVE, orientation);
 		XYChart.Data<Object, Object> data3 = getChartData(c, "Auxiliar", ActivityType.AUXILIARY, orientation);
-
 		configureColor(data1, ActivityType.UNPRODUCTIVE);
 		configureColor(data2, ActivityType.PRODUCTIVE);
 		configureColor(data3, ActivityType.AUXILIARY);
@@ -201,7 +205,7 @@ public class TimeByClassificationController extends BaseController implements In
 	}
 
 	@FXML
-	void onComperativeClicked(ActionEvent event) {
+	void onComparativeClicked(ActionEvent event) {
 		selected = Charts.ALL;
 		removeNodes(rootNode);
 		HBox hBoxBars = new HBox();
@@ -214,6 +218,10 @@ public class TimeByClassificationController extends BaseController implements In
 
 		configureChart(collectSystem, Orientation.VERTICAL, hBoxBars);
 		configureChart(collectSystem, Orientation.HORIZONTAL, hBoxBars);
+
+		hBoxBars.setAlignment(Pos.CENTER);
+		hBoxCircles.setAlignment(Pos.CENTER);
+		
 		rootNode.getChildren().addAll(hBoxBars, hBoxCircles);
 
 	}
@@ -341,7 +349,7 @@ public class TimeByClassificationController extends BaseController implements In
 				case PIZZA_SIMPLE:
 					onSimplePizzaClicked(null);
 				case ALL:
-					onComperativeClicked(null);
+					onComparativeClicked(null);
 					break;
 				default:
 					break;

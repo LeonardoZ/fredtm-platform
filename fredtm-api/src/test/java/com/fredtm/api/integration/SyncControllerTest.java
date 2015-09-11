@@ -108,7 +108,7 @@ public class SyncControllerTest extends TestBase {
 		
 		OperationsResource operationsResource = gson.fromJson(operationsJson,
 				listType);
-		Assert.assertEquals(2, operationsResource.getEmbedded().getOperations()
+		Assert.assertEquals(2, operationsResource.getEmbedded().getOperationResourceList()
 				.size());
 
 	}

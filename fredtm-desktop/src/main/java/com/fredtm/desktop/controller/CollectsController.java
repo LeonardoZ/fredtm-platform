@@ -97,25 +97,27 @@ public class CollectsController extends BaseController implements Initializable 
 	}
 
 	@FXML
-	void onGeneralSimplifiedReportClicked(ActionEvent event){
+	void onGeneralSimplifiedReportClicked(ActionEvent event) {
 		openGeneralReport(true);
 	}
-	
+
 	@FXML
 	void onGeneralReportClicked(ActionEvent event) {
 		openGeneralReport(false);
 	}
 
 	private void openGeneralReport(boolean isSimple) {
+		if (collects.isEmpty())
+			return;
+
 		Collect firstCollect = collects.get(0);
 		Operation operation = firstCollect.getOperation();
-		
+
 		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+		String timeRange = operation.getTimeRange();
 		String info = operation.toString();
 		AtomicInteger ai = new AtomicInteger(0);
 
-		
-		
 		List<TimeActivityResource> resourcePro = new ArrayList<>();
 		List<TimeActivityResource> resourceAux = new ArrayList<>();
 		List<TimeActivityResource> resourceUnpro = new ArrayList<>();
@@ -142,16 +144,19 @@ public class CollectsController extends BaseController implements Initializable 
 		gcb.setUnproductiveTimes(resourceUnpro);
 		gcb.setTimes(ttt);
 
-
 		ReportController reportController = new ReportController();
 		reportController.fillDataSource(Arrays.asList(gcb)).fillParam("operation_info", info)
-				.fillParam("tech_charac", technicalCharacteristics)
-				.loadReport(isSimple ? "collect_general_simple.jasper" :"collect_general.jasper")
-				.buildAndShow();
+				.fillParam("period", timeRange).fillParam("tech_charac", technicalCharacteristics)
+				.loadReport(isSimple ? "collect_general_simple.jasper" : "collect_general.jasper").buildAndShow();
 		resourcePro = null;
 		resourceAux = null;
 		resourceUnpro = null;
 		gcb = null;
+	}
+
+	@FXML
+	void onTimeInCollectsClicked(ActionEvent event) {
+		MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.MULTIPLE_TIME_ANALYSYS, collects);
 	}
 
 	public List<TimeActivityResource> configureResources(List<TimeActivity> tas, Integer colIndex) {

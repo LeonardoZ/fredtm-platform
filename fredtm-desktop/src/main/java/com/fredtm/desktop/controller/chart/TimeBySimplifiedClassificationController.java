@@ -25,6 +25,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.Axis;
@@ -163,7 +164,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "restriction" })
 	private Series<Object, Object> getSeriesFrom(TimeSystem c, Orientation orientation) {
 		final NumberAxis numberAxis = new NumberAxis();
 		final CategoryAxis categoryAxis = new CategoryAxis();
@@ -204,7 +205,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 	}
 
 	@FXML
-	void onComperativeClicked(ActionEvent event) {
+	void onComparativeClicked(ActionEvent event) {
 		selected = Charts.ALL;
 		removeNodes(rootNode);
 		HBox hBoxBars = new HBox();
@@ -217,6 +218,10 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 
 		configureChart(collectSystem, Orientation.VERTICAL, hBoxBars);
 		configureChart(collectSystem, Orientation.HORIZONTAL, hBoxBars);
+		
+		hBoxBars.setAlignment(Pos.CENTER);
+		hBoxCircles.setAlignment(Pos.CENTER);
+		
 		rootNode.getChildren().addAll(hBoxBars, hBoxCircles);
 
 	}
@@ -333,7 +338,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 					onPizzaClicked(null);
 					break;
 				case ALL:
-					onComperativeClicked(null);
+					onComparativeClicked(null);
 					break;
 				default:
 					break;

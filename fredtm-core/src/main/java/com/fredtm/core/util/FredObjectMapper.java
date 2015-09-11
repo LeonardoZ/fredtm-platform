@@ -91,7 +91,7 @@ public class FredObjectMapper {
 				.technicalCharacteristics(entity.getTechnicalCharacteristics()).company(entity.getCompany())
 				.modification(entity.getModified())
 				.accountId(entity.getAccount() != null ? entity.getAccount().getId() : null)
-				.activities(toResourcesAct(entity.getActivities())).collects(toResourcesCol(entity.getCollects()))
+				.activities(toResourcesActivities(entity.getActivities())).collects(toResourcesCol(entity.getCollects()))
 				.lastSync(toResource(entity.getLastSync()));
 
 	}
@@ -104,7 +104,7 @@ public class FredObjectMapper {
 		return sr;
 	}
 
-	private static Set<ActivityResource> toResourcesAct(Collection<Activity> set) {
+	public static Set<ActivityResource> toResourcesActivities(Collection<Activity> set) {
 		Set<ActivityResource> crs = new HashSet<>();
 		for (Activity entity : set) {
 			ActivityResource ar = new ActivityResource();
@@ -121,7 +121,7 @@ public class FredObjectMapper {
 		for (Collect entity : cols) {
 			CollectResource cr = new CollectResource();
 			List<Activity> activities = entity.getActivities();
-			List<ActivityResource> acrs = new ArrayList<>(toResourcesAct(activities));
+			List<ActivityResource> acrs = new ArrayList<>(toResourcesActivities(activities));
 			List<TimeActivity> times = entity.getTimes();
 			List<TimeActivityResource> tars = toResourcesFromTimeActivity(times);
 

@@ -4,6 +4,9 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 @Embeddable
 @Access(AccessType.PROPERTY)
 public class Location {
@@ -39,4 +42,25 @@ public class Location {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getLatitude()).append(getLongitude()).toHashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Location other = (Location) obj;
+		return new EqualsBuilder().append(getLatitude(),other.getLatitude())
+				.append(getLongitude(), other.getLongitude()).isEquals();
+	}
+	
+	
+	
 }

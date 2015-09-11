@@ -21,14 +21,14 @@ public class OperationsResource {
 
 	public class Embedded {
 
-		List<OperationResource> operations;
+		List<OperationResource> operationResourceList;
 
-		public List<OperationResource> getOperations() {
-			return operations;
+		public List<OperationResource> getOperationResourceList() {
+			return operationResourceList;
 		}
 
-		public void setOperations(List<OperationResource> operations) {
-			this.operations = operations;
+		public void setOperationsResourceList(List<OperationResource> operations) {
+			this.operationResourceList = operations;
 		}
 
 	}

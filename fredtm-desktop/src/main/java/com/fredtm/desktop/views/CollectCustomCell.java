@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.swing.JOptionPane;
 
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
+import com.fredtm.core.model.Location;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.core.util.FormatElapsedTime;
@@ -20,10 +23,18 @@ import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.resources.GeneralCollectsBean;
 import com.fredtm.resources.TimeActivityResource;
+import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.object.GoogleMap;
+import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.MapOptions;
+import com.lynden.gmapsfx.javascript.object.Marker;
+import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -39,8 +50,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
-public class CollectCustomCell extends ListCell<Collect> {
+public class CollectCustomCell extends ListCell<Collect>implements MapComponentInitializedListener {
 
 	private VBox mainContent, infoContent;
 	private HBox structure, line1, line2;
@@ -48,9 +60,12 @@ public class CollectCustomCell extends ListCell<Collect> {
 	private Button btnCollectedTimes, btnExport;
 	private MenuButton btnIndividualAnalysis, btnReports;
 	private MenuItem btnTimeByActivity;
-	private MenuItem btnClassification, btnSimpleClassification, btnTimes;
-	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, 
-	btnAreaReport, btnGeneralReport,btnGeneralSimpleReport;
+	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea;
+	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,
+			btnGeneralSimpleReport;
+	private GoogleMapView view;
+
+	private List<TimeActivity> times;
 
 	public CollectCustomCell() {
 		super();
@@ -111,16 +126,18 @@ public class CollectCustomCell extends ListCell<Collect> {
 		btnClassification = new MenuItem("Distribuição Tempo/Classificação");
 		btnSimpleClassification = new MenuItem("Distribuição Tempo/Classificação simples");
 		btnTimes = new MenuItem("Análise dos tempos");
+		btnArea = new MenuItem("Área da Coleta");
 
-		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity,
-				btnTimes);
+		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity, btnTimes,
+				btnArea);
 
 		btnCollectedsSimplesReport = new MenuItem("Relatório de tempos simples");
 		btnCollectedsAnalyticReport = new MenuItem("Relatório de tempos analítico");
 		btnAreaReport = new MenuItem("Área da coleta");
 		btnGeneralReport = new MenuItem("Relatório geral de coleta");
-		btnGeneralSimpleReport= new MenuItem("Relatório geral simplificado de coleta ");
-		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,btnGeneralSimpleReport);
+		btnGeneralSimpleReport = new MenuItem("Relatório geral simplificado de coleta ");
+		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport,
+				btnGeneralReport, btnGeneralSimpleReport);
 
 	}
 
@@ -165,7 +182,9 @@ public class CollectCustomCell extends ListCell<Collect> {
 		btnSimpleClassification.setOnAction(
 				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_SIMPLE_CLASSIFICATION, co));
 		btnTimes.setOnAction(eevt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ANALYSYS, co));
-
+		btnArea.setOnAction(evt -> {
+			createMapView(co.getTimes());
+		});
 		setGraphic(structure);
 		configureReportButtons(co);
 	}
@@ -215,14 +234,16 @@ public class CollectCustomCell extends ListCell<Collect> {
 						.loadReport("collect_area.jasper").buildAndShow();
 			}
 		});
-		
+
 		btnGeneralReport.setOnAction(evt -> openGeneralReport(co, false));
 		btnGeneralSimpleReport.setOnAction(evt -> openGeneralReport(co, true));
 	}
 
 	private void openGeneralReport(Collect co, boolean isSimple) {
 		Operation operation = co.getOperation();
+
 		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+		String timeRange = operation.getTimeRange();
 		String info = operation.toString();
 		AtomicInteger ai = new AtomicInteger(0);
 
@@ -252,7 +273,7 @@ public class CollectCustomCell extends ListCell<Collect> {
 
 		ReportController reportController = new ReportController();
 		reportController.fillDataSource(Arrays.asList(gcb)).fillParam("operation_info", info)
-				.fillParam("tech_charac", technicalCharacteristics)
+				.fillParam("period", timeRange).fillParam("tech_charac", technicalCharacteristics)
 				.loadReport(isSimple ? "collect_general_simple.jasper" : "collect_general.jasper").buildAndShow();
 		resourcePro = null;
 		resourceAux = null;
@@ -276,6 +297,44 @@ public class CollectCustomCell extends ListCell<Collect> {
 	private void clearContent() {
 		setText(null);
 		setGraphic(null);
+	}
+
+	@Override
+	public void mapInitialized() {
+		MapOptions mapOptions = null;
+		Set<Location> collected = times.stream().map(t -> t.getLocation().get())
+				.filter(t -> !t.getLatitude().equals("0.0")).collect(Collectors.toSet());
+		Location first = collected.iterator().next();
+		Double latitude = Double.valueOf(first.getLatitude());
+		Double longitude = Double.valueOf(first.getLongitude());
+
+		mapOptions = new MapOptions();
+		mapOptions.center(new LatLong(latitude, longitude)).overviewMapControl(true).panControl(true)
+				.rotateControl(true).scaleControl(true).streetViewControl(true).zoomControl(true).zoom(12);
+
+		GoogleMap map = view.createMap(mapOptions);
+
+		// Add a marker to the map
+		collected.forEach(t -> {
+			Double llatitude = Double.valueOf(t.getLatitude());
+			Double llongitude = Double.valueOf(t.getLongitude());
+
+			MarkerOptions markerOptions = new MarkerOptions();
+			markerOptions.position(new LatLong(llatitude, llongitude)).visible(Boolean.TRUE);
+			Marker marker = new Marker(markerOptions);
+			map.addMarker(marker);
+		});
+
+	}
+
+	public void createMapView(List<TimeActivity> times) {
+		this.times = times;
+		view = new GoogleMapView();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(view));
+		stage.setTitle("Localização");
+		stage.show();
+		view.addMapInializedListener(this);
 	}
 
 }

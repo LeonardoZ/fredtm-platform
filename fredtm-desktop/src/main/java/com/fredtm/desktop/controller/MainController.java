@@ -81,7 +81,6 @@ public class MainController extends BaseController implements Initializable, Cli
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		tabCreator = new MainControllerTabCreator(tabPane);
 		tabPane.getTabs().clear();
-		abrirParaDebug();
 	}
 
 	private void abrirParaDebug() {
@@ -156,10 +155,6 @@ public class MainController extends BaseController implements Initializable, Cli
 	@Override
 	public void onConnection(String jsonContent) {
 		OperationJsonUtils utils = new OperationJsonUtils();
-		// List<Operation> operations = jsonContent.stream()
-		// .map(utils::jsonElementToJava)
-		// .map(FredObjectMapper::mapResourceToEntity)
-		// .collect(Collectors.toList());
 		List<OperationResource> jsonToJava = utils.jsonToJava(jsonContent);
 		List<Operation> operations = FredObjectMapper.mapResourcesToEntities(jsonToJava);
 		createOperationsWindow(operations);
@@ -210,7 +205,7 @@ public class MainController extends BaseController implements Initializable, Cli
 	}
 
 	public void openCollectedTimes(Collect collect) {
-		Consumer<CollectedTimesController> consumidor = c -> c.setTempos(collect.getTimeInChronologicalOrder());
+		Consumer<CollectedTimesController> consumidor = c -> c.setCollect(collect);
 		createView("/fxml/collected_times.fxml", "Tempos coletados - " + collect.toString(), consumidor);
 	}
 

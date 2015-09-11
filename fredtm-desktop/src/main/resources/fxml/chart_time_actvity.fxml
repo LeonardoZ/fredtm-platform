@@ -7,7 +7,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox fx:id="rootPane" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.chart.TimeByActivityController">
    <children>
       <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
@@ -22,8 +21,8 @@
                </HBox.margin>
             </ChoiceBox>
             <Button fx:id="btnPizza" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onPizzaClicked" styleClass="btnPizza" />
-            <Button fx:id="btnVertical" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onVerticalClicked" styleClass="btnHorizontal" />
-            <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnVertical" />
+            <Button fx:id="btnVertical" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onVerticalClicked" styleClass="btnVertical" />
+            <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnHorizontal" />
             <Button minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#saveAsPng" text="Salvar">
                <HBox.margin>
                   <Insets left="10.0" />

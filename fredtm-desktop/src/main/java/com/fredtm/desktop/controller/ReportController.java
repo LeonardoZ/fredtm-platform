@@ -1,6 +1,5 @@
 package com.fredtm.desktop.controller;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +14,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class ReportController {
 
-	private final static String BASE_PATH = "src/main/resources/reports/";
-	private String IMAGE_PATH = "src/main/resources/images/ic_title.png";
+	private final static String BASE_PATH = "/reports/";
 
 	private JRBeanCollectionDataSource reportDataSource;
 	private Map<String, Object> params;
@@ -24,14 +22,13 @@ public class ReportController {
 
 	public ReportController() {
 		params = new HashMap<>();
-		File file = new File("src/main/resources/images/ic_title.png");
 	}
 
 	public void buildAndShow() {
 		params.put("logo", getLogo());
 		JasperPrint print = null;
 		try {
-			print = JasperFillManager.fillReport(BASE_PATH + fileName, params, reportDataSource);
+			print = JasperFillManager.fillReport(ReportController.class.getResourceAsStream(BASE_PATH + fileName), params, reportDataSource);
 		} catch (JRException e) {
 			e.printStackTrace();
 		}

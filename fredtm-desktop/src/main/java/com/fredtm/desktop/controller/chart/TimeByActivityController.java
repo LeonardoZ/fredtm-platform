@@ -65,9 +65,9 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 	@FXML
 	void onHorizontalClicked(ActionEvent event) {
-
 		this.selected = Charts.H_BARS;
 		this.horizontalChart = new BarChart<>(getNumberAxis(), getCategoryAxis());
+		
 		Map<String, Optional<Double>> timeByActivities = collectSystem.getTimeByActivities();
 
 		XYChart.Series<Number, String> series = new Series<>();

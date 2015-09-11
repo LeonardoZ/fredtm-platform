@@ -131,6 +131,10 @@ public class TimeActivity extends FredEntity {
 		return new Date(startDate);
 	}
 
+	public Date getFullFinalDate() {
+		return new Date(finalDate);
+	}
+
 	public Collect getCollect() {
 		return collect;
 	}

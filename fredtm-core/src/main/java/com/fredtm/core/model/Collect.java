@@ -194,7 +194,7 @@ public class Collect extends FredEntity {
 		return new SimpleDateFormat("hh:mm:ss").format(date);
 	}
 
-	private Date getFirstTime() throws NoSuchElementException {
+	public Date getFirstTime() throws NoSuchElementException {
 		List<TimeActivity> times = getTimeInChronologicalOrder();
 		if (times.size() == 0) {
 			throw new NoSuchElementException();
@@ -202,6 +202,16 @@ public class Collect extends FredEntity {
 		return times.get(0).getFullStartDate();
 	}
 
+
+	public Date getLastTime() throws NoSuchElementException {
+		List<TimeActivity> times = getTimeInChronologicalOrder();
+		int size = times.size();
+		if (size == 0) {
+			throw new NoSuchElementException();
+		}
+		return times.get(--size).getFullFinalDate();
+	}
+	
 	public void addActivity(Activity atv, List<TimeActivity> times) {
 		this.collectedTimes.put(atv.getId(), times);
 		organizeTimes(times);

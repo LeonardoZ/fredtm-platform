@@ -24,14 +24,14 @@
                   <Insets />
                </HBox.margin>
             </ChoiceBox>
-            <Button fx:id="btnComparative" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onComperativeClicked" text="Todos">
+            <Button fx:id="btnComparative" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onComparativeClicked" text="Todos">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
             <Button fx:id="btnPizza" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onPizzaClicked" styleClass="btnPizza" />
-            <Button fx:id="btnVertical" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onVerticalClicked" styleClass="btnHorizontal" />
-            <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnVertical" />
+            <Button fx:id="btnVertical" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onVerticalClicked" styleClass="btnVertical" />
+            <Button fx:id="btnHorizontal" alignment="CENTER" maxHeight="52.0" maxWidth="52.0" minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#onHorizontalClicked" styleClass="btnHorizontal" />
           <Button minHeight="52.0" minWidth="52.0" mnemonicParsing="false" onAction="#saveAsPng" text="Salvar">
                <HBox.margin>
                   <Insets left="10.0" />

@@ -1,9 +1,6 @@
 package com.fredtm.desktop.views;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import com.fredtm.core.model.Location;
@@ -28,20 +25,20 @@ public class TimeActivityCustomTableCell extends TableCell<TimeActivity, Optiona
 	private Location location;
 	private GoogleMapView view;
 
-	protected void updateItem(Location value, boolean empty) {
+	protected void updateItem(Optional<Location> value, boolean empty) {
 		if (empty)
 			return;
-		this.location = value;
+		this.location = value.orElse(new Location());
 		setText("");
 		setGraphic(null);
+		
+		if(location.getLatitude().equals("0.0") || location.getLongitude().equals("0.0") ){
+			return;
+		}
 		ImageView image = null;
-		try {
-			InputStream newInputStream = Files.newInputStream(Paths.get("src/main/resources/images/ic_maps_place.png"));
+			InputStream newInputStream = TimeActivityCustomTableCell.class.getResourceAsStream("/images/ic_maps_place.png");
 			image = new ImageView();
 			image.setImage(new Image(newInputStream));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		setOnMouseClicked(evt -> {
 			createMapView();
 		});

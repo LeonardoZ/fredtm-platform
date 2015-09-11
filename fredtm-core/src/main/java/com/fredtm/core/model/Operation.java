@@ -1,11 +1,14 @@
 package com.fredtm.core.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -211,6 +214,28 @@ public class Operation extends FredEntity {
 	
 	public void addSync(Sync sync) {
 		this.syncs.add(sync);
+	}
+	
+	public String getTimeRange(){
+		if(collects.isEmpty()){
+			return "0 - 0";
+		}
+		Iterator<Collect> iterator = collects.iterator();
+		Collect first = iterator.next();
+		Collect last = null;
+		while(iterator.hasNext()){
+			last = iterator.next();
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(
+				"dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
+
+		Date firstTime = first.getFirstTime();
+		Date lastTime = last.getLastTime();
+		StringBuilder sb = new StringBuilder();
+		sb.append(sdf.format(firstTime));
+		sb.append(" - ");
+		sb.append(sdf.format(lastTime));
+		return sb.toString();
 	}
 	
 
