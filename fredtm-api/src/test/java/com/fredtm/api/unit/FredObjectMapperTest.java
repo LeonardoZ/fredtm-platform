@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.FredObjectMapper;
-import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.OperationDTO;
 import com.google.gson.Gson;
 
 public class FredObjectMapperTest {
@@ -16,8 +16,8 @@ public class FredObjectMapperTest {
 	@Test
 	public void mapResourceToEntity() {
 		String sb = readFromFile("testInsert.json");
-		OperationResource fromJson = new Gson().fromJson(sb,
-				OperationResource.class);
+		OperationDTO fromJson = new Gson().fromJson(sb,
+				OperationDTO.class);
 
 		Operation operation = FredObjectMapper.mapResourceToEntity(fromJson);
 		

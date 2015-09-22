@@ -1,6 +1,5 @@
 package com.fredtm.api.resource;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Component;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
-import com.fredtm.resources.ActivityResource;
-import com.fredtm.resources.CollectResource;
-import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.ActivityDTO;
+import com.fredtm.resources.CollectDTO;
+import com.fredtm.resources.TimeActivityDTO;
 import com.fredtm.resources.base.ElementParser;
 
 @Component
 public class CollectResourceAssembler extends
-		ElementParser<Collect, CollectResource> {
+		ElementParser<Collect, CollectDTO> {
 
 	@Autowired
 	private ActivityResourceAssembler acra;
@@ -25,29 +24,20 @@ public class CollectResourceAssembler extends
 	private TimeActivityResourceAssembler tara;
 
 	@Override
-	public CollectResource toResource(Collect entity) {
+	public CollectDTO toResource(Collect entity) {
 
-		CollectResource cr = new CollectResource();
-		cr.setUuid(entity.getId());
+		CollectDTO cr = new CollectDTO();
+		cr.setUuid(entity.getUuid());
 		List<Activity> activities = entity.getActivities();
-		List<ActivityResource> acrs = acra.toResources(activities);
+		List<ActivityDTO> acrs = acra.toResources(activities);
 		List<TimeActivity> times = entity.getTimes();
-		List<TimeActivityResource> tars = tara.toResources(times);
+		List<TimeActivityDTO> tars = tara.toResources(times);
 
-		cr.setOperationId(entity.getOperation().getId());
-		cr.setActivities(new HashSet<ActivityResource>(acrs));
-		cr.setTimes(new HashSet<TimeActivityResource>(tars));
+		cr.setOperationId(entity.getOperation().getUuid());
+		cr.setActivities(new HashSet<ActivityDTO>(acrs));
+		cr.setTimes(new HashSet<TimeActivityDTO>(tars));
 
 		return cr;
 	}
 
-	@Override
-	public Collect toEntity(CollectResource r) {
-		Collect c = new Collect();
-		List<TimeActivity> times = tara.toEntities(r.getTimes());
-		List<TimeActivity> activities = new ArrayList<>(times);
-		c.setTimes(activities);
-
-		return c;
-	}
 }

@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fredtm.core.model.Operation;
-import com.fredtm.resources.ActivityResource;
-import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.ActivityDTO;
+import com.fredtm.resources.OperationDTO;
 import com.fredtm.resources.base.ElementParser;
 
 @Component
-public class OperationResourceAssembler extends ElementParser<Operation, OperationResource> {
+public class OperationResourceAssembler extends ElementParser<Operation, OperationDTO> {
 
 
 	@Autowired
@@ -24,17 +24,17 @@ public class OperationResourceAssembler extends ElementParser<Operation, Operati
 	private SyncResourceAssembler sra;
 
 	@Override
-	public OperationResource toResource(Operation entity) {
+	public OperationDTO toResource(Operation entity) {
 
-		return new OperationResource()
-				.uuid(entity.getId())
+		return new OperationDTO()
+				.uuid(entity.getUuid())
 				.name(entity.getName())
 				.technicalCharacteristics(entity.getTechnicalCharacteristics())
 				.company(entity.getCompany())
 				.modification(entity.getModified())
-				.accountId(entity.getAccount().getId())
+				.accountId(entity.getAccount().getUuid())
 				.activities(
-						new HashSet<ActivityResource>(ars.toResources(entity
+						new HashSet<ActivityDTO>(ars.toResources(entity
 								.getActivities())))
 				.collects(cra.toResources(entity
 								.getCollects()))
@@ -43,10 +43,6 @@ public class OperationResourceAssembler extends ElementParser<Operation, Operati
 
 	}
 
-	@Override
-	public Operation toEntity(OperationResource r) {
-		return null;
-	}
 
 
 }

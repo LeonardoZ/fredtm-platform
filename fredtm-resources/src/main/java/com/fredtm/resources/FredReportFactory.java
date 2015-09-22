@@ -7,17 +7,17 @@ import java.util.List;
 public class FredReportFactory {
 
 	public static List<GeneralCollectsBean> createMultipleTimes() {
-		ArrayList<TimeActivityResource> finaltars = new ArrayList<>();
+		ArrayList<TimeActivityDTO> finaltars = new ArrayList<>();
 
 		for (int i = 1; i <= 5; i++) {
 			finaltars.addAll(createTimesWithIndex(Integer.toString(i)));
 		}
 
-		ArrayList<TimeActivityResource> aux = new ArrayList<>();
-		ArrayList<TimeActivityResource> prod = new ArrayList<>();
-		ArrayList<TimeActivityResource> unprod = new ArrayList<>();
+		ArrayList<TimeActivityDTO> aux = new ArrayList<>();
+		ArrayList<TimeActivityDTO> prod = new ArrayList<>();
+		ArrayList<TimeActivityDTO> unprod = new ArrayList<>();
 
-		for (TimeActivityResource timeActivityResource : finaltars) {
+		for (TimeActivityDTO timeActivityResource : finaltars) {
 			if (timeActivityResource.getActivityType().equals("AUXILIARY")) {
 				aux.add(timeActivityResource);
 			} else if (timeActivityResource.getActivityType().equals("PRODUCTIVE")) {
@@ -32,7 +32,7 @@ public class FredReportFactory {
 		gcb.setProductiveTimes(prod);
 		gcb.setUnproductiveTimes(unprod);
 
-		ArrayList<TimeActivityResource> ttts = new ArrayList<>();
+		ArrayList<TimeActivityDTO> ttts = new ArrayList<>();
 		ttts.addAll(aux);
 		ttts.addAll(prod);
 		ttts.addAll(unprod);
@@ -44,9 +44,9 @@ public class FredReportFactory {
 		return gcbs;
 	}
 
-	public static List<TimeActivityResource> createTimesWithIndex(String colIndex) {
+	public static List<TimeActivityDTO> createTimesWithIndex(String colIndex) {
 		List<String> acts = new ArrayList<>();
-		ArrayList<TimeActivityResource> tars = new ArrayList<>();
+		ArrayList<TimeActivityDTO> tars = new ArrayList<>();
 		// latitude":"-22.7504339","longitude":"-48.5698403",
 		for (int i = 0; i < 15; i++) {
 			acts.add(Integer.toOctalString(i));
@@ -56,7 +56,7 @@ public class FredReportFactory {
 
 		for (int i = 1; i < 30; i++) {
 			for (String nums : acts) {
-				TimeActivityResource tar = new TimeActivityResource();
+				TimeActivityDTO tar = new TimeActivityDTO();
 				tar.setTimed(i * 10_000);
 				tar.setActivityTitle(nums);
 
@@ -87,14 +87,14 @@ public class FredReportFactory {
 		return tars;
 	}
 
-	public static List<TimeActivityResource> createTimes() {
+	public static List<TimeActivityDTO> createTimes() {
 		return createTimesWithIndex("1");
 	}
 	
-	public static List<ActivityResource> createActivities() {
-		List<ActivityResource> acts = new ArrayList<>();
+	public static List<ActivityDTO> createActivities() {
+		List<ActivityDTO> acts = new ArrayList<>();
 		for (int i = 0; i < 15; i++) {
-			ActivityResource ar = new ActivityResource();
+			ActivityDTO ar = new ActivityDTO();
 			ar.setTitle(Integer.toHexString(i));
 			ar.setDescription(Integer.toBinaryString(i*120));
 			if (i % 5 == 0) {

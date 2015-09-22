@@ -33,7 +33,7 @@ public class OperationCustomCell extends ListCell<Operation> {
 		super();
 
 		mainContent = new VBox(0.6f);
-		lbTitle = new Label("Título: ");
+		lbTitle = new Label("TÃ­tulo: ");
 		lbTitle.setStyle("-fx-font-weight: bold;");
 
 		lbTitleValue = new Label();

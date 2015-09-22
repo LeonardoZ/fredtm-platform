@@ -212,7 +212,7 @@ public class TimeByActivityController extends BaseController implements Initiali
 	public void saveImage(Node node) {
 		WritableImage image = node.snapshot(new SnapshotParameters(), null);
 		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportação");
+		dc.setTitle("Escolha o local para salvar sua exportaÃ§Ã£o");
 		File directory = dc.showDialog(getWindow());
 		if (directory != null && directory.isDirectory() && directory.canWrite()) {
 			File f = new File(directory.getAbsolutePath() + "/tempo_atividade_"

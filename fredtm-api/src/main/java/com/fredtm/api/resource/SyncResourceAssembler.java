@@ -1,35 +1,23 @@
 package com.fredtm.api.resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fredtm.core.model.Sync;
-import com.fredtm.data.repository.SyncRepository;
-import com.fredtm.resources.SyncResource;
+import com.fredtm.resources.SyncDTO;
 import com.fredtm.resources.base.ElementParser;
 
 @Component
 public class SyncResourceAssembler extends
-		ElementParser<Sync, SyncResource> {
-
-	@Autowired
-	private SyncRepository repository;
+		ElementParser<Sync, SyncDTO> {
 
 	@Override
-	public SyncResource toResource(Sync entity) {
-		SyncResource sr = new SyncResource();
-		sr.uuid(entity.getId()).created(entity.getCreated())
-				.operationId(entity.getOperation().getId());
+	public SyncDTO toResource(Sync entity) {
+		SyncDTO sr = new SyncDTO();
+		sr.uuid(entity.getUuid()).created(entity.getCreated())
+				.operationId(entity.getOperation().getUuid());
 			
 		return sr;
 
 	}
 
-	@Override
-	public Sync toEntity(SyncResource r) {
-		Sync s =  hasValidUuid(r)  ? repository.findOne(r.getUuid())
-				: new Sync();
-		s.setCreated(r.getCreated());
-		return s;
-	}
 }

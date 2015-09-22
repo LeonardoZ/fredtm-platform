@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fredtm.core.model.Activity;
 
 @Transactional
-public interface ActivityRepository extends JpaRepository<Activity, String> {
+public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
 	@Query(name = "findByTitleAndOperationId", value = "select a from Activity a where a.title = :title and a.operation.id = :opId ")
-	Activity findByTitleAndOperationId(@Param("title") String title, @Param("opId") String id);
+	Activity findByTitleAndOperationId(@Param("title") String title, @Param("opId") Integer id);
 
 	@Query(name = "findByOperationId", value = "select a from Activity a where a.operation.id = :opId ")
-	Set<Activity> findByOperationId(@Param("opId") String opId);
+	Set<Activity> findByOperationId(@Param("opId") Integer opId);
 
 }

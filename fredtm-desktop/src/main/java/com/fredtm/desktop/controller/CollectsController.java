@@ -16,7 +16,7 @@ import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.desktop.views.CollectCustomCell;
 import com.fredtm.resources.GeneralCollectsBean;
-import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.TimeActivityDTO;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -50,7 +50,7 @@ public class CollectsController extends BaseController implements Initializable 
 	public void initialize(URL url, ResourceBundle bundle) {
 		MenuItem menuCollecteds = new MenuItem("Ver tempos coletados");
 
-		MenuItem menuGraphicsOptions = new MenuItem("An·lise gr·fica");
+		MenuItem menuGraphicsOptions = new MenuItem("An√°lise gr√°fica");
 
 		MenuItem menuExportCollect = new MenuItem("Exportar coleta");
 		MenuItem menuExportAllCollects = new MenuItem("Export todas coletas");
@@ -118,9 +118,9 @@ public class CollectsController extends BaseController implements Initializable 
 		String info = operation.toString();
 		AtomicInteger ai = new AtomicInteger(0);
 
-		List<TimeActivityResource> resourcePro = new ArrayList<>();
-		List<TimeActivityResource> resourceAux = new ArrayList<>();
-		List<TimeActivityResource> resourceUnpro = new ArrayList<>();
+		List<TimeActivityDTO> resourcePro = new ArrayList<>();
+		List<TimeActivityDTO> resourceAux = new ArrayList<>();
+		List<TimeActivityDTO> resourceUnpro = new ArrayList<>();
 
 		for (Collect co : collects) {
 			int index = ai.incrementAndGet();
@@ -133,7 +133,7 @@ public class CollectsController extends BaseController implements Initializable 
 			resourceUnpro.addAll(configureResources(unprods, index));
 		}
 
-		List<TimeActivityResource> ttt = new ArrayList<>();
+		List<TimeActivityDTO> ttt = new ArrayList<>();
 		ttt.addAll(resourceUnpro);
 		ttt.addAll(resourcePro);
 		ttt.addAll(resourceAux);
@@ -159,8 +159,8 @@ public class CollectsController extends BaseController implements Initializable 
 		MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.MULTIPLE_TIME_ANALYSYS, collects);
 	}
 
-	public List<TimeActivityResource> configureResources(List<TimeActivity> tas, Integer colIndex) {
-		List<TimeActivityResource> tars = FredObjectMapper.toResourcesFromTimeActivity(tas);
+	public List<TimeActivityDTO> configureResources(List<TimeActivity> tas, Integer colIndex) {
+		List<TimeActivityDTO> tars = FredObjectMapper.toResourcesFromTimeActivity(tas);
 		tars.forEach(t -> t.setCollectIndex(colIndex.toString()));
 		return tars;
 	}

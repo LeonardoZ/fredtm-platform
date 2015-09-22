@@ -55,7 +55,7 @@ public class Operation extends FredEntity {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private Set<Collect> collects;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
+	@OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER, mappedBy = "operation")
 	private List<Sync> syncs;
 
 	public Operation(String name, String company,

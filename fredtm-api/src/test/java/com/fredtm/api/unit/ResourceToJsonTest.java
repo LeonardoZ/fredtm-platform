@@ -11,7 +11,7 @@ import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
-import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.OperationDTO;
 
 public class ResourceToJsonTest {
 
@@ -27,25 +27,25 @@ public class ResourceToJsonTest {
 	public void test() {
 		Operation operation = new Operation("Title of op", "Desc of op",
 				"Details");
-		operation.setId("aaa");
+		operation.setId(423);
 
 		Activity activity = new Activity(operation, "Toast", "For tests",
 				ActivityType.PRODUCTIVE, true);
-		activity.setId("bbb");
+		activity.setId(4234);
 		Activity activity2 = new Activity("Toast 2", "For tests 2",
 				ActivityType.UNPRODUCTIVE);
 		activity2.setOperation(operation);
-		activity2.setId("ccc");
+		activity2.setId(42342);
 		Activity activity3 = new Activity(operation, "Toast 3", "For tests 3",
 				ActivityType.PRODUCTIVE, false);
-		activity3.setId("ddd");
+		activity3.setId(42343);
 		
 		operation.addActivity(activity);
 		operation.addActivity(activity2);
 		operation.addActivity(activity3);
 
 		Collect collect = new Collect();
-		collect.setId("abc");
+		collect.setId(12);
 		collect.setOperation(operation);
 		operation.addCollect(collect);
 
@@ -71,12 +71,10 @@ public class ResourceToJsonTest {
 		}
 
 		OperationResourceAssembler ora = new OperationResourceAssembler();
-		OperationResource resource = ora.toResource(operation);
+		OperationDTO resource = ora.toResource(operation);
 		String json = new ResourceJsonUtil().toJson(resource);
-		OperationResource fromJson = new ResourceJsonUtil().fromJson(json,
-				OperationResource.class);
-		System.out.println(json);
-		System.err.println(fromJson);
+		OperationDTO fromJson = new ResourceJsonUtil().fromJson(json,
+				OperationDTO.class);
 		Assert.assertEquals(resource, fromJson);
 	}
 

@@ -12,9 +12,11 @@ import com.fredtm.core.model.Account;
 import com.fredtm.core.model.Operation;
 
 @Transactional
-public interface OperationRepository extends JpaRepository<Operation, String> {
+public interface OperationRepository extends JpaRepository<Operation, Integer> {
+	
+	Operation findByUuid(String uuid);
 
-	Operation findByIdAndModifiedAfter(String id, Date param);
+	Operation findByIdAndModifiedAfter(Integer id, Date param);
 
 	@Query(name = "operation.findOperationsBy", value = "select o from Operation o where o.account = :acc order by o.modified desc")
 	List<Operation> findOperationsBy(@Param("acc") Account acc);

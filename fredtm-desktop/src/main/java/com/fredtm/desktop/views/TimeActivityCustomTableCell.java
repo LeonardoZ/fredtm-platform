@@ -67,7 +67,7 @@ public class TimeActivityCustomTableCell extends TableCell<TimeActivity, Optiona
 		view = new GoogleMapView();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(view));
-		stage.setTitle("Localização");
+		stage.setTitle("LocalizaÃ§Ã£o");
 		stage.show();
 		view.addMapInializedListener(this);
 	}

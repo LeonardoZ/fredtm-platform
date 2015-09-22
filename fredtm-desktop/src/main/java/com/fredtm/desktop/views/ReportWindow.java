@@ -19,7 +19,7 @@ public class ReportWindow {
 		JRViewer v = new JRViewer(print);
 
 		JFrame jDialog = new JFrame();
-		jDialog.setTitle("Visualização de relatório");
+		jDialog.setTitle("VisualizaÃ§Ã£o de relatÃ³rio");
 		jDialog.setSize(1024, 768);
 		jDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		jDialog.setLayout(new BorderLayout(10, 10));

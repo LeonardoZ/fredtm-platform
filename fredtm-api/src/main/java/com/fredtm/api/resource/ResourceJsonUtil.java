@@ -3,8 +3,8 @@ package com.fredtm.api.resource;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 
-import com.fredtm.resources.ActivityResource;
-import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.ActivityDTO;
+import com.fredtm.resources.OperationDTO;
 import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,16 +23,16 @@ public class ResourceJsonUtil {
 		return json;
 	}
 
-	class des implements JsonDeserializer<OperationResource> {
+	class des implements JsonDeserializer<OperationDTO> {
 		@Override
-		public OperationResource deserialize(JsonElement json, Type typeOfT,
+		public OperationDTO deserialize(JsonElement json, Type typeOfT,
 				JsonDeserializationContext context) throws JsonParseException {
-			OperationResource res = gson.fromJson(json, typeOfT);
+			OperationDTO res = gson.fromJson(json, typeOfT);
 			JsonElement jsonElement = json.getAsJsonObject().get("activities");
 			if (jsonElement.isJsonArray()) {
-				Type collectionType = new TypeToken<HashSet<ActivityResource>>() {
+				Type collectionType = new TypeToken<HashSet<ActivityDTO>>() {
 				}.getType();
-				HashSet<ActivityResource> acts = gson.fromJson(jsonElement, collectionType);
+				HashSet<ActivityDTO> acts = gson.fromJson(jsonElement, collectionType);
 				res.activities(acts);
 			}
 

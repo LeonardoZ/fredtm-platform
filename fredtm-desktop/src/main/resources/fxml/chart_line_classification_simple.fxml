@@ -39,7 +39,7 @@
             </Button>
          </children>
       </HBox>
-      <Label text="Distribuição tempo/classificação simplificada" VBox.vgrow="NEVER">
+      <Label text="Distribuição tempo/classificão simplificada" VBox.vgrow="NEVER">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

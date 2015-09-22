@@ -44,7 +44,7 @@ public class ExportCollectsController extends BaseController implements
 	@FXML
 	void onEscolherDiretorioClicked(ActionEvent event) {
 		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportação");
+		dc.setTitle("Escolha o local para salvar sua exportaÃ§Ã£o");
 		selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory != null && selectedDirectory.isDirectory()
 				&& selectedDirectory.canWrite()) {
@@ -67,7 +67,7 @@ public class ExportCollectsController extends BaseController implements
 				exportador.export(collects,
 						selectedDirectory.getAbsolutePath());
 			}
-			JOptionPane.showMessageDialog(null, "Exportação completa!");
+			JOptionPane.showMessageDialog(null, "ExportaÃ§Ã£o completa!");
 		} catch (ExportationErrorExcetion e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());

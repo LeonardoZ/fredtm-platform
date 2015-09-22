@@ -32,7 +32,7 @@ import com.fredtm.desktop.controller.utils.MainControllerTabCreator;
 import com.fredtm.desktop.sync.ClientConnection;
 import com.fredtm.desktop.sync.SwingQRCodeGenerator;
 import com.fredtm.desktop.sync.SyncServer;
-import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.OperationDTO;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,7 +86,7 @@ public class MainController extends BaseController implements Initializable, Cli
 	private void abrirParaDebug() {
 		File f = new File("C:/Users/Leonardo/Desktop/operations_1440786273270.json");
 		OperationJsonUtils oju = new OperationJsonUtils();
-		List<OperationResource> operations = oju.jsonToJava(f);
+		List<OperationDTO> operations = oju.jsonToJava(f);
 		List<Operation> entities = FredObjectMapper.mapResourcesToEntities(operations);
 		createOperationsWindow(entities);
 	}
@@ -104,13 +104,13 @@ public class MainController extends BaseController implements Initializable, Cli
 	}
 
 	private void actionSyncActive() {
-		configurarAdapter();
+		configureWindowAdapter();
 		createTransferServer();
 		Optional<BufferedImage> gerarQRCode = new SwingQRCodeGenerator().gerarQRCode();
 		createJDialog(gerarQRCode.orElseThrow(IllegalStateException::new));
 	}
 
-	private void configurarAdapter() {
+	private void configureWindowAdapter() {
 		adapter = new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -131,7 +131,7 @@ public class MainController extends BaseController implements Initializable, Cli
 	private void createJDialog(BufferedImage image) {
 		JLabel canvasLabel = new JLabel(new ImageIcon(image));
 		JLabel labelTopText = new JLabel(
-				"Leia esse QRCode com a opção \"Sincronizar com PC\" " + "no aplicativo Fred TM para sincronizar.");
+				"Leia esse QRCode com a opÃ§Ã£o \"Sincronizar com PC\" " + "no aplicativo Fred TM para sincronizar.");
 		labelTopText.setBorder(BorderFactory.createEmptyBorder(10, 10, 3, 10));
 		if (jDialog == null) {
 			jDialog = new JDialog();
@@ -155,7 +155,7 @@ public class MainController extends BaseController implements Initializable, Cli
 	@Override
 	public void onConnection(String jsonContent) {
 		OperationJsonUtils utils = new OperationJsonUtils();
-		List<OperationResource> jsonToJava = utils.jsonToJava(jsonContent);
+		List<OperationDTO> jsonToJava = utils.jsonToJava(jsonContent);
 		List<Operation> operations = FredObjectMapper.mapResourcesToEntities(jsonToJava);
 		createOperationsWindow(operations);
 		jDialog.setVisible(false);
@@ -175,14 +175,14 @@ public class MainController extends BaseController implements Initializable, Cli
 	@FXML
 	void onImportarJsonClicked() {
 		FileChooser fc = new FileChooser();
-		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por você.");
+		fc.setTitle("Escolha o arquivo \"operations.json\" gerado por seu aplicativo ou exportado por vocÃª.");
 		fc.setSelectedExtensionFilter(
 				new ExtensionFilter("Arquivos .json gerados por esse software ou pelo Fred TM (mobile)", "*.<json>"));
 		File selectedItem = fc.showOpenDialog(getWindow());
 
 		if (selectedItem != null) {
 			OperationJsonUtils oju = new OperationJsonUtils();
-			List<OperationResource> operations = oju.jsonToJava(selectedItem);
+			List<OperationDTO> operations = oju.jsonToJava(selectedItem);
 			List<Operation> entities = FredObjectMapper.mapResourcesToEntities(operations);
 			createOperationsWindow(entities);
 		}
@@ -220,13 +220,13 @@ public class MainController extends BaseController implements Initializable, Cli
 		case TIME_BY_CLASSIFICATION:
 			Consumer<TimeByClassificationController> barCicleConsumer = c -> c.setCollects(collects);
 			createView("/fxml/chart_line_classification.fxml",
-					"Tempo/classificação por coleta (ciclo): " + collects.get(0).getOperation().toString(),
+					"Tempo/ClassificaÃ§Ã£o por coleta (ciclo): " + collects.get(0).getOperation().toString(),
 					barCicleConsumer);
 			break;
 		case TIME_BY_SIMPLE_CLASSIFICATION:
 			Consumer<TimeBySimplifiedClassificationController> barSimpleConsumer = c -> c.setCollects(collects);
 			createView("/fxml/chart_line_classification_simple.fxml",
-					"Tempo/Classificação por coleta (ciclo): " + collects.get(0).getOperation().toString(),
+					"Tempo/ClassificaÃ§Ã£o por coleta (ciclo): " + collects.get(0).getOperation().toString(),
 					barSimpleConsumer);
 			break;
 		default:
@@ -238,23 +238,23 @@ public class MainController extends BaseController implements Initializable, Cli
 		switch (type) {
 		case TIME_ACTIVITY_DISTRIBUTION:
 			Consumer<TimeByActivityController> chart = c -> c.setCollect(collect);
-			createView("/fxml/chart_time_activity.fxml", "Distribuição tempo/atividade: " + collect.toString(), chart);
+			createView("/fxml/chart_time_activity.fxml", "DistribuiÃ§Ã£o tempo/atividade: " + collect.toString(), chart);
 			break;
 
 		case TIME_BY_CLASSIFICATION:
 			Consumer<TimeByClassificationController> barConsumer = c -> c.setCollect(collect);
-			createView("/fxml/chart_line_classification.fxml", "Tempo/classificação: " + collect.toString(),
+			createView("/fxml/chart_line_classification.fxml", "Tempo/classificaÃ§Ã£o: " + collect.toString(),
 					barConsumer);
 			break;
 
 		case TIME_BY_SIMPLE_CLASSIFICATION:
 			Consumer<TimeBySimplifiedClassificationController> barSimpleConsumer = c -> c.setCollect(collect);
 			createView("/fxml/chart_line_classification_simple.fxml",
-					"Tempo/classificação simples: " + collect.toString(), barSimpleConsumer);
+					"Tempo/classificaÃ§Ã£o simples: " + collect.toString(), barSimpleConsumer);
 			break;
 		case TIME_ANALYSYS:
 			Consumer<TimesChartController> timeConsumer = c -> c.setCollect(collect);
-			createView("/fxml/chart_times.fxml", "Análises dos tempos: " + collect.toString(), timeConsumer);
+			createView("/fxml/chart_times.fxml", "AnÃ¡lises dos tempos: " + collect.toString(), timeConsumer);
 			break;
 
 		default:

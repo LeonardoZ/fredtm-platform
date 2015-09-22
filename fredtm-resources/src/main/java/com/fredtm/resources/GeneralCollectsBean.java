@@ -4,40 +4,40 @@ import java.util.List;
 
 public class GeneralCollectsBean {
 
-	private List<TimeActivityResource> times;
-	private List<TimeActivityResource> productiveTimes;
-	private List<TimeActivityResource> auxiliaryTimes;
-	private List<TimeActivityResource> unproductiveTimes;
+	private List<TimeActivityDTO> times;
+	private List<TimeActivityDTO> productiveTimes;
+	private List<TimeActivityDTO> auxiliaryTimes;
+	private List<TimeActivityDTO> unproductiveTimes;
 
-	public List<TimeActivityResource> getTimes() {
+	public List<TimeActivityDTO> getTimes() {
 		return this.times;
 	}
 
-	public void setTimes(List<TimeActivityResource> times) {
+	public void setTimes(List<TimeActivityDTO> times) {
 		this.times = times;
 	}
 
-	public List<TimeActivityResource> getProductiveTimes() {
+	public List<TimeActivityDTO> getProductiveTimes() {
 		return this.productiveTimes;
 	}
 
-	public void setProductiveTimes(List<TimeActivityResource> productiveTimes) {
+	public void setProductiveTimes(List<TimeActivityDTO> productiveTimes) {
 		this.productiveTimes = productiveTimes;
 	}
 
-	public List<TimeActivityResource> getAuxiliaryTimes() {
+	public List<TimeActivityDTO> getAuxiliaryTimes() {
 		return this.auxiliaryTimes;
 	}
 
-	public void setAuxiliaryTimes(List<TimeActivityResource> auxiliaryTimes) {
+	public void setAuxiliaryTimes(List<TimeActivityDTO> auxiliaryTimes) {
 		this.auxiliaryTimes = auxiliaryTimes;
 	}
 
-	public List<TimeActivityResource> getUnproductiveTimes() {
+	public List<TimeActivityDTO> getUnproductiveTimes() {
 		return this.unproductiveTimes;
 	}
 
-	public void setUnproductiveTimes(List<TimeActivityResource> unproductiveTimes) {
+	public void setUnproductiveTimes(List<TimeActivityDTO> unproductiveTimes) {
 		this.unproductiveTimes = unproductiveTimes;
 	}
 

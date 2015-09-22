@@ -1,16 +1,22 @@
 package com.fredtm.core.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import com.fredtm.core.util.HashGenerator;
 
 @Entity
 @Table(name = "account")
@@ -21,8 +27,11 @@ public class Account extends FredEntity {
 	@Column(nullable = false, length = 120, unique = true)
 	private String email;
 
-	@Column(nullable = false, length = 255, name = "password_hash")
-	private String passwordHash;
+	@Column(columnDefinition = "binary(20)", nullable = false, name = "password_hash")
+	private byte[] passwordHash;
+
+	@Column(columnDefinition = "binary(8)", nullable = false)
+	private byte[] salt;
 
 	@Column(nullable = false, length = 120)
 	private String name;
@@ -30,8 +39,14 @@ public class Account extends FredEntity {
 	@OneToMany(mappedBy = "account")
 	private List<Operation> operations;
 
-	public Account() {
+	@ElementCollection(fetch=FetchType.EAGER,targetClass = Role.class)
+	@CollectionTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id") )
+	@Column(name = "role", length = 15)
+	@Enumerated(EnumType.STRING)
+	private Set<Role> roles;
 
+	public Account() {
+		roles = new HashSet<>();
 	}
 
 	public String getEmail() {
@@ -42,20 +57,20 @@ public class Account extends FredEntity {
 		this.email = email;
 	}
 
-	public String getPasswordHash() {
+	public byte[] getPasswordHash() {
 		return passwordHash;
 	}
 
-	public void setPassword(String pass) {
-		String hash = new HashGenerator().toHash(pass);
-		this.passwordHash = hash;
+	public void setPassword(byte[] pass) {
+		this.passwordHash = pass;
 	}
 
-	public void hashInfo() {
-		passwordHash = new HashGenerator().toHash(passwordHash);		
+	public byte[] getSalt() {
+		return this.salt;
 	}
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
 	}
 
 	public String getName() {
@@ -66,10 +81,21 @@ public class Account extends FredEntity {
 		this.name = name;
 	}
 
+	public Set<Role> getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public void addRole(Role user) {
+		this.roles.add(user);
+	}
+
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(email).append(passwordHash)
-				.append(name).toHashCode();
+		return new HashCodeBuilder().append(email).append(passwordHash).append(name).toHashCode();
 	}
 
 	@Override
@@ -82,9 +108,7 @@ public class Account extends FredEntity {
 			return false;
 		Account other = (Account) obj;
 		return new EqualsBuilder().append(getEmail(), other.getEmail())
-				.append(getPasswordHash(), other.getPasswordHash())
-				.append(getName(), other.getName()).isEquals();
+				.append(getPasswordHash(), other.getPasswordHash()).append(getName(), other.getName()).isEquals();
 	}
-
 
 }

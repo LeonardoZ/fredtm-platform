@@ -27,7 +27,7 @@ public class ConfigureController extends BaseController implements Initializable
 	@FXML
 	void onConfirmClicked(ActionEvent event) {
 		Optional.of(config.save())
-				.ifPresent((t) -> JOptionPane.showMessageDialog(null, "AlteraÁıes realizadas com sucesso!"));
+				.ifPresent((t) -> JOptionPane.showMessageDialog(null, "Altera√ß√µes realizadas com sucesso!"));
 	}
 
 	@Override

@@ -20,7 +20,7 @@
       <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15.0">
          <children>
             <TextField fx:id="tfDirectory" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="465.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#onEscolherDiretorioClicked" text="Diretorio de destino" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#onEscolherDiretorioClicked" text="Diretório de destino" HBox.hgrow="ALWAYS" />
          </children>
          <VBox.margin>
             <Insets />

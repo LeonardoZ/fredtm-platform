@@ -9,7 +9,7 @@ import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.FredObjectMapper;
-import com.fredtm.resources.ActivityResource;
+import com.fredtm.resources.ActivityDTO;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -66,7 +66,7 @@ public class ActivitiesController extends BaseController implements Initializabl
 					protected void updateItem(ActivityType type, boolean empty) {
 						super.updateItem(type, empty);
 						if (type != null && !empty) {
-							setText(type.toString());
+							setText(type.getValue());
 							setStyle("-fx-background-color: " + type.getHexColor()
 									+ "; -fx-font-size: 10px; -fx-font-weight: bold;" + "; -fx-alignment: center;");
 						}
@@ -76,7 +76,7 @@ public class ActivitiesController extends BaseController implements Initializabl
 		});
 
 		colQuantitative.setCellValueFactory(value -> new SimpleStringProperty(
-				value.getValue() != null ? value.getValue().getItemName() : "Não quantitativa"));
+				value.getValue() != null ? value.getValue().getItemName() : "NÃ£o quantitativa"));
 		ContextMenu menu = new ContextMenu();
 		MenuItem menuExport = new MenuItem("Exportar");
 		menu.getItems().addAll(menuExport);
@@ -89,7 +89,7 @@ public class ActivitiesController extends BaseController implements Initializabl
 	void onReportClicked(ActionEvent event) {
 		String technicalCharacteristics = operation.getTechnicalCharacteristics();
 		String info = operation.toString();
-		Set<ActivityResource> acts = FredObjectMapper.toResourcesActivities(activities);
+		Set<ActivityDTO> acts = FredObjectMapper.toResourcesActivities(activities);
 		
 		ReportController reportController = new ReportController();
 		reportController.fillDataSource(acts)

@@ -17,7 +17,7 @@ public class MainEventBus {
 
 	public void registrarOuvinte(MainController main) {
 		if (this.main != null) {
-			throw new IllegalArgumentException("Ouvinte já registrado!");
+			throw new IllegalArgumentException("Already registered listener!");
 		}
 		this.main = main;
 	}

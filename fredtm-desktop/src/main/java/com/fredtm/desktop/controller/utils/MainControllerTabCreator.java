@@ -1,6 +1,7 @@
 package com.fredtm.desktop.controller.utils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -25,7 +26,9 @@ public class MainControllerTabCreator {
 		Pane p = null;
 		try {
 
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
+			FXMLLoader fxmlLoader = new FXMLLoader(Charset.forName("UTF8"));
+			fxmlLoader.setLocation(getClass().getResource(fxml));
+			
 			p = (Pane) fxmlLoader.load();
 			if (consumer.isPresent()) {
 				doOnController(p, fxmlLoader, consumer.get());

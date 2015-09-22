@@ -19,7 +19,7 @@ public class OperationServiceImpl implements OperationService {
 	@Override
 	@Transactional(value=TxType.REQUIRED)
 	public Operation getOperation(String uuid) {
-		Operation operation = opRepository.getOne(uuid);
+		Operation operation = opRepository.findByUuid(uuid);
 		operation.getCollects().size();
 		operation.getActivities().size();
 		operation.getSyncs().size();

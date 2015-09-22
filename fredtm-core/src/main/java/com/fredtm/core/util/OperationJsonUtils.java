@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.fredtm.resources.OperationResource;
+import com.fredtm.resources.OperationDTO;
 import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -22,23 +22,23 @@ import com.google.gson.stream.JsonReader;
 public class OperationJsonUtils {
 
 	public Gson gson;
-	private Type listType = new TypeToken<List<OperationResource>>() {
+	private Type listType = new TypeToken<List<OperationDTO>>() {
 	}.getType();
 
 	public OperationJsonUtils() {
 		gson = GsonFactory.getGson();
 	}
 
-	public List<OperationResource> jsonToJava(Reader f) {
+	public List<OperationDTO> jsonToJava(Reader f) {
 		JsonReader jsonReader = new JsonReader(f);
-		List<OperationResource> fromJson = gson.fromJson(jsonReader, listType);
+		List<OperationDTO> fromJson = gson.fromJson(jsonReader, listType);
 		return fromJson;
 	}
 	
-	public List<OperationResource> jsonToJava(File f) {
-		List<OperationResource> operations = new LinkedList<>();
+	public List<OperationDTO> jsonToJava(File f) {
+		List<OperationDTO> operations = new LinkedList<>();
 		try {
-			OperationResource[] fromJson = getJsonFrom(f);
+			OperationDTO[] fromJson = getJsonFrom(f);
 			operations.addAll(Arrays.asList(fromJson));
 			return operations;
 		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
@@ -47,8 +47,8 @@ public class OperationJsonUtils {
 		return new LinkedList<>();
 	}
 
-	public List<OperationResource> jsonToJava(String f) {
-		List<OperationResource> operations = null;
+	public List<OperationDTO> jsonToJava(String f) {
+		List<OperationDTO> operations = null;
 		try {
 			operations = getJsonFrom(f);
 		} catch (JsonSyntaxException | JsonIOException e) {
@@ -57,22 +57,21 @@ public class OperationJsonUtils {
 		return operations;
 	}
 	
-	public OperationResource jsonElementToJava(String f) {
-		return gson.fromJson(f, OperationResource.class);
+	public OperationDTO jsonElementToJava(String f) {
+		return gson.fromJson(f, OperationDTO.class);
 	}
 
-	private List<OperationResource> getJsonFrom(String f) {
-		System.err.println(f);
+	private List<OperationDTO> getJsonFrom(String f) {
 		return gson.fromJson(f, listType);
 	}
 	
 	
 
-	private OperationResource[] getJsonFrom(File f) throws FileNotFoundException {
+	private OperationDTO[] getJsonFrom(File f) throws FileNotFoundException {
 		InputStreamReader reader = new InputStreamReader(
 				new FileInputStream(f.getAbsolutePath()),Charset.forName("UTF-8")
 		);
-		return gson.fromJson(reader, OperationResource[].class);
+		return gson.fromJson(reader, OperationDTO[].class);
 	}
 
 }

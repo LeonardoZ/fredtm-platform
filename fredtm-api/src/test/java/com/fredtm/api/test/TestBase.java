@@ -26,6 +26,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.fredtm.api.FredTmApiConfig;
+import com.fredtm.resources.base.GsonFactory;
+import com.fredtm.resources.security.LoginDTO;
+import com.fredtm.resources.security.LoginResponse;
+import com.google.gson.Gson;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.ResponseSpecification;
@@ -46,29 +50,45 @@ public class TestBase {
 
 	@Before
 	public void init() {
-
-		baseURI = "http://localhost";
+		baseURI = "https://localhost";
 		basePath = "/fredapi";
 		port = 9000;
 		RestAssured.defaultParser = Parser.JSON;
 	}
 
 	protected ResponseSpecification makeRequest() {
+		String authToken = getAuthToken();
 
-		return given().relaxedHTTPSValidation().auth().basic("leo.zapparoli@gmail.com", "123").log().all(true)
-				.header("Accept", "application/json").log().headers().then().log().all().then();
+		return given().relaxedHTTPSValidation().log().all(true).header("Accept", "application/json")
+				.header("Authorization", "Bearer " + authToken).log().all().then();
 
 	}
 
+	private String getAuthToken() {
+		LoginDTO dto = new LoginDTO();
+		dto.setEmail("leo.zapparoli@gmail.com");
+		dto.setPassword("123456");
+		Gson gson = GsonFactory.getGson();
+		String json = gson.toJson(dto);
+		LoginResponse response = makeHeaderlessContentRequest().and().given().body(json).post("/account/login")
+				.andReturn().as(LoginResponse.class);
+		String authToken = response.getToken();
+		return authToken;
+	}
+
 	protected ResponseSpecification makeContentRequest() {
-		return given().relaxedHTTPSValidation().auth().basic("leo.zapparoli@gmail.com", "123")
-				.header("Accept", "application/json").header("Content-Type", "application/json;charset=UTF8").log()
+		String authToken = getAuthToken();
+		
+		return given().relaxedHTTPSValidation()
+				.header("Accept", "application/json")
+				.header("Authorization", "Bearer " + authToken)
+				.header("Content-Type", "application/json;charset=UTF8").log()
 				.all().then();
 
 	}
 
 	protected ResponseSpecification makeContentWrongRequest() {
-		return given().relaxedHTTPSValidation().auth().basic("leo.zapparoli@gmail.ssscom", "123")
+		return given().relaxedHTTPSValidation()
 				.header("Accept", "application/json").header("Content-Type", "application/json;charset=UTF8").log()
 				.all().then();
 

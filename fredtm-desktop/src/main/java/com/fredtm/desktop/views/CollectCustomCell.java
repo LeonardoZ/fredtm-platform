@@ -22,7 +22,7 @@ import com.fredtm.desktop.controller.ReportController;
 import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.resources.GeneralCollectsBean;
-import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.TimeActivityDTO;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
@@ -82,10 +82,10 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnExport = new Button("Exportar");
 		btnExport.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
 
-		btnIndividualAnalysis = new MenuButton("Análises indivíduais");
+		btnIndividualAnalysis = new MenuButton("AnÃ¡lises individuais");
 		btnIndividualAnalysis.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
 
-		btnReports = new MenuButton("Relatórios");
+		btnReports = new MenuButton("RelatÃ³rios");
 		btnReports.getStyleClass().addAll("btn-fred-lists", "btn-fred-reports");
 
 		applyCss(btnCollectedTimes, btnExport, btnIndividualAnalysis, btnReports);
@@ -122,20 +122,20 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		structure.setAlignment(Pos.CENTER_LEFT);
 		structure.setBorder(border);
 
-		btnTimeByActivity = new MenuItem("Distribuição Tempo/Atividade");
-		btnClassification = new MenuItem("Distribuição Tempo/Classificação");
-		btnSimpleClassification = new MenuItem("Distribuição Tempo/Classificação simples");
-		btnTimes = new MenuItem("Análise dos tempos");
-		btnArea = new MenuItem("Área da Coleta");
+		btnTimeByActivity = new MenuItem("DistribuiÃ§Ã£o Tempo/Atividade");
+		btnClassification = new MenuItem("DistribuiÃ§Ã£o Tempo/ClassificaÃ§Ã£o");
+		btnSimpleClassification = new MenuItem("DistribuiÃ§Ã£o Tempo/ClassificaÃ§Ã£o simples");
+		btnTimes = new MenuItem("AnÃ¡lise dos tempos");
+		btnArea = new MenuItem("Ãrea da Coleta");
 
 		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity, btnTimes,
 				btnArea);
 
-		btnCollectedsSimplesReport = new MenuItem("Relatório de tempos simples");
-		btnCollectedsAnalyticReport = new MenuItem("Relatório de tempos analítico");
-		btnAreaReport = new MenuItem("Área da coleta");
-		btnGeneralReport = new MenuItem("Relatório geral de coleta");
-		btnGeneralSimpleReport = new MenuItem("Relatório geral simplificado de coleta ");
+		btnCollectedsSimplesReport = new MenuItem("RelatÃ³rio de tempos simples");
+		btnCollectedsAnalyticReport = new MenuItem("RelatÃ³rio de tempos analÃ­tico");
+		btnAreaReport = new MenuItem("Ãrea da coleta");
+		btnGeneralReport = new MenuItem("RelatÃ³rio geral de coleta");
+		btnGeneralSimpleReport = new MenuItem("RelatÃ³rio geral simplificado de coleta ");
 		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport,
 				btnGeneralReport, btnGeneralSimpleReport);
 
@@ -190,7 +190,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 	}
 
 	private void configureReportButtons(Collect co) {
-		List<TimeActivityResource> times = FredObjectMapper.toResourcesFromTimeActivity(co.getTimes());
+		List<TimeActivityDTO> times = FredObjectMapper.toResourcesFromTimeActivity(co.getTimes());
 		btnCollectedsSimplesReport.setOnAction(evt -> {
 			Operation operation = co.getOperation();
 			String technicalCharacteristics = operation.getTechnicalCharacteristics();
@@ -222,9 +222,9 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 			String info = operation.toString();
 			String timeRangeFormatted = co.getTimeRangeFormatted();
 			double sum = times.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
-			Optional<TimeActivityResource> first = times.stream().filter(t -> !t.getLatitude().isEmpty()).findFirst();
+			Optional<TimeActivityDTO> first = times.stream().filter(t -> !t.getLatitude().isEmpty()).findFirst();
 			if (!first.isPresent()) {
-				new JOptionPane("Coleta com nenhuma localização regisrada.");
+				new JOptionPane("Coleta com nenhuma localizaÃ§Ã£o registrada.");
 			} else {
 				ReportController reportController = new ReportController();
 				reportController.fillDataSource(times).fillParam("total", sum).fillParam("operation_info", info)
@@ -247,9 +247,9 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		String info = operation.toString();
 		AtomicInteger ai = new AtomicInteger(0);
 
-		List<TimeActivityResource> resourcePro = new ArrayList<>();
-		List<TimeActivityResource> resourceAux = new ArrayList<>();
-		List<TimeActivityResource> resourceUnpro = new ArrayList<>();
+		List<TimeActivityDTO> resourcePro = new ArrayList<>();
+		List<TimeActivityDTO> resourceAux = new ArrayList<>();
+		List<TimeActivityDTO> resourceUnpro = new ArrayList<>();
 
 		int index = ai.incrementAndGet();
 		List<TimeActivity> pros = co.getTimesByType(ActivityType.PRODUCTIVE);
@@ -260,7 +260,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		resourceAux.addAll(configureResources(auxs, index));
 		resourceUnpro.addAll(configureResources(unprods, index));
 
-		List<TimeActivityResource> ttt = new ArrayList<>();
+		List<TimeActivityDTO> ttt = new ArrayList<>();
 		ttt.addAll(resourceUnpro);
 		ttt.addAll(resourcePro);
 		ttt.addAll(resourceAux);
@@ -281,8 +281,8 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		gcb = null;
 	}
 
-	public List<TimeActivityResource> configureResources(List<TimeActivity> tas, Integer colIndex) {
-		List<TimeActivityResource> tars = FredObjectMapper.toResourcesFromTimeActivity(tas);
+	public List<TimeActivityDTO> configureResources(List<TimeActivity> tas, Integer colIndex) {
+		List<TimeActivityDTO> tars = FredObjectMapper.toResourcesFromTimeActivity(tas);
 		tars.forEach(t -> t.setCollectIndex(colIndex.toString()));
 		return tars;
 	}
@@ -332,7 +332,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		view = new GoogleMapView();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(view));
-		stage.setTitle("Localização");
+		stage.setTitle("LocalizaÃ§Ã£o");
 		stage.show();
 		view.addMapInializedListener(this);
 	}

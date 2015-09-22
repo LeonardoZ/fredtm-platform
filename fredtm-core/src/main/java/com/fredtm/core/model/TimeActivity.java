@@ -40,7 +40,7 @@ public class TimeActivity extends FredEntity {
 	@JoinColumn(nullable = false, name = "activity_id")
 	private Activity activity;
 
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(nullable = false, name = "collect_id")
 	private Collect collect;
 
@@ -271,9 +271,10 @@ public class TimeActivity extends FredEntity {
 			return false;
 		TimeActivity other = (TimeActivity) obj;
 		return new EqualsBuilder().append(activity, other.activity)
-				.append(collect.getId(), other.collect.getId())
+				.append(collect.getId(), other.getCollect().getId())
 				.append(finalDate, other.finalDate)
-				.append(startDate, other.startDate).append(timed, other.timed)
+				.append(startDate, other.startDate)
+				.append(timed, other.timed)
 				.isEquals();
 	}
 

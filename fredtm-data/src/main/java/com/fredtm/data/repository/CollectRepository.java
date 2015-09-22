@@ -7,6 +7,6 @@ import com.fredtm.core.model.Collect;
 
 
 @Transactional
-public interface CollectRepository extends JpaRepository<Collect, String>{
+public interface CollectRepository extends JpaRepository<Collect, Integer>{
 
 }

@@ -1,0 +1,101 @@
+<!doctype html>
+<html ng-app="fredApp">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fred TM Manager</title>
+    <link href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen">
+    <link href="css/login.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand" href="#">
+                    <img style="margin-top: -15px;" src="imgs/ic_launcher_s.png" />
+                </span>
+
+                <span class="navbar-brand custom-navbar-brand" href="#">
+                     Fred TM Manager
+                </span>
+
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Navegação</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse navbar-menubuilder">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/products">
+                            <span class="glyphicon glyphicon-plus"></span> Cadastrar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/about-us">
+                            <span class="glyphicon glyphicon-user"></span> Entrar
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 main-page-block">
+                <div class="page-header">
+                    <h1>Estudo de Tempos e Movimentos<small><br />Gerencie seus projetos</small></h1>
+                </div>
+                <h4>Com o <strong>Fred TM Manager</strong> você pode</h4>
+                <hr />
+                <dl class="list-group">
+                    <dt>Gerenciar</dt>
+                    <dd>Crie e edite suas operações e atividades;</dd>
+                    <br/>
+                    <dt>Distribuir</dt>
+                    <dd>Envie seu estudo para seu dispositivo Android;</dd>
+                    <br/>
+                    <dt>Receber</dt>
+                    <dd>Receba os resultados de suas coletas;</dd>
+                    <br/>
+                    <dt>E mais</dt>
+                    <dd>Abandone a prancheta, caneta e planilhas de papel!</dd>
+                    <br/>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <div class="login-form" ng-controller="loginController">
+                    <div class="page-header">
+                        <h1>Fred TM Manager <small> - Entrar</small></h1>
+                    </div>
+                    <form ng-submit="onLoginSubmit()">
+                        <div class="input-group form-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                            <input class="form-control" type="text" placeholder="E-mail" ng-model="user.email">
+                        </div>
+                        <div class="input-group form-group">
+                            <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                            <input class="form-control" type="password" placeholder="Senha" ng-model="user.password">
+                        </div>
+                        <a href="#">Esqueceu a senha?</a>
+                        <button class="btn btn-primary pull-right">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <h5>Fred TM - 2015</h5>
+        </footer>
+    </div>
+
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular/angular-route.min.js"></script>
+    <script src="modules/fred.js"></script>
+    <script src="modules/config.js"></script>
+    <script src="controllers/controllers.js"></script>
+</body>
+
+</html>

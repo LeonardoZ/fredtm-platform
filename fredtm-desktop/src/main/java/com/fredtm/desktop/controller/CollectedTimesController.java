@@ -14,7 +14,7 @@ import com.fredtm.core.model.TimeActivity;
 import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.desktop.views.TimeActivityCustomTableCell;
-import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.TimeActivityDTO;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -86,7 +86,7 @@ public class CollectedTimesController extends BaseController implements Initiali
     @FXML
     void onAnalyticClicked(ActionEvent event) {
     	if(times.isEmpty()) return;
-    	List<TimeActivityResource> res = FredObjectMapper.toResourcesFromTimeActivity(times);
+    	List<TimeActivityDTO> res = FredObjectMapper.toResourcesFromTimeActivity(times);
     	Operation operation = times.get(0).getActivity().getOperation();
 		String technicalCharacteristics = operation.getTechnicalCharacteristics();
 		String info = operation.toString();
@@ -109,7 +109,7 @@ public class CollectedTimesController extends BaseController implements Initiali
     void onSimpleReportClicked(ActionEvent event) {
     	if(times.isEmpty()) return;
 
-    	List<TimeActivityResource> res = FredObjectMapper.toResourcesFromTimeActivity(times);
+    	List<TimeActivityDTO> res = FredObjectMapper.toResourcesFromTimeActivity(times);
 		Operation operation = collect.getOperation();
 		String technicalCharacteristics = operation.getTechnicalCharacteristics();
 		String info = operation.toString();

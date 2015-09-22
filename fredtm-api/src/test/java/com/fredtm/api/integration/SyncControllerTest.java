@@ -8,10 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.fredtm.api.test.TestBase;
-import com.fredtm.resources.ActivityResource;
-import com.fredtm.resources.OperationResource;
-import com.fredtm.resources.OperationsResource;
-import com.fredtm.resources.SyncResource;
+import com.fredtm.resources.ActivityDTO;
+import com.fredtm.resources.OperationDTO;
+import com.fredtm.resources.OperationsDTO;
+import com.fredtm.resources.SyncDTO;
 import com.fredtm.resources.base.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,42 +26,44 @@ public class SyncControllerTest extends TestBase {
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy hh:mm:ss")
 				.create();
 
-		OperationResource fromJson = gson.fromJson(sb.toString(),
-				OperationResource.class);
+		OperationDTO fromJson = gson.fromJson(sb.toString(),
+				OperationDTO.class);
 
 		String asString = makeContentRequest().given().body(fromJson)
 				.post("/sync").andReturn().body().asString();
 
 
-		SyncResource syncResource = gson.fromJson(asString, SyncResource.class);
+		SyncDTO syncResource = gson.fromJson(asString, SyncDTO.class);
 
 
-		Assert.assertTrue(!syncResource.getUuid().isEmpty());
+		Assert.assertTrue(!syncResource.getUuid().equals(""));
 		
 	}
 
 	@Test
 	public void alreadyExistingOperationSync() {
 		StringBuilder sb = readFromFile("classpath:test.json");
+		
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy hh:mm:ss")
 				.create();
-		OperationResource fromJson = gson.fromJson(sb.toString(),
-				OperationResource.class);
-
+		OperationDTO fromJson = gson.fromJson(sb.toString(),
+				OperationDTO.class);
+		
 		String asString = makeContentRequest().given().body(fromJson)
 				.post("/sync").andReturn().body().asString();
 
-		SyncResource syncResource = gson.fromJson(asString, SyncResource.class);
+		System.out.println("+=================================================================");
+		SyncDTO syncResource = gson.fromJson(asString, SyncDTO.class);
 
 		String ops = makeRequest().given()
 				.pathParam("id", syncResource.getOperationId())
 				.get("/operation/{id}").andReturn().body().asString();
 
-		OperationResource syncdOperation = gson.fromJson(ops,
-				OperationResource.class);
+		OperationDTO syncdOperation = gson.fromJson(ops,
+				OperationDTO.class);
 		
 		Assert.assertEquals("Op de teste", syncdOperation.getName());
-		for (ActivityResource act : syncdOperation.getActivities()) {
+		for (ActivityDTO act : syncdOperation.getActivities()) {
 			if (act.getTitle().equals("B")) {
 				Assert.assertEquals("Descripion of B Modified",
 						act.getDescription());
@@ -79,8 +81,8 @@ public class SyncControllerTest extends TestBase {
 	@Test
 	public void shouldNotSyncOldOperation() {
 		StringBuilder sb = readFromFile("classpath:test.json");
-		OperationResource fromJson = new Gson().fromJson(sb.toString(),
-				OperationResource.class);
+		OperationDTO fromJson = new Gson().fromJson(sb.toString(),
+				OperationDTO.class);
 		Calendar c = GregorianCalendar.getInstance();
 		c.set(2014, 12, 2, 7, 45);
 		fromJson.setModification(c.getTime());
@@ -94,21 +96,21 @@ public class SyncControllerTest extends TestBase {
 	public void shouldReturn2operations() {
 		StringBuilder sb = readFromFile("classpath:testInsert.json");
 		Gson gson = GsonFactory.getGson();
-		OperationResource fromJson = gson.fromJson(sb.toString(),
-				OperationResource.class);
+		OperationDTO fromJson = gson.fromJson(sb.toString(),
+				OperationDTO.class);
 
 		makeContentRequest().given().body(fromJson).post("/sync").andReturn()
 				.body().asString();
 
 		String operationsJson = makeRequest().given()
-				.get("/sync/{accountId}", "A").andReturn().body().asString();
+				.get("/sync/{accountId}", "23ca7484-9126-4eeb-91c7-262197aaef46").andReturn().body().asString();
 
-		Type listType = new TypeToken<OperationsResource>() {
+		Type listType = new TypeToken<OperationsDTO>() {
 		}.getType();
 		
-		OperationsResource operationsResource = gson.fromJson(operationsJson,
+		OperationsDTO operationsResource = gson.fromJson(operationsJson,
 				listType);
-		Assert.assertEquals(2, operationsResource.getEmbedded().getOperationResourceList()
+		Assert.assertEquals(2, operationsResource.getEmbedded().getOperationDTOList()
 				.size());
 
 	}

@@ -16,26 +16,26 @@ import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.Sync;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.core.model.TimeActivityPicture;
-import com.fredtm.resources.ActivityResource;
-import com.fredtm.resources.CollectResource;
-import com.fredtm.resources.OperationResource;
-import com.fredtm.resources.SyncResource;
-import com.fredtm.resources.TimeActivityResource;
+import com.fredtm.resources.ActivityDTO;
+import com.fredtm.resources.CollectDTO;
+import com.fredtm.resources.OperationDTO;
+import com.fredtm.resources.SyncDTO;
+import com.fredtm.resources.TimeActivityDTO;
 
 public class FredObjectMapper {
 
-	public static Operation mapResourceToEntity(OperationResource operationResource) {
+	public static Operation mapResourceToEntity(OperationDTO operationResource) {
 
 		Operation operation = new Operation();
-		operation.setId(operationResource.getUuid() == null || operationResource.getUuid().isEmpty() ? ""
+		operation.setUuid(operationResource.getUuid() == null || operationResource.getUuid().equals("") ? ""
 				: operationResource.getUuid());
 		operation.setTechnicalCharacteristics(operationResource.getTechnicalCharacteristics());
 		operation.setName(operationResource.getName());
 		operation.setCompany(operationResource.getCompany());
 		operation.setModified(operationResource.getModification());
 
-		Set<ActivityResource> activityResources = operationResource.getActivities();
-		for (ActivityResource activityResource : activityResources) {
+		Set<ActivityDTO> activityResources = operationResource.getActivities();
+		for (ActivityDTO activityResource : activityResources) {
 			Activity activity = new Activity();
 			activity.setDescription(activityResource.getDescription());
 			activity.setTitle(activityResource.getTitle());
@@ -47,15 +47,15 @@ public class FredObjectMapper {
 			operation.addActivity(activity);
 		}
 
-		List<CollectResource> collectResources = operationResource.getCollects();
-		for (CollectResource collectResource : collectResources) {
+		List<CollectDTO> collectResources = operationResource.getCollects();
+		for (CollectDTO collectResource : collectResources) {
 			Collect collect = new Collect();
 			collect.setOperation(operation);
 			collect.setActivities(operation.getActivities());
-			Set<TimeActivityResource> timesResources = collectResource.getTimes();
+			Set<TimeActivityDTO> timesResources = collectResource.getTimes();
 			List<TimeActivity> times = new LinkedList<>();
 
-			for (TimeActivityResource timeResource : timesResources) {
+			for (TimeActivityDTO timeResource : timesResources) {
 				TimeActivity time = new TimeActivity();
 				time.setCollectedAmount(timeResource.getCollectedAmount());
 				time.setFinalDate(timeResource.getFinalDate());
@@ -81,66 +81,66 @@ public class FredObjectMapper {
 		return operation;
 	}
 
-	public static List<Operation> mapResourcesToEntities(List<OperationResource> resources) {
+	public static List<Operation> mapResourcesToEntities(List<OperationDTO> resources) {
 		return resources.stream().map(FredObjectMapper::mapResourceToEntity).collect(Collectors.toList());
 	}
 
-	public static OperationResource mapEntityToResource(Operation entity, String accUuid) {
+	public static OperationDTO mapEntityToResource(Operation entity, String accUuid) {
 
-		return new OperationResource().uuid(entity.getId()).name(entity.getName())
+		return new OperationDTO().uuid(entity.getUuid()).name(entity.getName())
 				.technicalCharacteristics(entity.getTechnicalCharacteristics()).company(entity.getCompany())
 				.modification(entity.getModified())
-				.accountId(entity.getAccount() != null ? entity.getAccount().getId() : null)
+				.accountId(entity.getAccount() != null ? entity.getAccount().getUuid() : null)
 				.activities(toResourcesActivities(entity.getActivities())).collects(toResourcesCol(entity.getCollects()))
 				.lastSync(toResource(entity.getLastSync()));
 
 	}
 
-	private static SyncResource toResource(Sync entity) {
-		SyncResource sr = new SyncResource();
+	private static SyncDTO toResource(Sync entity) {
+		SyncDTO sr = new SyncDTO();
 		if (entity != null) {
-			sr.uuid(entity.getId()).created(entity.getCreated()).operationId(entity.getOperation().getId());
+			sr.uuid(entity.getUuid()).created(entity.getCreated()).operationId(entity.getOperation().getUuid());
 		}
 		return sr;
 	}
 
-	public static Set<ActivityResource> toResourcesActivities(Collection<Activity> set) {
-		Set<ActivityResource> crs = new HashSet<>();
+	public static Set<ActivityDTO> toResourcesActivities(Collection<Activity> set) {
+		Set<ActivityDTO> crs = new HashSet<>();
 		for (Activity entity : set) {
-			ActivityResource ar = new ActivityResource();
+			ActivityDTO ar = new ActivityDTO();
 			ar.title(entity.getTitle()).description(entity.getDescription())
 					.activityType(entity.getActivityType().getActivityType()).itemName(entity.getItemName())
-					.quantitative(entity.isQuantitative()).operationId(entity.getOperation().getId());
+					.quantitative(entity.isQuantitative()).operationId(entity.getOperation().getUuid());
 			crs.add(ar);
 		}
 		return crs;
 	}
 
-	private static List<CollectResource> toResourcesCol(List<Collect> cols) {
-		List<CollectResource> crs = new LinkedList<>();
+	private static List<CollectDTO> toResourcesCol(List<Collect> cols) {
+		List<CollectDTO> crs = new LinkedList<>();
 		for (Collect entity : cols) {
-			CollectResource cr = new CollectResource();
+			CollectDTO cr = new CollectDTO();
 			List<Activity> activities = entity.getActivities();
-			List<ActivityResource> acrs = new ArrayList<>(toResourcesActivities(activities));
+			List<ActivityDTO> acrs = new ArrayList<>(toResourcesActivities(activities));
 			List<TimeActivity> times = entity.getTimes();
-			List<TimeActivityResource> tars = toResourcesFromTimeActivity(times);
+			List<TimeActivityDTO> tars = toResourcesFromTimeActivity(times);
 
-			cr.setOperationId(entity.getOperation().getId());
-			cr.setActivities(new HashSet<ActivityResource>(acrs));
-			cr.setTimes(new HashSet<TimeActivityResource>(tars));
+			cr.setOperationId(entity.getOperation().getUuid());
+			cr.setActivities(new HashSet<ActivityDTO>(acrs));
+			cr.setTimes(new HashSet<TimeActivityDTO>(tars));
 			crs.add(cr);
 		}
 		return crs;
 	}
 
-	public static List<TimeActivityResource> toResourcesFromTimeActivity(List<TimeActivity> tas) {
-		List<TimeActivityResource> trs = new ArrayList<>();
+	public static List<TimeActivityDTO> toResourcesFromTimeActivity(List<TimeActivity> tas) {
+		List<TimeActivityDTO> trs = new ArrayList<>();
 		for (TimeActivity entity : tas) {
-			TimeActivityResource tar = new TimeActivityResource();
+			TimeActivityDTO tar = new TimeActivityDTO();
 			Location location = new Location(0, 0);
-			tar.uuid(entity.getId()).activityTitle(entity.getActivity().getTitle())
-					.collectId(entity.getCollect().getId()).startDate(entity.getStartDate()).timed(entity.getTimed())
-					.activityId(entity.getActivity().getId()).finalDate(entity.getFinalDate())
+			tar.uuid(entity.getUuid()).activityTitle(entity.getActivity().getTitle())
+					.collectId(entity.getCollect().getUuid()).startDate(entity.getStartDate()).timed(entity.getTimed())
+					.activityId(entity.getActivity().getUuid()).finalDate(entity.getFinalDate())
 					.latitude(entity.getLocation().orElseGet(() -> location).getLatitude())
 					.longitude(entity.getLocation().orElseGet(() -> location).getLongitude())
 					.collectedAmount(entity.getCollectedAmount());
@@ -160,8 +160,8 @@ public class FredObjectMapper {
 		return trs;
 	}
 
-	public static List<OperationResource> mapEntitiesToResources(List<Operation> entities) {
-		List<OperationResource> resources = new LinkedList<>();
+	public static List<OperationDTO> mapEntitiesToResources(List<Operation> entities) {
+		List<OperationDTO> resources = new LinkedList<>();
 		for (Operation e : entities) {
 			resources.add(mapEntityToResource(e, "0"));
 		}

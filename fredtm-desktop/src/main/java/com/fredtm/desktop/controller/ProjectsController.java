@@ -42,7 +42,7 @@ public class ProjectsController extends BaseController implements Initializable 
 	public void initialize(URL url, ResourceBundle bundle) {
 		MenuItem menucollect = new MenuItem("Ver coletas");
 		MenuItem menuAtividade = new MenuItem("Ver atividades");
-		MenuItem menuExport = new MenuItem("Export todas operaÁıes");
+		MenuItem menuExport = new MenuItem("Export todas opera√ß√µes");
 		
 		menuAtividade.setOnAction(ev -> MainEventBus.INSTANCE.eventOpenActivities(operation));
 		menucollect.setOnAction(ev -> MainEventBus.INSTANCE.eventOpenCollects(operation));
@@ -65,14 +65,14 @@ public class ProjectsController extends BaseController implements Initializable 
 
 	private void exportOperations() {
 		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o diretÛrio destino de exportaÁ„o");
+		dc.setTitle("Escolha o diret√≥rio destino de exporta√ß√£o");
 		File selectedDirectory = dc.showDialog(getWindow());
 		if (selectedDirectory.isDirectory() && selectedDirectory.canWrite()) {
 			OperationsToJson op = new OperationsToJson();
 			op.export(operations, selectedDirectory.getAbsolutePath());
-			JOptionPane.showMessageDialog(null, "ExportaÁ„o completa!");
+			JOptionPane.showMessageDialog(null, "Exporta√ß√£o completa!");
 		} else {
-			JOptionPane.showMessageDialog(null, "Erro ao exportar. Verifique se o destino È um diretÛrio v·lido.");
+			JOptionPane.showMessageDialog(null, "Erro ao exportar. Verifique se o destino √© um diret√≥rio v√°lido.");
 		}
 	}
 	

@@ -42,10 +42,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
@@ -53,11 +49,7 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+	
 		<dependency>
 			<groupId>com.fredtm</groupId>
 			<artifactId>fredtm-data</artifactId>
@@ -73,33 +65,10 @@
 			<artifactId>swagger-springmvc</artifactId>
 			<version>0.8.8</version>
 		</dependency>
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.fredtm</groupId>
-			<artifactId>fredtm-java-sdk</artifactId>
-			<version>1.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.jayway.restassured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>2.4.0</version>
-			<scope>test</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
@@ -130,6 +99,40 @@
 			<version>0.4</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.5.1</version>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fredtm</groupId>
+			<artifactId>fredtm-java-sdk</artifactId>
+			<version>1.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>2.4.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		
 	</dependencies>
 
 	<repositories>

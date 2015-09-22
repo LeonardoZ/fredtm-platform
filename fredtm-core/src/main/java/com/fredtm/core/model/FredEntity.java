@@ -1,14 +1,15 @@
 package com.fredtm.core.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @MappedSuperclass
 public class FredEntity implements Serializable {
@@ -17,10 +18,11 @@ public class FredEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@Column(length = 36, nullable = false,unique=true)
-	protected String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column(nullable = false, unique = true)
+	private String uuid;
 
 	@Transient
 	protected final Validation validation;
@@ -29,12 +31,25 @@ public class FredEntity implements Serializable {
 		validation = new Validation();
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getUuid() {
+		return this.uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	@PrePersist
+	public void configureUuid() {
+		this.uuid = UUID.randomUUID().toString();
 	}
 
 	@Override
