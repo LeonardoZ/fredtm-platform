@@ -52,6 +52,7 @@ public class FredObjectMapper {
 			Collect collect = new Collect();
 			collect.setOperation(operation);
 			collect.setActivities(operation.getActivities());
+			
 			Set<TimeActivityDTO> timesResources = collectResource.getTimes();
 			List<TimeActivity> times = new LinkedList<>();
 
@@ -62,9 +63,14 @@ public class FredObjectMapper {
 				time.setStartDate(timeResource.getStartDate());
 				time.setTimed(timeResource.getTimed());
 				time.setCollect(collect);
-				Activity activity = operation.getActivities().stream()
-						.filter(a -> a.getTitle().equals(timeResource.getActivityTitle())).findFirst().get();
+				
+				Activity activity = 
+						operation.getActivities().stream()
+						.filter(a -> a.getTitle().equals(timeResource.getActivityTitle()))
+						.findFirst()
+						.get();
 				time.setActivity(activity);
+				
 				time.setLocation(new Location(timeResource.getLatitude(), timeResource.getLongitude()));
 				timeResource.getPics().forEach(p -> {
 					TimeActivityPicture tap = new TimeActivityPicture();
@@ -91,7 +97,7 @@ public class FredObjectMapper {
 				.technicalCharacteristics(entity.getTechnicalCharacteristics()).company(entity.getCompany())
 				.modification(entity.getModified())
 				.accountId(entity.getAccount() != null ? entity.getAccount().getUuid() : null)
-				.activities(toResourcesActivities(entity.getActivities())).collects(toResourcesCol(entity.getCollects()))
+				.activities(toResourcesActivities(entity.getActivities())).collects(toResourcesCol(entity.getCollectsList()))
 				.lastSync(toResource(entity.getLastSync()));
 
 	}

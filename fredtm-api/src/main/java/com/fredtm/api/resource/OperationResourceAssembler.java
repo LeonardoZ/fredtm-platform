@@ -37,7 +37,7 @@ public class OperationResourceAssembler extends ElementParser<Operation, Operati
 						new HashSet<ActivityDTO>(ars.toResources(entity
 								.getActivities())))
 				.collects(cra.toResources(entity
-								.getCollects()))
+								.getCollectsList()))
 				.lastSync(sra.toResource(entity
 						.getLastSync()));
 

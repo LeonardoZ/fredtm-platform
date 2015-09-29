@@ -18,6 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +26,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "operation")
@@ -49,12 +52,18 @@ public class Operation extends FredEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 
+
+	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private Set<Activity> activities;
 
+
+	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private Set<Collect> collects;
 
+
+	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER, mappedBy = "operation")
 	private List<Sync> syncs;
 
@@ -116,8 +125,12 @@ public class Operation extends FredEntity {
 		this.activities = new HashSet<Activity>(activities);
 		this.activities.forEach(a -> a.setOperation(this));
 	}
+	
+	public Set<Collect> getCollects() {
+		return this.collects;
+	}
 
-	public List<Collect> getCollects() {
+	public List<Collect> getCollectsList() {
 		return new ArrayList<>(collects);
 	}
 
@@ -128,6 +141,7 @@ public class Operation extends FredEntity {
 
 	public void addCollect(Collect c) {
 		this.collects.add(c);
+		c.setOperation(this);
 	}
 
 	public void removeCollect(Collect c) {
@@ -237,7 +251,11 @@ public class Operation extends FredEntity {
 		sb.append(sdf.format(lastTime));
 		return sb.toString();
 	}
-	
+
+	@PrePersist
+	public void setModificate(){
+		setModified(new Date());
+	}
 
 	@Override
 	public String toString() {

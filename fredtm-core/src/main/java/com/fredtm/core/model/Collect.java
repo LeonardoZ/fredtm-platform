@@ -24,6 +24,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "collect")
@@ -50,8 +52,8 @@ public class Collect extends FredEntity {
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
 
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.DETACH }, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
+	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
 	private List<TimeActivity> times;
 
 	@Transient
@@ -63,7 +65,6 @@ public class Collect extends FredEntity {
 	public Collect() {
 		activities = new ArrayList<Activity>();
 		collectedTimes = new HashMap<Integer, List<TimeActivity>>();
-		times = new ArrayList<TimeActivity>();
 	}
 
 	public Collect(Collect collect) {

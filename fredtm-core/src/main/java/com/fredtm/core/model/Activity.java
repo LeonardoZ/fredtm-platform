@@ -1,8 +1,5 @@
 package com.fredtm.core.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,7 +7,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,9 +39,6 @@ public class Activity extends FredEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "activity")
-	private Set<TimeActivity> times;
 
 	public Activity() {
 		quantitative = false;

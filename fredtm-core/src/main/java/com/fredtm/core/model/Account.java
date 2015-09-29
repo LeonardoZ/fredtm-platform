@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "account")
@@ -39,6 +41,8 @@ public class Account extends FredEntity {
 	@OneToMany(mappedBy = "account")
 	private List<Operation> operations;
 
+
+	@Fetch(FetchMode.JOIN)
 	@ElementCollection(fetch=FetchType.EAGER,targetClass = Role.class)
 	@CollectionTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id") )
 	@Column(name = "role", length = 15)

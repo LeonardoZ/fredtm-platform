@@ -80,15 +80,16 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 
 		if (state == SyncState.SYNC_EXISTING) {
 			Operation oldOperation = operationService.getOperation(uuid);
-			System.err.println("In the old one " + oldOperation.getCollects().size());
+			System.err.println("In the old one " + oldOperation.getCollectsList().size());
 			Operation newOperation = logic.doSyncOnExisting(fullResource);
-			// logic doesn't cover account
+			// logic doesn't cover account and op id
+			newOperation.setId(oldOperation.getId());
 			newOperation.setAccount(acc);
-			System.err.println("New " + newOperation.getCollects().size());
+			System.err.println("New " + newOperation.getCollectsList().size());
 			sync = service.receiveSync(oldOperation, newOperation);
 
 		} else if (state == SyncState.NEW_SYNC) {
-			System.err.println("Sync existing +"+fullResource.toString());
+			System.err.println("Sync New +" + fullResource.toString());
 			Operation newOperation = logic.doSyncOnExisting(fullResource);
 			// logic doesn't cover account
 			newOperation.setAccount(acc);
@@ -113,6 +114,7 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 		}
 	}
 
+	
 	@Override
 	public Resource<SyncDTO> configureResource(Sync e) {
 		SyncDTO resource = syncAssembler.toResource(e);

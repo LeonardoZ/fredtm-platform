@@ -31,7 +31,7 @@ public class SyncServiceImpl implements SyncService {
 
 	@Autowired
 	private CollectRepository collectRepo;
-	
+
 	@Autowired
 	private TimeActivityRepository timeRepository;
 
@@ -76,10 +76,19 @@ public class SyncServiceImpl implements SyncService {
 
 		List<Sync> syncs = oldOperation.getSyncs();
 		newOperation.setSyncs(syncs);
+
 		for (Sync s : syncs) {
 			s.setOperation(newOperation);
 		}
-		newOperation = opRepository.save(newOperation);
+		newOperation.getCollectsList().forEach(c -> {
+			c.getTimes().forEach(a -> {
+				System.err.println(a.toString());
+				System.err.println(a.getActivity().getActivityType());
+				System.err.println(a.getCollect());
+				System.err.println("=========================");
+			});
+		});
+		newOperation = opRepository.saveAndFlush(newOperation);
 
 		Date when = new Date();
 		Sync sync = new Sync();
@@ -91,15 +100,25 @@ public class SyncServiceImpl implements SyncService {
 
 	@Transactional(value = TxType.MANDATORY, rollbackOn = Exception.class)
 	public void eraseDataFromOperation(Operation op) {
-		collectRepo.delete(op.getCollects());
+		collectRepo.delete(op.getCollectsList());
 		activityRepo.delete(op.getActivities());
 	}
 
 	@Override
-	@Transactional(rollbackOn = Exception.class)
+	@Transactional(value = TxType.REQUIRED,rollbackOn = Exception.class)
 	public Sync receiveSync(Operation newOperation) {
-
+		newOperation.getCollectsList().forEach(c -> {
+			c.getTimes().forEach(a -> {
+				System.err.println(a.toString());
+				System.err.println(a.getActivity().getActivityType());
+				System.err.println(a.getActivity().getOperation());
+				System.err.println("=========================");
+			});
+		});
 		newOperation = opRepository.save(newOperation);
+		
+		
+		
 		Date when = new Date();
 		Sync sync = new Sync();
 		sync.setCreated(when);

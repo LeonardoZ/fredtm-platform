@@ -34,9 +34,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 public class TimeByActivityController extends BaseController implements Initializable {
 
@@ -44,12 +47,17 @@ public class TimeByActivityController extends BaseController implements Initiali
 	private BarChart<Number, String> horizontalChart;
 	private BarChart<String, Number> verticalChart;
 
+	private ScrollPane allNode;
+	
 	@FXML
 	private VBox rootPane;
 
 	@FXML
 	private ChoiceBox<TimeSystems> chcBox;
 
+    @FXML
+    private Button btnSave;
+	
 	@FXML
 	private Button btnPizza;
 
@@ -64,7 +72,41 @@ public class TimeByActivityController extends BaseController implements Initiali
 	private TimeSystem collectSystem;
 
 	@FXML
+	void onComparativeClicked(ActionEvent event) {
+		this.selected = Charts.ALL;
+		this.btnSave.setDisable(true);
+		
+		VBox father = new VBox();
+
+		allNode = new ScrollPane();
+		allNode.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		allNode.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		allNode.setMaxWidth(Double.MAX_VALUE);
+
+		generateVertical();
+		generateHorizontal();
+		generatePizza();
+		
+		father.getChildren().addAll(verticalChart,timesPizzaChart,horizontalChart);
+		
+		VBox.setVgrow(father, Priority.ALWAYS);
+		VBox.setVgrow(allNode, Priority.ALWAYS);
+
+		allNode.setContent(father);
+		allNode.setFitToWidth(true);
+		addChart(allNode);
+
+	}
+	
+	@FXML
 	void onHorizontalClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
+		generateHorizontal();
+		addChart(this.horizontalChart);
+
+	}
+
+	private void generateHorizontal() {
 		this.selected = Charts.H_BARS;
 		this.horizontalChart = new BarChart<>(getNumberAxis(), getCategoryAxis());
 		
@@ -78,8 +120,6 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 		this.horizontalChart.getData().add(series);
 		this.horizontalChart.setLegendVisible(false);
-		addChart(this.horizontalChart);
-
 	}
 
 	private void addChart(Node chartNode) {
@@ -108,13 +148,19 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 	@FXML
 	void onPizzaClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
 		this.selected = Charts.PIZZA;
 		configurePizzaChart();
 	}
 
 	@FXML
 	void onVerticalClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
+		generateVertical();
+		addChart(this.verticalChart);
+	}
 
+	private void generateVertical() {
 		this.selected = Charts.V_BARS;
 		this.verticalChart = new BarChart<>(getCategoryAxis(), getNumberAxis());
 		Map<String, Optional<Double>> timeByActivities = collectSystem.getTimeByActivities();
@@ -127,7 +173,6 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 		this.verticalChart.getData().add(series);
 		this.verticalChart.setLegendVisible(false);
-		addChart(this.verticalChart);
 	}
 
 	public void setCollect(Collect collect) {
@@ -138,6 +183,11 @@ public class TimeByActivityController extends BaseController implements Initiali
 	}
 
 	private void configurePizzaChart() {
+		generatePizza();
+		addChart(timesPizzaChart);
+	}
+
+	private void generatePizza() {
 		this.selected = Charts.PIZZA;
 		timesPizzaChart = new PieChart();
 
@@ -152,7 +202,6 @@ public class TimeByActivityController extends BaseController implements Initiali
 		timesPizzaChart.setData(list);
 		timesPizzaChart.setLegendVisible(false);
 		timesPizzaChart.setAnimated(true);
-		addChart(timesPizzaChart);
 	}
 
 	String configureLabelPercantage(String text, Double value) {
@@ -184,6 +233,8 @@ public class TimeByActivityController extends BaseController implements Initiali
 				case PIZZA:
 					onPizzaClicked(null);
 					break;
+				case ALL:
+					onComparativeClicked(null);
 				default:
 					break;
 				}
@@ -204,23 +255,26 @@ public class TimeByActivityController extends BaseController implements Initiali
 		case PIZZA:
 			saveImage(timesPizzaChart);
 			break;
+
 		default:
 			return;
 		}
 	}
 
 	public void saveImage(Node node) {
-		WritableImage image = node.snapshot(new SnapshotParameters(), null);
-		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportação");
-		File directory = dc.showDialog(getWindow());
-		if (directory != null && directory.isDirectory() && directory.canWrite()) {
-			File f = new File(directory.getAbsolutePath() + "/tempo_atividade_"
-					+ collectSystem.getCollect().getOperation().toString() + "_" + System.currentTimeMillis() + ".png");
+		FileChooser fileChooser = new FileChooser();
 
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName("Gráfico de Tempo e Atividade - "+System.currentTimeMillis());
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(getWindow());
+		if (file != null) {
 			try {
-				f.createNewFile();
-				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
+				WritableImage snapshot = node.snapshot(new SnapshotParameters(), null);
+				file.createNewFile();
+				ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

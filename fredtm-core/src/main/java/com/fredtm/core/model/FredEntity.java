@@ -56,6 +56,10 @@ public class FredEntity implements Serializable {
 	public int hashCode() {
 		return id.hashCode();
 	}
+	
+	public boolean isNewEntity(){
+		return id == null || id == 0 || uuid == null || uuid.isEmpty();
+	}
 
 	@Override
 	public boolean equals(Object obj) {

@@ -40,10 +40,5 @@
             </Button>
          </children>
       </HBox>
-      <Label text="Distribuição tempo/classificação" VBox.vgrow="NEVER">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
    </children>
 </VBox>

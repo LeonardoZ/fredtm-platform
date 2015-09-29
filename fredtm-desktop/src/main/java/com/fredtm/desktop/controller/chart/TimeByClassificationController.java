@@ -31,6 +31,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
@@ -38,16 +39,20 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 
 @SuppressWarnings("unchecked")
 public class TimeByClassificationController extends BaseController implements Initializable {
-
 
 	@FXML
 	private VBox rootNode;
@@ -105,10 +110,10 @@ public class TimeByClassificationController extends BaseController implements In
 
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
 		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
-		
+
 		VBox.setVgrow(chart, Priority.ALWAYS);
-		
-		chart.setTitle("Tempo/atividade por coleta (ciclo)");
+
+		chart.setTitle("Tempo/classificação por coleta (ciclo)");
 		chart.getData().addAll(seriesList);
 		configureChartOnNode(rootNode);
 	}
@@ -139,11 +144,10 @@ public class TimeByClassificationController extends BaseController implements In
 			configureChartForCollects(Orientation.VERTICAL);
 	}
 
-	
-
 	void configureChart(TimeSystem c, Orientation orientation, Pane rootNode) {
 		Series<Object, Object> series = getSeriesFrom(c, orientation);
 		chart.getData().add(series);
+		configureChartTitle(chart);
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
 		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
 		configureChartOnNode(rootNode);
@@ -163,8 +167,8 @@ public class TimeByClassificationController extends BaseController implements In
 
 	private void removeNodes(Pane rootNode) {
 		int size = rootNode.getChildren().size();
-		if (size > 2) {
-			rootNode.getChildren().remove(2, size);
+		if (size > 1) {
+			rootNode.getChildren().remove(1, size);
 		}
 	}
 
@@ -211,8 +215,9 @@ public class TimeByClassificationController extends BaseController implements In
 		HBox hBoxBars = new HBox();
 		HBox hBoxCircles = new HBox();
 
+		VBox father = new VBox();
 		PieChart pieChart = generatePieChart();
-		PieChart pieSimpleChart = generateSimplesPieChart();
+		PieChart pieSimpleChart = generateSimplePieChart();
 
 		hBoxCircles.getChildren().addAll(pieChart, pieSimpleChart);
 
@@ -221,8 +226,19 @@ public class TimeByClassificationController extends BaseController implements In
 
 		hBoxBars.setAlignment(Pos.CENTER);
 		hBoxCircles.setAlignment(Pos.CENTER);
-		
-		rootNode.getChildren().addAll(hBoxBars, hBoxCircles);
+
+		Label label = new Label("Gráficos de Distribuição Tempo/Classificação");
+		label.setAlignment(Pos.CENTER);
+		label.setCenterShape(true);
+		label.setMaxWidth(Double.MAX_VALUE);
+		label.setFont(Font.font("System", FontPosture.REGULAR, 16.5));
+		label.setTextAlignment(TextAlignment.CENTER);
+		label.setContentDisplay(ContentDisplay.CENTER);
+
+		VBox.setVgrow(label, Priority.NEVER);
+
+		father.getChildren().addAll(label, hBoxBars, hBoxCircles);
+		rootNode.getChildren().addAll(father);
 
 	}
 
@@ -237,7 +253,7 @@ public class TimeByClassificationController extends BaseController implements In
 	@FXML
 	void onSimplePizzaClicked(ActionEvent event) {
 		selected = Charts.PIZZA_SIMPLE;
-		PieChart pieChart = generateSimplesPieChart();
+		PieChart pieChart = generateSimplePieChart();
 		removeNodes(rootNode);
 		rootNode.getChildren().add(pieChart);
 	}
@@ -258,12 +274,13 @@ public class TimeByClassificationController extends BaseController implements In
 		dataAux.getNode().setStyle("-fx-pie-color:" + ActivityType.AUXILIARY.getHexColor() + ";");
 		dataProd.getNode().setStyle("-fx-pie-color:" + ActivityType.PRODUCTIVE.getHexColor() + ";");
 
+		configureChartTitle(pieChart);
 		pieChart.setLegendVisible(false);
 
 		return pieChart;
 	}
 
-	private PieChart generateSimplesPieChart() {
+	private PieChart generateSimplePieChart() {
 		PieChart pieChart = new PieChart();
 		Double totalUn = collectSystem.getValue(ActivityType.UNPRODUCTIVE);
 		Double totalAux = collectSystem.getValue(ActivityType.AUXILIARY);
@@ -279,7 +296,9 @@ public class TimeByClassificationController extends BaseController implements In
 		pieChart.getData().addAll(dataProd, dataNotProd);
 		dataNotProd.getNode().setStyle("-fx-pie-color: #ce77ff;");
 		dataProd.getNode().setStyle("-fx-pie-color:" + ActivityType.PRODUCTIVE.getHexColor() + ";");
-
+		if (selected != Charts.ALL) {
+			pieChart.setTitle("Gráfico de Distribuição Tempo/Classificação Simples");
+		}
 		pieChart.setLegendVisible(false);
 
 		return pieChart;
@@ -293,16 +312,21 @@ public class TimeByClassificationController extends BaseController implements In
 
 	@FXML
 	public void saveAsPng() {
-		WritableImage image = chart.snapshot(new SnapshotParameters(), null);
-		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportação");
-		File directory = dc.showDialog(getWindow());
-		if (directory != null && directory.isDirectory() && directory.canWrite()) {
-			File f = new File(directory.getAbsolutePath() + "/tempo_classific_op.png");
+		Node selectedNode = rootNode.getChildren().get(1);
 
+		FileChooser fileChooser = new FileChooser();
+
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName("Gráfico de Tempos e Classificação - " + System.currentTimeMillis());
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(getWindow());
+		if (file != null) {
 			try {
-				f.createNewFile();
-				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
+				WritableImage snapshot = selectedNode.snapshot(new SnapshotParameters(), null);
+				file.createNewFile();
+				ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -322,6 +346,12 @@ public class TimeByClassificationController extends BaseController implements In
 
 	}
 
+	private void configureChartTitle(Chart chart) {
+		if (selected != Charts.ALL) {
+			chart.setTitle("Gráfico de Distribuição Tempo/Classificação");
+		}
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		chcBox.setItems(FXCollections.observableArrayList(TimeSystems.values()));
@@ -334,8 +364,11 @@ public class TimeByClassificationController extends BaseController implements In
 				if (collectSystem != null) {
 					collectSystem = newValue.build(collectSystem.getCollect());
 				} else {
-					collectsSystem = collectsSystem.stream().map(cs -> newValue.build(cs.getCollect())).collect(Collectors.toList());
+					collectsSystem = collectsSystem.stream().map(cs -> newValue.build(cs.getCollect()))
+							.collect(Collectors.toList());
 				}
+
+				// TODO
 				switch (selected) {
 				case H_BARS:
 					onHorizontalClicked(null);

@@ -26,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
@@ -34,15 +35,19 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 public class TimesChartController extends BaseController implements Initializable {
 
 	@FXML
 	private VBox rootPane;
+
+	private ScrollPane allNode;
 
 	@FXML
 	private ChoiceBox<TimeSystems> chcBox;
@@ -55,6 +60,9 @@ public class TimesChartController extends BaseController implements Initializabl
 
 	private LineChart<String, Number> cumulativeChart;
 
+    @FXML
+    private Button btnSave;
+	
 	@FXML
 	private Button btnPoints;
 
@@ -101,6 +109,8 @@ public class TimesChartController extends BaseController implements Initializabl
 				case CUMULATIVE_LINES:
 					onCumulativeClicked(null);
 					break;
+				case ALL:
+					onComparativeClicked(null);
 				default:
 					break;
 				}
@@ -108,11 +118,47 @@ public class TimesChartController extends BaseController implements Initializabl
 		});
 	}
 
+	@FXML
+	void onComparativeClicked(ActionEvent event) {
+		this.selected = Charts.ALL;
+		this.btnSave.setDisable(true);
+		VBox father = new VBox();
+		allNode = new ScrollPane();
+		allNode.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		allNode.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		allNode.setMaxWidth(Double.MAX_VALUE);
 
+		generateCumulative();
+		generateHorizontal();
+		generateLines();
+		generatePoints();
+
+		father.getChildren().addAll(linesChart, pointsChart, cumulativeChart, horizontalChart);
+		c(linesChart, pointsChart, cumulativeChart, horizontalChart);
+		VBox.setVgrow(father, Priority.ALWAYS);
+		VBox.setVgrow(allNode, Priority.ALWAYS);
+
+		allNode.setContent(father);
+		allNode.setFitToWidth(true);
+		addChart(allNode);
+
+	}
+
+	public void c(Chart... charts) {
+		for (int i = 0; i < charts.length; i++) {
+			charts[i].setAnimated(false);
+		}
+	}
 
 	@FXML
 	void onHorizontalClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
+		generateHorizontal();
+		addChart(this.horizontalChart);
 
+	}
+
+	private void generateHorizontal() {
 		this.selected = Charts.H_BARS;
 		this.horizontalChart = new BarChart<>(getNumberAxis(), getCategoryAxis());
 
@@ -123,16 +169,20 @@ public class TimesChartController extends BaseController implements Initializabl
 			XYChart.Data<Number, String> data = new XYChart.Data<>(v, k.toString());
 			series.getData().add(data);
 		});
-
+		this.horizontalChart.setBarGap(0.1);
 		this.horizontalChart.setTitle("Tempos parciais obtidos na coleta");
 		this.horizontalChart.getData().add(series);
 		this.horizontalChart.setLegendVisible(false);
-		addChart(this.horizontalChart);
-
 	}
 
 	@FXML
 	void onPointsClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
+		generatePoints();
+		addChart(this.pointsChart);
+	}
+
+	private void generatePoints() {
 		this.selected = Charts.POINTS;
 		this.pointsChart = new ScatterChart<>(getCategoryAxis(), getNumberAxis());
 
@@ -150,7 +200,6 @@ public class TimesChartController extends BaseController implements Initializabl
 		this.pointsChart.setTitle("Tempos parciais obtidos na coleta");
 		this.pointsChart.setLegendVisible(false);
 		this.pointsChart.getData().add(series);
-		addChart(this.pointsChart);
 	}
 
 	public void setCollect(Collect collect) {
@@ -162,6 +211,12 @@ public class TimesChartController extends BaseController implements Initializabl
 
 	@FXML
 	void onCumulativeClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
+		generateCumulative();
+		addChart(this.cumulativeChart);
+	}
+
+	private void generateCumulative() {
 		this.selected = Charts.CUMULATIVE_LINES;
 		this.cumulativeChart = new LineChart<>(getCategoryAxis(), getNumberAxis());
 
@@ -179,11 +234,17 @@ public class TimesChartController extends BaseController implements Initializabl
 		this.cumulativeChart.setTitle("Tempos acumulados");
 		this.cumulativeChart.setLegendVisible(false);
 		this.cumulativeChart.getData().add(series);
-		addChart(this.cumulativeChart);
 	}
 
 	@FXML
 	void onLinesClicked(ActionEvent event) {
+		this.btnSave.setDisable(false);
+
+		generateLines();
+		addChart(this.linesChart);
+	}
+
+	private void generateLines() {
 		this.selected = Charts.LINES;
 		this.linesChart = new LineChart<>(getCategoryAxis(), getNumberAxis());
 
@@ -201,7 +262,6 @@ public class TimesChartController extends BaseController implements Initializabl
 		this.linesChart.setTitle("Tempos parciais obtidos na coleta");
 		this.linesChart.setLegendVisible(false);
 		this.linesChart.getData().add(series);
-		addChart(this.linesChart);
 	}
 
 	private void addChart(Node chartNode) {
@@ -245,23 +305,29 @@ public class TimesChartController extends BaseController implements Initializabl
 		case LINES:
 			saveImage(linesChart);
 			break;
+		case ALL:
+			saveImage(allNode.getContent());
+			break;
 		default:
 			return;
 		}
 	}
 
 	public void saveImage(Node node) {
-		WritableImage image = node.snapshot(new SnapshotParameters(), null);
-		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportação");
-		File directory = dc.showDialog(getWindow());
-		if (directory != null && directory.isDirectory() && directory.canWrite()) {
-			File f = new File(directory.getAbsolutePath() + "/tempo_atividade_"
-					+ collectSystem.getCollect().getOperation().toString() + "_" + System.currentTimeMillis() + ".png");
 
+		FileChooser fileChooser = new FileChooser();
+
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName("Gráfico de Tempos - "+System.currentTimeMillis());
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(getWindow());
+		if (file != null) {
 			try {
-				f.createNewFile();
-				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
+				WritableImage snapshot = node.snapshot(new SnapshotParameters(), null);
+				file.createNewFile();
+				ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

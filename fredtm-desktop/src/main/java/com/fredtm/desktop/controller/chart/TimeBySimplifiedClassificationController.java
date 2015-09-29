@@ -31,6 +31,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
@@ -38,15 +39,30 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 
 @SuppressWarnings("unchecked")
 public class TimeBySimplifiedClassificationController extends BaseController implements Initializable {
 
+	enum Charts {
+		V_BARS, H_BARS, PIZZA, ALL;
+	}
+	
+	enum Orientation {
+		HORIZONTAL, VERTICAL
+	}
+
+	
 	@FXML
 	private VBox rootNode;
 
@@ -58,10 +74,6 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 
 	@FXML
 	private Button btnPizza;
-
-	enum Charts {
-		V_BARS, H_BARS, PIZZA, ALL;
-	}
 
 	private Charts selected = Charts.V_BARS;
 
@@ -79,11 +91,6 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		disableButtons();
 	}
 
-	private void disableButtons(){
-		btnPizza.setVisible(false);
-		btnComparative.setVisible(false);
-	}
-	
 	public void setCollect(Collect collect) {
 		int selectedIndex = chcBox.getSelectionModel().getSelectedIndex();
 		selectedIndex = selectedIndex == -1 ? 0 : selectedIndex;
@@ -91,6 +98,12 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		configureDefaultChart();
 	}
 
+	private void disableButtons(){
+		btnPizza.setVisible(false);
+		btnComparative.setVisible(false);
+	}
+	
+	
 	private void configureChartForCollects(Orientation orientation) {
 		AtomicInteger ai = new AtomicInteger(0);
 		List<Series<Object, Object>> seriesList = FXCollections.observableArrayList();
@@ -103,12 +116,12 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
 		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
-		chart.setTitle("Tempo/atividade por coleta (ciclo)");
+		chart.setTitle("Tempo/Classificação por coleta (ciclo)");
 		chart.getData().addAll(seriesList);
 		configureChartOnNode(rootNode);
 	}
 
-	public void configureNumberAxis(Axis<Object> axis) {
+	private void configureNumberAxis(Axis<Object> axis) {
 		TimeSystems ts = chcBox.getSelectionModel().getSelectedItem();
 		boolean isPct = ts == TimeSystems.PCT;
 		axis.setAutoRanging(!isPct);
@@ -137,15 +150,14 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 			configureChartForCollects(Orientation.VERTICAL);
 	}
 
-	enum Orientation {
-		HORIZONTAL, VERTICAL
-	}
+	
 
-	void configureChart(TimeSystem c, Orientation orientation, Pane rootNode) {
+	private void configureChart(TimeSystem c, Orientation orientation, Pane rootNode) {
 		Series<Object, Object> series = getSeriesFrom(c, orientation);
 		chart.getData().add(series);
 		configureNumberAxis(orientation == Orientation.VERTICAL ? chart.getYAxis() : chart.getXAxis());
 		configureCategoryAxis(orientation == Orientation.HORIZONTAL ? chart.getYAxis() : chart.getXAxis());
+		configureChartTitle(chart);
 		configureChartOnNode(rootNode);
 	}
 
@@ -164,7 +176,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "restriction" })
+	@SuppressWarnings({ "rawtypes" })
 	private Series<Object, Object> getSeriesFrom(TimeSystem c, Orientation orientation) {
 		final NumberAxis numberAxis = new NumberAxis();
 		final CategoryAxis categoryAxis = new CategoryAxis();
@@ -210,6 +222,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		removeNodes(rootNode);
 		HBox hBoxBars = new HBox();
 		HBox hBoxCircles = new HBox();
+		VBox father = new VBox();
 
 		PieChart pieChart = generatePieChart();
 		PieChart pieSimpleChart = generateSimplePieChart();
@@ -222,7 +235,18 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		hBoxBars.setAlignment(Pos.CENTER);
 		hBoxCircles.setAlignment(Pos.CENTER);
 		
-		rootNode.getChildren().addAll(hBoxBars, hBoxCircles);
+		Label label = new Label("Gráficos de Distribuição Tempo/Classificação simples");
+		label.setAlignment(Pos.CENTER);
+		label.setCenterShape(true);
+		label.setMaxWidth(Double.MAX_VALUE);
+		label.setFont(Font.font("System", FontPosture.REGULAR, 16.5));
+		label.setTextAlignment(TextAlignment.CENTER);
+		label.setContentDisplay(ContentDisplay.CENTER);
+		
+		VBox.setVgrow(label, Priority.NEVER);
+		
+		father.getChildren().addAll(label, hBoxBars, hBoxCircles);
+		rootNode.getChildren().addAll(father);
 
 	}
 
@@ -251,6 +275,7 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		dataAux.getNode().setStyle("-fx-pie-color:" + ActivityType.AUXILIARY.getHexColor() + ";");
 		dataProd.getNode().setStyle("-fx-pie-color:" + ActivityType.PRODUCTIVE.getHexColor() + ";");
 
+		configureChartTitle(pieChart);
 		pieChart.setLegendVisible(false);
 
 		return pieChart;
@@ -270,7 +295,9 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 		pieChart.getData().addAll(dataProd, dataNotProd);
 		dataNotProd.getNode().setStyle("-fx-pie-color: #ce77ff;");
 		dataProd.getNode().setStyle("-fx-pie-color:" + ActivityType.PRODUCTIVE.getHexColor() + ";");
-
+		if(selected != Charts.ALL){
+			pieChart.setTitle("Gráfico de Distribuição Tempo/Classificação");
+		}
 		pieChart.setLegendVisible(false);
 
 		return pieChart;
@@ -284,24 +311,34 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 
 	@FXML
 	public void saveAsPng() {
-		WritableImage image = chart.snapshot(new SnapshotParameters(), null);
-		DirectoryChooser dc = new DirectoryChooser();
-		dc.setTitle("Escolha o local para salvar sua exportação");
-		File directory = dc.showDialog(getWindow());
-		if (directory != null && directory.isDirectory() && directory.canWrite()) {
-			File f = new File(directory.getAbsolutePath() + "/tempo_classific_op.png");
+		Node selectedNode = rootNode.getChildren().get(1);
+		
+		FileChooser fileChooser = new FileChooser();
 
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName("Gráfico de Tempos e Classificação Simples - "+System.currentTimeMillis());
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(getWindow());
+		if (file != null) {
 			try {
-				f.createNewFile();
-				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", f);
+				WritableImage snapshot = selectedNode.snapshot(new SnapshotParameters(), null);
+				file.createNewFile();
+				ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
+		//
 	}
-
-	public void configureColor(@SuppressWarnings("rawtypes") XYChart.Data dado, ActivityType tipo) {
+	private void configureChartTitle(Chart chart){
+		if(selected != Charts.ALL){
+			chart.setTitle("Gráfico de Distribuição Tempo/Classificação Simples");
+		}
+	}
+	
+	private void configureColor(@SuppressWarnings("rawtypes") XYChart.Data dado, ActivityType tipo) {
 		dado.nodeProperty().addListener(new ChangeListener<Node>() {
 			@Override
 			public void changed(ObservableValue<? extends Node> ov, Node oldNode, Node newNode) {

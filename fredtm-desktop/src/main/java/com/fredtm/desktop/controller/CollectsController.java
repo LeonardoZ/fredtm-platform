@@ -41,7 +41,7 @@ public class CollectsController extends BaseController implements Initializable 
 
 	public void setOperacao(Operation operation) {
 		this.operation = operation;
-		this.collects = new ArrayList<>(operation.getCollects());
+		this.collects = new ArrayList<>(operation.getCollectsList());
 		this.listViewcollects.setItems(FXCollections.observableArrayList(collects));
 
 	}
@@ -59,7 +59,7 @@ public class CollectsController extends BaseController implements Initializable 
 		// TODO - Export todas collects
 		menuExportCollect.setOnAction(ev -> MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(collect)));
 		menuExportAllCollects
-				.setOnAction(ev -> MainEventBus.INSTANCE.eventExportCollects(new ArrayList<>(operation.getCollects())));
+				.setOnAction(ev -> MainEventBus.INSTANCE.eventExportCollects(new ArrayList<>(operation.getCollectsList())));
 
 		ContextMenu contextMenu = new ContextMenu(menuCollecteds, menuExportCollect, menuExportAllCollects,
 				menuGraphicsOptions);
@@ -78,7 +78,7 @@ public class CollectsController extends BaseController implements Initializable 
 
 	@FXML
 	void onExportAllPressed(ActionEvent event) {
-		MainEventBus.INSTANCE.eventExportCollects(new ArrayList<>(operation.getCollects()));
+		MainEventBus.INSTANCE.eventExportCollects(new ArrayList<>(operation.getCollectsList()));
 	}
 
 	@FXML

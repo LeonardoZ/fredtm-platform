@@ -22,8 +22,8 @@ public class FredObjectMapperTest {
 		Operation operation = FredObjectMapper.mapResourceToEntity(fromJson);
 		
 		Assert.assertEquals(2, operation.getActivities().size());
-		Assert.assertEquals(2, operation.getCollects().iterator().next().getActivities().size());
-		Assert.assertEquals(2, operation.getCollects().iterator().next().getTimes().size());
+		Assert.assertEquals(2, operation.getCollectsList().iterator().next().getActivities().size());
+		Assert.assertEquals(2, operation.getCollectsList().iterator().next().getTimes().size());
 	}
 
 	protected String readFromFile(String filePath) {

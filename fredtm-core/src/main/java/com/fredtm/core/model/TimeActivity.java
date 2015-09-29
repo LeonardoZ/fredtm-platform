@@ -68,7 +68,6 @@ public class TimeActivity extends FredEntity {
 	
 	public TimeActivity() {
 		location = new Location(0, 0);
-		activity = new Activity();
 		pictures = new LinkedList<>();
 	}
 
@@ -106,7 +105,6 @@ public class TimeActivity extends FredEntity {
 	}
 
 	public String getFormattedStartDate() {
-		System.out.println(startDate);
 		return sdf.format(new Date(startDate));
 	}
 
