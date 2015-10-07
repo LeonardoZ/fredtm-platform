@@ -52,19 +52,25 @@ public class JwtFilter extends GenericFilterBean {
 	}
 
 	private boolean matches(String path) {
-		return path.equals("/") || AUTHORIZED_PATHS.stream().filter(p -> p.contains(path)).peek(System.out::println)
-				.findAny().isPresent();
+		System.out.println("AQUIOII "+path);
+		return path.equals("/") || 
+				AUTHORIZED_PATHS.stream().filter(p -> path.contains(p))
+				.peek(System.out::println)
+				.findAny()
+				.isPresent();
 	}
-	
-//	public static void main(String[] args) {
-//		byte[] generateSalt = PasswordEncryptionService.generateSalt();
-//		byte[] encryptedPassword = PasswordEncryptionService.getEncryptedPassword("123456", generateSalt);
-//		System.out.println(DatatypeConverter.printHexBinary(encryptedPassword));
-//		System.out.println(DatatypeConverter.printHexBinary(generateSalt));
-//	}
 
-	private static final List<String> AUTHORIZED_PATHS = Arrays.asList("/fredapi/account/login", "/fredapi/base",
-			"/fredapi/account", "/index.html", "/libs/", "/assets/", "/assets/", "/app/modules/fred.js",
-			"/app/modules/config.js", "/app/controllers/login-controller.js");
+	// public static void main(String[] args) {
+	// byte[] generateSalt = PasswordEncryptionService.generateSalt();
+	// byte[] encryptedPassword =
+	// PasswordEncryptionService.getEncryptedPassword("123456", generateSalt);
+	// System.out.println(DatatypeConverter.printHexBinary(encryptedPassword));
+	// System.out.println(DatatypeConverter.printHexBinary(generateSalt));
+	// }
+
+	private static final List<String> AUTHORIZED_PATHS = Arrays.asList("/sdoc.jsp", "/api-docs", "/swagger-ui.js",
+			"/lib/", "/css/","/images","/fredapi/account/login", "/fredapi/base", "/fredapi/account", "/index.html", "/libs/",
+			"/assets/","/app/modules/fred.js", "/app/modules/config.js",
+			"/app/controllers/login-controller.js");
 
 }

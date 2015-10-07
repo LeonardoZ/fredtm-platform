@@ -27,10 +27,6 @@ public interface ResourcesUtil<E, D> {
 		return new ResponseEntity<Resource<D>>(status);
 	}
 	
-	default <C extends Collection<E>> ResponseEntity<Resources<D>> createResponseEntity(C elements, HttpStatus status) {
-		return new ResponseEntity<Resources<D>>(status);
-	}
-	
 	default ResponseEntity<Resources<D>> createResponseForCollection(HttpStatus status) {
 		return new ResponseEntity<Resources<D>>(status);
 	}

@@ -12,12 +12,20 @@ public class SyncResourceAssembler extends
 
 	@Override
 	public SyncDTO toResource(Sync entity) {
+		if(entity == null) return new SyncDTO();
 		SyncDTO sr = new SyncDTO();
-		sr.uuid(entity.getUuid()).created(entity.getCreated())
-				.operationId(entity.getOperation().getUuid());
+		sr.uuid(entity.getUuid())
+			.created(entity.getCreated())
+			.operationId(entity.getOperation().getUuid());
 			
 		return sr;
 
+	}
+
+	@Override
+	public Sync fromResource(SyncDTO resource) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

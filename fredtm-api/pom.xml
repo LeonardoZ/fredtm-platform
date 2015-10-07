@@ -49,7 +49,7 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>com.fredtm</groupId>
 			<artifactId>fredtm-data</artifactId>
@@ -59,11 +59,6 @@
 			<groupId>com.fredtm</groupId>
 			<artifactId>fredtm-resources</artifactId>
 			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mangofactory</groupId>
-			<artifactId>swagger-springmvc</artifactId>
-			<version>0.8.8</version>
 		</dependency>
 
 		<dependency>
@@ -91,6 +86,16 @@
 			<groupId>org.apache.directory.studio</groupId>
 			<artifactId>org.apache.commons.io</artifactId>
 			<version>2.4</version>
+		</dependency>
+
+
+		<!-- Rest doc -->
+
+
+		<dependency>
+			<groupId>com.mangofactory</groupId>
+			<artifactId>swagger-springmvc</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 
 		<dependency>
@@ -131,8 +136,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		
+
+
 	</dependencies>
 
 	<repositories>

@@ -30,17 +30,15 @@ import com.fredtm.api.security.JwtFilter;
 @EnableEntityLinks
 public class FredTmApiConfig {
 
+	@Bean
+	public FilterRegistrationBean jwtFilter() {
+		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		registrationBean.setFilter(new JwtFilter());
+		registrationBean.addUrlPatterns("/*");
+		registrationBean.setOrder(10);
+		return registrationBean;
+	}
 
-	  @Bean
-	    public FilterRegistrationBean jwtFilter() {
-	        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-	        registrationBean.setFilter(new JwtFilter());
-	        registrationBean.addUrlPatterns("/*");
-	        registrationBean.setOrder(10);
-	        return registrationBean;
-	    }
-
-	
 	@Bean
 	public Jackson2ObjectMapperBuilder jacksonBuilder() {
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
@@ -51,6 +49,7 @@ public class FredTmApiConfig {
 		builder.configure(objectMapper);
 		return builder;
 	}
+
 
 	public static void main(String[] args) {
 		String webPort = System.getenv("PORT");

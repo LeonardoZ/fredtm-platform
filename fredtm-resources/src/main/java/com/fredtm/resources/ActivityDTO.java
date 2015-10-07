@@ -51,6 +51,8 @@ public class ActivityDTO extends FredDTOSupport {
 	}
 
 	public ActivityDTO() {
+		quantitative = Boolean.FALSE;
+		
 	}
 
 	public String getTitle() {

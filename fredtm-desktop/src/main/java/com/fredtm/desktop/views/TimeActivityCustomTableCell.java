@@ -3,6 +3,8 @@ package com.fredtm.desktop.views;
 import java.io.InputStream;
 import java.util.Optional;
 
+import javax.swing.JOptionPane;
+
 import com.fredtm.core.model.Location;
 import com.fredtm.core.model.TimeActivity;
 import com.lynden.gmapsfx.GoogleMapView;
@@ -31,14 +33,14 @@ public class TimeActivityCustomTableCell extends TableCell<TimeActivity, Optiona
 		this.location = value.orElse(new Location());
 		setText("");
 		setGraphic(null);
-		
-		if(location.getLatitude().equals("0.0") || location.getLongitude().equals("0.0") ){
+
+		if (location.getLatitude().equals("0.0") || location.getLongitude().equals("0.0")) {
 			return;
 		}
 		ImageView image = null;
-			InputStream newInputStream = TimeActivityCustomTableCell.class.getResourceAsStream("/images/ic_maps_place.png");
-			image = new ImageView();
-			image.setImage(new Image(newInputStream));
+		InputStream newInputStream = TimeActivityCustomTableCell.class.getResourceAsStream("/images/ic_maps_place.png");
+		image = new ImageView();
+		image.setImage(new Image(newInputStream));
 		setOnMouseClicked(evt -> {
 			createMapView();
 		});
@@ -49,18 +51,20 @@ public class TimeActivityCustomTableCell extends TableCell<TimeActivity, Optiona
 	public void mapInitialized() {
 		Double latitude = Double.valueOf(location.getLatitude());
 		Double longitude = Double.valueOf(location.getLongitude());
+		try {
+			MapOptions mapOptions = new MapOptions();
+			mapOptions.center(new LatLong(latitude, longitude)).overviewMapControl(true).panControl(true)
+					.rotateControl(true).scaleControl(true).streetViewControl(true).zoomControl(true).zoom(12);
+			GoogleMap map = view.createMap(mapOptions);
+			// Add a marker to the map
+			MarkerOptions markerOptions = new MarkerOptions();
+			markerOptions.position(new LatLong(latitude, longitude)).visible(Boolean.TRUE);
+			Marker marker = new Marker(markerOptions);
+			map.addMarker(marker);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Conexão com a Internet não encontrada.");
+		}
 
-		MapOptions mapOptions = new MapOptions();
-		mapOptions.center(new LatLong(latitude, longitude)).overviewMapControl(true).panControl(true)
-				.rotateControl(true).scaleControl(true).streetViewControl(true).zoomControl(true).zoom(12);
-
-		GoogleMap map = view.createMap(mapOptions);
-
-		// Add a marker to the map
-		MarkerOptions markerOptions = new MarkerOptions();
-		markerOptions.position(new LatLong(latitude, longitude)).visible(Boolean.TRUE);
-		Marker marker = new Marker(markerOptions);
-		map.addMarker(marker);
 	}
 
 	public void createMapView() {

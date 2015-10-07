@@ -1,5 +1,6 @@
 package com.fredtm.service;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -50,6 +51,7 @@ public class OperationServiceImpl implements OperationService {
 	@Override
 	@Transactional(value = TxType.REQUIRED, rollbackOn = Exception.class)
 	public Operation saveOperation(Operation operation) {
+		operation.setModified(new Date());
 		return opRepository.save(operation);
 
 	}

@@ -1,6 +1,6 @@
 package com.fredtm.resources;
 
-import java.util.ArrayList;	
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class FredReportFactory {
 				tar.setFinalDate(end);
 
 				start = end;
-				//"latitude":"-22.7504329","longitude":"-48.5698419"
+				// "latitude":"-22.7504329","longitude":"-48.5698419"
 				tar.setCollectIndex(colIndex);
 				if (i % 5 == 0) {
 					tar.setActivityType("AUXILIARY");
@@ -75,6 +75,10 @@ public class FredReportFactory {
 					tar.setActivityType("PRODUCTIVE");
 					tar.setLatitude("-22.7504329");
 					tar.setLongitude("-48.5698419");
+					if (i == 18){
+						tar.setCollectedAmount(12);
+						tar.setItemName("Plants");
+					}
 				} else {
 					tar.setActivityType("UNPRODUCTIVE");
 					tar.setLatitude("-22.7504339");
@@ -90,13 +94,13 @@ public class FredReportFactory {
 	public static List<TimeActivityDTO> createTimes() {
 		return createTimesWithIndex("1");
 	}
-	
+
 	public static List<ActivityDTO> createActivities() {
 		List<ActivityDTO> acts = new ArrayList<>();
 		for (int i = 0; i < 15; i++) {
 			ActivityDTO ar = new ActivityDTO();
 			ar.setTitle(Integer.toHexString(i));
-			ar.setDescription(Integer.toBinaryString(i*120));
+			ar.setDescription(Integer.toBinaryString(i * 120));
 			if (i % 5 == 0) {
 				ar.setActivityType(1);
 			} else if (i % 2 == 0) {

@@ -9,6 +9,16 @@ public abstract class ElementParser<T, R extends FredDTOSupport> {
 	
 	public abstract R toResource(T entity);
 
+	public abstract  T fromResource(R resource);
+	
+	public List<T> toEntities(List<R> rs) {
+		List<T> es = new LinkedList<>();
+		for (R r : rs) {
+			es.add(fromResource(r));
+		}
+		return es;
+	}
+	
 	public List<R> toResources(List<T> entities) {
 		List<R> resources = new LinkedList<R>();
 		for (T t : entities) {

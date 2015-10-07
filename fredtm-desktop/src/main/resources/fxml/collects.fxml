@@ -21,6 +21,7 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#onGeneralReportClicked" text="Relatório geral de coletas" />
                   <MenuItem mnemonicParsing="false" onAction="#onGeneralSimplifiedReportClicked" text="Relatório geral de coletas simplificado" />
+                  <MenuItem mnemonicParsing="false" onAction="#onProductionReportClicked" text="Relatório de produção" />
               </items>
             </MenuButton>
             <MenuButton fx:id="btnGraphicOption" mnemonicParsing="false" text="Análise geral">

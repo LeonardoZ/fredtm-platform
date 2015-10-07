@@ -1,6 +1,3 @@
-
-
-
 INSERT INTO account(id,uuid,email,name,password_hash,salt) VALUES(1,'23ca7484-9126-4eeb-91c7-262197aaef46','leo.zapparoli@gmail.com','leo','82B0369FBF21C6D1C1718B3B48A23FBA0AC78570','FAE4CE6E796026E7');
 INSERT INTO account(id,uuid,email,name,password_hash,salt) VALUES(2,'48493871-920d-43b9-bdd0-5f804d1b9be4','beth.zapparoli@gmail.com','Beth','82B0369FBF21C6D1C1718B3B48A23FBA0AC78570','FAE4CE6E796026E7');
 INSERT INTO account(id,uuid,email,name,password_hash,salt) VALUES(3,'2b7d6dc0-76ce-4d55-82d0-28ea515ed00a','ze.zapparoli@gmail.com','Zé','82B0369FBF21C6D1C1718B3B48A23FBA0AC78570','FAE4CE6E796026E7');

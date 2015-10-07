@@ -13,4 +13,9 @@ public class AccountResourceAssembler extends ElementParser<Account, AccountDTO>
 		return new AccountDTO().uuid(entity.getUuid()).email(entity.getEmail()).name(entity.getName());
 	}
 
+	@Override
+	public Account fromResource(AccountDTO resource) {
+		return null;
+	}
+
 }

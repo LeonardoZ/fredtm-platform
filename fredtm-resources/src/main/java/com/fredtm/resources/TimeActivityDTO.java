@@ -12,6 +12,7 @@ public class TimeActivityDTO extends FredDTOSupport {
 
 	private String activityId;
 	private String activityTitle;
+	private String itemName;
 	private String collectId;
 	private String collectIndex;
 	private String activityType;
@@ -40,7 +41,11 @@ public class TimeActivityDTO extends FredDTOSupport {
 		this.collectId = value;
 		return this;
 	}
-
+	
+	public TimeActivityDTO itemName(String item) {
+		this.itemName = item;
+		return this;
+	}
 	public TimeActivityDTO activityId(String value) {
 		this.activityId = value;
 		return this;
@@ -95,6 +100,14 @@ public class TimeActivityDTO extends FredDTOSupport {
 		this.activityId = activityId;
 	}
 
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	
+	public String getItemName() {
+		return this.itemName;
+	}
+	
 	public String getCollectId() {
 		return collectId;
 	}

@@ -35,53 +35,55 @@ public class FredObjectMapper {
 		operation.setModified(operationResource.getModification());
 
 		Set<ActivityDTO> activityResources = operationResource.getActivities();
-		for (ActivityDTO activityResource : activityResources) {
-			Activity activity = new Activity();
-			activity.setDescription(activityResource.getDescription());
-			activity.setTitle(activityResource.getTitle());
-			activity.setActivityType(
-					ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE));
-			activity.setItemName(activityResource.getItemName());
-			activity.setIsQuantitative(activityResource.getQuantitative());
-			activity.setOperation(operation);
-			operation.addActivity(activity);
+		if (activityResources != null) {
+			for (ActivityDTO activityResource : activityResources) {
+				Activity activity = new Activity();
+				activity.setDescription(activityResource.getDescription());
+				activity.setTitle(activityResource.getTitle());
+				activity.setActivityType(
+						ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE));
+				activity.setItemName(activityResource.getItemName());
+				activity.setIsQuantitative(activityResource.getQuantitative());
+				activity.setOperation(operation);
+				operation.addActivity(activity);
+			}
 		}
 
 		List<CollectDTO> collectResources = operationResource.getCollects();
-		for (CollectDTO collectResource : collectResources) {
-			Collect collect = new Collect();
-			collect.setOperation(operation);
-			collect.setActivities(operation.getActivities());
-			
-			Set<TimeActivityDTO> timesResources = collectResource.getTimes();
-			List<TimeActivity> times = new LinkedList<>();
+		if (collectResources != null) {
+			for (CollectDTO collectResource : collectResources) {
+				Collect collect = new Collect();
+				collect.setOperation(operation);
+				collect.setActivities(operation.getActivities());
 
-			for (TimeActivityDTO timeResource : timesResources) {
-				TimeActivity time = new TimeActivity();
-				time.setCollectedAmount(timeResource.getCollectedAmount());
-				time.setFinalDate(timeResource.getFinalDate());
-				time.setStartDate(timeResource.getStartDate());
-				time.setTimed(timeResource.getTimed());
-				time.setCollect(collect);
-				
-				Activity activity = 
-						operation.getActivities().stream()
-						.filter(a -> a.getTitle().equals(timeResource.getActivityTitle()))
-						.findFirst()
-						.get();
-				time.setActivity(activity);
-				
-				time.setLocation(new Location(timeResource.getLatitude(), timeResource.getLongitude()));
-				timeResource.getPics().forEach(p -> {
-					TimeActivityPicture tap = new TimeActivityPicture();
-					tap.setContent(p.getCompressedPictureContent().getBytes());
-					time.addPicture(tap);
-				});
+				Set<TimeActivityDTO> timesResources = collectResource.getTimes();
+				List<TimeActivity> times = new LinkedList<>();
 
-				times.add(time);
+				for (TimeActivityDTO timeResource : timesResources) {
+					TimeActivity time = new TimeActivity();
+					time.setCollectedAmount(timeResource.getCollectedAmount());
+					time.setFinalDate(timeResource.getFinalDate());
+					time.setStartDate(timeResource.getStartDate());
+					time.setTimed(timeResource.getTimed());
+					time.setCollect(collect);
+
+					Activity activity = operation.getActivities().stream()
+							.filter(a -> a.getTitle().equals(timeResource.getActivityTitle())).findFirst().get();
+					time.setActivity(activity);
+					time.setCollectedAmount(timeResource.getCollectedAmount());
+
+					time.setLocation(new Location(timeResource.getLatitude(), timeResource.getLongitude()));
+					timeResource.getPics().forEach(p -> {
+						TimeActivityPicture tap = new TimeActivityPicture();
+						tap.setContent(p.getCompressedPictureContent().getBytes());
+						time.addPicture(tap);
+					});
+
+					times.add(time);
+				}
+				collect.setTimes(times);
+				operation.addCollect(collect);
 			}
-			collect.setTimes(times);
-			operation.addCollect(collect);
 		}
 
 		return operation;
@@ -97,8 +99,8 @@ public class FredObjectMapper {
 				.technicalCharacteristics(entity.getTechnicalCharacteristics()).company(entity.getCompany())
 				.modification(entity.getModified())
 				.accountId(entity.getAccount() != null ? entity.getAccount().getUuid() : null)
-				.activities(toResourcesActivities(entity.getActivities())).collects(toResourcesCol(entity.getCollectsList()))
-				.lastSync(toResource(entity.getLastSync()));
+				.activities(toResourcesActivities(entity.getActivities()))
+				.collects(toResourcesCol(entity.getCollectsList())).lastSync(toResource(entity.getLastSync()));
 
 	}
 

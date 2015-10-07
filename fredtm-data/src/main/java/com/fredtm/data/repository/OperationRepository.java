@@ -17,7 +17,7 @@ import com.fredtm.core.model.Operation;
 public interface OperationRepository extends JpaRepository<Operation, Integer> {
 	
 	Operation findByUuid(String uuid);
-
+	
 	Operation findByIdAndModifiedAfter(Integer id, Date param);
 
 	@Query(name = "Operation.findOperationsByAccount", value = "select o from Operation o where o.account = :acc order by o.modified desc")

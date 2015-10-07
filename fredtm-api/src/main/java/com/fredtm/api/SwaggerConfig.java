@@ -8,9 +8,9 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
+import com.mangofactory.swagger.models.dto.ApiInfo;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import com.wordnik.swagger.model.ApiInfo;
 
 @Configuration
 @ActiveProfiles(profiles = { "dev", "prod" })
@@ -26,7 +26,8 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public SwaggerSpringMvcPlugin customImplementation() {
-		return new SwaggerSpringMvcPlugin(this.springSwaggerConfig).apiInfo(apiInfo()).includePatterns("/fredapi/.*");
+		return new SwaggerSpringMvcPlugin(this.springSwaggerConfig)
+					.apiInfo(apiInfo()).includePatterns("/fredapi/.*");
 
 	}
 
