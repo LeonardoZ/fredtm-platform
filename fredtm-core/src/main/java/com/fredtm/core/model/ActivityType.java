@@ -5,20 +5,22 @@ import java.util.Optional;
 
 public enum ActivityType {
 
-	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA"),
-	AUXILIARY(1, "#ffe0a2","AUXILIAR"),
-	PRODUCTIVE(2, "#a2deff","PRODUTIVA"),
-	UNDEFINED(3, "#ffffff", "INDEFINIDA"),
-	NOT_PRODUCTIVE(4, "#ce77ff", "NÃO-PRODUTIVA");
+	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA","UNPRODUCTIVE"),
+	AUXILIARY(1, "#ffe0a2","AUXILIAR","AUXILIARY"),
+	PRODUCTIVE(2, "#a2deff","PRODUTIVA","PRODUCTIVE"),
+	UNDEFINED(3, "#ffffff", "INDEFINIDA","UNDEFINED"),
+	NOT_PRODUCTIVE(4, "#ce77ff", "NÃO-PRODUTIVA","NOT-PRODUCTIVE");
 
 	private int idActivityType;
 	private String hexColor;
 	private String value;
+	private String translated;
 
-	ActivityType(int activityType, String hexColor, String value) {
+	ActivityType(int activityType, String hexColor, String value,String translated) {
 		this.idActivityType = activityType;
 		this.hexColor = hexColor;
 		this.value = value;
+		this.translated = translated;
 	}
 
 	public static Optional<ActivityType> getById(int activityType) {

@@ -62,7 +62,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 	private MenuItem btnTimeByActivity;
 	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea;
 	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,
-			btnGeneralSimpleReport;
+			btnGeneralSimpleReport, btnTimesAnalytics;
 	private GoogleMapView view;
 
 	private List<TimeActivity> times;
@@ -136,8 +136,9 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnAreaReport = new MenuItem("Área da coleta");
 		btnGeneralReport = new MenuItem("Relatório geral de coleta");
 		btnGeneralSimpleReport = new MenuItem("Relatório geral simplificado de coleta ");
+		btnTimesAnalytics = new MenuItem("Relatório de grandezas relativas");
 		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport,
-				btnGeneralReport, btnGeneralSimpleReport);
+				btnGeneralReport, btnGeneralSimpleReport, btnTimesAnalytics);
 
 	}
 
@@ -233,6 +234,34 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 						.fillParam("baseLongitude", Float.valueOf(first.get().getLongitude()))
 						.loadReport("collect_area.jasper").buildAndShow();
 			}
+		});
+
+		btnTimesAnalytics.setOnAction((evt) -> {
+			Operation operation = co.getOperation();
+			String technicalCharacteristics = operation.getTechnicalCharacteristics();
+			String info = operation.toString();
+			String timeRangeFormatted = co.getTimeRangeFormatted();
+			
+			times.forEach(a->System.out.println(a.getItemName()));
+			
+			List<TimeActivityDTO> collected = times.stream()
+				.filter(t -> t.getItemName() != null)
+				.filter(t2->!t2.getItemName().isEmpty() && !t2.getItemName().equals("n/a"))
+				.collect(Collectors.toList());
+			
+			double sum = collected.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
+			System.out.println(collected);
+			
+			if(collected.isEmpty()){
+				JOptionPane.showMessageDialog(null, "Nenhuma atividade parcial quantificável encontrada");
+				return;
+			}
+			String itemName = collected.get(0).getItemName();
+			ReportController reportController = new ReportController();
+			reportController.fillDataSource(collected).fillParam("itemName", itemName).fillParam("total", sum).fillParam("operation_info", info)
+					.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
+					.loadReport("collected_amount_analytics.jasper").buildAndShow();
+
 		});
 
 		btnGeneralReport.setOnAction(evt -> openGeneralReport(co, false));

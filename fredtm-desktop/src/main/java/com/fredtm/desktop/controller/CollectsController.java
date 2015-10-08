@@ -185,6 +185,7 @@ public class CollectsController extends BaseController implements Initializable 
 					.collect(Collectors.toList());
 			if(pros.isEmpty()){
 				JOptionPane.showMessageDialog(null, "Nenhuma atividade quantificável encontrada.");
+				return;
 			}
 			resourcePro.addAll(configureResources(pros, index));
 		}
@@ -203,6 +204,51 @@ public class CollectsController extends BaseController implements Initializable 
 				.loadReport("productivity.jasper").buildAndShow();
 		resourcePro = null;
 		gcb = null;
+    }
+    
+
+    @FXML
+    void onRelativeProductionReportClicked(ActionEvent event) {
+    	if (collects.isEmpty())
+			return;
+
+		Collect firstCollect = collects.get(0);
+		Operation operation = firstCollect.getOperation();
+
+		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+		String timeRange = operation.getTimeRange();
+		String info = operation.toString();
+		AtomicInteger ai = new AtomicInteger(0);
+
+		List<TimeActivityDTO> resourcePro = new ArrayList<>();
+
+		for (Collect co : collects) {
+			int index = ai.incrementAndGet();
+			List<TimeActivity> pros = co.getTimesByType(ActivityType.PRODUCTIVE)
+					.stream().filter(p -> p.getActivity().isQuantitative())
+					.collect(Collectors.toList());
+			if(pros.isEmpty()){
+				JOptionPane.showMessageDialog(null, "Nenhuma atividade quantificável encontrada.");
+				return;
+			}
+			resourcePro.addAll(configureResources(pros, index));
+		}
+
+		List<TimeActivityDTO> ttt = new ArrayList<>();
+		ttt.addAll(resourcePro);
+		double sum = resourcePro.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
+		
+		resourcePro.forEach(t-> t.setActivityTitle("Coleta "+t.getCollectIndex()+" - "+t.getActivityTitle()));
+		
+		ReportController reportController = new ReportController();
+		reportController.fillDataSource(resourcePro).fillParam("operation_info", info)
+			.fillParam("itemName", ttt.stream().findFirst().get().getItemName())		
+			.fillParam("period", timeRange)
+			.fillParam("tech_charac", technicalCharacteristics)
+			.fillParam("total", sum)
+				.loadReport("collected_amount_analytics.jasper")
+				.buildAndShow();
+		resourcePro = null;
     }
 	
 	public List<TimeActivityDTO> configureResources(List<TimeActivity> tas, Integer colIndex) {

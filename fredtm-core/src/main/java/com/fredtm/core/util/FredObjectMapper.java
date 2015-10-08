@@ -150,6 +150,7 @@ public class FredObjectMapper {
 					.collectId(entity.getCollect().getUuid()).startDate(entity.getStartDate()).timed(entity.getTimed())
 					.activityId(entity.getActivity().getUuid()).finalDate(entity.getFinalDate())
 					.latitude(entity.getLocation().orElseGet(() -> location).getLatitude())
+					.itemName(entity.getActivity().getItemName())
 					.longitude(entity.getLocation().orElseGet(() -> location).getLongitude())
 					.collectedAmount(entity.getCollectedAmount());
 			tar.setActivityType(entity.getActivity().getActivityType().toString());

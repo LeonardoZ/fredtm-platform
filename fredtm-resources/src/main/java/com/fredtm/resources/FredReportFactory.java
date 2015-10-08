@@ -75,7 +75,7 @@ public class FredReportFactory {
 					tar.setActivityType("PRODUCTIVE");
 					tar.setLatitude("-22.7504329");
 					tar.setLongitude("-48.5698419");
-					if (i == 18){
+					if (i == 2){
 						tar.setCollectedAmount(12);
 						tar.setItemName("Plants");
 					}

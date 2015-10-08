@@ -37,16 +37,22 @@ public class SyncServer {
 		}
 	}
 
-	private void startServer(int porta) {
+	private void startServer(int port) {
 		try {
-			server = new ServerSocket(porta);
+			server = new ServerSocket(port);
 			Socket client = server.accept();
 			if (client != null) {
 				onAcceptClient(client);
 				service.shutdownNow();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				if (server != null) {
+					server.close();
+				}
+			} catch (IOException e2) {
+				e.printStackTrace();
+			}
 		} finally {
 			try {
 				if (server != null) {

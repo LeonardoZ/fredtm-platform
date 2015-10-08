@@ -1,13 +1,13 @@
 package com.fredtm.desktop;
 
+import com.fredtm.desktop.controller.MainController;
+import com.fredtm.desktop.eventbus.MainEventBus;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import com.fredtm.desktop.controller.MainController;
-import com.fredtm.desktop.eventbus.MainEventBus;
 
 public class MainApp extends Application {
 
@@ -15,6 +15,7 @@ public class MainApp extends Application {
 	private Scene scene;
 
 	public static void main(String[] args) throws Exception {
+		System.setProperty("file.encoding","UTF-8");
 		launch(args);
 	}
 

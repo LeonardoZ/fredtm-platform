@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -82,7 +81,6 @@ public class MainController extends BaseController implements Initializable, Cli
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		tabCreator = new MainControllerTabCreator(tabPane);
 		tabPane.getTabs().clear();
-		abrirParaDebug();
 	}
 
 	private void abrirParaDebug() {
@@ -93,15 +91,9 @@ public class MainController extends BaseController implements Initializable, Cli
 		createOperationsWindow(entities);
 	}
 
-
 	@FXML
 	private void onSincronizarClicked() {
-		if (!syncSelected) {
-			tabPane.getTabs().clear();
-		} else {
-			actionSyncActive();
-		}
-
+		actionSyncActive();
 		syncSelected = !syncSelected;
 	}
 
