@@ -13,6 +13,7 @@ import com.fredtm.data.repository.CollectRepository;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.CollectDTO;
+import com.fredtm.resources.SpeedDTO;
 import com.fredtm.resources.TimeActivityDTO;
 import com.fredtm.resources.base.ElementParser;
 
@@ -22,6 +23,7 @@ public class CollectResourceAssembler extends
 
 	@Autowired
 	private ActivityResourceAssembler acra;
+	
 	@Autowired
 	private TimeActivityResourceAssembler tara;
 	
@@ -30,6 +32,9 @@ public class CollectResourceAssembler extends
 
 	@Autowired
 	private OperationRepository operationRepository;
+	
+	@Autowired
+	private SpeedResourceAssembler speedAssembler;
 	
 	@Override
 	public CollectDTO toResource(Collect entity) {
@@ -40,10 +45,12 @@ public class CollectResourceAssembler extends
 		List<ActivityDTO> acrs = acra.toResources(activities);
 		List<TimeActivity> times = entity.getTimes();
 		List<TimeActivityDTO> tars = tara.toResources(times);
-
+		List<SpeedDTO> speedsDto = speedAssembler.toResources(entity.getSpeeds());
+		
 		cr.setOperationId(entity.getOperation().getUuid());
 		cr.setActivities(new HashSet<ActivityDTO>(acrs));
 		cr.setTimes(new HashSet<TimeActivityDTO>(tars));
+		cr.setSpeeds(new HashSet<>(speedsDto));
 
 		return cr;
 	}

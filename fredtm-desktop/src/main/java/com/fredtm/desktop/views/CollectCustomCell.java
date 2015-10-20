@@ -1,5 +1,6 @@
 package com.fredtm.desktop.views;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.stream.Stream;
 
 import javax.swing.JOptionPane;
 
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Location;
 import com.fredtm.core.model.Operation;
@@ -51,6 +51,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import values.ActivityType;
+import values.ToleranceFactor;
 
 public class CollectCustomCell extends ListCell<Collect>implements MapComponentInitializedListener {
 
@@ -62,7 +64,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 	private MenuItem btnTimeByActivity;
 	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea;
 	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,
-			btnGeneralSimpleReport, btnTimesAnalytics;
+			btnGeneralSimpleReport, btnTimesAnalytics, btnTimeBalanceReport;
 	private GoogleMapView view;
 
 	private List<TimeActivity> times;
@@ -137,8 +139,9 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnGeneralReport = new MenuItem("Relatório geral de coleta");
 		btnGeneralSimpleReport = new MenuItem("Relatório geral simplificado de coleta ");
 		btnTimesAnalytics = new MenuItem("Relatório de grandezas relativas");
+		btnTimeBalanceReport = new MenuItem("Relatório de Coleta Analítico");
 		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport,
-				btnGeneralReport, btnGeneralSimpleReport, btnTimesAnalytics);
+				btnGeneralReport, btnGeneralSimpleReport, btnTimesAnalytics, btnTimeBalanceReport);
 
 	}
 
@@ -241,27 +244,48 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 			String technicalCharacteristics = operation.getTechnicalCharacteristics();
 			String info = operation.toString();
 			String timeRangeFormatted = co.getTimeRangeFormatted();
-			
-			times.forEach(a->System.out.println(a.getItemName()));
-			
-			List<TimeActivityDTO> collected = times.stream()
-				.filter(t -> t.getItemName() != null)
-				.filter(t2->!t2.getItemName().isEmpty() && !t2.getItemName().equals("n/a"))
-				.collect(Collectors.toList());
-			
+
+			times.forEach(a -> System.out.println(a.getItemName()));
+
+			List<TimeActivityDTO> collected = times.stream().filter(t -> t.getItemName() != null)
+					.filter(t2 -> !t2.getItemName().isEmpty() && !t2.getItemName().equals("n/a"))
+					.collect(Collectors.toList());
+
 			double sum = collected.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
 			System.out.println(collected);
-			
-			if(collected.isEmpty()){
+
+			if (collected.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Nenhuma atividade parcial quantificável encontrada");
 				return;
 			}
 			String itemName = collected.get(0).getItemName();
 			ReportController reportController = new ReportController();
-			reportController.fillDataSource(collected).fillParam("itemName", itemName).fillParam("total", sum).fillParam("operation_info", info)
-					.fillParam("tech_charac", technicalCharacteristics).fillParam("period", timeRangeFormatted)
-					.loadReport("collected_amount_analytics.jasper").buildAndShow();
+			reportController.fillDataSource(collected).fillParam("itemName", itemName).fillParam("total", sum)
+					.fillParam("operation_info", info).fillParam("tech_charac", technicalCharacteristics)
+					.fillParam("period", timeRangeFormatted).loadReport("collected_amount_analytics.jasper")
+					.buildAndShow();
 
+		});
+
+		btnTimeBalanceReport.setOnAction(evt -> {
+			new ChoiceList(co.getActivities(), as -> {
+				
+				List<TimeActivity> interval = co.getTimes().stream()
+						.filter(as::contains)
+						.collect(Collectors.toList());
+				
+				List<TimeActivity> work = co.getTimes().stream()
+						.filter(a -> !as.contains(a))
+						.collect(Collectors.toList());
+				
+				BigDecimal result = 
+						new ToleranceFactor()
+							.intervalTimes(interval)
+							.workingTimes(work)
+							.calculate();
+				
+			
+			});
 		});
 
 		btnGeneralReport.setOnAction(evt -> openGeneralReport(co, false));

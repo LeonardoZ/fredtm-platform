@@ -29,6 +29,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import values.ActivityType;
+
 @Entity
 @Table(name = "operation")
 public class Operation extends FredEntity {

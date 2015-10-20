@@ -11,10 +11,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.TimeActivity;
+
+import values.ActivityType;
 
 public class TimeActivityTest {
 

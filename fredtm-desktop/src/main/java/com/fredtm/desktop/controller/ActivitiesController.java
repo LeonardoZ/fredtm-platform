@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.resources.ActivityDTO;
@@ -23,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import values.ActivityType;
 
 public class ActivitiesController extends BaseController implements Initializable {
 

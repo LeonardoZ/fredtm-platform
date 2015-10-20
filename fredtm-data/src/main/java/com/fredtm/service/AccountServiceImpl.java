@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fredtm.core.model.Account;
-import com.fredtm.core.model.PasswordEncryptionService;
 import com.fredtm.core.model.Role;
+import com.fredtm.core.util.PasswordEncryptionService;
 import com.fredtm.data.repository.AccountRepository;
 
 @Service

@@ -27,6 +27,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import values.ActivityType;
+
 @Entity
 @Table(name = "collect")
 public class Collect extends FredEntity {
@@ -56,6 +58,11 @@ public class Collect extends FredEntity {
 	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
 	private List<TimeActivity> times;
 
+
+	@Fetch(FetchMode.SUBSELECT)
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)	
+	private Set<Speed> speeds;
+		
 	@Transient
 	private List<Activity> activities;
 
@@ -84,6 +91,8 @@ public class Collect extends FredEntity {
 	private List<TimeActivity> getTimesOf(Activity act) {
 		return times.stream().filter(t -> t.getActivity().equals(act)).collect(Collectors.toList());
 	}
+	
+	
 
 	public Operation getOperation() {
 		return operation;
@@ -284,7 +293,32 @@ public class Collect extends FredEntity {
 		String formattedFinalDate = last.getFormattedFinalDate();
 		return new StringBuilder().append(formattedStartDate).append(" - ").append(formattedFinalDate).toString();
 	}
-
+	
+	public double getNormalTimeInHours(){
+//		long totalTimed = getTotalTimed();
+//		long percentSpeed = speed / 100;
+//		double total = totalTimed * percentSpeed;
+//		double totalToHours = total / 3600;
+//		return totalToHours;
+		return 0;
+	}
+	
+	public Set<Speed> getSpeeds() {
+		return this.speeds;
+	}
+	
+	public void setSpeeds(Set<Speed> speeds) {
+		this.speeds = speeds;
+	}
+	
+	public void addSpeed(Activity activity, int speed){
+		if(!activities.contains(activity)){
+			throw new IllegalArgumentException("Activity not allowed to be inserted.");
+		}
+		this.speeds.add(new Speed(activity,this,speed));
+	}
+	
+	
 	@Override
 	public String toString() {
 		String firstFormattedDate = "";

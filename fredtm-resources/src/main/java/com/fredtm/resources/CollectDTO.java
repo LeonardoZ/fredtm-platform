@@ -14,6 +14,9 @@ public class CollectDTO extends FredDTOSupport {
 	private String operationId;
 	private Set<TimeActivityDTO> times;
 	private Set<ActivityDTO> activities;
+	private Set<SpeedDTO> speeds = new HashSet<>();
+	
+	
 
 	public CollectDTO uuid(String uuid) {
 		setUuid(uuid);
@@ -43,14 +46,23 @@ public class CollectDTO extends FredDTOSupport {
 	public void setActivities(Set<ActivityDTO> activities) {
 		this.activities = activities;
 	}
+
 	public void setActivitiesList(List<ActivityDTO> activities) {
 		this.activities = new HashSet<>(activities);
 	}
 
+	public Set<SpeedDTO> getSpeeds() {
+		return this.speeds;
+	}
+
+	public void setSpeeds(Set<SpeedDTO> speeds) {
+		this.speeds = speeds;
+	}
+
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUuid()).append(times)
-				.append(activities).append(operationId).toHashCode();
+		return new HashCodeBuilder().append(getUuid()).append(times).append(activities).append(speeds)
+				.append(operationId).toHashCode();
 	}
 
 	@Override
@@ -62,16 +74,14 @@ public class CollectDTO extends FredDTOSupport {
 		if (getClass() != obj.getClass())
 			return false;
 		CollectDTO other = (CollectDTO) obj;
-		return new EqualsBuilder().append(getUuid(), other.getUuid())
-				.append(getActivities(), other.getActivities())
-				.append(times, other.getTimes())
+		return new EqualsBuilder().append(getUuid(), other.getUuid()).append(getActivities(), other.getActivities())
+				.append(speeds, other.getSpeeds()).append(times, other.getTimes())
 				.append(getOperationId(), other.getOperationId()).isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return "CollectResource [operationId=" + operationId + " Times: "
-				+ times.toString() + "]";
+		return "CollectResource [operationId=" + operationId + " Times: " + times.toString() + "]";
 	}
 
 }

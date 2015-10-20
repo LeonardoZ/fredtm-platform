@@ -75,7 +75,7 @@ public class FredReportFactory {
 					tar.setActivityType("PRODUCTIVE");
 					tar.setLatitude("-22.7504329");
 					tar.setLongitude("-48.5698419");
-					if (i == 2){
+					if (i == 2) {
 						tar.setCollectedAmount(12);
 						tar.setItemName("Plants");
 					}
@@ -93,6 +93,46 @@ public class FredReportFactory {
 
 	public static List<TimeActivityDTO> createTimes() {
 		return createTimesWithIndex("1");
+	}
+
+	public static List<TimeActivityDTO> createSimplerTimes(){
+		List<String> acts = new ArrayList<>();
+		List<TimeActivityDTO> tars = new ArrayList<>();
+		// latitude":"-22.7504339","longitude":"-48.5698403",
+		for (int i = 0; i < 4; i++) {
+			acts.add(Integer.toOctalString(i));
+		}
+		long start = new Date().getTime();
+		long end = new Date().getTime();
+
+		for (int i = 1; i < 5; i++) {
+			for (String nums : acts) {
+				TimeActivityDTO tar = new TimeActivityDTO();
+				tar.setTimed(i * 10_000);
+				tar.setActivityTitle(nums);
+
+				end = start + tar.getTimed();
+				tar.setStartDate(start);
+				tar.setFinalDate(end);
+
+				start = end;
+				// "latitude":"-22.7504329","longitude":"-48.5698419"
+				tar.setCollectIndex("1");
+				if (i % 5 == 0) {
+					tar.setActivityType("AUXILIARY");
+				} else if (i % 2 == 0) {
+					tar.setActivityType("PRODUCTIVE");
+					if (i == 2){
+						tar.setCollectedAmount(12);
+						tar.setItemName("Plants");
+					}
+				} else {
+					tar.setActivityType("UNPRODUCTIVE");
+				}
+				tars.add(tar);
+			}
+		}
+		return tars;
 	}
 
 	public static List<ActivityDTO> createActivities() {

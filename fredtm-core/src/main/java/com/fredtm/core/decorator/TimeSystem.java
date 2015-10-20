@@ -9,9 +9,10 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
+
+import values.ActivityType;
 
 public abstract class TimeSystem {
 

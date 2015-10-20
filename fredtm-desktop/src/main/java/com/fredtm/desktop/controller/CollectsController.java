@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.TimeActivity;
@@ -29,6 +28,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import values.ActivityType;
 
 public class CollectsController extends BaseController implements Initializable {
 

@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 
 import com.fredtm.core.decorator.TimeSystem;
 import com.fredtm.core.decorator.TimeSystems;
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.BaseController;
 
@@ -50,6 +49,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
+import values.ActivityType;
 
 @SuppressWarnings("unchecked")
 public class TimeBySimplifiedClassificationController extends BaseController implements Initializable {

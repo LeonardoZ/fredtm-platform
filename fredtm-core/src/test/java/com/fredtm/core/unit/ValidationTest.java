@@ -2,7 +2,7 @@ package com.fredtm.core.unit;
 
 import org.junit.Test;
 
-import com.fredtm.core.model.Validation;
+import com.fredtm.core.util.Validation;
 
 public class ValidationTest {
 

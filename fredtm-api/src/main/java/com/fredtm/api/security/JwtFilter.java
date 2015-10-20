@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.fredtm.core.model.PasswordEncryptionService;
+import com.fredtm.core.util.PasswordEncryptionService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

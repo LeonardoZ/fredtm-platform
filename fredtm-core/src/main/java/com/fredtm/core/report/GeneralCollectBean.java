@@ -3,8 +3,9 @@ package com.fredtm.core.report;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
+
+import values.ActivityType;
 
 public class GeneralCollectBean {
 

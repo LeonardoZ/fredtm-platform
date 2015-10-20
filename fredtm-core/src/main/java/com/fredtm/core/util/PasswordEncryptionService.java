@@ -1,4 +1,4 @@
-package com.fredtm.core.model;
+package com.fredtm.core.util;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

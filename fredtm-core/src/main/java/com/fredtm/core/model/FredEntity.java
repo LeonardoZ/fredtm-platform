@@ -11,6 +11,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
+import com.fredtm.core.util.Validation;
+
 @MappedSuperclass
 public class FredEntity implements Serializable {
 

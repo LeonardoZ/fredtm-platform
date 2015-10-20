@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fredtm.api.resource.AccountResourceAssembler;
 import com.fredtm.core.model.Account;
-import com.fredtm.core.model.PasswordEncryptionService;
+import com.fredtm.core.util.PasswordEncryptionService;
 import com.fredtm.resources.AccountDTO;
 import com.fredtm.resources.SendAccountDTO;
 import com.fredtm.resources.security.LoginDTO;

@@ -9,7 +9,10 @@
     <name>Parent pom of fredtm project's</name>
 
     <modules>
-        <module>fredtm-core</module>
+        <module>fredtm-resources</module>
+        <module>fredtm-java-sdk</module>
+		<module>fredtm-core</module>
+		<module>fredtm-desktop</module>
         <module>fredtm-data</module>
         <module>fredtm-api</module>
   </modules>

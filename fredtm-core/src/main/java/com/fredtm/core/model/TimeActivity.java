@@ -22,6 +22,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fredtm.core.util.FormatElapsedTime;
 
@@ -62,6 +64,8 @@ public class TimeActivity extends FredEntity {
 	@Embedded
 	private Location location;
 
+
+	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER, mappedBy = "timeActivity")
 	private List<TimeActivityPicture>	 pictures;
 	

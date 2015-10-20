@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -56,6 +57,9 @@ public class TestBase {
 		RestAssured.defaultParser = Parser.JSON;
 	}
 
+	@Test
+	public void test() {}
+
 	protected ResponseSpecification makeRequest() {
 		String authToken = getAuthToken();
 
@@ -78,19 +82,16 @@ public class TestBase {
 
 	protected ResponseSpecification makeContentRequest() {
 		String authToken = getAuthToken();
-		
-		return given().relaxedHTTPSValidation()
-				.header("Accept", "application/json")
-				.header("Authorization", "Bearer " + authToken)
-				.header("Content-Type", "application/json;charset=UTF8").log()
-				.all().then();
+
+		return given().relaxedHTTPSValidation().header("Accept", "application/json")
+				.header("Authorization", "Bearer " + authToken).header("Content-Type", "application/json;charset=UTF8")
+				.log().all().then();
 
 	}
 
 	protected ResponseSpecification makeContentWrongRequest() {
-		return given().relaxedHTTPSValidation()
-				.header("Accept", "application/json").header("Content-Type", "application/json;charset=UTF8").log()
-				.all().then();
+		return given().relaxedHTTPSValidation().header("Accept", "application/json")
+				.header("Content-Type", "application/json;charset=UTF8").log().all().then();
 
 	}
 

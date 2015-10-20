@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ProjectsController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ProjectsController">
    <center>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="557.0" prefWidth="248.0">
          <children>

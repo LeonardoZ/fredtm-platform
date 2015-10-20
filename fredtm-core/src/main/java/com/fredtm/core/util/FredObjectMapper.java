@@ -9,18 +9,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Location;
 import com.fredtm.core.model.Operation;
+import com.fredtm.core.model.Speed;
 import com.fredtm.core.model.Sync;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.core.model.TimeActivityPicture;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.CollectDTO;
 import com.fredtm.resources.OperationDTO;
+import com.fredtm.resources.SpeedDTO;
 import com.fredtm.resources.SyncDTO;
 import com.fredtm.resources.TimeActivityDTO;
+
+import values.ActivityType;
 
 public class FredObjectMapper {
 
@@ -81,6 +84,19 @@ public class FredObjectMapper {
 
 					times.add(time);
 				}
+				HashSet<Speed> speeds = new HashSet<>();
+				Set<SpeedDTO> speedsDtos = collectResource.getSpeeds();
+				for (SpeedDTO speedDTO : speedsDtos) {
+					Speed speed = new Speed();
+					Activity activity = operation.getActivities().stream()
+							.filter(a -> a.getTitle().equals(speedDTO.getActivityTitle())).findFirst().get();
+					speed.setActivity(activity);
+					speed.setCollect(collect);
+					speed.setSpeed(speedDTO.getSpeed());
+					speeds.add(speed);
+				}
+				
+				collect.setSpeeds(speeds);
 				collect.setTimes(times);
 				operation.addCollect(collect);
 			}

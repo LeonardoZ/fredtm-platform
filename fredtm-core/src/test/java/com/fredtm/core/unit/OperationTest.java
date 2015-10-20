@@ -10,8 +10,9 @@ import java.util.GregorianCalendar;
 import org.junit.Test;
 
 import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Operation;
+
+import values.ActivityType;
 
 public class OperationTest {
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="630.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ExportCollectsController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="630.0" spacing="10.0"  xmlns="http://javafx.com/javafx/8"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.ExportCollectsController">
    <children>
       <Label prefHeight="21.0" prefWidth="603.0" text="Coletas para exportação" VBox.vgrow="ALWAYS">
          <font>

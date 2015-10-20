@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox xmlns="http://javafx.com/javafx/8.0.45" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectedTimesController">
+<VBox  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectedTimesController">
    <children>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
         <buttons>

@@ -26,6 +26,10 @@ public interface AccountApi {
 	@GET("/account/{id}")
 	public void getAccount(@Path(value = "id") String id,Callback<AccountDTO> callback);
 
+	@GET("/account/{id}")
+	public AccountDTO getAccount(@Path(value = "id") String id);
+
+	
 //	@GET("/account/all")
 //	public void getAllAccounts(@Query("page") int page,
 //			@Query("elements") int elements,Callback<AccountsResource> callback);

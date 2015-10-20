@@ -8,8 +8,9 @@
 	</parent>
 	<artifactId>fredtm-resources</artifactId>
 	<name>FredTM Resources</name>
-	<description>
-</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<dependencies>
 		<dependency>

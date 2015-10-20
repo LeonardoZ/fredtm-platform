@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fredtm.core.model.Activity;
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.data.repository.ActivityRepository;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.base.ElementParser;
+
+import values.ActivityType;
 
 @Component
 public class ActivityResourceAssembler extends

@@ -1,4 +1,4 @@
-package com.fredtm.core.model;
+package com.fredtm.core.util;
 
 /**
  * @author leonardo

@@ -7,9 +7,10 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.fredtm.core.model.ActivityType;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
+
+import values.ActivityType;
 
 public class PercentageSystem extends TimeSystem {
 
@@ -43,7 +44,8 @@ public class PercentageSystem extends TimeSystem {
 		
 		Function<TimeActivity,Double> fn = a -> (a.getTimed() / totalInMs) * 100;
 		
-		LinkedHashMap<String, Optional<Double>> collected = collect.getTimes().stream()
+		LinkedHashMap<String, Optional<Double>> collected = 
+			collect.getTimes().stream()
 			.collect(
 					Collectors.groupingBy(
 								ta -> ta.getActivity().getTitle(),

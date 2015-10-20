@@ -1,22 +1,20 @@
-package com.fredtm.core.model;
+package values;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 public enum ActivityType {
 
-	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA","UNPRODUCTIVE"),
-	AUXILIARY(1, "#ffe0a2","AUXILIAR","AUXILIARY"),
-	PRODUCTIVE(2, "#a2deff","PRODUTIVA","PRODUCTIVE"),
-	UNDEFINED(3, "#ffffff", "INDEFINIDA","UNDEFINED"),
-	NOT_PRODUCTIVE(4, "#ce77ff", "NÃO-PRODUTIVA","NOT-PRODUCTIVE");
+	UNPRODUCTIVE(0, "#ff7d77", "IMPRODUTIVA", "UNPRODUCTIVE"), AUXILIARY(1, "#ffe0a2", "AUXILIAR",
+			"AUXILIARY"), PRODUCTIVE(2, "#a2deff", "PRODUTIVA", "PRODUCTIVE"), UNDEFINED(3, "#ffffff", "INDEFINIDA",
+					"UNDEFINED"), NOT_PRODUCTIVE(4, "#ce77ff", "NÃO-PRODUTIVA", "NOT-PRODUCTIVE");
 
 	private int idActivityType;
 	private String hexColor;
 	private String value;
 	private String translated;
 
-	ActivityType(int activityType, String hexColor, String value,String translated) {
+	ActivityType(int activityType, String hexColor, String value, String translated) {
 		this.idActivityType = activityType;
 		this.hexColor = hexColor;
 		this.value = value;
@@ -43,5 +41,12 @@ public enum ActivityType {
 		return value;
 	}
 
+	public int getIdActivityType() {
+		return this.idActivityType;
+	}
+
+	public String getTranslated() {
+		return this.translated;
+	}
 
 }
