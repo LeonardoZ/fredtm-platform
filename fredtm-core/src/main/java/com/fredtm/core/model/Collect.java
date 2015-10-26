@@ -1,5 +1,7 @@
 package com.fredtm.core.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,14 +13,17 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,11 +32,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fredtm.core.decorator.TimeMeasure;
+
 import values.ActivityType;
+import values.ToleranceFactor;
 
 @Entity
 @Table(name = "collect")
-public class Collect extends FredEntity {
+public class Collect extends FredEntity implements MotionTimeValues {
 
 	@Transient
 	private static final long serialVersionUID = 4085712607350133267L;
@@ -54,15 +62,19 @@ public class Collect extends FredEntity {
 	@JoinColumn(nullable = false, name = "operation_id")
 	private Operation operation;
 
+	@Column(nullable = false, name = "general_speed")
+	private int generalSpeed;
+
 	@Fetch(FetchMode.SUBSELECT)
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
 	private List<TimeActivity> times;
 
+	//
+	// @Fetch(FetchMode.SUBSELECT)
+	// @OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER,
+	// mappedBy = "collect", orphanRemoval = true)
+	// private Set<Speed> speeds;
 
-	@Fetch(FetchMode.SUBSELECT)
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)	
-	private Set<Speed> speeds;
-		
 	@Transient
 	private List<Activity> activities;
 
@@ -72,6 +84,8 @@ public class Collect extends FredEntity {
 	public Collect() {
 		activities = new ArrayList<Activity>();
 		collectedTimes = new HashMap<Integer, List<TimeActivity>>();
+		times = new ArrayList<>();
+		generalSpeed = 100;
 	}
 
 	public Collect(Collect collect) {
@@ -80,8 +94,9 @@ public class Collect extends FredEntity {
 		this.setOperation(collect.getOperation());
 	}
 
-	@PostConstruct
+	@PostLoad
 	public synchronized void organizeTimeActivity() {
+		this.activities = operation.getActivitiesList();
 		for (Activity act : activities) {
 			List<TimeActivity> timesOf = getTimesOf(act);
 			addActivity(act, timesOf);
@@ -91,8 +106,6 @@ public class Collect extends FredEntity {
 	private List<TimeActivity> getTimesOf(Activity act) {
 		return times.stream().filter(t -> t.getActivity().equals(act)).collect(Collectors.toList());
 	}
-	
-	
 
 	public Operation getOperation() {
 		return operation;
@@ -293,32 +306,93 @@ public class Collect extends FredEntity {
 		String formattedFinalDate = last.getFormattedFinalDate();
 		return new StringBuilder().append(formattedStartDate).append(" - ").append(formattedFinalDate).toString();
 	}
-	
-	public double getNormalTimeInHours(){
-//		long totalTimed = getTotalTimed();
-//		long percentSpeed = speed / 100;
-//		double total = totalTimed * percentSpeed;
-//		double totalToHours = total / 3600;
-//		return totalToHours;
-		return 0;
+
+	public BigDecimal getMeanTime(TimeMeasure measure) {
+		return BigDecimal.valueOf(times.stream().mapToLong(t -> t.getTimed()).average().orElseGet(() -> 0.0))
+				.setScale(2, RoundingMode.HALF_UP)
+				.divide(measure.bigfromMillisConverterFactor(), 2, RoundingMode.HALF_UP);
 	}
-	
-	public Set<Speed> getSpeeds() {
-		return this.speeds;
+
+	public long getTotalTimed(TimeMeasure measure) {
+		return times.stream().mapToLong(ta -> ta.getTimed()).sum() / measure.getFromMillisConverterFactor();
 	}
-	
-	public void setSpeeds(Set<Speed> speeds) {
-		this.speeds = speeds;
+
+	public BigDecimal getNormalTime(TimeMeasure measure) {
+		return getNormalTime().divide(measure.bigfromMillisConverterFactor(), 2, RoundingMode.HALF_UP);
 	}
-	
-	public void addSpeed(Activity activity, int speed){
-		if(!activities.contains(activity)){
-			throw new IllegalArgumentException("Activity not allowed to be inserted.");
-		}
-		this.speeds.add(new Speed(activity,this,speed));
+
+	private BigDecimal getNormalTime() {
+		long totalTimed = getTotalTimed();
+		double percentSpeed = ((double) generalSpeed / 100);
+		return new BigDecimal(totalTimed).setScale(2, RoundingMode.HALF_UP)
+				.multiply(BigDecimal.valueOf(percentSpeed));
 	}
-	
-	
+
+	public BigDecimal getStandardTime(TimeMeasure measure) {
+		BigDecimal normalTimeInHours = getNormalTime();
+
+		BigDecimal toleranceFactor = new ToleranceFactor().workingTimes(getWorkTimes())
+				.intervalTimes(getIntervalTimes()).calculate();
+
+		return normalTimeInHours.multiply(toleranceFactor).setScale(4, RoundingMode.HALF_UP)
+				.divide(measure.bigfromMillisConverterFactor(), 2, RoundingMode.HALF_UP);
+	}
+
+	public BigDecimal getUtilizationEfficiency() {
+		long aux = getTotalTimedByType(ActivityType.AUXILIARY);
+		long prod = getTotalTimedByType(ActivityType.PRODUCTIVE);
+		double totalTimed = getTotalTimed();
+		if (totalTimed == 0)
+			totalTimed = 1;
+		double result = (prod - aux) / totalTimed;
+		return BigDecimal.valueOf(result * 100).setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public BigDecimal getOperationalEfficiency() {
+		long unprod = getTotalTimedByType(ActivityType.UNPRODUCTIVE);
+		long prod = getTotalTimedByType(ActivityType.PRODUCTIVE);
+		double totalTimed = getTotalTimed();
+		double value = unprod + totalTimed;
+		if (value == 0)
+			value = 1;
+		double result = prod / value;
+		return BigDecimal.valueOf(result * 100).setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public BigDecimal getProductivity() {
+		int sum = times.stream().filter(t -> t.getActivity().isQuantitative())
+				.flatMapToInt(t -> IntStream.of(t.getCollectedAmount())).sum();
+		long totalTimed = getTotalTimed();
+		totalTimed = totalTimed == 0 ? 1 : totalTimed; 
+		return BigDecimal.valueOf(sum / totalTimed).setScale(3, RoundingMode.HALF_UP);
+	}
+
+	public List<TimeActivity> getWorkTimes() {
+		List<Activity> work = getActivities().stream()
+				.filter(a -> a.getIsIdleActivity() != null && !a.getIsIdleActivity()).collect(Collectors.toList());
+
+		return getTimes().stream().filter(t -> work.contains(t.getActivity())).collect(Collectors.toList());
+	}
+
+	public List<TimeActivity> getIntervalTimes() {
+		List<Activity> interval = getActivities().stream().filter(a -> a.getIsIdleActivity() != null)
+				.filter(Activity::getIsIdleActivity).collect(Collectors.toList());
+		return getTimes().stream().filter(t -> interval.contains(t.getActivity())).collect(Collectors.toList());
+	}
+
+	public int getGeneralSpeed() {
+		return this.generalSpeed;
+	}
+
+	public void setGeneralSpeed(int generalSpeed) {
+		this.generalSpeed = generalSpeed;
+	}
+
+	public long getTotalProduction() {
+		return times.stream().filter(t -> t.getActivity().isQuantitative()).map(t2 -> t2.getCollectedAmount())
+				.reduce(Integer::sum).orElseGet(() -> new Integer(0));
+	}
+
 	@Override
 	public String toString() {
 		String firstFormattedDate = "";

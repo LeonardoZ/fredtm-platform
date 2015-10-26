@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
+import com.fredtm.core.decorator.TimeMeasure;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Operation;
 import com.fredtm.core.model.TimeActivity;
@@ -17,6 +18,8 @@ import com.fredtm.core.util.FredObjectMapper;
 import com.fredtm.desktop.controller.utils.FredCharts;
 import com.fredtm.desktop.eventbus.MainEventBus;
 import com.fredtm.desktop.views.CollectCustomCell;
+import com.fredtm.desktop.views.TimeChoiceList;
+import com.fredtm.resources.CollectDTO;
 import com.fredtm.resources.GeneralCollectsBean;
 import com.fredtm.resources.TimeActivityDTO;
 
@@ -249,6 +252,47 @@ public class CollectsController extends BaseController implements Initializable 
 				.loadReport("collected_amount_analytics.jasper")
 				.buildAndShow();
 		resourcePro = null;
+    }
+    
+    
+    @FXML
+    public void onIndicatorsReportClicked(ActionEvent event){
+    	new TimeChoiceList(TimeMeasure.withoutPercentual(),selected -> {
+    		String technicalCharacteristics = operation.getTechnicalCharacteristics();
+    		String timeRange = operation.getTimeRange();
+    		String info = operation.toString();
+    		
+    		List<Collect> collects = CollectsController.this.collects;
+    		AtomicInteger atomicInteger = new AtomicInteger(1);
+    	
+    		List<CollectDTO> resources = collects.stream().map(c -> {
+    			CollectDTO d = new CollectDTO();
+    			d.setGeneralSpeed(c.getGeneralSpeed());
+    			d.setIndex(atomicInteger.incrementAndGet());
+    			d.setMean(c.getMeanTime(selected).doubleValue());
+    			d.setNormalTime(c.getNormalTime(selected).doubleValue());
+    			d.setOperationalEfficiency(c.getOperationalEfficiency().doubleValue());
+    			d.setUtilizationEfficiency(c.getUtilizationEfficiency().doubleValue());
+    			d.setStandardTime(c.getStandardTime(selected).doubleValue());
+    			d.setProductivity(c.getProductivity().doubleValue());
+    			d.setTotalProduction(c.getTotalProduction());
+    			d.setTotal(c.getTotalTimed(selected));
+    			return d;
+    		}).collect(Collectors.toList());
+    		
+    		
+    		ReportController reportController = new ReportController();
+    		reportController.fillDataSource(resources)
+    			.fillParam("operation_info", info)
+    			.fillParam("period", timeRange)
+    			.fillParam("tech_charac", technicalCharacteristics)
+    			.fillParam("time_unit", selected.getValue())
+    			.fillParam("time_conversion", selected.getFromMillisConverterFactor())
+    			.loadReport("collects_information.jasper")
+    				.buildAndShow();
+    		
+    	});
+    
     }
 	
 	public List<TimeActivityDTO> configureResources(List<TimeActivity> tas, Integer colIndex) {

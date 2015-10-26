@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
 import com.fredtm.core.decorator.TimeSystem;
-import com.fredtm.core.decorator.TimeSystems;
+import com.fredtm.core.decorator.TimeMeasure;
 import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.BaseController;
 
@@ -58,7 +58,7 @@ public class TimeByClassificationController extends BaseController implements In
 	private VBox rootNode;
 
 	@FXML
-	private ChoiceBox<TimeSystems> chcBox;
+	private ChoiceBox<TimeMeasure> chcBox;
 
 	@FXML
 	private Button btnComparative;
@@ -119,9 +119,9 @@ public class TimeByClassificationController extends BaseController implements In
 	}
 
 	public void configureNumberAxis(Axis<Object> axis) {
-		TimeSystems ts = chcBox.getSelectionModel().getSelectedItem();
+		TimeMeasure ts = chcBox.getSelectionModel().getSelectedItem();
 
-		boolean isPct = ts == TimeSystems.PCT;
+		boolean isPct = ts == TimeMeasure.PCT;
 		axis.setAutoRanging(!isPct);
 		axis.setLabel("Tempo total (" + ts.getValue() + ")");
 	}
@@ -354,13 +354,13 @@ public class TimeByClassificationController extends BaseController implements In
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		chcBox.setItems(FXCollections.observableArrayList(TimeSystems.values()));
+		chcBox.setItems(FXCollections.observableArrayList(TimeMeasure.values()));
 		chcBox.getSelectionModel().select(3);
-		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeSystems>() {
+		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeMeasure>() {
 
 			@Override
-			public void changed(ObservableValue<? extends TimeSystems> observable, TimeSystems oldValue,
-					TimeSystems newValue) {
+			public void changed(ObservableValue<? extends TimeMeasure> observable, TimeMeasure oldValue,
+					TimeMeasure newValue) {
 				if (collectSystem != null) {
 					collectSystem = newValue.build(collectSystem.getCollect());
 				} else {

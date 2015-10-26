@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -54,23 +56,19 @@ public class Operation extends FredEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 
-
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private Set<Activity> activities;
-
 
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
 	private Set<Collect> collects;
 
-
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER, mappedBy = "operation")
 	private List<Sync> syncs;
 
-	public Operation(String name, String company,
-			String technicalCharacteristics) {
+	public Operation(String name, String company, String technicalCharacteristics) {
 		this();
 		this.name = name;
 		this.company = company;
@@ -127,7 +125,7 @@ public class Operation extends FredEntity {
 		this.activities = new HashSet<Activity>(activities);
 		this.activities.forEach(a -> a.setOperation(this));
 	}
-	
+
 	public Set<Collect> getCollects() {
 		return this.collects;
 	}
@@ -160,8 +158,7 @@ public class Operation extends FredEntity {
 
 	public void addActivity(Activity activity) {
 		if (activity.isQuantitative() && hasQuantitativeActivity()) {
-			throw new IllegalArgumentException(
-					"Activity quantitativa já adicionada.");
+			throw new IllegalArgumentException("Activity quantitativa já adicionada.");
 		} else if (!activities.contains(activity)) {
 			this.activities.add(activity);
 		}
@@ -173,18 +170,16 @@ public class Operation extends FredEntity {
 
 	public boolean hasQuantitativeActivity() {
 		for (Activity a : activities) {
-			if (a.getActivityType().equals(ActivityType.PRODUCTIVE)
-					&& a.isQuantitative()) {
+			if (a.getActivityType().equals(ActivityType.PRODUCTIVE) && a.isQuantitative()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public Activity getQuantitativeActivity() {
 		for (Activity a : activities) {
-			if (a.getActivityType().equals(ActivityType.PRODUCTIVE)
-					&& a.isQuantitative()) {
+			if (a.getActivityType().equals(ActivityType.PRODUCTIVE) && a.isQuantitative()) {
 				return a;
 			}
 		}
@@ -227,23 +222,44 @@ public class Operation extends FredEntity {
 		this.syncs = syncs;
 		this.syncs.forEach(s -> s.setOperation(this));
 	}
-	
+
 	public void addSync(Sync sync) {
 		this.syncs.add(sync);
 	}
-	
-	public String getTimeRange(){
-		if(collects.isEmpty()){
+
+	public boolean numberOfCollectsIsRight(double error) {
+		List<TimeActivity> times = getCollects().stream().flatMap(c -> c.getTimes().stream())
+				.collect(Collectors.toList());
+
+		SummaryStatistics summaryStatistics = new SummaryStatistics();
+
+		times.stream().mapToLong(t -> t.getTimed() / 1000).forEach(r -> {
+			summaryStatistics.addValue(r);
+		});
+
+		int collectsSize = getCollects().size();
+		final double avg = summaryStatistics.getMean();
+
+		double dp = summaryStatistics.getStandardDeviation();
+		double cv = (dp / avg);
+
+		double student = jdistlib.T.quantile(0.95, collectsSize - 1, true, false);
+		double result = (Math.pow(student, 2) * Math.pow(cv, 2)) / Math.pow(0.05, 2);
+		return collectsSize >= result;
+	}
+
+	public String getTimeRange() {
+		if (collects.isEmpty()) {
 			return "0 - 0";
 		}
 		Iterator<Collect> iterator = collects.iterator();
 		Collect first = iterator.next();
 		Collect last = null;
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			last = iterator.next();
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat(
-				"dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
+		if(last == null) last = first;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", new Locale("pt", "BR"));
 
 		Date firstTime = first.getFirstTime();
 		Date lastTime = last.getLastTime();
@@ -255,19 +271,18 @@ public class Operation extends FredEntity {
 	}
 
 	@PrePersist
-	public void setModificate(){
+	public void setModificate() {
 		setModified(new Date());
 	}
 
 	@Override
 	public String toString() {
-		return name + " - " + company + " - "+collects.size();
+		return name + " - " + company + " - " + collects.size();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(name).append(company)
-				.append(technicalCharacteristics).toHashCode();
+		return new HashCodeBuilder().append(name).append(company).append(technicalCharacteristics).toHashCode();
 	}
 
 	@Override
@@ -279,11 +294,8 @@ public class Operation extends FredEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Operation other = (Operation) obj;
-		return new EqualsBuilder()
-				.append(name, other.name)
-				.append(company, other.company)
-				.append(technicalCharacteristics,
-						other.technicalCharacteristics).isEquals();
+		return new EqualsBuilder().append(name, other.name).append(company, other.company)
+				.append(technicalCharacteristics, other.technicalCharacteristics).isEquals();
 	}
 
 	public Sync getLastSync() {

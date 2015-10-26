@@ -28,6 +28,24 @@
 			<version>2.3</version>
 		</dependency>
 		<!-- END Exportação depencencies -->
+			
+		
+		<!-- Statistical Distributions -->
+		<dependency>
+			<groupId>jdistlib</groupId>
+			<artifactId>com.jdistlib</artifactId>
+			<version>0.4.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/dep/jdistlib-0.4.1-bin.jar</systemPath>
+		</dependency>
+
+		<!-- Science, Bitch -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.5</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>

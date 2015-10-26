@@ -95,7 +95,7 @@ public class FredReportFactory {
 		return createTimesWithIndex("1");
 	}
 
-	public static List<TimeActivityDTO> createSimplerTimes(){
+	public static List<TimeActivityDTO> createSimplerTimes() {
 		List<String> acts = new ArrayList<>();
 		List<TimeActivityDTO> tars = new ArrayList<>();
 		// latitude":"-22.7504339","longitude":"-48.5698403",
@@ -122,7 +122,7 @@ public class FredReportFactory {
 					tar.setActivityType("AUXILIARY");
 				} else if (i % 2 == 0) {
 					tar.setActivityType("PRODUCTIVE");
-					if (i == 2){
+					if (i == 2) {
 						tar.setCollectedAmount(12);
 						tar.setItemName("Plants");
 					}
@@ -151,6 +151,25 @@ public class FredReportFactory {
 			acts.add(ar);
 		}
 		return acts;
+	}
+
+	public static List<CollectDTO> createCollects() {
+		ArrayList<CollectDTO> cols = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			CollectDTO c = new CollectDTO();
+			c.setGeneralSpeed(100);
+			c.setMean(12);
+			c.setNormalTime(3.4);
+			c.setOperationalEfficiency(3.5);
+			c.setProductivity(54.5);
+			c.setUtilizationEfficiency(67.6);
+			c.setStandardTime(4.5);
+			c.setTotal(12121);
+			c.setTotalProduction(212);
+			c.setIndex(i);
+			cols.add(c);
+		}
+		return cols;
 	}
 
 }

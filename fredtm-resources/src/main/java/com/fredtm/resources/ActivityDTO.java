@@ -5,16 +5,16 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.fredtm.resources.base.FredDTOSupport;
 
-
 public class ActivityDTO extends FredDTOSupport {
 
 	private String title;
 	private String description;
 	private int activityType;
 	private Boolean quantitative;
+	private Boolean idleActivity;
 	private String itemName;
 	private String operationId;
-	
+
 	public ActivityDTO uuid(String uuid) {
 		setUuid(uuid);
 		return this;
@@ -39,6 +39,11 @@ public class ActivityDTO extends FredDTOSupport {
 		this.quantitative = value;
 		return this;
 	}
+	
+	public ActivityDTO idle(boolean value) {
+		this.idleActivity = value;
+		return this;
+	}
 
 	public ActivityDTO itemName(String value) {
 		this.itemName = value;
@@ -52,7 +57,7 @@ public class ActivityDTO extends FredDTOSupport {
 
 	public ActivityDTO() {
 		quantitative = Boolean.FALSE;
-		
+
 	}
 
 	public String getTitle() {
@@ -79,6 +84,14 @@ public class ActivityDTO extends FredDTOSupport {
 		this.activityType = activityType;
 	}
 
+	public Boolean getIdleActivity() {
+		return this.idleActivity;
+	}
+	
+	public void setIdleActivity(Boolean idleActivity) {
+		this.idleActivity = idleActivity;
+	}
+	
 	public Boolean getQuantitative() {
 		return quantitative;
 	}
@@ -111,27 +124,20 @@ public class ActivityDTO extends FredDTOSupport {
 			return false;
 
 		ActivityDTO activity = (ActivityDTO) o;
-		return new EqualsBuilder()
-				.append(getUuid(), activity.getUuid())
-				.append(operationId, activity.operationId)
-				.append(activityType, activity.activityType)
-				.append(title, activity.title).isEquals();
+		return new EqualsBuilder().append(getUuid(), activity.getUuid()).append(operationId, activity.operationId)
+				.append(activityType, activity.activityType).append(title, activity.title).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUuid()).append(operationId).append(activityType)
-				.append(title).build();
+		return new HashCodeBuilder().append(getUuid()).append(operationId).append(activityType).append(title).build();
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "ActivityResource [uuId=" + getUuid() + ", title=" + title
-				+ ", description=" + description + ", activityType="
-				+ activityType + ", quantitative=" + quantitative
-				+ ", itemName=" + itemName + ", operationId=" + operationId
-				+ "]";
+		return "ActivityResource [uuId=" + getUuid() + ", title=" + title + ", description=" + description
+				+ ", activityType=" + activityType + ", quantitative=" + quantitative + ", itemName=" + itemName
+				+ ", operationId=" + operationId + "]";
 	}
 
 }

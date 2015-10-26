@@ -20,14 +20,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fredtm.api.email.ChangePasswordMail;
+import com.fredtm.api.email.Mail;
 import com.fredtm.api.resource.AccountResourceAssembler;
 import com.fredtm.core.model.Account;
 import com.fredtm.core.util.PasswordEncryptionService;
 import com.fredtm.resources.AccountDTO;
+import com.fredtm.resources.ChangeToken;
 import com.fredtm.resources.SendAccountDTO;
+import com.fredtm.resources.base.ChangePasswordDTO;
 import com.fredtm.resources.security.LoginDTO;
 import com.fredtm.resources.security.LoginResponse;
 import com.fredtm.service.AccountService;
+import com.fredtm.service.ChangePasswordService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,6 +46,9 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 
 	@Autowired
 	private AccountResourceAssembler assembler;
+
+	@Autowired
+	private ChangePasswordService changePassword;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public HttpEntity<Resource<AccountDTO>> createAccount(@RequestBody SendAccountDTO sendAccount) {
@@ -79,6 +87,47 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 		}
 	}
 
+	@RequestMapping(value = "/token/espc", method = RequestMethod.POST)
+	public HttpEntity<ChangeToken> getChangePasswordToken(@RequestBody AccountDTO accountDTO) {
+		Account account = service.getAccount(accountDTO.getUuid());
+		if (account == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		ChangeToken token = changePassword.createToken(account);
+		ChangePasswordMail mailModel = new ChangePasswordMail();
+		mail.sendMail(token.getEmail(), 
+				mailModel.getTitle(), 
+					mailModel.getContent(token.getJwt()));
+		return new HttpEntity<ChangeToken>(token);
+	}
+
+	@Autowired
+	private Mail mail;
+
+	@RequestMapping(value = "/token", method = RequestMethod.POST)
+	public HttpStatus sendChangePasswordTokentoEmail(@RequestBody AccountDTO accountDTO) {
+		Account account = service.getAccount(accountDTO.getUuid());
+		if (account == null) {
+			return HttpStatus.UNAUTHORIZED;
+		}
+		ChangeToken token = changePassword.createToken(account);
+		ChangePasswordMail mailModel = new ChangePasswordMail();
+		mail.sendMail(token.getEmail(), 
+						mailModel.getTitle(), 
+							mailModel.getContent(token.getJwt()));
+		return HttpStatus.OK;
+	}
+
+	@RequestMapping(value = "/password", method = RequestMethod.PUT)
+	public ResponseEntity<Resource<AccountDTO>> changePassword(@RequestBody ChangePasswordDTO dto) {
+		Account changed = service.changePassword(dto.getEmail(), dto.getNewPassword(), dto.getToken());
+		if (changed != null) {
+			Resource<AccountDTO> resource = configureResource(changed);
+			return new ResponseEntity<Resource<AccountDTO>>(resource, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
 
 	public Resource<AccountDTO> configureResource(Account account) {
 		// self

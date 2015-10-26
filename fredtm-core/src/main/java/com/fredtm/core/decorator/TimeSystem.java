@@ -14,7 +14,7 @@ import com.fredtm.core.model.TimeActivity;
 
 import values.ActivityType;
 
-public abstract class TimeSystem {
+public  abstract class TimeSystem  {
 
 	private Collect collect;
 
@@ -43,22 +43,17 @@ public abstract class TimeSystem {
 
 	public abstract String getSymbol();
 
-	public LinkedHashMap<TimeActivity,Double> getValueMap(){
-		List<TimeActivity> times = getTimes().stream().sorted((e1, e2) -> e1.getStartDate().compareTo(e2.getStartDate())).collect(Collectors.toList());
-		LinkedHashMap<TimeActivity, Double> collected = times.stream()
-			.collect(Collectors.toMap(
-					Function.<TimeActivity>identity(), 
-					this::convertTime,
-					(u, v) -> 0.0, 
-					LinkedHashMap::new
-			)
-		);
+	public LinkedHashMap<TimeActivity, Double> getValueMap() {
+		List<TimeActivity> times = getTimes().stream()
+				.sorted((e1, e2) -> e1.getStartDate().compareTo(e2.getStartDate())).collect(Collectors.toList());
+		LinkedHashMap<TimeActivity, Double> collected = times.stream().collect(Collectors
+				.toMap(Function.<TimeActivity> identity(), this::convertTime, (u, v) -> 0.0, LinkedHashMap::new));
 		return collected;
 	}
-	
-	public LinkedHashMap<TimeActivity,Double> getCumulativeValueMap(){
+
+	public LinkedHashMap<TimeActivity, Double> getCumulativeValueMap() {
 		LinkedHashMap<TimeActivity, Double> values = getValueMap();
-		LinkedHashMap<TimeActivity, Double> newValues  = new LinkedHashMap<>();
+		LinkedHashMap<TimeActivity, Double> newValues = new LinkedHashMap<>();
 
 		BigDecimal sum = new BigDecimal(0);
 		sum.setScale(2, RoundingMode.CEILING);
@@ -71,7 +66,7 @@ public abstract class TimeSystem {
 		values = null;
 		return newValues;
 	}
-	
+
 	public Double getValueSimplified() {
 		if (!getCollect().getTimes().isEmpty()) {
 			return getCollect().getTimes().stream()
@@ -84,18 +79,13 @@ public abstract class TimeSystem {
 
 	public LinkedHashMap<String, Optional<Double>> getTimeByActivities() {
 		if (!getCollect().getTimes().isEmpty()) {
-			return getCollect().getTimes()
-					.stream()
-					.collect(
-							Collectors.groupingBy(
-									ta -> ta.getActivity().getTitle(),
-									LinkedHashMap::new,
-									Collectors.mapping(this::convertTime, Collectors.reducing((x,y)->x+y))
-							)
-					);
-		}else {
+			return getCollect().getTimes().stream().collect(Collectors.groupingBy(ta -> ta.getActivity().getTitle(),
+					LinkedHashMap::new, Collectors.mapping(this::convertTime, Collectors.reducing((x, y) -> x + y))));
+		} else {
 			return null;
 		}
 	}
+	
+
 
 }

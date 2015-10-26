@@ -17,12 +17,12 @@ INSERT INTO account_roles (account_id,role) VALUES(7,'USER');
 INSERT INTO operation(id,uuid,name,company,technical_characteristics,account_id,modified)
 VALUES(1,'29c31a3d-97a7-439e-b201-ce80b716dfc6','Op dd teste','Farm SA','Operação de coleta de valores',1,'2015-04-10 20:07:48');
 
-INSERT INTO activity(id,uuid,title,description,activity_type,quantitative,item_name,operation_id)
-VALUES(1,'202d39c2-17c7-4949-a494-248dca56b833','A','Descripion of A',0,'0','',1);
-INSERT INTO activity(id,uuid,title,description,activity_type,quantitative,item_name,operation_id)
-VALUES(2,'202d39c2-17c7-4949-a494-248dca16b890','B','Descripion of B',2,'1','Trees',1);
+INSERT INTO activity(id,uuid,title,description,activity_type,quantitative,item_name,operation_id,idle_activity)
+VALUES(1,'202d39c2-17c7-4949-a494-248dca56b833','A','Descripion of A',0,'0','',1,0);
+INSERT INTO activity(id,uuid,title,description,activity_type,quantitative,item_name,operation_id,idle_activity)
+VALUES(2,'202d39c2-17c7-4949-a494-248dca16b890','B','Descripion of B',2,'1','Trees',1,1);
 
-INSERT INTO collect(id, uuid,operation_id) VALUES(1,'4d28f6f6-eeb3-4f79-848a-5926e40fba8c',1);
+INSERT INTO collect(id, uuid,operation_id,general_speed) VALUES(1,'4d28f6f6-eeb3-4f79-848a-5926e40fba8c',1,100);
 
 INSERT INTO time_activity(id,uuid,activity_id,collect_id,start_date,final_date,timed,collected_amount)
 VALUES(1,'a456599f-102e-4b15-9978-c0731e2c451b',1,1,

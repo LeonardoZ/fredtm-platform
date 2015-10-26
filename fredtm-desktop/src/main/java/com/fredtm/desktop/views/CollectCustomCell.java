@@ -62,7 +62,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 	private Button btnCollectedTimes, btnExport;
 	private MenuButton btnIndividualAnalysis, btnReports;
 	private MenuItem btnTimeByActivity;
-	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea;
+	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea, btnInfo;
 	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,
 			btnGeneralSimpleReport, btnTimesAnalytics, btnTimeBalanceReport;
 	private GoogleMapView view;
@@ -129,9 +129,10 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnSimpleClassification = new MenuItem("Distribuição Tempo/Classificação simples");
 		btnTimes = new MenuItem("Análise dos tempos");
 		btnArea = new MenuItem("Área da Coleta");
-
+		btnInfo = new MenuItem("Indicadores");
+		
 		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity, btnTimes,
-				btnArea);
+				btnArea, btnInfo);
 
 		btnCollectedsSimplesReport = new MenuItem("Relatório de tempos simples");
 		btnCollectedsAnalyticReport = new MenuItem("Relatório de tempos analítico");
@@ -177,18 +178,28 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		lbTotal.setText("Total geral: " + total);
 
 		btnCollectedTimes.setOnMouseClicked(evt -> MainEventBus.INSTANCE.eventOpenTimeActivity(co));
+		
 		btnExport.setOnMousePressed(ev -> MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(co)));
 
 		btnTimeByActivity.setOnAction(
 				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ACTIVITY_DISTRIBUTION, co));
+		
 		btnClassification
 				.setOnAction(evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_CLASSIFICATION, co));
+		
 		btnSimpleClassification.setOnAction(
 				evt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_BY_SIMPLE_CLASSIFICATION, co));
+		
 		btnTimes.setOnAction(eevt -> MainEventBus.INSTANCE.eventChartAnalyses(FredCharts.TIME_ANALYSYS, co));
+		
 		btnArea.setOnAction(evt -> {
 			createMapView(co.getTimes());
 		});
+		
+		btnInfo.setOnAction((evt) -> {
+			new CollectInformationView(co);
+		});
+		
 		setGraphic(structure);
 		configureReportButtons(co);
 	}
@@ -268,24 +279,9 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		});
 
 		btnTimeBalanceReport.setOnAction(evt -> {
-			new ChoiceList(co.getActivities(), as -> {
-				
-				List<TimeActivity> interval = co.getTimes().stream()
-						.filter(as::contains)
-						.collect(Collectors.toList());
-				
-				List<TimeActivity> work = co.getTimes().stream()
-						.filter(a -> !as.contains(a))
-						.collect(Collectors.toList());
-				
-				BigDecimal result = 
-						new ToleranceFactor()
-							.intervalTimes(interval)
-							.workingTimes(work)
-							.calculate();
-				
+
 			
-			});
+			
 		});
 
 		btnGeneralReport.setOnAction(evt -> openGeneralReport(co, false));

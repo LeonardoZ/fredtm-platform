@@ -2,47 +2,51 @@ package values;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 
 import com.fredtm.core.model.TimeActivity;
 
 public class ToleranceFactor {
 
-	private List<TimeActivity> intervalTimes;
-	private List<TimeActivity> workingTimes;
+	private long intervalTotal;
+	private long workingTotal;
 
 	public ToleranceFactor() {
-		intervalTimes = new ArrayList<>();
-		workingTimes = new ArrayList<>();
 	}
 
 	public ToleranceFactor intervalTimes(List<TimeActivity> times) {
-		this.intervalTimes = times;
+		this.intervalTotal = getIntervalTotal(times);
 		return this;
 	}
 
 	public ToleranceFactor workingTimes(List<TimeActivity> times) {
-		this.workingTimes = times;
+		this.workingTotal = getWorkingTotal(times);
 		return this;
+	}
+	
+	public void setIntervalTotal(long intervalTotal) {
+		this.intervalTotal = intervalTotal;
+	}
+	
+	public void setWorkingTotal(long workingTotal) {
+		this.workingTotal = workingTotal;
 	}
 
 	public BigDecimal calculate() {
-		long workingTotal = workingTimes.stream()
-				.mapToLong((t) -> t.getEllapsedTimeInSeconds()).sum();
-		long intervalTotal = intervalTimes.stream()
-				.mapToLong((t) -> t.getEllapsedTimeInSeconds()).sum();
-		
-		long total = workingTotal + intervalTotal;
-		long workingPct = workingTotal / total;
-		long intervalPct = intervalTotal / total;
-		BigDecimal p = BigDecimal.valueOf(intervalPct)
-								.divide(BigDecimal.valueOf(workingPct),2,RoundingMode.FLOOR);
-		return 
-				BigDecimal.valueOf(1).divide(BigDecimal.valueOf(1).subtract(p), 2, RoundingMode.FLOOR);
+		if(intervalTotal == 0 || workingTotal == 0) return BigDecimal.ONE; 
+		double p = (double) intervalTotal / (double) workingTotal ;
+		double value = 1d / (1d - p);
+		return new BigDecimal(value).setScale(3, RoundingMode.HALF_UP);
 	}
-	
-	BiFunction<Double, Double, Double> effectivetTime = (a,b) -> 1 / 1 - (a/b);
+
+	private long getIntervalTotal(List<TimeActivity> times) {
+		long intervalTotal = times.stream().mapToLong((t) -> t.getTimed()).sum();
+		return intervalTotal;
+	}
+
+	private long getWorkingTotal(List<TimeActivity> times) {
+		long workingTotal = times.stream().mapToLong((t) -> t.getTimed()).sum();
+		return workingTotal;
+	}
 
 }

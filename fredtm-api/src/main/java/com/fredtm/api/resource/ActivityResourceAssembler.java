@@ -29,6 +29,7 @@ public class ActivityResourceAssembler extends
 				.activityType(entity.getActivityType().getActivityType())
 				.itemName(entity.getItemName())
 				.quantitative(entity.isQuantitative())
+				.idle(entity.getIsIdleActivity())
 				.operationId(entity.getOperation().getUuid());
 		return ar;
 	}
@@ -45,6 +46,7 @@ public class ActivityResourceAssembler extends
 				ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE));
 		activity.setItemName(activityResource.getItemName());
 		activity.setIsQuantitative(activityResource.getQuantitative());
+		activity.setIsIdleActivity(activityResource.getIdleActivity());
 		activity.setOperation(operationRepository.findByUuid(activityResource.getOperationId()));
 		return activity;
 	}

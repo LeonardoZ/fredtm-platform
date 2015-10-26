@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 
 import com.fredtm.core.decorator.TimeSystem;
-import com.fredtm.core.decorator.TimeSystems;
+import com.fredtm.core.decorator.TimeMeasure;
 import com.fredtm.core.model.Collect;
 import com.fredtm.desktop.controller.BaseController;
 
@@ -53,7 +53,7 @@ public class TimeByActivityController extends BaseController implements Initiali
 	private VBox rootPane;
 
 	@FXML
-	private ChoiceBox<TimeSystems> chcBox;
+	private ChoiceBox<TimeMeasure> chcBox;
 
     @FXML
     private Button btnSave;
@@ -132,8 +132,8 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 	NumberAxis getNumberAxis() {
 		NumberAxis numberAxis = new NumberAxis();
-		TimeSystems selectedItem = chcBox.getSelectionModel().getSelectedItem();
-		if (selectedItem == TimeSystems.PCT) {
+		TimeMeasure selectedItem = chcBox.getSelectionModel().getSelectedItem();
+		if (selectedItem == TimeMeasure.PCT) {
 			numberAxis.setAutoRanging(false);
 		}
 		numberAxis.setLabel("Tempo total (" + selectedItem.getValue() + ")");
@@ -177,7 +177,7 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 	public void setCollect(Collect collect) {
 		selected = Charts.PIZZA;
-		TimeSystems ts = chcBox.getSelectionModel().getSelectedItem();
+		TimeMeasure ts = chcBox.getSelectionModel().getSelectedItem();
 		this.collectSystem = ts.build(collect);
 		configurePizzaChart();
 	}
@@ -212,13 +212,13 @@ public class TimeByActivityController extends BaseController implements Initiali
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		chcBox.setItems(FXCollections.observableArrayList(TimeSystems.values()));
+		chcBox.setItems(FXCollections.observableArrayList(TimeMeasure.values()));
 		chcBox.getSelectionModel().select(3);
-		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeSystems>() {
+		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeMeasure>() {
 
 			@Override
-			public void changed(ObservableValue<? extends TimeSystems> observable, TimeSystems oldValue,
-					TimeSystems newValue) {
+			public void changed(ObservableValue<? extends TimeMeasure> observable, TimeMeasure oldValue,
+					TimeMeasure newValue) {
 				if (collectSystem != null) {
 					collectSystem = newValue.build(collectSystem.getCollect());
 				}

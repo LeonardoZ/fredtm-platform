@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AccountControllerTest.class, OperationControllerTest.class,
-		SyncControllerTest.class })
+		SyncControllerTest.class, ActivityControllerTest.class })
 public class RunAll {
 
 }

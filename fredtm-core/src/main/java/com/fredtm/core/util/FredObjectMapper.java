@@ -6,20 +6,19 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.Location;
 import com.fredtm.core.model.Operation;
-import com.fredtm.core.model.Speed;
 import com.fredtm.core.model.Sync;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.core.model.TimeActivityPicture;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.CollectDTO;
 import com.fredtm.resources.OperationDTO;
-import com.fredtm.resources.SpeedDTO;
 import com.fredtm.resources.SyncDTO;
 import com.fredtm.resources.TimeActivityDTO;
 
@@ -47,6 +46,7 @@ public class FredObjectMapper {
 						ActivityType.getById(activityResource.getActivityType()).orElse(ActivityType.PRODUCTIVE));
 				activity.setItemName(activityResource.getItemName());
 				activity.setIsQuantitative(activityResource.getQuantitative());
+				activity.setIsIdleActivity(activityResource.getIdleActivity());
 				activity.setOperation(operation);
 				operation.addActivity(activity);
 			}
@@ -58,7 +58,7 @@ public class FredObjectMapper {
 				Collect collect = new Collect();
 				collect.setOperation(operation);
 				collect.setActivities(operation.getActivities());
-
+				collect.setGeneralSpeed(collectResource.getGeneralSpeed());
 				Set<TimeActivityDTO> timesResources = collectResource.getTimes();
 				List<TimeActivity> times = new LinkedList<>();
 
@@ -84,19 +84,6 @@ public class FredObjectMapper {
 
 					times.add(time);
 				}
-				HashSet<Speed> speeds = new HashSet<>();
-				Set<SpeedDTO> speedsDtos = collectResource.getSpeeds();
-				for (SpeedDTO speedDTO : speedsDtos) {
-					Speed speed = new Speed();
-					Activity activity = operation.getActivities().stream()
-							.filter(a -> a.getTitle().equals(speedDTO.getActivityTitle())).findFirst().get();
-					speed.setActivity(activity);
-					speed.setCollect(collect);
-					speed.setSpeed(speedDTO.getSpeed());
-					speeds.add(speed);
-				}
-				
-				collect.setSpeeds(speeds);
 				collect.setTimes(times);
 				operation.addCollect(collect);
 			}
@@ -134,22 +121,27 @@ public class FredObjectMapper {
 			ActivityDTO ar = new ActivityDTO();
 			ar.title(entity.getTitle()).description(entity.getDescription())
 					.activityType(entity.getActivityType().getActivityType()).itemName(entity.getItemName())
-					.quantitative(entity.isQuantitative()).operationId(entity.getOperation().getUuid());
+					.quantitative(entity.isQuantitative()).operationId(entity.getOperation().getUuid())
+					.idle(entity.getIsIdleActivity());
+			System.out.println(ar.getIdleActivity());;
 			crs.add(ar);
 		}
 		return crs;
 	}
 
-	private static List<CollectDTO> toResourcesCol(List<Collect> cols) {
+	public static List<CollectDTO> toResourcesCol(List<Collect> cols) {
 		List<CollectDTO> crs = new LinkedList<>();
+		AtomicInteger ai = new AtomicInteger(1);
 		for (Collect entity : cols) {
 			CollectDTO cr = new CollectDTO();
+			cr.setIndex(ai.getAndIncrement());
 			List<Activity> activities = entity.getActivities();
 			List<ActivityDTO> acrs = new ArrayList<>(toResourcesActivities(activities));
 			List<TimeActivity> times = entity.getTimes();
 			List<TimeActivityDTO> tars = toResourcesFromTimeActivity(times);
 
 			cr.setOperationId(entity.getOperation().getUuid());
+			cr.setGeneralSpeed(entity.getGeneralSpeed());
 			cr.setActivities(new HashSet<ActivityDTO>(acrs));
 			cr.setTimes(new HashSet<TimeActivityDTO>(tars));
 			crs.add(cr);

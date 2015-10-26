@@ -1,0 +1,21 @@
+.dialog-pane {
+	-fx-background-color: white;
+}
+
+.fancy-label {
+	-fx-font: 18px "Fantasy";
+	-fx-padding: 10px;
+	-fx-text-color: #726f8c;
+}
+
+.fancy-label-content {
+	-fx-font: 16px "Fantasy";
+	-fx-padding: 10px;
+	-fx-text-align: center;
+	-fx-text-color: #e49c16;
+}
+
+.dialog-pane:header .header-panel .label {
+	-fx-font-style: italic;
+	-fx-font-size: 2em;
+}

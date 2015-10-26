@@ -35,6 +35,7 @@
         {
         	"uuid":"",
             "operationId": "",
+            "generalSpeed": 100,
 			"times": [
                 {
                 	"uuid": "",

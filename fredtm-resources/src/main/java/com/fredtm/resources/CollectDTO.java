@@ -11,12 +11,19 @@ import com.fredtm.resources.base.FredDTOSupport;
 
 public class CollectDTO extends FredDTOSupport {
 
+	private int index;
 	private String operationId;
+	private int generalSpeed;
+	private double normalTime;
+	private double standardTime;
+	private double productivity;
+	private double mean;
+	private double total;
+	private double utilizationEfficiency;
+	private double operationalEfficiency;
+	private long totalProduction;
 	private Set<TimeActivityDTO> times;
 	private Set<ActivityDTO> activities;
-	private Set<SpeedDTO> speeds = new HashSet<>();
-	
-	
 
 	public CollectDTO uuid(String uuid) {
 		setUuid(uuid);
@@ -51,17 +58,89 @@ public class CollectDTO extends FredDTOSupport {
 		this.activities = new HashSet<>(activities);
 	}
 
-	public Set<SpeedDTO> getSpeeds() {
-		return this.speeds;
+	public int getGeneralSpeed() {
+		return this.generalSpeed;
 	}
 
-	public void setSpeeds(Set<SpeedDTO> speeds) {
-		this.speeds = speeds;
+	public void setGeneralSpeed(int generalSpeed) {
+		this.generalSpeed = generalSpeed;
+	}
+
+	public double getNormalTime() {
+		return this.normalTime;
+	}
+
+	public void setNormalTime(double normalTime) {
+		this.normalTime = normalTime;
+	}
+
+	public double getStandardTime() {
+		return this.standardTime;
+	}
+
+	public void setStandardTime(double standardTime) {
+		this.standardTime = standardTime;
+	}
+
+	public double getProductivity() {
+		return this.productivity;
+	}
+
+	public void setProductivity(double productivity) {
+		this.productivity = productivity;
+	}
+
+	public double getMean() {
+		return this.mean;
+	}
+
+	public int getIndex() {
+		return this.index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public void setMean(double mean) {
+		this.mean = mean;
+	}
+
+	public double getTotal() {
+		return this.total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public double getUtilizationEfficiency() {
+		return this.utilizationEfficiency;
+	}
+
+	public void setUtilizationEfficiency(double utilizationEfficiency) {
+		this.utilizationEfficiency = utilizationEfficiency;
+	}
+
+	public double getOperationalEfficiency() {
+		return this.operationalEfficiency;
+	}
+
+	public void setOperationalEfficiency(double operationalEfficiency) {
+		this.operationalEfficiency = operationalEfficiency;
+	}
+
+	public long getTotalProduction() {
+		return this.totalProduction;
+	}
+
+	public void setTotalProduction(long totalProduction) {
+		this.totalProduction = totalProduction;
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(getUuid()).append(times).append(activities).append(speeds)
+		return new HashCodeBuilder().append(getUuid()).append(times).append(activities).append(generalSpeed)
 				.append(operationId).toHashCode();
 	}
 
@@ -75,7 +154,7 @@ public class CollectDTO extends FredDTOSupport {
 			return false;
 		CollectDTO other = (CollectDTO) obj;
 		return new EqualsBuilder().append(getUuid(), other.getUuid()).append(getActivities(), other.getActivities())
-				.append(speeds, other.getSpeeds()).append(times, other.getTimes())
+				.append(generalSpeed, other.getGeneralSpeed()).append(times, other.getTimes())
 				.append(getOperationId(), other.getOperationId()).isEquals();
 	}
 

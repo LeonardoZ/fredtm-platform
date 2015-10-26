@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.imageio.ImageIO;
 
 import com.fredtm.core.decorator.TimeSystem;
-import com.fredtm.core.decorator.TimeSystems;
+import com.fredtm.core.decorator.TimeMeasure;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.desktop.controller.BaseController;
@@ -50,7 +50,7 @@ public class TimesChartController extends BaseController implements Initializabl
 	private ScrollPane allNode;
 
 	@FXML
-	private ChoiceBox<TimeSystems> chcBox;
+	private ChoiceBox<TimeMeasure> chcBox;
 
 	private ScatterChart<String, Number> pointsChart;
 
@@ -84,14 +84,14 @@ public class TimesChartController extends BaseController implements Initializabl
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		chcBox.setItems(FXCollections.observableArrayList(TimeSystems.values()));
+		chcBox.setItems(FXCollections.observableArrayList(TimeMeasure.values()));
 		chcBox.getItems().remove(3);
 		chcBox.getSelectionModel().select(2);
-		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeSystems>() {
+		chcBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TimeMeasure>() {
 
 			@Override
-			public void changed(ObservableValue<? extends TimeSystems> observable, TimeSystems oldValue,
-					TimeSystems newValue) {
+			public void changed(ObservableValue<? extends TimeMeasure> observable, TimeMeasure oldValue,
+					TimeMeasure newValue) {
 				if (collectSystem != null) {
 					collectSystem = newValue.build(collectSystem.getCollect());
 				}
@@ -204,7 +204,7 @@ public class TimesChartController extends BaseController implements Initializabl
 
 	public void setCollect(Collect collect) {
 		selected = Charts.H_BARS;
-		TimeSystems ts = chcBox.getSelectionModel().getSelectedItem();
+		TimeMeasure ts = chcBox.getSelectionModel().getSelectedItem();
 		this.collectSystem = ts.build(collect);
 		onHorizontalClicked(null);
 	}
@@ -275,8 +275,8 @@ public class TimesChartController extends BaseController implements Initializabl
 
 	NumberAxis getNumberAxis() {
 		NumberAxis numberAxis = new NumberAxis();
-		TimeSystems timeSystems = chcBox.getSelectionModel().getSelectedItem();
-		if (timeSystems == TimeSystems.PCT) {
+		TimeMeasure timeSystems = chcBox.getSelectionModel().getSelectedItem();
+		if (timeSystems == TimeMeasure.PCT) {
 			numberAxis.setAutoRanging(false);
 		}
 		numberAxis.setLabel("Tempo parcial (" + timeSystems.getValue() + ")");

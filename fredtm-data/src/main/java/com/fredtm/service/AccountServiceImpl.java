@@ -13,12 +13,16 @@ import com.fredtm.core.model.Account;
 import com.fredtm.core.model.Role;
 import com.fredtm.core.util.PasswordEncryptionService;
 import com.fredtm.data.repository.AccountRepository;
+import com.fredtm.resources.ChangeToken;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository repository;
+	
+	@Autowired
+	private ChangePasswordService changeService;
 
 	@Override
 	@Transactional
@@ -38,8 +42,8 @@ public class AccountServiceImpl implements AccountService {
 	public Optional<Account> loginAccount(String email, String pass) {
 		Optional<Account> account = repository.getByEmail(email);
 		if (account.isPresent()) {
-			boolean authenticated = PasswordEncryptionService
-				.authenticate(pass, account.get().getPasswordHash(), account.get().getSalt());
+			boolean authenticated = PasswordEncryptionService.authenticate(pass, account.get().getPasswordHash(),
+					account.get().getSalt());
 			return authenticated ? account : Optional.empty();
 		} else {
 			return Optional.empty();
@@ -50,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
 	public Account getAccount(String uuid) {
 		return repository.findByUuid(uuid);
 	}
-	
+
 	@Override
 	public Account getAccount(Integer id) {
 		return repository.findOne(id);
@@ -60,5 +64,24 @@ public class AccountServiceImpl implements AccountService {
 	public Page<Account> getAllAccounts(int page, int elementsInRequest) {
 		PageRequest request = new PageRequest(page, elementsInRequest, Sort.Direction.ASC, "name");
 		return repository.findAll(request);
+	}
+
+	@Override
+	public Account changePassword(String email, String newPassword, String jwt) {
+		
+		Optional<Account> found = repository.getByEmail(email);
+		
+		if (found.isPresent()) {
+			Account account = found.get();
+
+			ChangeToken changeToken = new ChangeToken(account.getUuid(), account.getEmail(), jwt);
+			boolean validToken = changeService.isValidToken(changeToken);
+			if (validToken) {
+				account.setPassword(PasswordEncryptionService.getEncryptedPassword(newPassword, account.getSalt()));
+				return repository.save(account);
+
+			}
+		}
+		return null;
 	}
 }

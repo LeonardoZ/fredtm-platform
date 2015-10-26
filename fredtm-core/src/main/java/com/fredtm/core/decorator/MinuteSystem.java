@@ -16,7 +16,7 @@ public class MinuteSystem extends TimeSystem {
 	public Double convertTime(TimeActivity ta) {
 		BigDecimal timed = new BigDecimal(ta.getTimed());
 		BigDecimal mountant = new BigDecimal(1000 * 60);
-		return timed.divide(mountant,4, RoundingMode.CEILING).doubleValue();
+		return timed.divide(mountant, 4, RoundingMode.CEILING).doubleValue();
 	}
 
 	@Override

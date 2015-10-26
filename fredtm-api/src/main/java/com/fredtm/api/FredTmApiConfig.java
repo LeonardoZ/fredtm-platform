@@ -24,8 +24,9 @@ import com.fredtm.api.security.JwtFilter;
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",
 		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class, HypermediaAutoConfiguration.class })
-@ComponentScan(basePackages = { "com.fredtm.core.model", "com.fredtm.data", "com.fredtm.data.repository",
-		"com.fredtm.service", "com.fredtm.api", "com.fredtm.api.rest", "com.fredtm.api.resource" })
+@ComponentScan(basePackages = { ""
+		+ "com.fredtm.core.model", "com.fredtm.data", "com.fredtm.data.repository",
+		"com.fredtm.service", "com.fredtm.api","com.fredtm.api.email","com.fredtm.api.rest", "com.fredtm.api.resource" })
 @ActiveProfiles(profiles = "dev,test,prod")
 @EnableEntityLinks
 public class FredTmApiConfig {

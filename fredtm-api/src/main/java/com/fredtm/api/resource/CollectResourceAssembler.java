@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fredtm.core.decorator.TimeMeasure;
 import com.fredtm.core.model.Activity;
 import com.fredtm.core.model.Collect;
 import com.fredtm.core.model.TimeActivity;
@@ -13,7 +14,6 @@ import com.fredtm.data.repository.CollectRepository;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.CollectDTO;
-import com.fredtm.resources.SpeedDTO;
 import com.fredtm.resources.TimeActivityDTO;
 import com.fredtm.resources.base.ElementParser;
 
@@ -33,24 +33,31 @@ public class CollectResourceAssembler extends
 	@Autowired
 	private OperationRepository operationRepository;
 	
-	@Autowired
-	private SpeedResourceAssembler speedAssembler;
 	
 	@Override
 	public CollectDTO toResource(Collect entity) {
 
 		CollectDTO cr = new CollectDTO();
 		cr.setUuid(entity.getUuid());
+		cr.setGeneralSpeed(entity.getGeneralSpeed());
 		List<Activity> activities = entity.getActivities();
 		List<ActivityDTO> acrs = acra.toResources(activities);
 		List<TimeActivity> times = entity.getTimes();
 		List<TimeActivityDTO> tars = tara.toResources(times);
-		List<SpeedDTO> speedsDto = speedAssembler.toResources(entity.getSpeeds());
+		TimeMeasure selected = TimeMeasure.SECONDS;
+		cr.setGeneralSpeed(entity.getGeneralSpeed());
+		cr.setMean(entity.getMeanTime(selected).doubleValue());
+		cr.setNormalTime(entity.getNormalTime(selected).doubleValue());
+		cr.setOperationalEfficiency(entity.getOperationalEfficiency().doubleValue());
+		cr.setUtilizationEfficiency(entity.getUtilizationEfficiency().doubleValue());
+		cr.setStandardTime(entity.getStandardTime(selected).doubleValue());
+		cr.setProductivity(entity.getProductivity().doubleValue());
+		cr.setTotalProduction(entity.getTotalProduction());
+		cr.setTotal(entity.getTotalTimed(selected));
 		
 		cr.setOperationId(entity.getOperation().getUuid());
 		cr.setActivities(new HashSet<ActivityDTO>(acrs));
 		cr.setTimes(new HashSet<TimeActivityDTO>(tars));
-		cr.setSpeeds(new HashSet<>(speedsDto));
 
 		return cr;
 	}
@@ -61,6 +68,7 @@ public class CollectResourceAssembler extends
 				.orElseGet(Collect::new);
 		c.setOperation(operationRepository.findByUuid(resource.getOperationId()));
 		c.setUuid(resource.getUuid());
+		c.setGeneralSpeed(resource.getGeneralSpeed());
 		return c;
 	}
 

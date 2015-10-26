@@ -195,4 +195,10 @@
 .fred-button-bar {
 	-fx-background-color:  #525162;
 }
+.fancy-label {
+	font-family: fantasy;
+	color: #726f8c;
+	size: 16px;
+}
+
 

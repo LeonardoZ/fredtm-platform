@@ -91,7 +91,7 @@ public class TimeActivity extends FredEntity {
 	}
 
 	public Long getTimed() {
-		return timed - (timed % 1000);
+		return timed;
 	}
 
 	public void setTimed(Long timed) {

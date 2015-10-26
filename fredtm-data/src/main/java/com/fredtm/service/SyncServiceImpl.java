@@ -18,7 +18,6 @@ import com.fredtm.data.repository.ActivityRepository;
 import com.fredtm.data.repository.CollectRepository;
 import com.fredtm.data.repository.OperationRepository;
 import com.fredtm.data.repository.SyncRepository;
-import com.fredtm.data.repository.TimeActivityRepository;
 
 @Service
 public class SyncServiceImpl implements SyncService {
@@ -31,9 +30,6 @@ public class SyncServiceImpl implements SyncService {
 
 	@Autowired
 	private CollectRepository collectRepo;
-
-	@Autowired
-	private TimeActivityRepository timeRepository;
 
 	@Autowired
 	private ActivityRepository activityRepo;

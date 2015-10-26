@@ -6,8 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" 
- xmlns="http://javafx.com/javafx/8"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectsController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.CollectsController">
    <center>
       <VBox>
          <children>
@@ -24,6 +23,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#onGeneralSimplifiedReportClicked" text="Relatório geral de coletas simplificado" />
                   <MenuItem mnemonicParsing="false" onAction="#onProductionReportClicked" text="Relatório de produção" />
                   <MenuItem mnemonicParsing="false" onAction="#onRelativeProductionReportClicked" text="Relatório de grandezas relativas" />
+                  <MenuItem mnemonicParsing="false" onAction="#onIndicatorsReportClicked" text="Relatório de Indicadores" />
               </items>
             </MenuButton>
             <MenuButton fx:id="btnGraphicOption" mnemonicParsing="false" text="Análise geral">

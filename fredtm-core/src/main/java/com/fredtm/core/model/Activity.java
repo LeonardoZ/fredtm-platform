@@ -37,6 +37,9 @@ public class Activity extends FredEntity {
 
 	@Column(length = 100, name = "item_name")
 	private String itemName;
+	
+	@Column(length = 100, name = "idle_activity")
+	private Boolean isIdleActivity;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false, name = "operation_id")
@@ -44,6 +47,7 @@ public class Activity extends FredEntity {
 
 	public Activity() {
 		quantitative = false;
+		isIdleActivity = false;
 	}
 
 	public Activity(String title, ActivityType activityType) {
@@ -100,6 +104,15 @@ public class Activity extends FredEntity {
 		return operation;
 	}
 
+	
+	public Boolean getIsIdleActivity() {
+		return this.isIdleActivity;
+	}
+	
+	public void setIsIdleActivity(Boolean isIdleActivity) {
+		this.isIdleActivity = isIdleActivity;
+	}
+	
 	public void setOperation(Operation operation) {
 		validation.isNullValue(operation);
 		this.operation = operation;

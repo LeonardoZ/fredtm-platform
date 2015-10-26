@@ -31,8 +31,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(consumes = "application/json", produces = "applicaiton/json", 
-value = "activity", description = "Activity methods")
+@Api(consumes = "application/json", produces = "applicaiton/json", value = "activity", description = "Activity methods")
 @RequestMapping(value = "fredapi/activity")
 public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> {
 
@@ -42,13 +41,19 @@ public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> 
 	@Autowired
 	private ActivityResourceAssembler assembler;
 
-	@ApiOperation(response = ActivityDTO.class,value = "View the specific info of the activity")
+	@ApiOperation(response = ActivityDTO.class, value = "View the specific info of the activity")
 	@ApiResponses({ @ApiResponse(code = 200, message = "ActivityDTO", response = ActivityDTO.class),
 			@ApiResponse(code = 404, message = "Activity Not Found") })
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
 	public HttpEntity<Resource<ActivityDTO>> getActivity(
 			@ApiParam(name = "Activity UUID", value = "The UUID of the activity to be viewed", required = true) @PathVariable("uuid") String uuid) {
-		return createResponseEntity(activityRepository.findByUuid(uuid).get(), HttpStatus.OK);
+
+		Optional<Activity> activity = activityRepository.findByUuid(uuid);
+		if (activity.isPresent()) {
+			return createResponseEntity(activity.get(), HttpStatus.OK);
+		} else {
+			return createResponseHttp(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@ApiOperation(value = "Create activity")
@@ -77,7 +82,7 @@ public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> 
 	@ApiResponses({ @ApiResponse(code = 200, message = "Activity deleted", response = ActivityDTO.class),
 			@ApiResponse(code = 304, message = "Activity not deleted") })
 	@RequestMapping(value = "/{activityUuid}", method = RequestMethod.DELETE)
-	public HttpStatus removeOperation(
+	public HttpStatus removeActivity(
 
 	@ApiParam(name = "Activity UUID", value = "The Actiity UUID to be removed", required = true) @PathVariable("activityUuid") String uuid) {
 		try {
