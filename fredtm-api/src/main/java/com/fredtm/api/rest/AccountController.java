@@ -50,6 +50,9 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 	@Autowired
 	private ChangePasswordService changePassword;
 
+	@Autowired
+	private Mail mail;
+
 	@RequestMapping(method = RequestMethod.POST)
 	public HttpEntity<Resource<AccountDTO>> createAccount(@RequestBody SendAccountDTO sendAccount) {
 
@@ -95,14 +98,9 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 		}
 		ChangeToken token = changePassword.createToken(account);
 		ChangePasswordMail mailModel = new ChangePasswordMail();
-		mail.sendMail(token.getEmail(), 
-				mailModel.getTitle(), 
-					mailModel.getContent(token.getJwt()));
+		mail.sendMail(token.getEmail(), mailModel.getTitle(), mailModel.getContent(token.getJwt()));
 		return new HttpEntity<ChangeToken>(token);
 	}
-
-	@Autowired
-	private Mail mail;
 
 	@RequestMapping(value = "/token", method = RequestMethod.POST)
 	public HttpStatus sendChangePasswordTokentoEmail(@RequestBody AccountDTO accountDTO) {
@@ -112,15 +110,19 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 		}
 		ChangeToken token = changePassword.createToken(account);
 		ChangePasswordMail mailModel = new ChangePasswordMail();
-		mail.sendMail(token.getEmail(), 
-						mailModel.getTitle(), 
-							mailModel.getContent(token.getJwt()));
+		mail.sendMail(token.getEmail(), mailModel.getTitle(), mailModel.getContent(token.getJwt()));
 		return HttpStatus.OK;
 	}
 
-	@RequestMapping(value = "/password", method = RequestMethod.PUT)
+	@RequestMapping(value = "/password", method = RequestMethod.POST)
 	public ResponseEntity<Resource<AccountDTO>> changePassword(@RequestBody ChangePasswordDTO dto) {
-		Account changed = service.changePassword(dto.getEmail(), dto.getNewPassword(), dto.getToken());
+
+		Optional<Account> validAccount = changePassword.isValidToken(dto.getToken());
+		if (!validAccount.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		Account changed = service.changePassword(validAccount.get(), dto.getNewPassword());
 		if (changed != null) {
 			Resource<AccountDTO> resource = configureResource(changed);
 			return new ResponseEntity<Resource<AccountDTO>>(resource, HttpStatus.OK);

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.fredtm.api.exception.UnauthorizedExcpetion;
 import com.fredtm.core.util.PasswordEncryptionService;
 
 import io.jsonwebtoken.Claims;
@@ -31,10 +32,9 @@ public class JwtFilter extends GenericFilterBean {
 			chain.doFilter(req, res);
 			return;
 		}
-
 		final String authHeader = request.getHeader("Authorization");
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			throw new ServletException("Missing or invalid Authorization header.");
+			throw new UnauthorizedExcpetion("Missing or invalid Authorization header.");
 		}
 
 		final String token = authHeader.substring(7); // The part after "Bearer
@@ -44,23 +44,30 @@ public class JwtFilter extends GenericFilterBean {
 					.parseClaimsJws(token).getBody();
 			request.setAttribute("claims", claims);
 		} catch (final SignatureException e) {
-			throw new ServletException("Invalid token.");
+			throw new UnauthorizedExcpetion("Invalid token.");
 		}
 
 		chain.doFilter(req, res);
 	}
 
 	private boolean matches(String path) {
-		return path.equals("/") || 
-				AUTHORIZED_PATHS.stream().filter(p -> path.contains(p))
-				.peek(System.out::println)
-				.findAny()
-				.isPresent();
+		return path.equals("/") || AUTHORIZED_PATHS.stream().filter(p -> path.contains(p)).peek(System.out::println)
+				.findAny().isPresent();
 	}
 
-	private static final List<String> AUTHORIZED_PATHS = Arrays.asList("/sdoc.jsp", "/api-docs", "/swagger-ui.js",
-			"/lib/","/favicon.ico", "/css/","/images","/fredapi/account/login", "/fredapi/base", "/fredapi/account", "/index.html", "/libs/",
-			"/assets/","/app/modules/fred.js", "/app/modules/config.js",
-			"/app/controllers/login-controller.js");
+	private static final List<String> AUTHORIZED_PATHS = 
+			Arrays.asList("/sdoc.jsp", "/api-docs", "/swagger-ui.js",
+					"/lib/", "/favicon.ico", "/css/", "/images", 
+					"/fredapi/account/login", "/fredapi/base", "/fredapi/account",
+					"/index.html", ".css",".js",".png","/fred/change/password");
+
+			
+//			Arrays.asList("/sdoc.jsp", "/api-docs", "/swagger-ui.js",
+//			"/lib/", "/favicon.ico", "/css/", "/images", 
+//			"/fredapi/account/login", "/fredapi/base", "/fredapi/account",
+//			"/index.html", "/libs/", "/assets/", "/app/modules/fred.js",
+//			"/fred/app.", "/WEB-INF/jsp/changePassword.jsp",
+//			"/fred/change/password", "/app/modules/config.js",
+//			"/app/controllers/login-controller.js");
 
 }

@@ -6,7 +6,7 @@ public class ChangePasswordMail {
 		return "http://fredtm.change.password";
 	}
 	public String getUrl2() {
-		return "fredtm.change.password//token";
+		return "https://192.168.1.103:9000/fred/change/password?token=";
 	}
 	
 	public String getTitle() {
@@ -15,11 +15,11 @@ public class ChangePasswordMail {
 
 	public String getContent(String token) {
 		return String.format("<!doctype html><html><body>"
-				+ "No seu smartphone Android com o App Fred TM instalado, abra o link abaixo para alterar a sua senha:\n\n "
-				+ "<a href=\"%s/%s\">Link de Troca de Senha</a>"
+				+ "Abra o link abaixo para alterar a sua senha:\n\n "
+				+ "<a href=\"%s%s\">Link de Troca de Senha</a>"
 				+ "<br />---<br />"
 				+ "Se o link não estiver aparecendo no seu browser, copie e cole no seu navegador o link abaixo:"
-				+ "<br />%s/%s</body></html>", getUrl2(), token, getUrl2(),token);
+				+ "<br />%s%s</body></html>", getUrl2(), token, getUrl2(),token);
 
 	}
 

@@ -106,7 +106,7 @@ public class Activity extends FredEntity {
 
 	
 	public Boolean getIsIdleActivity() {
-		return this.isIdleActivity;
+		return isIdleActivity == null ? false : isIdleActivity;
 	}
 	
 	public void setIsIdleActivity(Boolean isIdleActivity) {

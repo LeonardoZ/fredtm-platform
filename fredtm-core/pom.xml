@@ -30,14 +30,14 @@
 		<!-- END Exportação depencencies -->
 			
 		
-		<!-- Statistical Distributions -->
+		<!-- Statistical Distributions 
 		<dependency>
 			<groupId>jdistlib</groupId>
 			<artifactId>com.jdistlib</artifactId>
 			<version>0.4.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/resources/dep/jdistlib-0.4.1-bin.jar</systemPath>
-		</dependency>
+		</dependency> -->
 
 		<!-- Science, Bitch -->
 		<dependency>

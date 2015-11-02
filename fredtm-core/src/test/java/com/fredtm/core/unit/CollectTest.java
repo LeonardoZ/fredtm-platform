@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
-import org.junit.Test;
 
 import com.fredtm.core.decorator.TimeMeasure;
 import com.fredtm.core.model.Activity;
@@ -37,7 +36,6 @@ public class CollectTest {
 	// boolean contains;
 	// }
 
-	@Test
 	public void shoudBeTheSpecifiedNormalTimeValue() {
 
 		Operation op = new Operation("Test OP", "From this factory", "With the description...");
@@ -78,7 +76,6 @@ public class CollectTest {
 		Assert.assertEquals(17_316_000, normalTimeInHours.longValue());
 	}
 
-	@Test
 	public void shoudBeTheSpecifiedStandardTimeValue() {
 
 		Operation op = new Operation("Test OP", "From this factory", "With the description...");

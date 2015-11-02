@@ -21,13 +21,20 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fredtm.api.security.JwtFilter;
 
 @Configuration
-@EnableJpaRepositories(basePackages = { "com.fredtm.data",
-		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
+@EnableJpaRepositories(basePackages = { 
+		"com.fredtm.data",
+		"com.fredtm.data.repository" 
+}, transactionManagerRef = "transactionManager")
+
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class, HypermediaAutoConfiguration.class })
+
 @ComponentScan(basePackages = { ""
 		+ "com.fredtm.core.model", "com.fredtm.data", "com.fredtm.data.repository",
-		"com.fredtm.service", "com.fredtm.api","com.fredtm.api.email","com.fredtm.api.rest", "com.fredtm.api.resource" })
+		"com.fredtm.service", "com.fredtm.api","com.fredtm.web","com.fredtm.api.email","com.fredtm.api.rest", 
+		"com.fredtm.api.resource","com.fredtm.api.exception" })
+
 @ActiveProfiles(profiles = "dev,test,prod")
+
 @EnableEntityLinks
 public class FredTmApiConfig {
 
@@ -50,6 +57,7 @@ public class FredTmApiConfig {
 		builder.configure(objectMapper);
 		return builder;
 	}
+	
 
 
 	public static void main(String[] args) {

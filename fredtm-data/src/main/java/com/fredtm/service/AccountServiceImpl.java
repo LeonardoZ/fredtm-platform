@@ -13,16 +13,12 @@ import com.fredtm.core.model.Account;
 import com.fredtm.core.model.Role;
 import com.fredtm.core.util.PasswordEncryptionService;
 import com.fredtm.data.repository.AccountRepository;
-import com.fredtm.resources.ChangeToken;
 
 @Service
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository repository;
-	
-	@Autowired
-	private ChangePasswordService changeService;
 
 	@Override
 	@Transactional
@@ -67,21 +63,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account changePassword(String email, String newPassword, String jwt) {
-		
-		Optional<Account> found = repository.getByEmail(email);
-		
-		if (found.isPresent()) {
-			Account account = found.get();
-
-			ChangeToken changeToken = new ChangeToken(account.getUuid(), account.getEmail(), jwt);
-			boolean validToken = changeService.isValidToken(changeToken);
-			if (validToken) {
-				account.setPassword(PasswordEncryptionService.getEncryptedPassword(newPassword, account.getSalt()));
-				return repository.save(account);
-
-			}
-		}
-		return null;
+	@Transactional(rollbackFor = Exception.class)
+	public Account changePassword(Account account, String newPassword) {
+		account = repository.findOne(account.getId());
+		account.setPassword(PasswordEncryptionService.getEncryptedPassword(newPassword, account.getSalt()));
+		return repository.save(account);
 	}
 }

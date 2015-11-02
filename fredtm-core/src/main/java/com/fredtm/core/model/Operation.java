@@ -243,7 +243,7 @@ public class Operation extends FredEntity {
 		double dp = summaryStatistics.getStandardDeviation();
 		double cv = (dp / avg);
 
-		double student = jdistlib.T.quantile(0.95, collectsSize - 1, true, false);
+		double student = 1.085;
 		double result = (Math.pow(student, 2) * Math.pow(cv, 2)) / Math.pow(0.05, 2);
 		return collectsSize >= result;
 	}

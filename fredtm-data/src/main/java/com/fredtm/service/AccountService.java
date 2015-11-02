@@ -18,6 +18,6 @@ public interface AccountService {
 
 	Page<Account> getAllAccounts(int page, int elementsInRequest);
 
-	Account changePassword(String email, String newPassword, String jwt);
+	Account changePassword(Account account, String newPassword);
 
 }

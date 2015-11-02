@@ -25,7 +25,7 @@ public class AccountControllerTest extends TestBase {
 		Gson gson = new Gson();
 		String json = gson.toJson(dto);
 
-		String jsons = makeContentWrongRequest().and().given().body(json).post("/account").thenReturn().body()
+		String jsons = makeHeaderlessContentRequest().and().given().body(json).post("/account").thenReturn().body()
 				.asString();
 
 		AccountDTO response = gson.fromJson(jsons, AccountDTO.class);
@@ -81,12 +81,12 @@ public class AccountControllerTest extends TestBase {
 				.body(GsonFactory.getGson().toJson(dto)).post(url)
 				.andReturn().body().as(ChangeToken.class);
 
-		ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO(dto.getEmail(), "33thisIsMyNewPassword22",
+		ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO("33thisIsMyNewPassword22",
 				change.getJwt());
 		String changeUrl = "/account/password";
 
 		AccountDTO returnedAcc = GsonFactory.getGson().fromJson(makeContentRequest().and().given()
-				.body(GsonFactory.getGson().toJson(changePasswordDTO)).put(changeUrl).andReturn().asString(),
+				.body(GsonFactory.getGson().toJson(changePasswordDTO)).post(changeUrl).andReturn().asString(),
 				AccountDTO.class);
 
 		assertEquals(returnedAcc.getEmail(), "leo.zapparoli@gmail.com");

@@ -86,7 +86,9 @@ public class OperationController implements ResourcesUtil<Operation, OperationDT
 			@ApiResponse(code = 304, message = "Operation not deleted") })
 	@RequestMapping(value = "/{operationUuid}", method = RequestMethod.DELETE)
 	public HttpStatus removeOperation(
-			@ApiParam(name = "Operation UUID", value = "The UUID of the operation to be removed", required = true) @PathVariable("operationUuid") String uuid) {
+			@ApiParam(name = "Operation UUID",
+			value = "The UUID of the operation to be removed", required = true)
+			@PathVariable("operationUuid") String uuid) {
 		try {
 			opService.deleteOperation(uuid);
 			return HttpStatus.OK;
