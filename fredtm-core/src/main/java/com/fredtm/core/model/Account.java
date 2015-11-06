@@ -42,7 +42,7 @@ public class Account extends FredEntity {
 	private List<Operation> operations;
 
 
-	@Fetch(FetchMode.JOIN)
+	@Fetch(FetchMode.SUBSELECT)
 	@ElementCollection(fetch=FetchType.EAGER,targetClass = Role.class)
 	@CollectionTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id") )
 	@Column(name = "role", length = 15)

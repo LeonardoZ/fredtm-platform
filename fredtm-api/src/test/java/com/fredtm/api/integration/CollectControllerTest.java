@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.fredtm.api.test.TestBase;
+import com.fredtm.api.test.BaseTest;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.CollectDTO;
 import com.fredtm.resources.CollectsDTO;
@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @ActiveProfiles(value = "test")
-public class CollectControllerTest extends TestBase {
+public class CollectControllerTest extends BaseTest {
 
 	@Test
 	public void doAllGetTest() {

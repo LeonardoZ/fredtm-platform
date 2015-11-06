@@ -81,7 +81,7 @@ public class MainController extends BaseController implements Initializable, Cli
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		tabCreator = new MainControllerTabCreator(tabPane);
 		tabPane.getTabs().clear();
-		abrirParaDebug();
+//		abrirParaDebug();
 	}
 
 	private void abrirParaDebug() {

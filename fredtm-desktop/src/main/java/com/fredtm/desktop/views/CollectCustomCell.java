@@ -1,6 +1,5 @@
 package com.fredtm.desktop.views;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +51,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import values.ActivityType;
-import values.ToleranceFactor;
 
 public class CollectCustomCell extends ListCell<Collect>implements MapComponentInitializedListener {
 

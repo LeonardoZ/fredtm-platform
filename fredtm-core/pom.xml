@@ -8,7 +8,7 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>fredtm-core</artifactId>
-	<name>fredtm-core</name>
+	<name>FredTM Core</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -88,4 +88,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<description>Entities, Value Objects, Cryto and Utilities.</description>
 </project>

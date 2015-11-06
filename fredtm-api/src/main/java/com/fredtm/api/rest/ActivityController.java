@@ -31,7 +31,8 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(consumes = "application/json", produces = "applicaiton/json", value = "activity", description = "Activity methods")
+@Api(consumes = "application/json", produces = "application/json", 
+value = "Activities", description = "Activities Services")
 @RequestMapping(value = "fredapi/activity")
 public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> {
 
@@ -41,12 +42,12 @@ public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> 
 	@Autowired
 	private ActivityResourceAssembler assembler;
 
-	@ApiOperation(response = ActivityDTO.class, value = "View the specific info of the activity")
+	@ApiOperation(response = ActivityDTO.class, value = "Find Activity by ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "ActivityDTO", response = ActivityDTO.class),
 			@ApiResponse(code = 404, message = "Activity Not Found") })
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
 	public HttpEntity<Resource<ActivityDTO>> getActivity(
-			@ApiParam(name = "Activity UUID", value = "The UUID of the activity to be viewed", required = true) @PathVariable("uuid") String uuid) {
+			@ApiParam(name = "Activity UUID", value = "Activity UUID", required = true) @PathVariable("uuid") String uuid) {
 
 		Optional<Activity> activity = activityRepository.findByUuid(uuid);
 		if (activity.isPresent()) {
@@ -56,10 +57,10 @@ public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> 
 		}
 	}
 
-	@ApiOperation(value = "Create activity")
+	@ApiOperation(value = "Create Activity")
 	@RequestMapping(method = RequestMethod.POST)
 	public HttpEntity<Resource<ActivityDTO>> createActivity(
-			@ApiParam(name = "Activity DTO", value = "The DTO containing information to be saved", required = true) @RequestBody ActivityDTO dto) {
+			@ApiParam(name = "Activity DTO", value = "The DTO with informations to be saved", required = true) @RequestBody ActivityDTO dto) {
 		Optional<Activity> found = activityRepository.findByUuid(dto.getUuid());
 		if (found.isPresent()) {
 			return createResponseHttp(HttpStatus.CONFLICT);
@@ -68,23 +69,23 @@ public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> 
 		return createResponseEntity(activityRepository.save(toBeSaved), HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "Update activity")
+	@ApiOperation(value = "Update Activity")
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
 	public HttpEntity<Resource<ActivityDTO>> updateActivity(
-			@ApiParam(name = "Activity DTO", value = "The DTO containing information to be updated", required = true) @RequestBody ActivityDTO dto) {
+			@ApiParam(name = "Activity DTO", value = "The DTO with informations to be updated", required = true) @RequestBody ActivityDTO dto) {
 		Activity toUpdate = assembler.fromResource(dto);
 		Activity saved = activityRepository.save(toUpdate);
 		return createResponseEntity(saved, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Remove activity")
-	@ApiResponses({ @ApiResponse(code = 200, message = "Activity deleted", response = ActivityDTO.class),
-			@ApiResponse(code = 304, message = "Activity not deleted") })
+	@ApiOperation(value = "Remove Activity")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Activity removed", response = ActivityDTO.class),
+			@ApiResponse(code = 304, message = "Activity not removed") })
 	@RequestMapping(value = "/{activityUuid}", method = RequestMethod.DELETE)
 	public HttpStatus removeActivity(
 
-	@ApiParam(name = "Activity UUID", value = "The Actiity UUID to be removed", required = true) @PathVariable("activityUuid") String uuid) {
+	@ApiParam(name = "Activity UUID", value = "UUID from Activity", required = true) @PathVariable("activityUuid") String uuid) {
 		try {
 			Optional<Activity> activity = activityRepository.findByUuid(uuid);
 			activityRepository.delete(activity.get());
@@ -94,14 +95,14 @@ public class ActivityController implements ResourcesUtil<Activity, ActivityDTO> 
 		}
 	}
 
-	@ApiOperation(value = "View all activities from specified operation")
+	@ApiOperation(value = "Finds Activities by Operation UUID")
 	@ApiResponses({
-			@ApiResponse(code = 200, message = "List of activities from operation", response = ActivitiesDTO.class),
+			@ApiResponse(code = 200, message = "Activities from operation", response = ActivitiesDTO.class),
 			@ApiResponse(code = 404, message = "Activities Not Found") })
 	@RequestMapping(method = RequestMethod.GET, value = "/by/operation/{uuid}")
 
 	public HttpEntity<Resources<Resource<ActivityDTO>>> getActivitiesBy(
-			@ApiParam(name = "Operation UUID", value = "The Operation UUID", required = true) @PathVariable("uuid") String operationUuid) {
+			@ApiParam(name = "Operations UUID", value = "UUID", required = true) @PathVariable("uuid") String operationUuid) {
 		List<Activity> found = activityRepository.findAllByOperationUuid(operationUuid);
 		if (found.isEmpty()) {
 			return new ResponseEntity<Resources<Resource<ActivityDTO>>>(HttpStatus.NO_CONTENT);

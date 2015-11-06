@@ -9,31 +9,6 @@ import com.fredtm.core.util.FormatElapsedTime;
 public class FormatElapsedTimeTest {
 
 	@Test
-	public void formattedTimeShouldBeIn0() {
-		// 52 Minutes in milliseconds
-		String output = FormatElapsedTime.format(0);
-		assertEquals("0s", output);
-	}
-
-	@Test
-	public void formattedTimeShouldBeInSeconds() {
-		String output = FormatElapsedTime.format(23_000);
-		assertEquals("23s", output);
-	}
-
-	@Test
-	public void formattedTimeShouldBeInMinutes() {
-		String output = FormatElapsedTime.format(3_120_000);
-		assertEquals("52min 0s", output);
-	}
-
-	@Test
-	public void formattedTimeShouldBeInMinutesSeconds() {
-		String output = FormatElapsedTime.format(3_220_000);
-		assertEquals("53min 40s", output);
-	}
-
-	@Test
 	public void formattedTimeShouldBeInHours() {
 		String output = FormatElapsedTime.format(10_800_000);
 		assertEquals("3h 0min 0s", output);
@@ -52,3 +27,4 @@ public class FormatElapsedTimeTest {
 	}
 
 }
+

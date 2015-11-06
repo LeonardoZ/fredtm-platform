@@ -257,13 +257,29 @@ public class CollectsController extends BaseController implements Initializable 
     
     @FXML
     public void onIndicatorsReportClicked(ActionEvent event){
-    	new TimeChoiceList(TimeMeasure.withoutPercentual(),selected -> {
+    	prepareIndicators("collects_information");
+    }
+    
+
+    @FXML
+    void onTimeIndicatorsReportClicked(ActionEvent event) {
+    	prepareIndicators("collects_time_information");
+    }
+    
+
+    @FXML
+    void onProductionIndicatorsReportClicked(ActionEvent event) {
+    	prepareIndicators("collects_prod_information");
+    }
+	
+	private void prepareIndicators(String reportNameWithoutExtension) {
+		new TimeChoiceList(TimeMeasure.withoutPercentual(),selected -> {
     		String technicalCharacteristics = operation.getTechnicalCharacteristics();
     		String timeRange = operation.getTimeRange();
     		String info = operation.toString();
     		
     		List<Collect> collects = CollectsController.this.collects;
-    		AtomicInteger atomicInteger = new AtomicInteger(1);
+    		AtomicInteger atomicInteger = new AtomicInteger(0);
     	
     		List<CollectDTO> resources = collects.stream().map(c -> {
     			CollectDTO d = new CollectDTO();
@@ -274,7 +290,7 @@ public class CollectsController extends BaseController implements Initializable 
     			d.setOperationalEfficiency(c.getOperationalEfficiency().doubleValue());
     			d.setUtilizationEfficiency(c.getUtilizationEfficiency().doubleValue());
     			d.setStandardTime(c.getStandardTime(selected).doubleValue());
-    			d.setProductivity(c.getProductivity().doubleValue());
+    			d.setProductivity(c.getProductivity(selected).doubleValue());
     			d.setTotalProduction(c.getTotalProduction());
     			d.setTotal(c.getTotalTimed(selected));
     			return d;
@@ -286,15 +302,16 @@ public class CollectsController extends BaseController implements Initializable 
     			.fillParam("operation_info", info)
     			.fillParam("period", timeRange)
     			.fillParam("tech_charac", technicalCharacteristics)
-    			.fillParam("time_unit", selected.getValue())
+    			.fillParam("time_unit", String.valueOf(selected.getValue().charAt(0)))
     			.fillParam("time_conversion", selected.getFromMillisConverterFactor())
-    			.loadReport("collects_information.jasper")
+    			.loadReport(reportNameWithoutExtension+".jasper")
     				.buildAndShow();
     		
     	});
+	}
     
-    }
-	
+
+
 	public List<TimeActivityDTO> configureResources(List<TimeActivity> tas, Integer colIndex) {
 		List<TimeActivityDTO> tars = FredObjectMapper.toResourcesFromTimeActivity(tas);
 		tars.forEach(t -> t.setCollectIndex(colIndex.toString()));

@@ -26,10 +26,8 @@ public class MainControllerTabCreator {
 		Pane p = null;
 		try {
 
-			FXMLLoader fxmlLoader = new FXMLLoader(Charset.forName("UTF8"));
-			fxmlLoader.setLocation(getClass().getResource(fxml));
-			
-			p = (Pane) fxmlLoader.load();
+			FXMLLoader fxmlLoader = new FXMLLoader(Charset.forName("UTF-8"));
+			p = (Pane) fxmlLoader.load(getClass().getResourceAsStream(fxml));
 			if (consumer.isPresent()) {
 				doOnController(p, fxmlLoader, consumer.get());
 			}

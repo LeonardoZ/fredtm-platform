@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fredtm.api.test.TestBase;
+import com.fredtm.api.test.BaseTest;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.OperationDTO;
 import com.fredtm.resources.OperationsDTO;
@@ -17,15 +17,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class SyncControllerTest extends TestBase {
+public class SyncControllerTest extends BaseTest {
 
 	@Test
 	public void freshOperationSync() {
 		StringBuilder sb = readFromFile("classpath:testInsert.json");
-
 		Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy hh:mm:ss")
 				.create();
-
 		OperationDTO fromJson = gson.fromJson(sb.toString(),
 				OperationDTO.class);
 
@@ -52,7 +50,6 @@ public class SyncControllerTest extends TestBase {
 		String asString = makeContentRequest().given().body(fromJson)
 				.post("/sync").andReturn().body().asString();
 
-		System.out.println("+=================================================================");
 		SyncDTO syncResource = gson.fromJson(asString, SyncDTO.class);
 
 		String ops = makeRequest().given()

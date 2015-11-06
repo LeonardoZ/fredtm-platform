@@ -3,12 +3,12 @@ package com.fredtm.api.integration;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fredtm.api.test.TestBase;
+import com.fredtm.api.test.BaseTest;
 import com.fredtm.resources.ActivitiesDTO;
 import com.fredtm.resources.ActivityDTO;
 import com.fredtm.resources.base.GsonFactory;
 
-public class ActivityControllerTest extends TestBase {
+public class ActivityControllerTest extends BaseTest {
 	
 	@Test
 	public void doAllGetTest(){

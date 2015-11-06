@@ -31,6 +31,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fredtm.core.decorator.HoursSystem;
 import com.fredtm.core.decorator.TimeMeasure;
 
 import values.ActivityType;
@@ -312,8 +313,8 @@ public class Collect extends FredEntity implements MotionTimeValues {
 				.divide(measure.bigfromMillisConverterFactor(), 2, RoundingMode.HALF_UP);
 	}
 
-	public long getTotalTimed(TimeMeasure measure) {
-		return times.stream().mapToLong(ta -> ta.getTimed()).sum() / measure.getFromMillisConverterFactor();
+	public double getTotalTimed(TimeMeasure measure) {
+		return getTotalTimed() / measure.getFromMillisConverterFactor();
 	}
 
 	public BigDecimal getNormalTime(TimeMeasure measure) {
@@ -321,7 +322,7 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	private BigDecimal getNormalTime() {
-		long totalTimed = getTotalTimed();
+		double totalTimed = getTotalTimed();
 		double percentSpeed = ((double) generalSpeed / 100);
 		return new BigDecimal(totalTimed).setScale(2, RoundingMode.HALF_UP)
 				.multiply(BigDecimal.valueOf(percentSpeed));
@@ -338,13 +339,21 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	public BigDecimal getUtilizationEfficiency() {
-		long aux = getTotalTimedByType(ActivityType.AUXILIARY);
-		long prod = getTotalTimedByType(ActivityType.PRODUCTIVE);
-		double totalTimed = getTotalTimed();
+		System.out.println("==============Collect.getUtilizationEfficiency()");
+		double aux = getTotalTimedByType(ActivityType.AUXILIARY);
+		double prod = getTotalTimedByType(ActivityType.PRODUCTIVE);
+		System.out.println("aux "+aux);
+		System.out.println("prod "+prod);
+		aux = aux / TimeMeasure.HOURS.getFromMillisConverterFactor();
+		prod = prod / TimeMeasure.HOURS.getFromMillisConverterFactor();
+		
+		double totalTimed = getTotalTimed(TimeMeasure.HOURS);
+		System.out.println("total "+totalTimed);
 		if (totalTimed == 0)
 			totalTimed = 1;
 		double result = (prod - aux) / totalTimed;
-		return BigDecimal.valueOf(result * 100).setScale(2, RoundingMode.HALF_UP);
+		System.out.println(result);
+		return BigDecimal.valueOf(result * 100).setScale(3, RoundingMode.HALF_UP);
 	}
 
 	public BigDecimal getOperationalEfficiency() {
@@ -355,14 +364,19 @@ public class Collect extends FredEntity implements MotionTimeValues {
 		if (value == 0)
 			value = 1;
 		double result = prod / value;
-		return BigDecimal.valueOf(result * 100).setScale(2, RoundingMode.HALF_UP);
+		return BigDecimal.valueOf(result * 100).setScale(3, RoundingMode.HALF_UP);
 	}
 
-	public BigDecimal getProductivity() {
-		int sum = times.stream().filter(t -> t.getActivity().isQuantitative())
+	public BigDecimal getProductivity(TimeMeasure measure) {
+		System.out.println("==============Collect.getProductivity()");
+		double sum = times.stream().filter(t -> t.getActivity().isQuantitative())
 				.flatMapToInt(t -> IntStream.of(t.getCollectedAmount())).sum();
-		long totalTimed = getTotalTimed();
-		totalTimed = totalTimed == 0 ? 1 : totalTimed; 
+		System.out.println("sum: "+sum);
+		
+		double totalTimed = getTotalTimed(measure);
+		System.out.println("ct: "+totalTimed);
+		totalTimed = totalTimed == 0.0 ? 1.0 : totalTimed; 
+		System.out.println(sum / totalTimed);
 		return BigDecimal.valueOf(sum / totalTimed).setScale(3, RoundingMode.HALF_UP);
 	}
 
@@ -380,7 +394,7 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	public int getGeneralSpeed() {
-		return this.generalSpeed;
+		return this.generalSpeed == 0 ? 100 : this.generalSpeed;
 	}
 
 	public void setGeneralSpeed(int generalSpeed) {

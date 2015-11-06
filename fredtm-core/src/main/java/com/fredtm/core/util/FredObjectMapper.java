@@ -78,7 +78,9 @@ public class FredObjectMapper {
 					time.setLocation(new Location(timeResource.getLatitude(), timeResource.getLongitude()));
 					timeResource.getPics().forEach(p -> {
 						TimeActivityPicture tap = new TimeActivityPicture();
-						tap.setContent(p.getCompressedPictureContent().getBytes());
+						if(p.getCompressedPictureContent() != null){
+							tap.setContent(p.getCompressedPictureContent().getBytes());
+						}
 						time.addPicture(tap);
 					});
 

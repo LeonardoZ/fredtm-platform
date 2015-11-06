@@ -36,7 +36,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-@Api(value = "operation", description = "Operations methods")
+@Api(consumes = "application/json", 
+produces = "application/json", value = "Operations", description = "Operations Services")
 @RestController
 @RequestMapping(value = "fredapi/operation")
 public class OperationController implements ResourcesUtil<Operation, OperationDTO> {
@@ -53,12 +54,12 @@ public class OperationController implements ResourcesUtil<Operation, OperationDT
 	@Autowired
 	private OperationResourceAssembler assembler;
 
-	@ApiOperation(value = "View the specific info of the operation")
+	@ApiOperation(value = "Find Operation by UUID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "OperationDTO", response = OperationDTO.class),
 			@ApiResponse(code = 404, message = "Operation Not Found") })
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
 	public HttpEntity<Resource<OperationDTO>> getOperation(
-			@ApiParam(name = "Operation UUID", value = "The UUID of the operation to be viewed", required = true) @PathVariable("uuid") String uuid) {
+			@ApiParam(name = "Operation UUID", value = "The Operation UUID ", required = true) @PathVariable("uuid") String uuid) {
 		if (uuid.equals("")) {
 			return createResponseHttp(HttpStatus.NOT_FOUND);
 		}
@@ -67,13 +68,13 @@ public class OperationController implements ResourcesUtil<Operation, OperationDT
 		return createResponseEntity(found, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "View all info of the operation")
+	@ApiOperation(value = "Finds a complete Operation by UUID")
 	@ApiResponses({ 
 			@ApiResponse(code = 200, message = "OperationDTO", response = OperationDTO.class),
 			@ApiResponse(code = 404, message = "Operation Not Found") })
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}/full")
 	public HttpEntity<Resource<OperationDTO>> getOperationFull(
-			@ApiParam(name = "Operation UUID", value = "The UUID of the operation to be viewed", required = true) @PathVariable("uuid") String uuid) {
+			@ApiParam(name = "Operation UUID", value = "The Operation UUID", required = true) @PathVariable("uuid") String uuid) {
 		if (uuid.equals("")) {
 			return createResponseHttp(HttpStatus.NOT_FOUND);
 		}
@@ -82,12 +83,12 @@ public class OperationController implements ResourcesUtil<Operation, OperationDT
 	}
 
 	@ApiOperation(value = "Remove operation")
-	@ApiResponses({ @ApiResponse(code = 200, message = "Operation deleted", response = OperationDTO.class),
-			@ApiResponse(code = 304, message = "Operation not deleted") })
+	@ApiResponses({ @ApiResponse(code = 200, message = "Operation removed", response = OperationDTO.class),
+			@ApiResponse(code = 304, message = "Operation not removed") })
 	@RequestMapping(value = "/{operationUuid}", method = RequestMethod.DELETE)
 	public HttpStatus removeOperation(
 			@ApiParam(name = "Operation UUID",
-			value = "The UUID of the operation to be removed", required = true)
+			value = "Operation UUID", required = true)
 			@PathVariable("operationUuid") String uuid) {
 		try {
 			opService.deleteOperation(uuid);
@@ -97,10 +98,10 @@ public class OperationController implements ResourcesUtil<Operation, OperationDT
 		}
 	}
 
-	@ApiOperation(value = "Create operation")
+	@ApiOperation(value = "Create Operation")
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody HttpEntity<Resource<OperationDTO>> createOperation(
-			@ApiParam(name = "Operation DTO", value = "The DTO containing information to be saved", required = true) @RequestBody OperationDTO dto) {
+			@ApiParam(name = "Operation DTO", value = "The DTO with informations to be saved", required = true) @RequestBody OperationDTO dto) {
 
 		if (opService.exists(dto.getUuid())) {
 			return createResponseHttp(HttpStatus.CONFLICT);
@@ -110,22 +111,22 @@ public class OperationController implements ResourcesUtil<Operation, OperationDT
 		return createResponseEntity(saved, HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "Update operation")
+	@ApiOperation(value = "Update Operation")
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
 	public HttpEntity<Resource<OperationDTO>> updateOperation(
-			@ApiParam(name = "Operation DTO", value = "The DTO containing information to be updated", required = true) @RequestBody OperationDTO dto) {
+			@ApiParam(name = "Operation DTO", value = "The DTO with informations to be updated", required = true) @RequestBody OperationDTO dto) {
 		Operation operation = assembler.fromResource(dto);
 		Operation saved = opService.saveOperation(operation);
 		return createResponseEntity(saved, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get Paginated operations")
+	@ApiOperation(value = "Finds Operations by Account UUID")
 	@RequestMapping(method = RequestMethod.GET, value = "/{accUuid}/all")
 	public HttpEntity<PagedResources<Resource<OperationDTO>>> getOperationsBy(
-			@ApiParam(name = "Account UUID", value = "The Account UUID of the user", required = true) @PathVariable("accUuid") String accUuid,
+			@ApiParam(name = "Account UUID", value = "The Account UUID", required = true) @PathVariable("accUuid") String accUuid,
 	@ApiParam(name = "Page", value = "The page to be retrivied") @RequestParam(value = "page", defaultValue = "0") int page,
-	@ApiParam(name = "Size", value = "The size of operations to be retrieved") @RequestParam(value = "size", defaultValue = "5") int size) {
+	@ApiParam(name = "Size", value = "The size of operations to be retrivied") @RequestParam(value = "size", defaultValue = "5") int size) {
 
 		Account found = accountRepository.findByUuid(accUuid);
 		// if (found == null) {

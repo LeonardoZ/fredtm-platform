@@ -29,7 +29,15 @@ import com.fredtm.resources.SyncDTO;
 import com.fredtm.service.OperationService;
 import com.fredtm.service.SyncService;
 import com.fredtm.service.SyncState;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
+
+@Api(consumes = "application/json", 
+produces = "application/json", value = "Synchronization", description = "Synchronization Services")
 @RestController
 @RequestMapping(value = "fredapi/sync")
 public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
@@ -58,8 +66,17 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 		return new Resource<OperationDTO>(resource, self);
 	};
 
+	@ApiOperation(value = "Receive Sync From Client")
+	@ApiResponses({ 
+		@ApiResponse(code = 200, message = "No need for synchronization", response = SyncDTO.class),
+		@ApiResponse(code = 201, message = "Synchronization accepted and created", response = SyncDTO.class),
+		@ApiResponse(code = 400, message = "Invalid information for synchronization", response = SyncDTO.class),
+		@ApiResponse(code = 406, message = "Conflict while saving synchronization", response = SyncDTO.class),
+		@ApiResponse(code = 401, message = "Account not Authenticated") })
 	@RequestMapping(method = RequestMethod.POST)
-	public HttpEntity<Resource<SyncDTO>> receiveSync(@RequestBody OperationDTO fullResource) {
+	public HttpEntity<Resource<SyncDTO>> receiveSync(
+			@ApiParam(name = "OperationDTO", value = "The DTO with informations to be syncronized", required = true) 
+			@RequestBody OperationDTO fullResource) {
 
 		// Check if exists
 		SyncState state = service.isValidSync(fullResource.getUuid(), fullResource.getModification());
@@ -98,9 +115,17 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 		Resource<SyncDTO> syncr = configureResource(sync);
 		return new ResponseEntity<Resource<SyncDTO>>(syncr, HttpStatus.CREATED);
 	}
-
+	
+	
+	@ApiOperation(value = "Send actual Sync state to client")
+	@ApiResponses({ 
+		@ApiResponse(code = 200, message = "No need for synchronization", response = OperationDTO.class),
+		@ApiResponse(code = 204, message = "No content to be viewed", response = OperationDTO.class),
+		@ApiResponse(code = 401, message = "Account not Authenticated") })
 	@RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-	public HttpEntity<Resources<Resource<OperationDTO>>> sendSyncs(@PathVariable("accountId") String accountUuid) {
+	public HttpEntity<Resources<Resource<OperationDTO>>> sendSyncs(
+			@ApiParam(name = "Account UUID", value = "The UUID of the account", required = true) 	
+			@PathVariable("accountId") String accountUuid) {
 
 		List<Operation> operations = service.sendLastOperations(accountRepository.findByUuid(accountUuid));
 
@@ -114,6 +139,8 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 		}
 	}
 
+	
+	
 	
 	@Override
 	public Resource<SyncDTO> configureResource(Sync e) {

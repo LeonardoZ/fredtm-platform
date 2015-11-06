@@ -1,10 +1,12 @@
 package com.fredtm.data;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -19,40 +21,15 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.jolbox.bonecp.BoneCPDataSource;
-
 @Profile("prod")
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",
 		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-@ComponentScan(basePackages = { "com.fredtm.data.repository", "com.fredtm.service" })
+@ComponentScan(basePackages = { "com.fredtm.data.repository",
+		"com.fredtm.service" })
 @EnableTransactionManagement
-public class ProdDBConfig {
-
-	@Value("${bonecp.driverClass}")
-	private String driverClass;
-
-	@Value("${bonecp.idleMaxAgeInMinutes}")
-	private Integer idleMaxAgeInMinutes;
-
-	@Value("${bonecp.idleConnectionTestPeriodInMinutes}")
-	private Integer idleConnectionTestPeriodInMinutes;
-
-	@Value("${bonecp.maxConnectionsPerPartition}")
-	private Integer maxConnectionsPerPartition;
-
-	@Value("${bonecp.minConnectionsPerPartition}")
-	private Integer minConnectionsPerPartition;
-
-	@Value("${bonecp.partitionCount}")
-	private Integer partitionCount;
-
-	@Value("${bonecp.acquireIncrement}")
-	private Integer acquireIncrement;
-
-	@Value("${bonecp.statementsCacheSize}")
-	private Integer statementsCacheSize;
+public class LocalProdDBConfig {
 
 	@Bean
 	@Profile("prod")
@@ -76,37 +53,35 @@ public class ProdDBConfig {
 		return em;
 	}
 
-	@Bean(destroyMethod = "close")
+	@Bean
 	@Profile("prod")
 	public DataSource generateDataSource() {
+		// DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		// dataSource.setDriverClassName("org.postgresql.Driver");
+		// dataSource.setUrl("jdbc:postgres://zmjlnczlkkcehh:MMuYhUtsGMClWFfTLy_ZiVmqg0@ec2-184-73-253-4.compute-1.amazonaws.com:5432/d6jhi09e6pcqvq");
+		// dataSource.setUsername("zmjlnczlkkcehh");
+		// dataSource.setPassword("MMuYhUtsGMClWFfTLy_ZiVmqg0");
+		// return dataSource;
 
-		String dbUri = null;
+		URI dbUri = null;
 		try {
-			dbUri = System.getenv("FRED_DATABASE_URL");
-		} catch (Exception ex) {
-			ex.printStackTrace();
+			dbUri = new URI(System.getenv("DATABASE_URL"));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		// host:port:user:password
-		String[] splited = dbUri.split(":");
-		String host = splited[0];
-		String port = splited[1];
-		String username = splited[2];
-		String password = splited[3];
-		String dbUrl = "jdbc:mysql://" + host + ':' + port + "/fredtm?useUnicode=yes&characterEncoding=UTF-8";
-		System.out.println(" to - " + dbUrl);
-		BoneCPDataSource dataSource = new BoneCPDataSource();
-		dataSource.setDriverClass(driverClass);
-		dataSource.setJdbcUrl(dbUrl);
-		dataSource.setUsername(username);
-		dataSource.setPassword(password);
-		dataSource.setIdleConnectionTestPeriodInMinutes(idleConnectionTestPeriodInMinutes);
-		dataSource.setIdleMaxAgeInMinutes(idleMaxAgeInMinutes);
-		dataSource.setMaxConnectionsPerPartition(maxConnectionsPerPartition);
-		dataSource.setMinConnectionsPerPartition(minConnectionsPerPartition);
-		dataSource.setPartitionCount(partitionCount);
-		dataSource.setAcquireIncrement(acquireIncrement);
-		dataSource.setStatementsCacheSize(statementsCacheSize);
-		return dataSource;
+
+		String username = dbUri.getUserInfo().split(":")[0];
+		String password = dbUri.getUserInfo().split(":")[1];
+		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':'
+				+ dbUri.getPort() + dbUri.getPath();
+
+		BasicDataSource basicDataSource = new BasicDataSource();
+		basicDataSource.setUrl(dbUrl);
+		basicDataSource.setUsername(username);
+		basicDataSource.setPassword(password);
+		basicDataSource.addConnectionProperty("connectionProperties", "ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory");
+		return basicDataSource;
 	}
 
 	@Bean
@@ -118,8 +93,10 @@ public class ProdDBConfig {
 	@Profile("prod")
 	Properties additionalProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "create-update");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		properties.setProperty("hibernate.hbm2ddl.auto", "create");
+		properties.setProperty("hibernate.dialect",
+				"org.hibernate.dialect.PostgreSQLDialect");
+		properties.setProperty("show_sql", "true");
 		return properties;
 	}
 

@@ -76,14 +76,6 @@ public class SyncServiceImpl implements SyncService {
 		for (Sync s : syncs) {
 			s.setOperation(newOperation);
 		}
-		newOperation.getCollectsList().forEach(c -> {
-			c.getTimes().forEach(a -> {
-				System.err.println(a.toString());
-				System.err.println(a.getActivity().getActivityType());
-				System.err.println(a.getCollect());
-				System.err.println("=========================");
-			});
-		});
 		newOperation = opRepository.saveAndFlush(newOperation);
 
 		Date when = new Date();
@@ -96,24 +88,14 @@ public class SyncServiceImpl implements SyncService {
 
 	@Transactional(value = TxType.MANDATORY, rollbackOn = Exception.class)
 	public void eraseDataFromOperation(Operation op) {
-		collectRepo.delete(op.getCollectsList());
+		collectRepo.delete(op.getCollects());
 		activityRepo.delete(op.getActivities());
 	}
 
 	@Override
 	@Transactional(value = TxType.REQUIRED,rollbackOn = Exception.class)
 	public Sync receiveSync(Operation newOperation) {
-		newOperation.getCollectsList().forEach(c -> {
-			c.getTimes().forEach(a -> {
-				System.err.println(a.toString());
-				System.err.println(a.getActivity().getActivityType());
-				System.err.println(a.getActivity().getOperation());
-				System.err.println("=========================");
-			});
-		});
 		newOperation = opRepository.save(newOperation);
-		
-		
 		
 		Date when = new Date();
 		Sync sync = new Sync();

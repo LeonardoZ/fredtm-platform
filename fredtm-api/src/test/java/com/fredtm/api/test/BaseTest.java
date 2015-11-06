@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
@@ -35,16 +34,14 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.parsing.Parser;
 import com.jayway.restassured.specification.ResponseSpecification;
 
-@FredApiTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles(value = "test")
 @SpringApplicationConfiguration(classes = FredTmApiConfig.class)
-@EnableAutoConfiguration
 @WebAppConfiguration
 @IntegrationTest
 @SqlGroup({ @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:beforeTestRun.sql"),
 		@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:afterTestRun.sql") })
-public class TestBase {
+public class BaseTest {
 
 	@Autowired
 	private ApplicationContext context;

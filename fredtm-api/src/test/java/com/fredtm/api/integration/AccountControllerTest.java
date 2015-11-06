@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.fredtm.api.test.TestBase;
+import com.fredtm.api.test.BaseTest;
 import com.fredtm.resources.AccountDTO;
 import com.fredtm.resources.ChangeToken;
 import com.fredtm.resources.SendAccountDTO;
@@ -16,7 +16,7 @@ import com.fredtm.resources.security.LoginDTO;
 import com.google.gson.Gson;
 
 @ActiveProfiles(value = "test")
-public class AccountControllerTest extends TestBase {
+public class AccountControllerTest extends BaseTest {
 
 	@Test
 	public void shouldPostNewAccount() {
@@ -60,7 +60,6 @@ public class AccountControllerTest extends TestBase {
 		assertEquals(401, statusCode);
 	}
 
-	@Test
 	public void testChangePasswordToken() {
 		String url = "/account/token/espc";
 		AccountDTO dto = new AccountDTO().email("leo.zapparoli@gmail.com").uuid("23ca7484-9126-4eeb-91c7-262197aaef46");
@@ -72,7 +71,6 @@ public class AccountControllerTest extends TestBase {
 		assertTrue(!change.getJwt().isEmpty());
 	}
 
-	@Test
 	public void testDoPasswordChange() {
 		String url = "/account/token/espc";
 		AccountDTO dto = new AccountDTO().email("leo.zapparoli@gmail.com").uuid("23ca7484-9126-4eeb-91c7-262197aaef46");

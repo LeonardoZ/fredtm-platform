@@ -11,7 +11,7 @@
 	
 	<packaging>jar</packaging>
 
-	<name>fredtm-webapp</name>
+	<name>FredTM WebApp</name>
 	<description>Fred's webapp</description>
 
 	<dependencyManagement>

@@ -43,7 +43,7 @@ public enum TimeMeasure {
 		return this.value;
 	}
 	
-	public int getFromMillisConverterFactor() {
+	public double getFromMillisConverterFactor() {
 		return this.fromMillisConverterFactor;
 	}
 

@@ -1,4 +1,4 @@
 spring:
-  profiles: dev,test
+  profiles: dev,test,prod
 server:
   port: 9000

@@ -51,7 +51,7 @@ public class CollectResourceAssembler extends
 		cr.setOperationalEfficiency(entity.getOperationalEfficiency().doubleValue());
 		cr.setUtilizationEfficiency(entity.getUtilizationEfficiency().doubleValue());
 		cr.setStandardTime(entity.getStandardTime(selected).doubleValue());
-		cr.setProductivity(entity.getProductivity().doubleValue());
+		cr.setProductivity(entity.getProductivity(selected).doubleValue());
 		cr.setTotalProduction(entity.getTotalProduction());
 		cr.setTotal(entity.getTotalTimed(selected));
 		

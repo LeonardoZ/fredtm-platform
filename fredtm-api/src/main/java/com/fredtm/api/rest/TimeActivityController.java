@@ -21,9 +21,11 @@ import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
+@Api(consumes = "application/json", 
+produces = "application/json", 
+value = "Times", description = "Times Services")
 @RestController
-@Api(consumes = "application/json", produces = "applicaiton/json", value = "time", description = "Time methods")
-@RequestMapping(value = "fredapi/time/times")
+@RequestMapping(value = "fredapi/time/")
 public class TimeActivityController implements ResourcesUtil<TimeActivity, TimeActivityDTO> {
 
 	@Autowired
@@ -32,9 +34,9 @@ public class TimeActivityController implements ResourcesUtil<TimeActivity, TimeA
 	@Autowired
 	private TimeActivityResourceAssembler timeAssembler;
 
-	@ApiOperation(value = "Add Time to TimeActivity")
+	@ApiOperation(value = "Add Time to Collect")
 	@ApiResponses({ @ApiResponse(code = 200, message = "TimeActivityDTO", response = TimeActivityDTO.class),
-			@ApiResponse(code = 406, message = "Already existing Time send to be created.") })
+			@ApiResponse(code = 406, message = "Time already exists") })
 	@RequestMapping(value = "/time", method = RequestMethod.PUT)
 	public ResponseEntity<Resource<TimeActivityDTO>> addTimeActivity(TimeActivityDTO dto) {
 		Optional<TimeActivity> found = timeRepository.findByUuid(dto.getUuid());
@@ -47,12 +49,12 @@ public class TimeActivityController implements ResourcesUtil<TimeActivity, TimeA
 
 	}
 
-	@ApiOperation(value = "Remove time")
-	@ApiResponses({ @ApiResponse(code = 200, message = "Time deleted", response = TimeActivityDTO.class),
-			@ApiResponse(code = 304, message = "Time not deleted") })
+	@ApiOperation(value = "Remove Time")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Time removed", response = TimeActivityDTO.class),
+			@ApiResponse(code = 304, message = "Time not removed") })
 	@RequestMapping(value = "/{timeUuid}", method = RequestMethod.DELETE)
 	public HttpStatus removeTime(
-			@ApiParam(name = "Time UUID", value = "The Time  UUID to be removed", required = true) @PathVariable("timeUuid") String uuid) {
+			@ApiParam(name = "Time UUID", value = "The Time UUID", required = true) @PathVariable("timeUuid") String uuid) {
 		try {
 			Optional<TimeActivity> time = timeRepository.findByUuid(uuid);
 			timeRepository.delete(time.get());

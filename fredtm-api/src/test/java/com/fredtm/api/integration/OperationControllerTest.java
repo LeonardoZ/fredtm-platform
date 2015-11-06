@@ -3,12 +3,12 @@ package com.fredtm.api.integration;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fredtm.api.test.TestBase;
+import com.fredtm.api.test.BaseTest;
 import com.fredtm.resources.OperationDTO;
 import com.fredtm.resources.OperationsDTO;
 import com.fredtm.resources.base.GsonFactory;
 
-public class OperationControllerTest extends TestBase {
+public class OperationControllerTest extends BaseTest {
 
 	@Test
 	public void doTest() {
@@ -28,17 +28,26 @@ public class OperationControllerTest extends TestBase {
 
 	@Test
 	public void doInsertTest() {
-		OperationDTO operationDTO = new OperationDTO().accountId("48493871-920d-43b9-bdd0-5f804d1b9be4")
-				.name("For test").technicalCharacteristics("Tech description").company("My company");
+		OperationDTO operationDTO = new OperationDTO()
+				.accountId("48493871-920d-43b9-bdd0-5f804d1b9be4")
+				.name("For test")
+				.technicalCharacteristics("Tech description")
+				.company("My company");
 
 		String json = GsonFactory.getGson().toJson(operationDTO);
 
-		String body = makeContentRequest().and().log().all().given().content(json).post("/operation").andReturn().body().asString();
+		String body = makeContentRequest().and().log().all()
+				.given().content(json)
+				.post("/operation")
+				.andReturn()
+				.body()
+				.asString();
 
-		System.out.println(body);
 		OperationDTO returned = GsonFactory.getGson().fromJson(body, OperationDTO.class);
 
-		int statusCode = makeRequest().and().log().all().given().get("/operation/{id}", returned.getUuid()).andReturn()
+		int statusCode = makeRequest().and().log().all().given()
+				.get("/operation/{id}", returned.getUuid())
+				.andReturn()
 				.statusCode();
 
 		Assert.assertEquals(200, statusCode);

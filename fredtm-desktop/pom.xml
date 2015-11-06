@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>fredtm-desktop</artifactId>
-	<name>fredtm-desktop</name>
+	<name>FredTM Helper</name>
 	<packaging>maven-plugin</packaging>
 
 	<organization>
@@ -181,7 +181,26 @@
 				<version>8.1.5</version>
 				<configuration>
 					<mainClass>com.fredtm.desktop.MainApp</mainClass>
+					<needShortcut>true</needShortcut>
+					<needMenu>true</needMenu>
 				</configuration>
+				<executions>
+					<execution>
+						<!-- required before build-native -->
+						<id>create-jfxjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-jar</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-native</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-native</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 
