@@ -41,8 +41,8 @@ public class FredTmApi {
 		this.token = authContext.getToken(dto);
 		configureTokenRefreshTask();
 	}
-	
-	public FredTmApi(String endpoint){
+
+	public FredTmApi(String endpoint) {
 		super();
 		this.endpoint = endpoint;
 	}
@@ -127,7 +127,8 @@ public class FredTmApi {
 
 				@Override
 				public boolean verify(String hostname, SSLSession session) {
-					return hostname.contains("192.168.1.") || hostname.equals("localhost");
+					// for test purpose
+					return true;
 				}
 			});
 

@@ -31,7 +31,7 @@ public interface AccountApi {
 	public AccountDTO getAccount(@Path(value = "id") String id);
 
 	@POST("/account/token")
-	public int sendChangePasswordTokentoEmail(@Body AccountDTO accountDTO, Callback<Integer> callback);
+	public void sendChangePasswordTokentoEmail(@Body AccountDTO accountDTO, Callback<Integer> callback);
 
 	@PUT("/account/password")
 	public AccountDTO changePassword(@Body ChangePasswordDTO changeDto, Callback<AccountDTO> callback);

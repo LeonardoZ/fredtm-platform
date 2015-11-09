@@ -42,9 +42,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-
-@Api(consumes = "application/json", 
-produces = "application/json", value = "Accounts", description = "Account Services")
+@Api(consumes = "application/json", produces = "application/json", value = "Accounts", description = "Account Services")
 @RestController
 @RequestMapping(value = "fredapi/account")
 public class AccountController implements ResourcesUtil<Account, AccountDTO> {
@@ -62,10 +60,9 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 	private Mail mail;
 
 	@ApiOperation(value = "Create new Account")
-	@ApiResponses({ 
-		@ApiResponse(code = 200, message = "Token valid for 7 hours", response = LoginResponse.class),
-		@ApiResponse(code = 406, message = "Conflict while saving Account", response = AccountDTO.class),
-		@ApiResponse(code = 401, message = "Account not Authenticated") })
+	@ApiResponses({ @ApiResponse(code = 200, message = "Token valid for 7 hours", response = LoginResponse.class),
+			@ApiResponse(code = 406, message = "Conflict while saving Account", response = AccountDTO.class),
+			@ApiResponse(code = 401, message = "Account not Authenticated") })
 	@RequestMapping(method = RequestMethod.POST)
 	public HttpEntity<Resource<AccountDTO>> createAccount(@RequestBody SendAccountDTO sendAccount) {
 
@@ -75,27 +72,23 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 		Resource<AccountDTO> resource = configureResource(createdAccount);
 		return new ResponseEntity<Resource<AccountDTO>>(resource, HttpStatus.CREATED);
 	}
-	
+
 	@ApiOperation(value = "Retrieve Account informations")
 	@ApiResponse(code = 200, message = "The account that belongs to this UUID", response = LoginResponse.class)
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
 	public HttpEntity<Resource<AccountDTO>> getAccount(
-			@ApiParam(name = "Account UUID", value = "The UUID from account to be viewed", required = true) 	
-			@PathVariable(value = "uuid") String id)
-	{
+			@ApiParam(name = "Account UUID", value = "The UUID from account to be viewed", required = true) @PathVariable(value = "uuid") String id) {
 		Account account = service.getAccount(id);
 		Resource<AccountDTO> resource = configureResource(account);
 		return new ResponseEntity<Resource<AccountDTO>>(resource, HttpStatus.OK);
 	}
 
-	@ApiOperation( notes="The user must be properly authenticated to use all the other services from this API."
-			,value = "Check if the user can be authenticated")
+	@ApiOperation(notes = "The user must be properly authenticated to use all the other services from this API.", value = "Check if the user can be authenticated")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Token valid for 7 hours", response = LoginResponse.class),
-		@ApiResponse(code = 401, message = "Account not Authenticated") })
+			@ApiResponse(code = 401, message = "Account not Authenticated") })
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	public HttpEntity<LoginResponse> loginAccount(
-			@ApiParam(name = "Login DTO", value = "The DTO containing login informations", required = true) 
-			@RequestBody LoginDTO resource) {
+			@ApiParam(name = "Login DTO", value = "The DTO containing login informations", required = true) @RequestBody LoginDTO resource) {
 
 		Optional<Account> logedAccount = service.loginAccount(resource.getEmail(), resource.getPassword());
 		if (logedAccount.isPresent()) {
@@ -114,37 +107,46 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 		}
 	}
 
-	public HttpEntity<ChangeToken> getChangePasswordToken(@RequestBody AccountDTO accountDTO) {
-		Account account = service.getAccount(accountDTO.getUuid());
-		if (account == null) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
-		ChangeToken token = changePassword.createToken(account);
-		ChangePasswordMail mailModel = new ChangePasswordMail();
-		mail.sendMail(token.getEmail(), mailModel.getTitle(), mailModel.getContent(token.getJwt()));
-		return new HttpEntity<ChangeToken>(token);
-	}
+	// public ResponseEntity<ChangeToken> getChangePasswordToken(@RequestBody
+	// AccountDTO accountDTO) {
+	// Account account = service.getAccount(accountDTO.getUuid());
+	// if (account == null) {
+	// return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	// }
+	// ChangeToken token = changePassword.createToken(account);
+	// ChangePasswordMail mailModel = new ChangePasswordMail();
+	// boolean sendMail = mail.sendMail(token.getEmail(), mailModel.getTitle(),
+	// mailModel.getContent(token.getJwt()));
+	// if (sendMail) {
+	// return new ResponseEntity<ChangeToken>(token);
+	// } else {
+	// return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	//
+	// }
+	// }
 
 	@ApiOperation(value = "Retrieve token for password change")
 	@RequestMapping(value = "/token", method = RequestMethod.POST)
-	public HttpStatus sendChangePasswordTokentoEmail(
-			@ApiParam(name = "Account DTO", value = "The Accounts DTO ", required = true) 
-			@RequestBody AccountDTO accountDTO) {
+	public ResponseEntity<Integer> sendChangePasswordTokentoEmail(
+			@ApiParam(name = "Account DTO", value = "The Accounts DTO ", required = true) @RequestBody AccountDTO accountDTO) {
 		Account account = service.getAccount(accountDTO.getUuid());
 		if (account == null) {
-			return HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<Integer>(HttpStatus.UNAUTHORIZED);
 		}
 		ChangeToken token = changePassword.createToken(account);
 		ChangePasswordMail mailModel = new ChangePasswordMail();
-		mail.sendMail(token.getEmail(), mailModel.getTitle(), mailModel.getContent(token.getJwt()));
-		return HttpStatus.OK;
+		boolean sendMail = mail.sendMail(token.getEmail(), mailModel.getTitle(), mailModel.getContent(token.getJwt()));
+		if (sendMail) {
+			return new ResponseEntity<Integer>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@ApiOperation(value = "Update accounts password")
 	@RequestMapping(value = "/password", method = RequestMethod.POST)
 	public ResponseEntity<Resource<AccountDTO>> changePassword(
-			@ApiParam(name = "ChangePassword DTO", value = "The DTO of the account to be updated", required = true) 
-			@RequestBody ChangePasswordDTO dto) {
+			@ApiParam(name = "ChangePassword DTO", value = "The DTO of the account to be updated", required = true) @RequestBody ChangePasswordDTO dto) {
 
 		Optional<Account> validAccount = changePassword.isValidToken(dto.getToken());
 		if (!validAccount.isPresent()) {

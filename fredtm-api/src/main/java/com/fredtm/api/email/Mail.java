@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -23,7 +24,7 @@ public class Mail {
 	@Value("${send.from.email}")
 	private String fromEmail;
 
-	public void sendMail(String to, String subject, String msg) {
+	public boolean sendMail(String to, String subject, String msg) {
 
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			@SuppressWarnings("unchecked")
@@ -39,6 +40,12 @@ public class Mail {
 				message.setText(msg, true);
 			}
 		};
-		mailSender.send(preparator);
+		try {
+			mailSender.send(preparator);
+			return true;
+		} catch (MailException ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 }
