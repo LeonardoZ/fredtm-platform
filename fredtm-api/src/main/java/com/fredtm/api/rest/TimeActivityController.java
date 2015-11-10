@@ -15,11 +15,12 @@ import com.fredtm.api.resource.TimeActivityResourceAssembler;
 import com.fredtm.core.model.TimeActivity;
 import com.fredtm.data.repository.TimeActivityRepository;
 import com.fredtm.resources.TimeActivityDTO;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Api(consumes = "application/json", 
 produces = "application/json", 
