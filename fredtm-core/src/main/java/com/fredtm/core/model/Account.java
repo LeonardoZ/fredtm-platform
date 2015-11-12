@@ -41,7 +41,6 @@ public class Account extends FredEntity {
 	@OneToMany(mappedBy = "account")
 	private List<Operation> operations;
 
-
 	@Fetch(FetchMode.SUBSELECT)
 	@ElementCollection(fetch=FetchType.EAGER,targetClass = Role.class)
 	@CollectionTable(name = "account_roles", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id") )

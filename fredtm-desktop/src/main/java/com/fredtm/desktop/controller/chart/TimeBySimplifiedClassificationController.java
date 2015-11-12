@@ -347,7 +347,6 @@ public class TimeBySimplifiedClassificationController extends BaseController imp
 				}
 			}
 		});
-
 	}
 
 	@Override

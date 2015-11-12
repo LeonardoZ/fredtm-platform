@@ -62,7 +62,6 @@ public class CollectsController extends BaseController implements Initializable 
 		MenuItem menuExportAllCollects = new MenuItem("Export todas coletas");
 
 		menuCollecteds.setOnAction(ev -> MainEventBus.INSTANCE.eventOpenTimeActivity(collect));
-		// TODO - Export todas collects
 		menuExportCollect.setOnAction(ev -> MainEventBus.INSTANCE.eventExportCollects(Arrays.asList(collect)));
 		menuExportAllCollects
 				.setOnAction(ev -> MainEventBus.INSTANCE.eventExportCollects(new ArrayList<>(operation.getCollectsList())));

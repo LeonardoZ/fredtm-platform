@@ -31,7 +31,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fredtm.core.decorator.HoursSystem;
 import com.fredtm.core.decorator.TimeMeasure;
 
 import values.ActivityType;
@@ -68,12 +67,6 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	@Fetch(FetchMode.SUBSELECT)
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
 	private List<TimeActivity> times;
-
-	//
-	// @Fetch(FetchMode.SUBSELECT)
-	// @OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER,
-	// mappedBy = "collect", orphanRemoval = true)
-	// private Set<Speed> speeds;
 
 	@Transient
 	private List<Activity> activities;
@@ -166,9 +159,13 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	public Map<String, Double> getSumOfTimesByActivity(ActivityType type) {
-		Map<String, Double> collected = times.stream().filter(ta -> ta.getActivity().getActivityType().equals(type))
-				.collect(Collectors.groupingBy(t -> t.getActivity().getTitle(), Collectors
-						.mapping(tt -> Double.valueOf(tt.getTimed()), Collectors.reducing(0.0, (x, y) -> x + y))));
+		Map<String, Double> collected = times.stream()
+				.filter(ta -> ta.getActivity().getActivityType().equals(type))
+				.collect(
+						Collectors.groupingBy(
+								 t -> t.getActivity().getTitle(), 
+								 Collectors.mapping(tt -> Double.valueOf(tt.getTimed()), 
+										 				  Collectors.reducing(0.0, (x, y) -> x + y))));
 		return collected;
 	}
 

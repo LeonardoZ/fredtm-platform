@@ -51,7 +51,7 @@ public class JwtFilter extends GenericFilterBean {
 	}
 
 	private boolean matches(String path) {
-		return path.equals("/") || AUTHORIZED_PATHS.stream().filter(p -> path.contains(p)).peek(System.out::println)
+		return path.equals("/") || AUTHORIZED_PATHS.stream().filter(p -> path.contains(p))
 				.findAny().isPresent();
 	}
 
@@ -60,14 +60,4 @@ public class JwtFilter extends GenericFilterBean {
 					"/lib/", "/favicon.ico", "/css/", "/images", 
 					"/fredapi/account/login", "/fredapi/base", "/fredapi/account",
 					"/index.html", ".css",".js",".png","/fred/change/password");
-
-			
-//			Arrays.asList("/sdoc.jsp", "/api-docs", "/swagger-ui.js",
-//			"/lib/", "/favicon.ico", "/css/", "/images", 
-//			"/fredapi/account/login", "/fredapi/base", "/fredapi/account",
-//			"/index.html", "/libs/", "/assets/", "/app/modules/fred.js",
-//			"/fred/app.", "/WEB-INF/jsp/changePassword.jsp",
-//			"/fred/change/password", "/app/modules/config.js",
-//			"/app/controllers/login-controller.js");
-
 }

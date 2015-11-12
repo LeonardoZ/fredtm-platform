@@ -58,9 +58,6 @@ public class SyncTest {
 		
 		Assert.assertEquals(s3.getCreated(),syncs.get(0).getCreated());
 		Assert.assertEquals(s5.getCreated(),syncs.get(5).getCreated());
-		
-		
-		
 	}
 
 }

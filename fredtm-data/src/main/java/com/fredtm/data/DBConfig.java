@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Profile("dev")
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.fredtm.data",
 		"com.fredtm.data.repository" }, transactionManagerRef = "transactionManager")
@@ -27,8 +27,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = { "com.fredtm.data.repository",
 		"com.fredtm.service" })
 @EnableTransactionManagement
-
 public class DBConfig {
+	
+	@Value("${local.db.user}")
+	private String dbUserName;
+	
+	@Value("${local.db.password}")
+	private String dbPassword;
+	
 
 	@Bean
 	@Profile("dev")
@@ -58,8 +64,8 @@ public class DBConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/fredtm");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setUsername(dbUserName);
+		dataSource.setPassword(dbPassword);
 		return dataSource;
 	}
 

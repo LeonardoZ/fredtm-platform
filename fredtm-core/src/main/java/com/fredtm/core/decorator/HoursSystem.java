@@ -9,16 +9,6 @@ import com.fredtm.core.model.TimeActivity;
 public class HoursSystem extends TimeSystem {
 
 
-	// public static void main(String[] args) {
-	// double ms = 10_251_648;
-	// System.out.println((ms / (1000)));
-	// System.out.println((ms / (1000 * 60)));
-	// System.out.println((ms / (1000 * 60 * 60)));
-	//
-	//
-	// }
-	//
-	//
 	public HoursSystem(Collect collect) {
 		super(collect);
 	}

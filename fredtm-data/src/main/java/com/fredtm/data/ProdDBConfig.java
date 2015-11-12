@@ -93,7 +93,6 @@ public class ProdDBConfig {
 		String username = splited[2];
 		String password = splited[3];
 		String dbUrl = "jdbc:mysql://" + host + ':' + port + "/fredtm?useUnicode=yes&characterEncoding=UTF-8";
-		System.out.println(" to - " + dbUrl);
 		BoneCPDataSource dataSource = new BoneCPDataSource();
 		dataSource.setDriverClass(driverClass);
 		dataSource.setJdbcUrl(dbUrl);

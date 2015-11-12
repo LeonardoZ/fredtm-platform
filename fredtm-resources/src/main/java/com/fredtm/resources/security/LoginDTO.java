@@ -28,12 +28,12 @@ public class LoginDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public LoginDTO email(String email) {
 		this.email = email;
 		return this;
 	}
-	
+
 	public LoginDTO password(String password) {
 		this.password = password;
 		return this;

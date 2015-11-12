@@ -21,9 +21,8 @@ import com.google.gson.stream.JsonReader;
 
 public class OperationJsonUtils {
 
-	public Gson gson;
-	private Type listType = new TypeToken<List<OperationDTO>>() {
-	}.getType();
+	private Gson gson;
+	private Type listType = new TypeToken<List<OperationDTO>>() {}.getType();
 
 	public OperationJsonUtils() {
 		gson = GsonFactory.getGson();
@@ -64,8 +63,6 @@ public class OperationJsonUtils {
 	private List<OperationDTO> getJsonFrom(String f) {
 		return gson.fromJson(f, listType);
 	}
-	
-	
 
 	private OperationDTO[] getJsonFrom(File f) throws FileNotFoundException {
 		InputStreamReader reader = new InputStreamReader(

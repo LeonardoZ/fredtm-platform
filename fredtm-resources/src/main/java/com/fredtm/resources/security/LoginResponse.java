@@ -20,11 +20,11 @@ public class LoginResponse {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
+
 	public String getAccountUuid() {
 		return this.accountUuid;
 	}
-	
+
 	public void setAccountUuid(String accountUuid) {
 		this.accountUuid = accountUuid;
 	}

@@ -1,8 +1,8 @@
 package com.fredtm.sdk.api;
 
 import com.fredtm.resources.AccountDTO;
+import com.fredtm.resources.ChangePasswordDTO;
 import com.fredtm.resources.SendAccountDTO;
-import com.fredtm.resources.base.ChangePasswordDTO;
 import com.fredtm.resources.security.LoginDTO;
 import com.fredtm.resources.security.LoginResponse;
 
@@ -36,7 +36,4 @@ public interface AccountApi {
 	@PUT("/account/password")
 	public AccountDTO changePassword(@Body ChangePasswordDTO changeDto, Callback<AccountDTO> callback);
 
-	// @GET("/account/all")
-	// public void getAllAccounts(@Query("page") int page,
-	// @Query("elements") int elements,Callback<AccountsResource> callback);
 }

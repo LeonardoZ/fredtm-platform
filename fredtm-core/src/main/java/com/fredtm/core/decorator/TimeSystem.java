@@ -79,8 +79,13 @@ public  abstract class TimeSystem  {
 
 	public LinkedHashMap<String, Optional<Double>> getTimeByActivities() {
 		if (!getCollect().getTimes().isEmpty()) {
-			return getCollect().getTimes().stream().collect(Collectors.groupingBy(ta -> ta.getActivity().getTitle(),
-					LinkedHashMap::new, Collectors.mapping(this::convertTime, Collectors.reducing((x, y) -> x + y))));
+			return getCollect().getTimes().stream()
+					.collect(
+							Collectors.groupingBy(
+									ta -> ta.getActivity().getTitle(),
+									LinkedHashMap::new, 
+									Collectors.mapping(this::convertTime,
+													   Collectors.reducing((x, y) -> x + y))));
 		} else {
 			return null;
 		}

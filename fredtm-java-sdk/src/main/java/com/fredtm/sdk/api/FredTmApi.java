@@ -48,8 +48,8 @@ public class FredTmApi {
 	}
 
 	private void configureTokenRefreshTask() {
-		long oneHour = 3_600_000;
-		long startTime = new Date().getTime() + oneHour;
+		long sevenHours = 25_200_000;
+		long startTime = new Date().getTime() + sevenHours;
 		timer.scheduleAtFixedRate(new TimerTask() {
 
 			@Override
@@ -58,7 +58,7 @@ public class FredTmApi {
 				FredTmApi.this.token = authContext.getToken(dto);
 
 			}
-		}, startTime, oneHour);
+		}, startTime, sevenHours);
 	}
 
 	public RestAdapter configCompleteAdapter() {
@@ -72,9 +72,12 @@ public class FredTmApi {
 	private RestAdapter configAdapter(boolean complete) {
 		Gson g = GsonFactory.getGson();
 		OkClient client = getOkClient();
-		Builder builder = new RestAdapter.Builder().setLogLevel(LogLevel.FULL).setClient(client)
+		// development 
+		Builder builder = new RestAdapter.Builder()
+				.setLogLevel(LogLevel.FULL)
+				.setClient(client)
 				.setConverter(new GsonConverter(g))
-				.setEndpoint(endpoint == null ? "http://fredtm-api.herokuapp.com/fredapi" : endpoint);
+				.setEndpoint(endpoint);
 		if (complete) {
 			builder.setRequestInterceptor(new RequestInterceptor() {
 				@Override
@@ -94,6 +97,7 @@ public class FredTmApi {
 		return configAnnonymousAdapter().create(apiDef);
 	}
 
+	// Untrusted Cert
 	public static OkHttpClient getUnsafeOkHttpClient() {
 
 		try {

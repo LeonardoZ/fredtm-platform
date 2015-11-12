@@ -62,7 +62,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 	private MenuItem btnTimeByActivity;
 	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea, btnInfo;
 	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,
-			btnGeneralSimpleReport, btnTimesAnalytics, btnTimeBalanceReport;
+			btnGeneralSimpleReport, btnTimesAnalytics;
 	private GoogleMapView view;
 
 	private List<TimeActivity> times;
@@ -138,9 +138,8 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnGeneralReport = new MenuItem("Relatório geral de coleta");
 		btnGeneralSimpleReport = new MenuItem("Relatório geral simplificado de coleta ");
 		btnTimesAnalytics = new MenuItem("Relatório de grandezas relativas");
-		btnTimeBalanceReport = new MenuItem("Relatório de Coleta Analítico");
 		btnReports.getItems().addAll(btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport,
-				btnGeneralReport, btnGeneralSimpleReport, btnTimesAnalytics, btnTimeBalanceReport);
+				btnGeneralReport, btnGeneralSimpleReport, btnTimesAnalytics);
 
 	}
 
@@ -261,7 +260,6 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 					.collect(Collectors.toList());
 
 			double sum = collected.stream().mapToDouble(t -> t.getTimed() / 1000).sum();
-			System.out.println(collected);
 
 			if (collected.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Nenhuma atividade parcial quantificável encontrada");
@@ -276,12 +274,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 
 		});
 
-		btnTimeBalanceReport.setOnAction(evt -> {
-
-			
-			
-		});
-
+	
 		btnGeneralReport.setOnAction(evt -> openGeneralReport(co, false));
 		btnGeneralSimpleReport.setOnAction(evt -> openGeneralReport(co, true));
 	}

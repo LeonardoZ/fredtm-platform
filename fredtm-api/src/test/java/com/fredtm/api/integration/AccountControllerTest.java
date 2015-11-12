@@ -8,9 +8,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.fredtm.api.test.BaseTest;
 import com.fredtm.resources.AccountDTO;
+import com.fredtm.resources.ChangePasswordDTO;
 import com.fredtm.resources.ChangeToken;
 import com.fredtm.resources.SendAccountDTO;
-import com.fredtm.resources.base.ChangePasswordDTO;
 import com.fredtm.resources.base.GsonFactory;
 import com.fredtm.resources.security.LoginDTO;
 import com.google.gson.Gson;

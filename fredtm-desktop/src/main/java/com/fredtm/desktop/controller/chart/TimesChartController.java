@@ -47,10 +47,10 @@ public class TimesChartController extends BaseController implements Initializabl
 	@FXML
 	private VBox rootPane;
 
-	private ScrollPane allNode;
-
 	@FXML
 	private ChoiceBox<TimeMeasure> chcBox;
+
+	private ScrollPane allNode;
 
 	private ScatterChart<String, Number> pointsChart;
 

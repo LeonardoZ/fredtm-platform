@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.6.4.201503051146-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.7.0.201506251244-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -11,6 +11,7 @@
 	</configs>
 	<autoconfigs>
 		<config>java:com.fredtm.data.DBConfig</config>
+		<config>java:com.fredtm.data.ProdDBConfig</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

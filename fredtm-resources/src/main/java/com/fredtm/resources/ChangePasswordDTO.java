@@ -1,4 +1,4 @@
-package com.fredtm.resources.base;
+package com.fredtm.resources;
 
 public class ChangePasswordDTO {
 

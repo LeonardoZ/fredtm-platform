@@ -81,15 +81,6 @@ public class MainController extends BaseController implements Initializable, Cli
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		tabCreator = new MainControllerTabCreator(tabPane);
 		tabPane.getTabs().clear();
-//		abrirParaDebug();
-	}
-
-	private void abrirParaDebug() {
-		File f = new File("C:/Users/Leonardo/Desktop/fred/operations_1440786273270.json");
-		OperationJsonUtils oju = new OperationJsonUtils();
-		List<OperationDTO> operations = oju.jsonToJava(f);
-		List<Operation> entities = FredObjectMapper.mapResourcesToEntities(operations);
-		createOperationsWindow(entities);
 	}
 
 	@FXML
@@ -114,7 +105,6 @@ public class MainController extends BaseController implements Initializable, Cli
 				jDialog = null;
 			}
 		};
-
 	}
 
 	private void createTransferServer() {
