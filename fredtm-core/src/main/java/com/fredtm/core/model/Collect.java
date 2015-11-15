@@ -15,13 +15,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -44,13 +43,13 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	private static final long serialVersionUID = 4085712607350133267L;
 
 	@Transient
-	private Comparator<TimeActivity> comparator = (lhs, rhs) -> rhs.getStartDate().compareTo(lhs.getStartDate());
+	private static Comparator<TimeActivity> comparator = (lhs, rhs) -> rhs.getStartDate().compareTo(lhs.getStartDate());
 
 	@Transient
-	private Comparator<TimeActivity> comparatorReverse = comparator.reversed();
+	private static Comparator<TimeActivity> comparatorReverse = comparator.reversed();
 
 	@Transient
-	private Comparator<Activity> comparatorActivities = (lhs, rhs) -> {
+	private static Comparator<Activity> comparatorActivities = (lhs, rhs) -> {
 		if (rhs.getActivityType().equals(lhs.getActivityType())) {
 			return lhs.getTitle().compareTo(rhs.getTitle());
 		}
@@ -65,7 +64,10 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	private int generalSpeed;
 
 	@Fetch(FetchMode.SUBSELECT)
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
+	// @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER,
+	// mappedBy = "collect", orphanRemoval = true)
+	@ElementCollection
+	@CollectionTable(name="time_activity",joinColumns = { @JoinColumn(name = "collect_id") })
 	private List<TimeActivity> times;
 
 	@Transient
@@ -159,13 +161,9 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	public Map<String, Double> getSumOfTimesByActivity(ActivityType type) {
-		Map<String, Double> collected = times.stream()
-				.filter(ta -> ta.getActivity().getActivityType().equals(type))
-				.collect(
-						Collectors.groupingBy(
-								 t -> t.getActivity().getTitle(), 
-								 Collectors.mapping(tt -> Double.valueOf(tt.getTimed()), 
-										 				  Collectors.reducing(0.0, (x, y) -> x + y))));
+		Map<String, Double> collected = times.stream().filter(ta -> ta.getActivity().getActivityType().equals(type))
+				.collect(Collectors.groupingBy(t -> t.getActivity().getTitle(), Collectors
+						.mapping(tt -> Double.valueOf(tt.getTimed()), Collectors.reducing(0.0, (x, y) -> x + y))));
 		return collected;
 	}
 
@@ -315,13 +313,15 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	public BigDecimal getNormalTime(TimeMeasure measure) {
-		return getNormalTime().divide(measure.bigfromMillisConverterFactor(), 2, RoundingMode.HALF_UP);
+		return getNormalTime().divide(measure.bigfromMillisConverterFactor(), 3, RoundingMode.HALF_UP);
 	}
 
 	private BigDecimal getNormalTime() {
-		double totalTimed = getTotalTimed();
-		double percentSpeed = ((double) generalSpeed / 100);
-		return new BigDecimal(totalTimed).setScale(2, RoundingMode.HALF_UP)
+		double totalTimed = times.stream().filter(t -> !t.getActivity()
+				.getIsIdleActivity())
+				.mapToDouble(t -> t.getTimed()).sum();
+		double percentSpeed = (((double) generalSpeed) / 100);
+		return new BigDecimal(totalTimed).setScale(4, RoundingMode.HALF_UP)
 				.multiply(BigDecimal.valueOf(percentSpeed));
 	}
 
@@ -331,25 +331,20 @@ public class Collect extends FredEntity implements MotionTimeValues {
 		BigDecimal toleranceFactor = new ToleranceFactor().workingTimes(getWorkTimes())
 				.intervalTimes(getIntervalTimes()).calculate();
 
-		return normalTimeInHours.multiply(toleranceFactor).setScale(4, RoundingMode.HALF_UP)
+		return normalTimeInHours.multiply(toleranceFactor).setScale(2, RoundingMode.HALF_UP)
 				.divide(measure.bigfromMillisConverterFactor(), 2, RoundingMode.HALF_UP);
 	}
 
 	public BigDecimal getUtilizationEfficiency() {
-		System.out.println("==============Collect.getUtilizationEfficiency()");
 		double aux = getTotalTimedByType(ActivityType.AUXILIARY);
 		double prod = getTotalTimedByType(ActivityType.PRODUCTIVE);
-		System.out.println("aux "+aux);
-		System.out.println("prod "+prod);
 		aux = aux / TimeMeasure.HOURS.getFromMillisConverterFactor();
 		prod = prod / TimeMeasure.HOURS.getFromMillisConverterFactor();
-		
+
 		double totalTimed = getTotalTimed(TimeMeasure.HOURS);
-		System.out.println("total "+totalTimed);
 		if (totalTimed == 0)
 			totalTimed = 1;
 		double result = (prod - aux) / totalTimed;
-		System.out.println(result);
 		return BigDecimal.valueOf(result * 100).setScale(3, RoundingMode.HALF_UP);
 	}
 
@@ -365,15 +360,11 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	public BigDecimal getProductivity(TimeMeasure measure) {
-		System.out.println("==============Collect.getProductivity()");
 		double sum = times.stream().filter(t -> t.getActivity().isQuantitative())
 				.flatMapToInt(t -> IntStream.of(t.getCollectedAmount())).sum();
-		System.out.println("sum: "+sum);
-		
+
 		double totalTimed = getTotalTimed(measure);
-		System.out.println("ct: "+totalTimed);
-		totalTimed = totalTimed == 0.0 ? 1.0 : totalTimed; 
-		System.out.println(sum / totalTimed);
+		totalTimed = totalTimed == 0.0 ? 1.0 : totalTimed;
 		return BigDecimal.valueOf(sum / totalTimed).setScale(3, RoundingMode.HALF_UP);
 	}
 

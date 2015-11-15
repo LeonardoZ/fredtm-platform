@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="time_activity_picture")
@@ -14,14 +13,13 @@ public class TimeActivityPicture extends FredEntity {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne		
-	@JoinColumn(nullable = false, name = "pictures")
+	@JoinColumn(nullable = false, name = "time_activity_id")
 	private TimeActivity timeActivity;
 
 	@Column(nullable = false)
-	private String uri;
+	private String deviceShortcutUri;
 
-	@Transient
-	private byte[] content;
+
 
 	public TimeActivityPicture() {
 		
@@ -35,20 +33,14 @@ public class TimeActivityPicture extends FredEntity {
 		this.timeActivity = timeActivity;
 	}
 
-	public String getUri() {
-		return uri;
+	public String getDeviceShortcutUri() {
+		return deviceShortcutUri;
 	}
 
 	public void setUri(String uri) {
-		this.uri = uri;
+		this.deviceShortcutUri = uri;
 	}
 	
-	public byte[] getContent() {
-		return this.content;
-	}
-	
-	public void setContent(byte[] content) {
-		this.content = content;
-	}
+
 
 }

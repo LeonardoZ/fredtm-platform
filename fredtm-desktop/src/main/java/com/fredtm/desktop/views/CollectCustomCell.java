@@ -60,7 +60,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 	private Button btnCollectedTimes, btnExport;
 	private MenuButton btnIndividualAnalysis, btnReports;
 	private MenuItem btnTimeByActivity;
-	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea, btnInfo;
+	private MenuItem btnClassification, btnSimpleClassification, btnTimes, btnArea;
 	private MenuItem btnCollectedsSimplesReport, btnCollectedsAnalyticReport, btnAreaReport, btnGeneralReport,
 			btnGeneralSimpleReport, btnTimesAnalytics;
 	private GoogleMapView view;
@@ -127,10 +127,9 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnSimpleClassification = new MenuItem("Distribuição Tempo/Classificação simples");
 		btnTimes = new MenuItem("Análise dos tempos");
 		btnArea = new MenuItem("Área da Coleta");
-		btnInfo = new MenuItem("Indicadores");
 		
 		btnIndividualAnalysis.getItems().addAll(btnClassification, btnSimpleClassification, btnTimeByActivity, btnTimes,
-				btnArea, btnInfo);
+				btnArea);
 
 		btnCollectedsSimplesReport = new MenuItem("Relatório de tempos simples");
 		btnCollectedsAnalyticReport = new MenuItem("Relatório de tempos analítico");
@@ -191,10 +190,6 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		
 		btnArea.setOnAction(evt -> {
 			createMapView(co.getTimes());
-		});
-		
-		btnInfo.setOnAction((evt) -> {
-			new CollectInformationView(co);
 		});
 		
 		setGraphic(structure);

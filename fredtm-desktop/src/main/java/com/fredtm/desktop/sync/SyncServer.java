@@ -73,7 +73,7 @@ public class SyncServer {
 					new InputStreamReader(client.getInputStream(), Charset.forName("UTF-8")));
 			String line = "";
 			StringBuilder builder = new StringBuilder();
-			while ((line = bufferedReader.readLine()) != null) {
+			if ((line = bufferedReader.readLine()) != null) {
 				builder.append(line);
 			}
 			outputStream = client.getOutputStream();

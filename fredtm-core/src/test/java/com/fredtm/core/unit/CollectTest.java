@@ -1,7 +1,6 @@
 package com.fredtm.core.unit;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -60,9 +59,10 @@ public class CollectTest {
 		c.setTimes(times);
 
 		BigDecimal normalTimeInHours = c.getNormalTime(TimeMeasure.HOURS);
-		Assert.assertEquals(4.8, normalTimeInHours.doubleValue(),0.1);
+		Assert.assertEquals(4.42, normalTimeInHours.doubleValue(), 0.001);
 	}
 
+	@Test
 	public void shoudBeTheSpecifiedStandardTimeValue() {
 
 		Operation op = new Operation("Test OP", "From this factory", "With the description...");
@@ -100,9 +100,9 @@ public class CollectTest {
 		c.setTimes(times);
 
 		BigDecimal standardTime = c.getStandardTime(TimeMeasure.HOURS);
-		double doubleValue = standardTime.divide(BigDecimal.valueOf(1000 * 3600), 3, RoundingMode.HALF_UP)
-				.doubleValue();
-		Assert.assertEquals(5.277, doubleValue, 0.0001d);
+		double doubleValue = standardTime.doubleValue();
+				
+		Assert.assertEquals(4.85, doubleValue, 0.1d);
 	}
 
 }
