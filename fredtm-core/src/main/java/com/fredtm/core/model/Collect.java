@@ -15,12 +15,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.persistence.CollectionTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -37,7 +38,7 @@ import values.ToleranceFactor;
 
 @Entity
 @Table(name = "collect")
-public class Collect extends FredEntity implements MotionTimeValues {
+public class Collect extends FredEntity {
 
 	@Transient
 	private static final long serialVersionUID = 4085712607350133267L;
@@ -64,10 +65,7 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	private int generalSpeed;
 
 	@Fetch(FetchMode.SUBSELECT)
-	// @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER,
-	// mappedBy = "collect", orphanRemoval = true)
-	@ElementCollection
-	@CollectionTable(name="time_activity",joinColumns = { @JoinColumn(name = "collect_id") })
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "collect", orphanRemoval = true)
 	private List<TimeActivity> times;
 
 	@Transient
@@ -317,12 +315,10 @@ public class Collect extends FredEntity implements MotionTimeValues {
 	}
 
 	private BigDecimal getNormalTime() {
-		double totalTimed = times.stream().filter(t -> !t.getActivity()
-				.getIsIdleActivity())
+		double totalTimed = times.stream().filter(t -> !t.getActivity().getIsIdleActivity())
 				.mapToDouble(t -> t.getTimed()).sum();
 		double percentSpeed = (((double) generalSpeed) / 100);
-		return new BigDecimal(totalTimed).setScale(4, RoundingMode.HALF_UP)
-				.multiply(BigDecimal.valueOf(percentSpeed));
+		return new BigDecimal(totalTimed).setScale(4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(percentSpeed));
 	}
 
 	public BigDecimal getStandardTime(TimeMeasure measure) {

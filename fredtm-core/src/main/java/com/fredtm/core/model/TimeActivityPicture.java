@@ -7,22 +7,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="time_activity_picture")
+@Table(name = "time_activity_picture")
 public class TimeActivityPicture extends FredEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne		
+	@ManyToOne
 	@JoinColumn(nullable = false, name = "time_activity_id")
 	private TimeActivity timeActivity;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "device_shortcut_uri")
 	private String deviceShortcutUri;
 
-
-
 	public TimeActivityPicture() {
-		
+
 	}
 
 	public TimeActivity getTimeActivity() {
@@ -40,7 +38,5 @@ public class TimeActivityPicture extends FredEntity {
 	public void setUri(String uri) {
 		this.deviceShortcutUri = uri;
 	}
-	
-
 
 }

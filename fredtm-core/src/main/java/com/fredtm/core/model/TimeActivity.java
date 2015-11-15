@@ -47,8 +47,6 @@ public class TimeActivity extends FredEntity {
 	@JoinColumn(nullable = false, name = "collect_id")
 	private Collect collect;
 
-	@Transient
-	private Calendar dataManager = GregorianCalendar.getInstance();
 
 	@Column(name = "final_date")
 	private long finalDate = 0l;
@@ -64,14 +62,15 @@ public class TimeActivity extends FredEntity {
 
 	@Embedded
 	private Location location;
-
-
+	
 	@Fetch(FetchMode.SUBSELECT)
 	@BatchSize(size=10)
 	@OneToMany(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER, mappedBy = "timeActivity")
-	private List<TimeActivityPicture>	 pictures;
+	private List<TimeActivityPicture> pictures;
 	
-	
+	@Transient
+	private Calendar dataManager = GregorianCalendar.getInstance();
+
 	public TimeActivity() {
 		location = new Location(0, 0);
 		pictures = new LinkedList<>();
