@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fredtm.api.security.JwtFilter;
+import com.google.common.base.Predicates;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -94,7 +95,12 @@ public class FredTmApiConfig {
 	public Docket fredTmApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.any())
+				.apis(
+						Predicates.and(
+							Predicates.not(RequestHandlerSelectors.basePackage("org.springframework.boot")),
+							Predicates.not(RequestHandlerSelectors.basePackage("com.fredtm.web"))
+						)
+					)
 				.paths(PathSelectors.any())
 				.build()
 				.pathMapping("/fredapi")
