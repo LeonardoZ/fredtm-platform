@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-11-24T14:32:21 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="area_coleta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a354acbb-cdbd-4d82-b049-937aa6d7f01d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fred_times_adapter"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ds_spatial" uuid="118f11b0-17bd-4c34-bd68-5a6e976251cd">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="fred_times_adapter"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="timed" class="java.lang.Long">
+			<fieldDescription><![CDATA[timed]]></fieldDescription>
+		</field>
+		<field name="activityTitle" class="java.lang.String">
+			<fieldDescription><![CDATA[activityTitle]]></fieldDescription>
+		</field>
+		<field name="longitude" class="java.lang.String">
+			<fieldDescription><![CDATA[longitude]]></fieldDescription>
+		</field>
+		<field name="latitude" class="java.lang.String">
+			<fieldDescription><![CDATA[latitude]]></fieldDescription>
+		</field>
+		<field name="activityType" class="java.lang.String">
+			<fieldDescription><![CDATA[activityType]]></fieldDescription>
+		</field>
+		<field name="collectedAmount" class="java.lang.Integer">
+			<fieldDescription><![CDATA[collectedAmount]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="operation_info" class="java.lang.String"/>
+	<parameter name="period" class="java.lang.String"/>
+	<parameter name="tech_charac" class="java.lang.String"/>
+	<parameter name="baseLatitude" class="java.lang.Float"/>
+	<parameter name="baseLongitude" class="java.lang.Float"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="timed" class="java.lang.Long">
+		<fieldDescription><![CDATA[timed]]></fieldDescription>
+	</field>
+	<field name="activityTitle" class="java.lang.String">
+		<fieldDescription><![CDATA[activityTitle]]></fieldDescription>
+	</field>
+	<field name="longitude" class="java.lang.String">
+		<fieldDescription><![CDATA[longitude]]></fieldDescription>
+	</field>
+	<field name="latitude" class="java.lang.String">
+		<fieldDescription><![CDATA[latitude]]></fieldDescription>
+	</field>
+	<field name="activityType" class="java.lang.String">
+		<fieldDescription><![CDATA[activityType]]></fieldDescription>
+	</field>
+	<field name="collectedAmount" class="java.lang.Integer">
+		<fieldDescription><![CDATA[collectedAmount]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="20" width="475" height="30" uuid="93b494c0-41c3-4c18-b759-0945302f0d06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Área de realização da coleta]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="0" y="0" width="50" height="50" uuid="2874a7ff-5ea4-4b8f-9e17-03d732630770">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="50" width="50" height="16" uuid="ef26317c-ad81-42e1-a588-762c53842855"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fred TM]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="30" width="479" height="30" uuid="a6fb030d-9947-4ea9-a53a-57b1c1bd0522"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font fontName="Verdan" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Caracteristicas técnicas: \n"+ ($P{tech_charac} != null ? $P{tech_charac} : "Sem caracteristícas específicas.")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="17" width="480" height="13" uuid="e139ff18-64e8-40f3-8ac5-943d07e6c4f7">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Coleta realizada no periodo de "+$P{period}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="4" width="480" height="13" uuid="27a17bbc-b746-4f97-9993-b7787451d6b4">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Operação: "+$P{operation_info}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="555" height="1" uuid="44434c86-019f-4537-92f1-85953223754a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="58" width="555" height="1" uuid="e67ab625-9a01-49ae-b023-57bc13c7d676">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="14" splitType="Stretch">
+			<staticText>
+				<reportElement x="470" y="0" width="84" height="13" uuid="fa8d9fb3-42e2-4cc4-8dd2-652278d36b61">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qtd. Coletada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="0" width="112" height="13" uuid="0e9ad0c4-cae8-45f0-b1fb-93d66a26f3d2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Longitude]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="0" width="90" height="13" uuid="89d78dac-b456-40b8-9f6a-94bde486efc0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tempo Cronometrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="0" width="88" height="13" uuid="2736d356-6d24-46ac-b867-f166d3a74039">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Latitude]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="180" height="13" uuid="d50f4be9-2d29-4580-91c5-cab098d32e9c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atividade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17">
+			<textField>
+				<reportElement x="470" y="0" width="84" height="13" uuid="3d886f20-686e-4303-924e-47406a8573fb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[com.fredtm.resources.util.FredNumberFormat.formatTimeFixed($F{collectedAmount},"","s")
+]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="358" y="0" width="112" height="13" uuid="d3e77db0-4702-4c20-9d66-9056a7220732">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{longitude}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="90" height="13" uuid="62158543-a1fa-48e8-9e75-bc4e641df1a6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[com.fredtm.resources.util.FredNumberFormat.formatTimeFixed(($F{timed} / 1000),"","s")
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="88" height="13" uuid="9632c5a9-1aab-40bf-bf6b-4aa3ae9592dd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{latitude}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="180" height="13" uuid="07b8bfa6-5a46-4f2f-b2dc-9b8e3444a9a1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activityTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement x="500" y="2" width="55" height="13" uuid="ad004e8f-49de-4ec1-9605-bbace49024b6">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="500" height="13" uuid="a199e123-2cd9-47bb-ab8f-dcb2222467fe">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerado por Fred TM - Tempos e movimentos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="2" forecolor="#362E2E" uuid="379a3b01-4f0e-4090-989c-7e67886b620b"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="301">
+			<componentElement>
+				<reportElement x="0" y="40" width="555" height="257" uuid="4eff49a6-d897-4e56-8dc8-5e05116df7a4"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" mapType="satellite" mapScale="2">
+					<c:latitudeExpression><![CDATA[$P{baseLatitude}]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[$P{baseLongitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[14]]></c:zoomExpression>
+					<c:markerData>
+						<dataset/>
+						<c:item>
+							<c:itemProperty name="id" value="CHANGE_ME_ID">
+								<valueExpression><![CDATA[$F{activityTitle}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="label" value="CHANGE_ME_LABEL">
+								<valueExpression><![CDATA[$F{activityType}]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="latitude" value="0">
+								<valueExpression><![CDATA[new Float($F{latitude})]]></valueExpression>
+							</c:itemProperty>
+							<c:itemProperty name="longitude" value="0">
+								<valueExpression><![CDATA[new Float($F{longitude})]]></valueExpression>
+							</c:itemProperty>
+						</c:item>
+					</c:markerData>
+				</c:map>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

@@ -49,7 +49,7 @@ public class CollectController implements ResourcesUtil<Collect, CollectDTO> {
 			@ApiResponse(code = 404, message = "Collect Not Found") })
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
 	public HttpEntity<Resource<CollectDTO>> getCollect(
-			@ApiParam(name = "Collect UUID", value = "The UUID from Collect to be viewed", required = true) @PathVariable("uuid") String uuid) {
+			@ApiParam(name = "uuid", value = "The UUID from Collect to be viewed", required = true) @PathVariable("uuid") String uuid) {
 		Optional<Collect> collect = collectRepository.findByUuid(uuid);
 		if (collect.isPresent()) {
 			return createResponseEntity(collect.get(), HttpStatus.OK);
@@ -90,7 +90,7 @@ public class CollectController implements ResourcesUtil<Collect, CollectDTO> {
 			@ApiResponse(code = 304, message = "Collect not removed") })
 	@RequestMapping(value = "/{collectUuid}", method = RequestMethod.DELETE)
 	public HttpStatus removeCollect(
-			@ApiParam(name = "Collect UUID", value = "The Collect UUID", required = true) @PathVariable("collectUuid") String uuid) {
+			@ApiParam(name = "uuid", value = "The Collect UUID", required = true) @PathVariable("collectUuid") String uuid) {
 		try {
 			Optional<Collect> collect = collectRepository.findByUuid(uuid);
 			collectRepository.delete(collect.get());
@@ -103,9 +103,9 @@ public class CollectController implements ResourcesUtil<Collect, CollectDTO> {
 	@ApiOperation(value = "Finds Collects by Operation UUID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Collects from Operation", response = CollectsDTO.class),
 			@ApiResponse(code = 404, message = "Collects Not Found") })
-	@RequestMapping(method = RequestMethod.GET, value = "/by/operation/{uuid}")
+	@RequestMapping(method = RequestMethod.GET, value = "/by/operation/{opUuid}")
 	public HttpEntity<Resources<Resource<CollectDTO>>> getCollectsBy(
-			@ApiParam(name = "Operation UUID", value = "The Operation UUID", required = true) @PathVariable("uuid") String operationUuid) {
+			@ApiParam(name = "opUuid", value = "The Operation UUID", required = true) @PathVariable("opUuid") String operationUuid) {
 		List<Collect> found = collectRepository.findAllByOperationUuid(operationUuid);
 		if (found.isEmpty()) {
 			return new ResponseEntity<Resources<Resource<CollectDTO>>>(HttpStatus.NO_CONTENT);

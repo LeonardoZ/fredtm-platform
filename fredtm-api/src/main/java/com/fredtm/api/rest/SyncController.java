@@ -107,7 +107,6 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 			sync = service.receiveSync(oldOperation, newOperation);
 
 		} else if (state == SyncState.NEW_SYNC) {
-			System.err.println("Sync New +" + fullResource.toString());
 			Operation newOperation = logic.doSyncOnExisting(fullResource);
 			// logic doesn't cover account
 			newOperation.setAccount(acc);
@@ -123,10 +122,10 @@ public class SyncController implements ResourcesUtil<Sync, SyncDTO> {
 		@ApiResponse(code = 200, message = "No need for synchronization", response = OperationDTO.class),
 		@ApiResponse(code = 204, message = "No content to be viewed", response = OperationDTO.class),
 		@ApiResponse(code = 401, message = "Account not Authenticated") })
-	@RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{accountUuid}", method = RequestMethod.GET)
 	public HttpEntity<Resources<Resource<OperationDTO>>> sendSyncs(
-			@ApiParam(name = "Account UUID", value = "The UUID of the account", required = true) 	
-			@PathVariable("accountId") String accountUuid) {
+			@ApiParam(name = "accountUuid", value = "The UUID of the account", required = true) 	
+			@PathVariable("accountUuid") String accountUuid) {
 
 		List<Operation> operations = service.sendLastOperations(accountRepository.findByUuid(accountUuid));
 

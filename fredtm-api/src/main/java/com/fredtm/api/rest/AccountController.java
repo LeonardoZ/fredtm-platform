@@ -77,15 +77,19 @@ public class AccountController implements ResourcesUtil<Account, AccountDTO> {
 	@ApiResponse(code = 200, message = "The account that belongs to this UUID", response = LoginResponse.class)
 	@RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
 	public HttpEntity<Resource<AccountDTO>> getAccount(
-			@ApiParam(name = "Account UUID", value = "The UUID from account to be viewed", required = true) @PathVariable(value = "uuid") String id) {
-		Account account = service.getAccount(id);
+			@ApiParam(name = "uuid", value= "The UUID from account to be viewed", required = true) 
+			@PathVariable(value = "uuid") String uuid) {
+		Account account = service.getAccount(uuid);
 		Resource<AccountDTO> resource = configureResource(account);
 		return new ResponseEntity<Resource<AccountDTO>>(resource, HttpStatus.OK);
 	}
 
-	@ApiOperation(notes = "The user must be properly authenticated to use all the other services from this API.", value = "Check if the user can be authenticated")
+	@ApiOperation(notes = "The user must be properly authenticated to use all the other services from this API.", 
+			value = "Check if the user can be authenticated")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Token valid for 7 hours", response = LoginResponse.class),
 			@ApiResponse(code = 401, message = "Account not Authenticated") })
+
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	public HttpEntity<LoginResponse> loginAccount(
 			@ApiParam(name = "Login DTO", value = "The DTO containing login informations", required = true) @RequestBody LoginDTO resource) {

@@ -56,8 +56,8 @@ public class JwtFilter extends GenericFilterBean {
 	}
 
 	private static final List<String> AUTHORIZED_PATHS = 
-			Arrays.asList("/sdoc.jsp","/swagger", "/api-docs", "/swagger-ui.js",
-					"/lib/", "/favicon.ico", "/css/", "/images", 
+			Arrays.asList("/configuration","/webjars","/swagger", "/api-docs", "/swagger-ui.js",
+					"/lib/", "/favicon.ico", "/css", "/images", 
 					"/fredapi/account/login", "/fredapi/base", "/fredapi/account",
 					"/index.html", ".css",".js",".png","/fred/change/password");
 }

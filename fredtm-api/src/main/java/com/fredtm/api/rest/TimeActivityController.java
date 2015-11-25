@@ -55,7 +55,7 @@ public class TimeActivityController implements ResourcesUtil<TimeActivity, TimeA
 			@ApiResponse(code = 304, message = "Time not removed") })
 	@RequestMapping(value = "/{timeUuid}", method = RequestMethod.DELETE)
 	public HttpStatus removeTime(
-			@ApiParam(name = "Time UUID", value = "The Time UUID", required = true) @PathVariable("timeUuid") String uuid) {
+			@ApiParam(name = "timeUuid", value = "The Time UUID", required = true) @PathVariable("timeUuid") String uuid) {
 		try {
 			Optional<TimeActivity> time = timeRepository.findByUuid(uuid);
 			timeRepository.delete(time.get());

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Swagger UI</title>
+  <title>FredTM - Swagger UI</title>
   <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
   <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -29,12 +29,12 @@
 
   <script type="text/javascript">
     $(function () {
-    	 var url = window.location.search.match(/url=([^&]+)/);
-         if (url && url.length > 1) {
-           url = decodeURIComponent(url[1]);
-         } else {
-           url = "/api-docs";
-         }
+      var url = window.location.search.match(/url=([^&]+)/);
+      if (url && url.length > 1) {
+        url = decodeURIComponent(url[1]);
+      } else {
+        url = "/v2/api-docs";
+      }
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
@@ -48,7 +48,7 @@
           if(typeof initOAuth == "function") {
             initOAuth({
               clientId: "your-client-id",
-              clientSecret: "your-client-secret",
+              clientSecret: "your-client-secret-if-required",
               realm: "your-realms",
               appName: "your-app-name", 
               scopeSeparator: ","
@@ -63,7 +63,6 @@
             hljs.highlightBlock(e)
           });
 
-          addApiKeyAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -74,21 +73,50 @@
       });
 
       function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
-        if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-            log("added key " + key);
-        }
+       
       }
+      
+      function loadApiKeyAuthorization(){
+    	  $input_account = $('#input_account');
+    	  $input_password = $('#input_password');
+          var email = $input_account[0].value;
+          var password = $input_password[0].value;
+          if(email && password && password.trim() != "" && password.trim() != "") {
+        	  $.ajax({
+        		  url:"/fredapi/account/login",
+        		  type:"POST",
+        		  data:JSON.stringify({
+                    	"email" : email,
+                      	"password": password
+                  }),
+        		  contentType:"application/json; charset=utf-8",
+        		  dataType:"json",
+        		  success: function(data){
+                    window.swaggerUi.api.clientAuthorizations.add("Authorization",
+                       	new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer "+data.token, "header"));
+                    $input_account.remove();
+                    $input_password.remove();
+      				$('#auth').remove();
+                    var $newInfoContent = 
+                    	$('<div class=\'input\'><a class="header-button" id=\'logged\'>Account\'s UUID: '+data.accountUuid+'</a></div>');          
+                  	var $logout = 
+                    	$('<div class=\'input\'><a class="header-button" id="logout" href="#" data-sw-translate>Logout</a></div>');          
+                  	$('#api_selector').append($logout); 
+                  	$('#api_selector').append($newInfoContent);
+                  	$logout.click(function(evt){
+                  		window.location.reload();
+                  	});
+        		  }
+        		});
+        	  
+          } else {
+          	alert("Account not authenticated!");
+          }
+        }
 
-      $('#input_apiKey').change(addApiKeyAuthorization);
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-      */
+      $("#auth").click(function(evt){
+    	  loadApiKeyAuthorization();
+      });
 
       window.swaggerUi.load();
 
@@ -106,9 +134,12 @@
   <div class="swagger-ui-wrap">
     <a id="logo" href="http://swagger.io">swagger</a>
     <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
+      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="hidden"/></div>
+	  <div class='input'><input placeholder="Account's Email" id="input_account" name="account" type="text"/></div>
+      <div class='input'><input placeholder="Password" id="input_password" name="password" type="password" /></div>
+      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="hidden"/></div>
+      <div class='input'><a class="header-button" id="auth" href="#" data-sw-translate>Authenticate</a></div>
+     
     </form>
   </div>
 </div>

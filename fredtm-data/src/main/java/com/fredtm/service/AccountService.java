@@ -12,7 +12,7 @@ public interface AccountService {
 
 	Optional<Account> loginAccount(String email, String pass);
 
-	Account getAccount(String id);
+	Account getAccount(String uuid);
 
 	Account getAccount(Integer id);
 
