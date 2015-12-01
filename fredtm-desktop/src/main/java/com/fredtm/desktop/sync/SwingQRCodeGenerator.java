@@ -16,11 +16,10 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 public class SwingQRCodeGenerator {
 	
 	public Optional<BufferedImage> gerarQRCode() {
-		SocketConfig socketConfig = new SocketConfig();
+		PropertiesConfig socketConfig = new PropertiesConfig();
 		String ip = socketConfig.getIp().get();
 		String port = socketConfig.getPort().get();
 		String myCodeText = ip + ":" + port;
-		System.out.println(myCodeText);
 		int size = 125;
 		try {
 			Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();

@@ -26,19 +26,19 @@ public class PasswordEncryptionService {
 
 	private static String generateRandomKey() {
 		// VERY important to use SecureRandom instead of just Random
-				SecureRandom random = null;
-				try {
-					random = SecureRandom.getInstance("SHA1PRNG");
-				} catch (NoSuchAlgorithmException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		SecureRandom random = null;
+		try {
+			random = SecureRandom.getInstance("SHA1PRNG");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-				// Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
-				byte[] salt = new byte[4];
-				random.nextBytes(salt);
+		// Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
+		byte[] salt = new byte[4];
+		random.nextBytes(salt);
 
-				return Base64.getEncoder().encodeToString(salt);
+		return Base64.getEncoder().encodeToString(salt);
 	}
 
 	public static byte[] getEncryptedPassword(String password, byte[] salt) {
@@ -73,7 +73,6 @@ public class PasswordEncryptionService {
 		try {
 			random = SecureRandom.getInstance("SHA1PRNG");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

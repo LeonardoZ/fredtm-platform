@@ -41,6 +41,10 @@
 	-fx-background-image:url('/images/ic_import.png');
 }
 
+#btnImportApi {
+	-fx-background-image:url('/images/ic_web.png');
+}
+
 #btnConfig{
 	-fx-background-image:url('/images/ic_config.png');
 }

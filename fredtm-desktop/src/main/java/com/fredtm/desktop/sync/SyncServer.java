@@ -31,7 +31,7 @@ public class SyncServer {
 	}
 
 	public void start() {
-		String port = new SocketConfig().getPort().getValue();
+		String port = new PropertiesConfig().getPort().getValue();
 		if (connected != null) {
 			startServer(Integer.valueOf(port));
 		}
@@ -40,8 +40,14 @@ public class SyncServer {
 	private void startServer(int port) {
 		try {
 			server = new ServerSocket(port);
+			System.out.println(server.getInetAddress());
+			System.out.println(port);
+			System.out.println("INIT socket");
 			Socket client = server.accept();
+
+			System.out.println("socket acc");
 			if (client != null) {
+				System.out.println("C N N");
 				onAcceptClient(client);
 				service.shutdownNow();
 			}

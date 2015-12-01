@@ -79,6 +79,7 @@ public class FredObjectMapper {
 					timeResource.getPics().forEach(p -> {
 						TimeActivityPicture tap = new TimeActivityPicture();
 						tap.setUri(p.getUrl());
+						tap.setTimeActivity(time);
 						time.addPicture(tap);
 					});
 

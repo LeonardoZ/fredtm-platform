@@ -39,6 +39,11 @@
 			<artifactId>fredtm-core</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fredtm</groupId>
+			<artifactId>fredtm-java-sdk</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 		<!-- MigLayout -->
 		<dependency>

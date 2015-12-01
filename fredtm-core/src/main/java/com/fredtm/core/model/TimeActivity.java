@@ -63,7 +63,7 @@ public class TimeActivity extends FredEntity {
 	@Embedded
 	private Location location;
 	
-	@Fetch(FetchMode.SUBSELECT)
+	@Fetch(FetchMode.SELECT)
 	@BatchSize(size=10)
 	@OneToMany(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER, mappedBy = "timeActivity")
 	private List<TimeActivityPicture> pictures;

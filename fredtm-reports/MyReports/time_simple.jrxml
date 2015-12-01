@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.0.2  -->
+<!-- 2015-11-25T20:06:11 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="time_simple" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a354acbb-cdbd-4d82-b049-937aa6d7f01d">
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="operation_info" class="java.lang.String"/>
+	<parameter name="period" class="java.lang.String"/>
+	<parameter name="tech_charac" class="java.lang.String"/>
+	<parameter name="Parameter1" class="com.fredtm.resources.TimeActivityResource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="startDate" class="java.lang.Long">
+		<fieldDescription><![CDATA[startDate]]></fieldDescription>
+	</field>
+	<field name="itemName" class="java.lang.String">
+		<fieldDescription><![CDATA[itemName]]></fieldDescription>
+	</field>
+	<field name="timed" class="java.lang.Long">
+		<fieldDescription><![CDATA[timed]]></fieldDescription>
+	</field>
+	<field name="finalDate" class="java.lang.Long">
+		<fieldDescription><![CDATA[finalDate]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="activityId" class="java.lang.String">
+		<fieldDescription><![CDATA[activityId]]></fieldDescription>
+	</field>
+	<field name="pics" class="java.util.List">
+		<fieldDescription><![CDATA[pics]]></fieldDescription>
+	</field>
+	<field name="activityTitle" class="java.lang.String">
+		<fieldDescription><![CDATA[activityTitle]]></fieldDescription>
+	</field>
+	<field name="collectIndex" class="java.lang.String">
+		<fieldDescription><![CDATA[collectIndex]]></fieldDescription>
+	</field>
+	<field name="collectId" class="java.lang.String">
+		<fieldDescription><![CDATA[collectId]]></fieldDescription>
+	</field>
+	<field name="longitude" class="java.lang.String">
+		<fieldDescription><![CDATA[longitude]]></fieldDescription>
+	</field>
+	<field name="uuid" class="java.lang.String">
+		<fieldDescription><![CDATA[uuid]]></fieldDescription>
+	</field>
+	<field name="latitude" class="java.lang.String">
+		<fieldDescription><![CDATA[latitude]]></fieldDescription>
+	</field>
+	<field name="activityType" class="java.lang.String">
+		<fieldDescription><![CDATA[activityType]]></fieldDescription>
+	</field>
+	<field name="collectedAmount" class="java.lang.Integer">
+		<fieldDescription><![CDATA[collectedAmount]]></fieldDescription>
+	</field>
+	<variable name="timed1" class="java.lang.Long" resetType="Group" resetGroup="byType" calculation="Sum">
+		<variableExpression><![CDATA[$F{timed}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupHeader>
+			<band height="57"/>
+		</groupHeader>
+	</group>
+	<group name="byType">
+		<groupExpression><![CDATA[$F{activityType}]]></groupExpression>
+		<groupHeader>
+			<band height="51">
+				<textField>
+					<reportElement x="20" y="0" width="100" height="30" uuid="03564590-6acd-4cbb-9bf5-484132796639"/>
+					<textFieldExpression><![CDATA[$V{timed1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="20" width="475" height="30" uuid="93b494c0-41c3-4c18-b759-0945302f0d06"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="18" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Relatório ]]></text>
+			</staticText>
+			<image onErrorType="Blank">
+				<reportElement x="0" y="0" width="50" height="50" uuid="2874a7ff-5ea4-4b8f-9e17-03d732630770">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="50" width="50" height="16" uuid="ef26317c-ad81-42e1-a588-762c53842855"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fred TM]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="70" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="30" width="479" height="30" uuid="a6fb030d-9947-4ea9-a53a-57b1c1bd0522"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Caracteristicas técnicas: \n"+ ($P{tech_charac} != null ? $P{tech_charac} : "Sem caracteristícas específicas.")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="17" width="480" height="13" uuid="e139ff18-64e8-40f3-8ac5-943d07e6c4f7">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement>
+					<font fontName="Verdana" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Coleta realizada no periodo de "+$P{period}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="4" width="480" height="13" uuid="27a17bbc-b746-4f97-9993-b7787451d6b4">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Operação: "+$P{operation_info}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="555" height="1" uuid="44434c86-019f-4537-92f1-85953223754a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="58" width="555" height="1" uuid="e67ab625-9a01-49ae-b023-57bc13c7d676">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch"/>
+	</columnHeader>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="500" y="2" width="55" height="13" uuid="ad004e8f-49de-4ec1-9605-bbace49024b6">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="500" height="13" uuid="a199e123-2cd9-47bb-ab8f-dcb2222467fe">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerado por Fred TM - Tempos e movimentos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="2" forecolor="#362E2E" uuid="379a3b01-4f0e-4090-989c-7e67886b620b"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="259">
+			<staticText>
+				<reportElement x="1" y="0" width="544" height="20" uuid="154a28d5-ae72-4863-8542-807e514d8ce9"/>
+				<text><![CDATA[Resultados de coleta]]></text>
+			</staticText>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="1" y="20" width="554" height="200" uuid="3ce56f4a-0e4c-4e2b-80d7-56839e39a2ae"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["SERIES 1"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{activityTitle}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{timed} / 1000]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

@@ -10,7 +10,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.MainController">
+<BorderPane id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fredtm.desktop.controller.MainController">
       	<left>
       		 <VBox fx:id="btPanel" alignment="TOP_CENTER" layoutX="14.0" layoutY="53.0" prefHeight="91.0" prefWidth="150.0" BorderPane.alignment="TOP_CENTER">
          <children>
@@ -33,7 +33,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="btnSync" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseClicked="#onSincronizarClicked" styleClass="btn-fred-main" text="Sincronizar" VBox.vgrow="ALWAYS">
+            <Label fx:id="btnSync" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseClicked="#onSyncClicked" styleClass="btn-fred-main" text="Sincronizar" VBox.vgrow="ALWAYS">
                <padding>
                   <Insets bottom="10.0" right="5.0" top="10.0" />
                </padding>
@@ -44,7 +44,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="btnImport" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseClicked="#onImportarJsonClicked" styleClass="btn-fred-main" text="Importar" VBox.vgrow="ALWAYS">
+            <Label fx:id="btnImport" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseClicked="#onImportJsonClicked" styleClass="btn-fred-main" text="Importar" VBox.vgrow="ALWAYS">
                <padding>
                   <Insets bottom="10.0" right="5.0" top="10.0" />
                </padding>
@@ -54,6 +54,14 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+            </Label>
+            <Label fx:id="btnImportApi" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="202.0" maxWidth="1.7976931348623157E308" onMouseClicked="#onImportApiClicked" styleClass="btn-fred-main" text="API">
+               <padding>
+                  <Insets bottom="10.0" right="5.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
             </Label>
             <Label fx:id="btnConfig" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" onMouseClicked="#onConfigureClicked" styleClass="btn-fred-main" text="Configurar" VBox.vgrow="ALWAYS">
                <padding>

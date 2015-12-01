@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 
 import javax.swing.JOptionPane;
 
-import com.fredtm.desktop.sync.SocketConfig;
+import com.fredtm.desktop.sync.PropertiesConfig;
 
 public class ConfigureController extends BaseController implements Initializable {
 
@@ -22,7 +22,13 @@ public class ConfigureController extends BaseController implements Initializable
 	@FXML
 	private TextField textEditPort;
 
-	private SocketConfig config;
+	@FXML
+	private TextField textServerEditIp;
+
+	@FXML
+	private TextField textServerEditPort;
+
+	private PropertiesConfig config;
 
 	@FXML
 	void onConfirmClicked(ActionEvent event) {
@@ -30,15 +36,32 @@ public class ConfigureController extends BaseController implements Initializable
 				.ifPresent((t) -> JOptionPane.showMessageDialog(null, "Alterações realizadas com sucesso!"));
 	}
 
+	@FXML
+	void onServerConfirmClicked(ActionEvent event) {
+		Optional.of(config.saveServer())
+				.ifPresent((t) -> JOptionPane.showMessageDialog(null, "Alterações realizadas com sucesso!"));
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle bundle) {
-		config = new SocketConfig();
+		config = new PropertiesConfig();
+		// socket
 		textEditIp.setText(config.getIp().getValue());
 		textEditIp.setAlignment(Pos.CENTER);
 		textEditPort.setText(config.getPort().getValue());
 		textEditPort.setAlignment(Pos.CENTER);
+
 		config.getIp().bindBidirectional(textEditIp.textProperty());
 		config.getPort().bindBidirectional(textEditPort.textProperty());
+
+		// server
+		textServerEditIp.setText(config.getServerIp().getValue());
+		textServerEditIp.setAlignment(Pos.CENTER);
+		textServerEditPort.setText(config.getServerPort().getValue());
+		textServerEditPort.setAlignment(Pos.CENTER);
+
+		config.getServerIp().bindBidirectional(textServerEditIp.textProperty());
+		config.getServerPort().bindBidirectional(textServerEditPort.textProperty());
 
 	}
 
