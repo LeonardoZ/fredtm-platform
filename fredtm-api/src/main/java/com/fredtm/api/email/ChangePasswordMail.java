@@ -1,10 +1,6 @@
 package com.fredtm.api.email;
 
 public class ChangePasswordMail {
-
-	public String getUrl() {
-		return "http://fredtm.change.password";
-	}
 	public String getUrl2() {
 		return "https://192.168.1.103:9000/fred/change/password?token=";
 	}

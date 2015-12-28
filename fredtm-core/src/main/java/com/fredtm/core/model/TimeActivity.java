@@ -47,7 +47,6 @@ public class TimeActivity extends FredEntity {
 	@JoinColumn(nullable = false, name = "collect_id")
 	private Collect collect;
 
-
 	@Column(name = "final_date")
 	private long finalDate = 0l;
 

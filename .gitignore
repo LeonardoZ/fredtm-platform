@@ -30,7 +30,7 @@ local.properties
 */target/**
 # TeXlipse plugin
 .texlipse
-
+*.p12
 #Java gitignore
 *.class
 # Mobile Tools for Java (J2ME)

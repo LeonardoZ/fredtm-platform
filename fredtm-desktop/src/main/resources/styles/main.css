@@ -123,12 +123,16 @@
 }
 
 .btn-fred-collects {
-	 -fx-background-color: #c4d70c;
+	 -fx-background-color: #15c87c;
+}
+
+.btn-fred-export {
+	 -fx-background-color: #66b3ff;
 }
 
 
 .btn-fred-reports {
-	 -fx-background-color: #ea4335;
+	 -fx-background-color: #ed7b5a;
 }
 
 

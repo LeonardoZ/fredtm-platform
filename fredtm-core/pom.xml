@@ -28,16 +28,12 @@
 			<version>2.3</version>
 		</dependency>
 		<!-- END Exportação depencencies -->
-			
-		
-		<!-- Statistical Distributions 
-		<dependency>
-			<groupId>jdistlib</groupId>
-			<artifactId>com.jdistlib</artifactId>
-			<version>0.4.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/dep/jdistlib-0.4.1-bin.jar</systemPath>
-		</dependency> -->
+
+
+		<!-- Statistical Distributions <dependency> <groupId>jdistlib</groupId> 
+			<artifactId>com.jdistlib</artifactId> <version>0.4.1</version> <scope>system</scope> 
+			<systemPath>${project.basedir}/src/main/resources/dep/jdistlib-0.4.1-bin.jar</systemPath> 
+			</dependency> -->
 
 		<!-- Science, Bitch -->
 		<dependency>
@@ -77,7 +73,19 @@
 
 	<build>
 		<plugins>
+
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>

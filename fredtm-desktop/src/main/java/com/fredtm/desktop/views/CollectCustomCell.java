@@ -80,7 +80,7 @@ public class CollectCustomCell extends ListCell<Collect>implements MapComponentI
 		btnCollectedTimes.getStyleClass().addAll("btn-fred-lists", "btn-fred-activities");
 
 		btnExport = new Button("Exportar");
-		btnExport.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
+		btnExport.getStyleClass().addAll("btn-fred-lists", "btn-fred-export");
 
 		btnIndividualAnalysis = new MenuButton("Análises individuais");
 		btnIndividualAnalysis.getStyleClass().addAll("btn-fred-lists", "btn-fred-collects");
