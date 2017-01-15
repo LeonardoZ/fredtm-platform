@@ -1,0 +1,3 @@
+fredtm-api/WebContent/* linguist-vendored
+fredtm-api/src/main/resources/static/* linguist-vendored
+fredtm-webapp/src/main/resources/static/libs/* 
